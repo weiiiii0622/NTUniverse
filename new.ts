@@ -4,3 +4,5 @@ interface I {
 };
 
 const f = <T>(s: T): T => { return s };
+
+type S<T> = T;
