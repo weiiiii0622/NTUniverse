@@ -4,13 +4,14 @@ import { useState, useRef, useEffect } from 'react'
 import './App.css'
 import styled from 'styled-components';
 import { AxesHelper, PointLightHelper } from 'three';
-import { OrbitControls, PerspectiveCamera, useHelper } from '@react-three/drei/core';
+import { OrbitControls, PerspectiveCamera, useHelper, useTexture } from '@react-three/drei/core';
 import { Debug, Physics, useBox, usePlane } from '@react-three/cannon';
 import { DirectionalLightHelper, ObjectLoader, PlaneGeometry } from 'three/src/Three';
 
 
 // import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+import AppCanvas from './Components/Canvas';
 
 const Box = () => {
 
@@ -98,29 +99,24 @@ const BusStop = () => {
 	return <primitive object={gltf.scene} />
 }
 
+const MyMesh = () => {
+
+	const texture = useTexture('../textures/green.png');
+
+	return (
+		<>
+			<mesh>
+				<torusGeometry />
+				<meshMatcapMaterial matcap={texture} />
+			</mesh>
+		</>
+	)
+}
+
 function App() {
 
 	return (
-		<Canvas >
-			<axesHelper args={[10]} />
-			<gridHelper />
-			<ambientLight intensity={0.5} />
-			<OrbitControls />
-			<PerspectiveCamera
-				makeDefault
-				position={[5, 20, 15]}
-			/>
-			{/* <Lights /> */}
-			<DirLights />
-			<Physics gravity={[0, -9.8, 0]} broadphase="SAP">
-				<Debug color={'black'}>
-					{/* <Box /> */}
-					<Ground />
-					<Bike />
-				</Debug>
-			</Physics>
-			<BusStop />
-		</Canvas>
+		<AppCanvas />
 	)
 }
 
