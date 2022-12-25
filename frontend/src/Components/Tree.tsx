@@ -7,15 +7,20 @@ import {
     useGLTF,
 
 } from '@react-three/drei'
+import { Object3DProps } from '@react-three/fiber'
+import { Group } from 'three'
 
 
-export default function Tree(props: any) {
-    const group = useRef()
+export default function Tree(props: Object3DProps) {
+    const group = useRef<Group>(null!)
     const { nodes, materials } = useGLTF('https://vazxmixjsiawhamofees.supabase.co/storage/v1/object/public/models/tree-lime/model.gltf')
     return (
-        <group ref={group} {...props} dispose={null}>
+        <group
+            ref={group}
+            dispose={null}
+            {...props}
+        >
             <mesh geometry={nodes['tree-lime'].geometry} material={materials.color_main} />
-
         </group>
     )
 }

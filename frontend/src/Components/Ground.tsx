@@ -6,7 +6,7 @@ interface IProps {
     rotation: [number, number, number],
 };
 
-export default function Ground(props: IProps) {
+export default function Ground(props: any) {
 
     const [ref, api] = usePlane(() => ({
         type: "Static",
@@ -16,8 +16,12 @@ export default function Ground(props: IProps) {
 
     return (
         // @ts-ignore
-        <mesh ref={ref} position={[0, 0, 0]}>
-            <planeGeometry {...props}/>
+        <mesh
+            ref={ref}
+            receiveShadow
+            position={[0, 0, 0]}
+        >
+            <planeGeometry {...props} />
             <meshStandardMaterial color={'white'} roughness={0.4} />
         </mesh>
     )
