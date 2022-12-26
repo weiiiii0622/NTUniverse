@@ -1,6 +1,7 @@
 import { Physics } from "@react-three/cannon";
 import Bike from "../Components/Bike";
 import Ground from "../Components/Ground";
+import Tree from "../Components/Tree";
 
 export default function World() {
 
@@ -10,7 +11,7 @@ export default function World() {
                 args={[150, 150]}
                 rotation={[-Math.PI / 2, 0, 0]}
             />
-            {/* <Tree /> */}
+            <Tree />
             {/* <Bike
                 castShadow
                 position={[0, -0.1, 0]}
