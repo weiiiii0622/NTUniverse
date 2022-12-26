@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "cd frontend && yarn dev",
-    "server": "cd backend && npm run server"
+    "start": "cd frontend && yarn && yarn dev",
+    "server": "cd backend && yarn && npm run server"
   },
   "keywords": [],
   "author": "",

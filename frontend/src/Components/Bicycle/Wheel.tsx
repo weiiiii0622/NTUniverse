@@ -22,7 +22,7 @@ const Wheel = forwardRef<any, { args: CylinderArgs }>(
       <mesh ref={ref}>
         <mesh rotation={[0, 0, Math.PI / 2]}>
           <cylinderGeometry args={[0.3, 0.3, 0.5, 16]} />
-          <meshStandardMaterial transparent opacity={0.5} color={'purple'} />
+          <meshStandardMaterial transparent opacity={0} color={'purple'} />
         </mesh >
       </mesh >
     )
