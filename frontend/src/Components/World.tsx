@@ -15,7 +15,7 @@ export default function World() {
                 args={[150, 150]}
                 rotation={[-Math.PI / 2, 0, 0]}
             />
-            {/* <Tree /> */}
+            <Tree />
             {/* <Bike
                 castShadow
                 position={[0, -0.1, 0]}
