@@ -1,13 +1,18 @@
 
-import { useRef } from 'react'
-import { useFrame } from '@react-three/fiber'
+import React, { useRef } from 'react'
+import { Object3DProps, useFrame } from '@react-three/fiber'
 import { CylinderArgs, Debug, Triplet, useRaycastVehicle } from '@react-three/cannon'
 import { useControls } from './useControls'
 import Wheel from './Wheel'
-import Bike from './Bike'
+import BikeMesh from './BikeMesh'
 import useWheels from './useWheels'
 import { Mesh } from 'three'
+import { BikeProps } from '.'
 
+
+/**
+ * Wheel info
+ */
 const defaultWheelProps = {
     radius: 0.7,
     width: 1.2,
@@ -18,30 +23,41 @@ const defaultWheelProps = {
 };
 const { radius } = defaultWheelProps;
 
-const defaultChassisProps = {
-    mass: 500,
-    args: [1.3, 2, 4] as Triplet,
-    position: [0, 1.5, 0] as Triplet,
-};
-
 const numOfWheels = 6;
 const frontIndex = [0, 1, 2];
 const backIndex = [3, 4, 5];
 
+/**
+ * Chassis info
+ */
+const defaultChassisProps = {
+    mass: 500,
+    args: [1.3, 2, 4] as Triplet,
+    // position: [0, 1.5, 0] as Triplet,
+};
+
+/**
+ * Dynamics
+ */
 const steer = 0.75;
 const force = 1000;
 const maxBrake = 1e5;
 
-const VehicleProps = {
-    position: [0, 0, 0],
-    rotation: [0, 0, 0],
-}
 
-function Vehicle({ ...props }) {
+const justifyPosition = (p: Triplet): Triplet => ([p[0], p[1] + 1.5, p[2]]);
+
+/**
+ * Component
+ */
+interface VehicleProps extends BikeProps {
+    // objectProps?: Object3DProps,
+};
+function Vehicle(props: VehicleProps) {
+    const { objectProps } = props;
+
     const chassis = useRef<any>(null!)
     const [wheelRefs, wheelInfos] = useWheels(
         { numOfWheels, wheelProps: defaultWheelProps });
-
 
     /**
      * Physics
@@ -53,7 +69,7 @@ function Vehicle({ ...props }) {
         indexForwardAxis: 2,  // z=2
         indexRightAxis: 0,  // x=0
         indexUpAxis: 1,  // y=1
-        ...VehicleProps,
+        // ...objectProps,
     }))
 
     /**
@@ -70,25 +86,31 @@ function Vehicle({ ...props }) {
             api.setBrake(brake ? maxBrake : 0, i));
 
         if (reset) {
-            // console.log(chassis);
-            chassis!.current.api.position.set(0, 1.5, 0)
+            console.log(chassis!.current.api);
+            chassis!.current.api.position.set(...justifyPosition(objectProps.position))
+            chassis!.current.api.rotation.set(...objectProps.rotation)
             chassis!.current.api.velocity.set(0, 0, 0)
             chassis!.current.api.angularVelocity.set(0, 0, 0)
-            chassis!.current.api.rotation.set(0, 0, 0)
         }
     })
 
+    console.log(objectProps);
+
     return (
-        // <Debug>
+        <Debug>
             <group ref={vehicle}>
-                <Bike ref={chassis} {...defaultChassisProps} />
+                <BikeMesh
+                    ref={chassis}
+                    position={justifyPosition(objectProps.position)}
+                    rotation={objectProps.rotation}
+                    {...defaultChassisProps} />
                 {
                     wheelRefs.map((ref, i) => (
                         <Wheel key={'wheel' + i} ref={ref} args={defaultWheelProps.args} />
                     ))
                 }
             </group >
-        // </Debug>
+        </Debug>
     )
 }
 

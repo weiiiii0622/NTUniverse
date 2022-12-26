@@ -2,15 +2,24 @@ import { PublicApi, Triplet, useBox } from "@react-three/cannon";
 import { Object3DProps, ReactThreeFiber } from "@react-three/fiber";
 import React, { RefObject } from "react";
 import { Mesh, Object3D } from "three";
-import ModelFBX from "../Models/ModelFBX";
+import ModelFBX from "../models/ModelFBX";
 
 
-const Bike = React.forwardRef<any, { args: Triplet, mass: number, position: Triplet }>(
-    ({ args, mass, position }, ref: RefObject<Mesh>) => {
+interface BikeMeshProps {
+    args: Triplet,
+    mass: number,
+    position?: Triplet,
+    rotation?: Triplet,
+}
+
+
+const BikeMesh = React.forwardRef<any, BikeMeshProps>(
+    ({ args, mass, position, rotation }, ref: RefObject<Mesh>) => {
         const [, api] = useBox(() => ({
             mass,
             args,
             position,
+            rotation,
             allowSleep: false,
             onCollide: (e: any) => console.log('bonk', e.body.userData),
         }), ref);
@@ -30,4 +39,4 @@ const Bike = React.forwardRef<any, { args: Triplet, mass: number, position: Trip
         )
     });
 
-export default Bike;
+export default BikeMesh;

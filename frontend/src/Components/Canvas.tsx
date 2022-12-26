@@ -2,7 +2,7 @@ import { OrbitControls, PerspectiveCamera } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import Lights from "./Lights";
 import AppOrbitControls from "./OrbitControls";
-import World from "./World";
+import World from "../Containers/World";
 
 declare global {
     namespace THREE {
@@ -14,7 +14,7 @@ declare global {
 
 export default function AppCanvas() {
     return (
-        <Canvas 
+        <Canvas
             shadows
         >
             <axesHelper args={[10]} />
