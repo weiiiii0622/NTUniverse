@@ -5,11 +5,11 @@ import * as THREE from 'three';
 export default function AppOrbitControls() {
     return (
         <OrbitControls
-            panSpeed={0.5}
+            panSpeed={2.5}
             enableDamping
-            dampingFactor={0.1}
+            dampingFactor={1}
             screenSpacePanning={false}
-            maxPolarAngle={Math.PI * 0.4}
+            maxPolarAngle={Math.PI * 2}
             minPolarAngle={0}
             mouseButtons={{
                 LEFT: THREE.MOUSE.PAN,
