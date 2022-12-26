@@ -21,7 +21,7 @@ const { radius } = defaultWheelProps;
 const defaultChassisProps = {
     mass: 500,
     args: [1.3, 2, 4] as Triplet,
-    position: [0, 3, 0] as Triplet,
+    position: [0, 1.5, 0] as Triplet,
 };
 
 const numOfWheels = 6;
@@ -71,7 +71,7 @@ function Vehicle({ ...props }) {
 
         if (reset) {
             // console.log(chassis);
-            chassis!.current.api.position.set(0, 3, 0)
+            chassis!.current.api.position.set(0, 1.5, 0)
             chassis!.current.api.velocity.set(0, 0, 0)
             chassis!.current.api.angularVelocity.set(0, 0, 0)
             chassis!.current.api.rotation.set(0, 0, 0)

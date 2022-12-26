@@ -3,11 +3,13 @@ import React, { ForwardedRef, useEffect } from "react";
 import { FBXLoader } from "../../Utils/loaders";
 import { Mesh } from "three";
 import { Object3D } from "three/src/Three";
+import { PublicApi } from "@react-three/cannon";
 
 interface IProps {
     lookAt?: [number, number, number],
     filePath: string,
     objectProps: Object3DProps,
+    api?: PublicApi,
 };
 
 const ModelFBX = React.forwardRef<Mesh, IProps>((props, ref) => {

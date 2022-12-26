@@ -9,7 +9,7 @@ export default function AppOrbitControls() {
             enableDamping
             dampingFactor={1}
             screenSpacePanning={false}
-            maxPolarAngle={Math.PI * 2}
+            maxPolarAngle={Math.PI * 0.4}
             minPolarAngle={0}
             mouseButtons={{
                 LEFT: THREE.MOUSE.PAN,
