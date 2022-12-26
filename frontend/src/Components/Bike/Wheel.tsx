@@ -24,7 +24,7 @@ const Wheel = forwardRef
 
 			const [, api] = useCompoundBody(() => ({
 				mass,
-				type: 'Kinematic',
+				type: 'Dynamic',
 				material: 'wheel',
 				collisionFilterGroup: 0,
 				shapes: [{
@@ -42,43 +42,16 @@ const Wheel = forwardRef
 				position: [0, 0, 0] as Triplet,
 			};
 
-
-			const ver1 = (dir: any) => new Euler(
-				-Math.PI * 0.09,
-				(dir === 'left' ? 1
-					: dir === 'right' ? -1
-						: 0) * Math.PI / 4,
-				0, "XYZ");
-
-			const ver2 = (dir: any) => new Euler(
-				// -Math.PI * 0.09,
-				0,
-				(dir === 'left' ? 1
-					: dir === 'right' ? -1
-						: 0) * Math.PI / 4,
-				0, "YXZ");
-
-			const ver3 = (dir: any) => {
-
-				return new Euler(
-					// -Math.PI * 0.09,
-					// 0, 0,
-					(dir === 'left' ? 1
-						: dir === 'right' ? -1
-							: 0) * Math.PI * 0.08,
-					0,
-					0,
-				);
-			}
-
 			return (
-				// @ts-ignore
-				<group ref={ref} api={api}>
-					{isBack &&
-						<ModelFBX filePath="./resources/models/bike/backWheel.fbx"
-							objectProps={{ ...defaultObjectProps }}
-						/>}
-				</group >
+				<>
+					{/* @ts-ignore*/}
+					<group ref={ref} api={api}>
+						{isBack &&
+							<ModelFBX filePath="./resources/models/bike/backWheel.fbx"
+								objectProps={{ ...defaultObjectProps }}
+							/>}
+					</group >
+				</>
 			)
 		})
 

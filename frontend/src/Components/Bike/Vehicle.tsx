@@ -19,7 +19,7 @@ import { degToRad } from 'three/src/math/MathUtils'
 const defaultChassisProps = {
 	mass: 500,
 	args: [1.3, 1.6, 4] as Triplet,
-	// position: [0, 1.5, 0] as Triplet,
+	// position: [0, -1.5, 0] as Triplet,
 };
 
 /**
@@ -77,7 +77,7 @@ function Vehicle(props: VehicleProps) {
 		indexForwardAxis: 2,  // z=2
 		indexRightAxis: 0,  // x=0
 		indexUpAxis: 1,  // y=1
-		// ...objectProps,
+		...objectProps,
 	}))
 
 	/**
@@ -131,11 +131,12 @@ function Vehicle(props: VehicleProps) {
 	// This code is not working -- the angular velocity just says [0,0,0]
 	useEffect(() => {
 		// console.log(wheelRefs[5].current);
-		return wheelRefs[5]!.current?.api?.angularVelocity.subscribe((w: Triplet) => { console.log(w) });
+		return wheelRefs[5]!.current?.api?.angularVelocity.subscribe((w: Triplet) => { });
 	}, []);
 
 	return (
-		<Debug>
+		// <Debug>
+
 			<group ref={vehicle}>
 				<BikeMesh
 					ref={chassis}
@@ -165,7 +166,7 @@ function Vehicle(props: VehicleProps) {
 					angularVelocity={angularVelocity}
 				/>
 			</group >
-		</Debug>
+		// </Debug>
 	)
 }
 

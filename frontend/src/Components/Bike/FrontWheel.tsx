@@ -74,10 +74,10 @@ export default function FrontWheel({ objectProps, arcadeDirection, angularVeloci
             }
             rotation={rotation}
         >
-            <mesh>
+            {/* <mesh>
                 <boxGeometry args={[0.3, 0.3, 0.3]} />
                 <meshStandardMaterial color={'red'} />
-            </mesh>
+            </mesh> */}
             <group
                 rotation={steerRotation(arcadeDirection)}
             >

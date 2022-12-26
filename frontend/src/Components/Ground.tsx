@@ -1,4 +1,4 @@
-import { usePlane } from "@react-three/cannon"
+import { Debug, usePlane } from "@react-three/cannon"
 
 
 interface IProps {
@@ -16,13 +16,15 @@ export default function Ground(props: any) {
 
     return (
         // @ts-ignore
-        <mesh
-            ref={ref}
-            receiveShadow
-            position={[0, 0, 0]}
-        >
-            <planeGeometry {...props} />
-            <meshStandardMaterial color={'white'} roughness={0.4} />
-        </mesh>
+        <Debug>
+            <mesh
+                ref={ref}
+                receiveShadow
+                position={[0, 5, 0]}
+            >
+                <planeGeometry {...props} />
+                <meshStandardMaterial color={'white'} roughness={0.4} />
+            </mesh>
+        </Debug>
     )
 }

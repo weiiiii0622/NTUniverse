@@ -12,10 +12,10 @@ export default function World() {
                 args={[150, 150]}
                 rotation={[-Math.PI / 2, 0, 0]}
             />
-            {/* <Tree /> */}
+            <Tree />
             <Bike objectProps={{
-                position: [0, 0, 3],
-                // rotation: [0, Math.PI / 2, 0],
+                position: [3, -1, 3],
+                rotation: [0, -Math.PI * 3 / 4, 0],
             }} />
             {/* <ModelFBX filePath="./resources/models/bike/frontWheel.fbx"
                 objectProps={{ position: [0, 0, 0] }} /> */}
