@@ -56,7 +56,7 @@ const BikeMesh = React.forwardRef<any, BikeMeshProps>(
                         0, "XYZ")}
                 >
                     <ModelFBX
-                        filePath="./resources/models/bike/arcade.fbx"
+                        filePath="./resources/models/bike/arcadeNew.fbx"
                         objectProps={{
                             scale: 0.02,
                             position: [0, 0, 0],
