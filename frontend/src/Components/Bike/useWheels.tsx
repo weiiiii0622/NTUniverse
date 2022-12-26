@@ -43,11 +43,10 @@ export default function useWheels(props: IProps): [Ref<Mesh>[], WheelInfoOptions
         { isFrontWheel: true, chassisConnectionPointLocal: [0, height, front] },
         { isFrontWheel: true, chassisConnectionPointLocal: [-width / 2, height, front] },
         { isFrontWheel: false, chassisConnectionPointLocal: [width / 2, height, back] },
-        { isFrontWheel: true, chassisConnectionPointLocal: [0, height, back] },
+        { isFrontWheel: false, chassisConnectionPointLocal: [0, height, back] },
         { isFrontWheel: false, chassisConnectionPointLocal: [-width / 2, height, back] },
     ]
     const wheelInfos = wheelInfosUtils.map(info => ({
-        radius,
         ...wheelInfo,
         ...info,
     }))

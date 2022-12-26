@@ -8,7 +8,7 @@ import { PublicApi } from "@react-three/cannon";
 interface IProps {
     lookAt?: [number, number, number],
     filePath: string,
-    objectProps: Object3DProps,
+    objectProps?: Object3DProps,
     api?: PublicApi,
 };
 

@@ -2,6 +2,8 @@ import { OrbitControls } from "@react-three/drei";
 
 import * as THREE from 'three';
 
+const debug = true;
+
 export default function AppOrbitControls() {
     return (
         <OrbitControls
@@ -9,7 +11,7 @@ export default function AppOrbitControls() {
             enableDamping
             dampingFactor={1}
             screenSpacePanning={false}
-            maxPolarAngle={Math.PI * 0.4}
+            maxPolarAngle={debug ? Math.PI * 2 : Math.PI * 0.4}
             minPolarAngle={0}
             mouseButtons={{
                 LEFT: THREE.MOUSE.PAN,
