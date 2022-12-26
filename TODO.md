@@ -1,3 +1,2 @@
-* orbit controls
-* bike controls
-* low poly models download
+* bike model w/o skin
+* event handle

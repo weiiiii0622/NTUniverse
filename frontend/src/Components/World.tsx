@@ -1,4 +1,6 @@
 import { Physics } from "@react-three/cannon";
+import Vehicle1 from "./Beetle/Vehicle";
+import Vehicle from "./Bicycle/Vehicle";
 import Bike from "./Bike";
 import Chai from "./Doges/Chai";
 import WhiteDoge from "./Doges/WhiteDoge";
@@ -13,24 +15,13 @@ export default function World() {
                 args={[150, 150]}
                 rotation={[-Math.PI / 2, 0, 0]}
             />
-            <Bike
+            {/* <Bike
                 castShadow
-                position={[4, -0.1, 3]}
+                position={[0, -0.1, 0]}
                 scale={0.03}
-            />
-            <Tree
-                scale={0.5}
-            />
-            <Chai
-                position={[4, 0, -3]}
-                castShadow />
-            <WhiteDoge
-                objectProps={{
-                    scale: 0.005,
-                    position: [-5, 0, -5],
-                }}
-                lookAt={[-5, 0, -10]}
-            />
+                rotation={[0, 0, 0]}
+            /> */}
+            <Vehicle1 />
         </Physics>
     )
 }
