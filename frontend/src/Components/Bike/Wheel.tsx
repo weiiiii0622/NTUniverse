@@ -18,6 +18,7 @@ const Wheel = forwardRef<any, { args: CylinderArgs }>(
       ...props
     }), ref);
 
+
     return (
       <mesh ref={ref}>
         <mesh rotation={[0, 0, Math.PI / 2]}>

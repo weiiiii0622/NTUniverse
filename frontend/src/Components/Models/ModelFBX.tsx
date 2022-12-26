@@ -1,5 +1,5 @@
 import { Object3DProps, useLoader } from "@react-three/fiber";
-import React, { ForwardedRef, useEffect } from "react";
+import React, { ForwardedRef, useEffect, useMemo } from "react";
 import { FBXLoader } from "../../Utils/loaders";
 import { Mesh } from "three";
 import { Object3D } from "three/src/Three";
@@ -16,6 +16,7 @@ const ModelFBX = React.forwardRef<Mesh, IProps>((props, ref) => {
     const {
         lookAt,
         filePath,
+        
         objectProps
     } = props;
 
@@ -23,6 +24,17 @@ const ModelFBX = React.forwardRef<Mesh, IProps>((props, ref) => {
         FBXLoader,
         filePath,
     );
+
+    const geometry = useMemo(() => {
+        let g;
+        obj.traverse((c) => {
+            if (c.type === "Mesh") {
+                const _c = c as Mesh;
+                g = _c.geometry;
+            }
+        });
+        return g;
+    }, [obj]);
 
     return <primitive object={obj} ref={ref} {...objectProps} />
 })
