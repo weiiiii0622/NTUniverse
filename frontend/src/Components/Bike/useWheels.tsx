@@ -14,7 +14,7 @@ const wheelInfo = {
     chassisConnectionPointLocal: [1, 0, 1],
     useCustomSlidingRotationalSpeed: true,
     customSlidingRotationalSpeed: -30,
-    frictionSlip: 2,
+    frictionSlip: 10,
 }
 
 interface IWheelProps {
