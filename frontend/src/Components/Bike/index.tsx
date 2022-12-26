@@ -4,9 +4,9 @@ import { Vector3 } from "three";
 import Vehicle from "./Vehicle";
 
 interface BikeProps {
-    objectProps: Object3DProps & {
-        position: Triplet,
-        rotation: Triplet,
+    objectProps?: Object3DProps & {
+        position?: Triplet,
+        rotation?: Triplet,
     },
 };
 
