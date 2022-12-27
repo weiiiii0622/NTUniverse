@@ -1,6 +1,6 @@
 import { Object3DProps, useLoader } from "@react-three/fiber";
 import React, { ForwardedRef, useEffect, useMemo } from "react";
-import { FBXLoader } from "../../Utils/loaders";
+import { FBXLoader } from "../../../Utils/loaders";
 import { Mesh } from "three";
 import { Object3D } from "three/src/Three";
 import { PublicApi } from "@react-three/cannon";
@@ -16,7 +16,7 @@ const ModelFBX = React.forwardRef<Mesh, IProps>((props, ref) => {
     const {
         lookAt,
         filePath,
-        
+
         objectProps
     } = props;
 

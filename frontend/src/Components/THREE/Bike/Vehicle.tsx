@@ -8,7 +8,7 @@ import BikeMesh from './BikeMesh'
 import useWheels from './hooks/useWheels'
 import { Mesh } from 'three'
 import { BikeProps } from '.'
-import ModelFBX from '../models/ModelFBX'
+import ModelFBX from '../THREE/models/ModelFBX'
 import FrontWheel from './FrontWheel'
 
 

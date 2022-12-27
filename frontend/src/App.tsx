@@ -2,8 +2,8 @@ import './App.css'
 import React from 'react'
 import { useState } from 'react';
 import { Button, Modal } from 'antd';
-import AppHtmlElements from './Components/HtmlElements';
-import AppCanvas from './Containers/Canvas';
+import AppHtmlElements from './Components/HTML/HtmlElements';
+import AppCanvas from './Containers/THREE/Canvas';
 
 function App() {
 	const [modalOpen, setModalOpen] = useState(true);

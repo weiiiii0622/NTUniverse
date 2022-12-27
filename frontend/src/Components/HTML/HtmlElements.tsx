@@ -1,4 +1,4 @@
-import TutorialModal from "../HtmlComponents/TutorialModal"
+import TutorialModal from "./TutorialModal"
 
 
 const AppHtmlElements = () => {

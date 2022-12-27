@@ -1,19 +1,11 @@
 import { OrbitControls, OrthographicCamera, PerspectiveCamera } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
-import Camera from "../Components/Camera";
-import Lights from "../Components/Lights";
-import AppOrbitControls from "../Components/OrbitControls";
+import Camera from "../../Components/THREE/Camera";
+import Lights from "../../Components/THREE/Lights";
+import AppOrbitControls from "../../Components/THREE/OrbitControls";
 import World from "./World";
 
 const debug = false;
-
-declare global {
-    namespace THREE {
-        interface Object3D<T> {
-
-        }
-    }
-}
 
 export default function AppCanvas() {
     return (

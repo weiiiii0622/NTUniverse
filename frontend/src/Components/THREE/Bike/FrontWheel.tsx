@@ -74,6 +74,7 @@ export default function FrontWheel({ objectProps, arcadeDirection, angularVeloci
 			<animated.group
 				rotation={steerRotation as any}
 			>
+				{/* @ts-ignore */}
 				<group ref={ref}>
 					<ModelFBX filePath="./resources/models/bike/frontWheel.fbx"
 						objectProps={{ ...defaultObjectProps, }} />
