@@ -12,8 +12,6 @@ import {
 import { Object3DProps, useFrame } from '@react-three/fiber'
 import { Group, Vector3 } from 'three'
 import { useSpring, animated, config } from '@react-spring/three'
-import { useMyContext } from '../Utils/useMyContext'
-
 import { Button, Modal } from 'antd';
 import { useMyContext } from '../../../../Utils/useMyContext'
 
