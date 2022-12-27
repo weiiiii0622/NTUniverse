@@ -3,11 +3,13 @@ import { Object3DProps, ReactThreeFiber } from "@react-three/fiber";
 import { Vector3 } from "three";
 import Vehicle from "./Vehicle";
 
+interface ObjectProps extends Object3DProps {
+    position?: Triplet,
+    rotation?: Triplet,
+}
+
 interface BikeProps {
-    objectProps?: Object3DProps & {
-        position?: Triplet,
-        rotation?: Triplet,
-    },
+    objectProps?: ObjectProps,
 };
 
 export default function Bike(props: BikeProps) {
@@ -16,4 +18,4 @@ export default function Bike(props: BikeProps) {
     )
 }
 
-export type { BikeProps };
+export type { BikeProps, ObjectProps };

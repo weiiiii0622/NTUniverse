@@ -13,6 +13,15 @@ export function useKeyPress(target, event) {
     }, [])
 }
 
+interface IControls {
+    forward: boolean,
+    backward: boolean,
+    left: boolean,
+    right: boolean,
+    brake: boolean,
+    reset: boolean,
+};
+
 export function useControls() {
     const keys = useRef({ forward: false, backward: false, left: false, right: false, brake: false, reset: false })
     useKeyPress(['ArrowUp', 'w'], (pressed) => (keys.current.forward = pressed))
@@ -23,3 +32,5 @@ export function useControls() {
     useKeyPress(['r'], (pressed) => (keys.current.reset = pressed))
     return keys
 }
+
+export type { IControls };

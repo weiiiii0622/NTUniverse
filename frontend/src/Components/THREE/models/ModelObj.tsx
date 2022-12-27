@@ -2,7 +2,7 @@ import { useTexture } from "@react-three/drei";
 import { Object3DProps, useLoader } from "@react-three/fiber";
 import React, { useMemo } from "react";
 import { Mesh } from "three";
-import { FBXLoader, OBJLoader } from "../../Utils/loaders";
+import { FBXLoader, OBJLoader } from "../../../Utils/loaders";
 
 interface IProps {
     filePath: string,

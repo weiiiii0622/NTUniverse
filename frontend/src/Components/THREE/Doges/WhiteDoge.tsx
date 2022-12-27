@@ -2,7 +2,7 @@ import { useFBX } from "@react-three/drei";
 import { Object3DProps, useLoader } from "@react-three/fiber";
 import { useEffect, useRef } from "react";
 import { Mesh, Object3D } from "three";
-import { FBXLoader } from "../../Utils/loaders";
+import { FBXLoader } from "../../../Utils/loaders";
 
 interface IProps {
     lookAt: [number, number, number],
