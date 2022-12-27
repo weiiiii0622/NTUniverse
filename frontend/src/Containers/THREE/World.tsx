@@ -2,6 +2,7 @@ import { Debug, Physics } from "@react-three/cannon";
 import { Stars } from "@react-three/drei";
 import { useContext } from "react";
 import Bike from "../../Components/THREE/Bike";
+import { RingElement } from "../../Components/THREE/HintCircle";
 import Bench from "../../Components/THREE/static/Bench";
 import Ground from "../../Components/THREE/static/Ground";
 import Stairs from "../../Components/THREE/static/Stairs";
