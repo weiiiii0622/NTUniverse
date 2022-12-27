@@ -16,7 +16,7 @@ interface IProps {
     rotation: [number, number, number],
 };
 
-export default function testInteractiveBlock(props: any) {
+export default function TestInteractiveBlock(props: any) {
     const ref = useRef();
 
     return (
