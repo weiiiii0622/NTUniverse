@@ -45,6 +45,8 @@ export default function useWheels(props: IProps): [Ref<Mesh>[], WheelInfoOptions
         { isFrontWheel: false, chassisConnectionPointLocal: [width / 2, height, back] },
         { isFrontWheel: false, chassisConnectionPointLocal: [0, height, back] },
         { isFrontWheel: false, chassisConnectionPointLocal: [-width / 2, height, back] },
+        // Pedals
+        { isFrontWheel: false, chassisConnectionPointLocal: [0, height, -0.15] },
     ]
     const wheelInfos = wheelInfosUtils.map(info => ({
         ...wheelInfo,
