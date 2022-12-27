@@ -21,15 +21,15 @@ const Tree1 = (props: Object3DProps) => {
     const { setTutorialModalOpen } = useMyContext();
 
     return (
-        <>
+        <group {...props}>
             <group
                 ref={group}
                 dispose={null}
-                {...props}
+                position={[0, 0, 0.5]}
             >
                 <mesh geometry={nodes['tree-lime'].geometry} material={materials.color_main} onClick={(e) => setTutorialModalOpen(true)} />
             </group>
-        </>
+        </group>
     )
 }
 

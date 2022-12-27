@@ -6,13 +6,10 @@ import { ThreeContext } from "../../Containers/THREE/Canvas";
 
 const debug = true;
 
-export default function AppOrbitControls() {
-
-    const { bikeControlling } = useContext(ThreeContext);
-
+export default function AppOrbitControls({ enabled }) {
     return (
         <OrbitControls
-            enabled={false}
+            enabled={enabled}
             panSpeed={2.5}
             enableDamping
             dampingFactor={1}
