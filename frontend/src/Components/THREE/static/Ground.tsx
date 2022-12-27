@@ -15,7 +15,7 @@ export default function Ground(props: any) {
 
 
     return (
-        <Debug>
+       // <Debug>
             <mesh
                 // @ts-ignore
                 ref={ref}
@@ -25,6 +25,6 @@ export default function Ground(props: any) {
                 <planeGeometry {...props} />
                 <meshStandardMaterial color={'white'} roughness={0.4} />
             </mesh>
-        </Debug>
+        //</Debug>
     )
 }

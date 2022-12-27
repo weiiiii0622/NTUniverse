@@ -69,7 +69,7 @@ const Tree1 = (props: Object3DProps) => {
             <group
                 ref={group}
                 dispose={null}
-                position = {[-5, 0, -5]}
+                //position = {[-50, 0, -5]}
                 {...props}
             >
                 <animated.mesh 
