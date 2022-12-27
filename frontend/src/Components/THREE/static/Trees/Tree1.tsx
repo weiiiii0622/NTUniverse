@@ -59,7 +59,7 @@ const Tree1 = (props: Object3DProps) => {
     // Annimation Rotate onHovered
     //var axis = new Vector3(0, 2, 0);
     useFrame(({ clock }) => {
-        console.log(group.current.rotation);
+        // console.log(group.current.rotation);
         if(isLarge) group.current.rotation.y = clock.getElapsedTime();
         //if(isLarge) group.current.rotateOnWorldAxis(axis, 0.01);
     })
@@ -83,6 +83,7 @@ const Tree1 = (props: Object3DProps) => {
                     scale = { scale }
                     onPointerEnter = {handleTreeEnter}
                     onPointerLeave = {handleTreeLeave}
+                    onClick = {setTutorialModalOpen}
                 />
             </group>      
         </>
