@@ -46,7 +46,7 @@ const Wheel = forwardRef
 
 			return (
 				<>
-					{/* @ts-ignore*/}
+					{/* @ts-ignore */}
 					<group ref={ref} api={api}>
 						{isBack &&
 							<ModelFBX filePath="./resources/models/bike/backWheel.fbx"

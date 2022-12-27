@@ -1,12 +1,18 @@
 import { OrbitControls } from "@react-three/drei";
+import { useContext } from "react";
 
 import * as THREE from 'three';
+import { ThreeContext } from "../../Containers/THREE/Canvas";
 
 const debug = true;
 
 export default function AppOrbitControls() {
+
+    const { bikeControlling } = useContext(ThreeContext);
+
     return (
         <OrbitControls
+            enabled={false}
             panSpeed={2.5}
             enableDamping
             dampingFactor={1}

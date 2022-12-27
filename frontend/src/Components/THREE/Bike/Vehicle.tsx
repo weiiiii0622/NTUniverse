@@ -1,15 +1,16 @@
 
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import { Object3DProps, useFrame } from '@react-three/fiber'
-import { CylinderArgs, Debug, Triplet, useRaycastVehicle, WheelInfoOptions } from '@react-three/cannon'
-import { useControls } from './useControls'
+import { CylinderArgs, Debug, Triplet, useBox, useRaycastVehicle, WheelInfoOptions } from '@react-three/cannon'
+import { useControls } from './hooks/useControls'
 import Wheel from './Wheel+Pedals'
 import BikeMesh from './BikeMesh'
-import useWheels from './useWheels'
+import useWheels from './hooks/useWheels'
 import { Mesh } from 'three'
 import { BikeProps } from '.'
-import ModelFBX from '../models/ModelFBX'
 import FrontWheel from './FrontWheel'
+import { ThreeContext } from '../../../Containers/THREE/Canvas'
+import useHandleControls from './hooks/useHandleControls'
 
 
 /**
@@ -34,23 +35,18 @@ const defaultWheelProps = {
 };
 const { radius } = defaultWheelProps;
 
-const numOfWheels = 7;
-const frontIndex = [0, 1, 2];
+const numOfWheels = 6;  // [F, F, M, B, B, B]
+const frontIndex = [0, 1];
 const backIndex = [3, 4, 5];
-
-
-/**
- * Dynamics
- */
-const steer = 1;
-const force = 1000;
-const maxBrake = 1e5;
 
 /**
  * Justify
  */
-const justifyValue = 1.5;
+const justifyValue = 0.5;
 const justifyPosition = (p: Triplet): Triplet => ([p[0], p[1] + justifyValue, p[2]]);
+
+
+type ArcadeDirection = 'left' | 'right' | 'front';
 
 /**
  * Component
@@ -83,34 +79,11 @@ function Vehicle(props: VehicleProps) {
 	 * Motion:
 	 * - control the vehicle based on "controls"
 	 */
-	const [arcadeDirection, setArcadeDirection] = useState<'front' | 'left' | 'right'>('front');
-
+	const [arcadeDirection, setArcadeDirection] = useState<ArcadeDirection>('front');
 	const controls = useControls()
-	useFrame(() => {
-		const { forward, backward, left, right, brake, reset } = controls.current
-		backIndex.forEach(i =>
-			api.applyEngineForce(forward || backward ? force * (forward && !backward ? -1 : 1) : 0, i))
-		frontIndex.forEach(i =>
-			api.setSteeringValue(left || right ? steer * (left && !right ? 1 : -1) : 0, i));
-		backIndex.forEach(i =>
-			api.setBrake(brake ? maxBrake : 0, i));
-
-		if (left && !right)
-			setArcadeDirection('left');
-		else if (right)
-			setArcadeDirection('right');
-		else
-			setArcadeDirection('front');
-
-		if (reset) {
-			chassis!.current.api.position.set(...justifyPosition(objectProps.position))
-			if (objectProps.rotation)
-				chassis!.current.api.rotation.set(...objectProps.rotation)
-			else
-				chassis!.current.api.rotation.set(0, 0, 0)
-			chassis!.current.api.velocity.set(0, 0, 0)
-			chassis!.current.api.angularVelocity.set(0, 0, 0)
-		}
+	useHandleControls({
+		controls, chassis, backIndex, frontIndex, api, setArcadeDirection,
+		objectProps: { ...objectProps, position: justifyPosition(objectProps.position) },
 	})
 
 	/**
@@ -133,15 +106,17 @@ function Vehicle(props: VehicleProps) {
 		});
 	}, [chassis]);
 
-	// This code is not working -- the angular velocity just says [0,0,0]
+
+	/**
+	 * Get Position
+	 */
+	const { setBikePosition } = useContext(ThreeContext);
 	useEffect(() => {
-		// console.log(wheelRefs[5].current);
-		return wheelRefs[5]!.current?.api?.angularVelocity.subscribe((w: Triplet) => { });
-	}, []);
+		return chassis.current.api.position.subscribe((r: Triplet) => setBikePosition(r));
+	}, [chassis]);
 
 	return (
-		// <Debug>
-
+		//@ts-ignore
 		<group ref={vehicle}>
 			<BikeMesh
 				ref={chassis}
@@ -158,7 +133,7 @@ function Vehicle(props: VehicleProps) {
 						args={defaultWheelProps.args}
 						wheelProps={defaultWheelProps}
 						isBack={i == 4}
-						isPedals={i == 6}
+						isPedals={i == 2}
 						arcadeDirection={arcadeDirection} />
 				))
 			}
@@ -172,8 +147,9 @@ function Vehicle(props: VehicleProps) {
 				angularVelocity={angularVelocity}
 			/>
 		</group >
-		// </Debug>
 	)
 }
 
 export default Vehicle
+
+export type { ArcadeDirection };

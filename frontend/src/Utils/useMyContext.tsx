@@ -1,23 +1,23 @@
+import { Triplet } from "@react-three/cannon";
 import { useState, useEffect, createContext, useContext } from "react";
 
-const MyContext = createContext({
+interface IContext {
+    tutorialModalOpen: boolean,
+    setTutorialModalOpen(x: boolean): void,
+
+    bikePosition: Triplet,
+}
+
+const MyContext = createContext<IContext>({
     tutorialModalOpen: false,
-    setTutorialModalOpen: (boolean) => {},
-    // status: {},
-    // me: "",
-    // friend: "",
-    // boxName: "",
-    // hasInit: false,
-    // signedIn: false,
-    // messages: [],
-    // chatBoxes: [],
-    // startChat: () => {},
-    // sendMessage: () => {},
-    //clearMessages: () => {},
-    //closeWS: () => {},
+    setTutorialModalOpen: (x) => { },
+
+    bikePosition: [0, 0, 0],
 });
 
-const MyProvider = (props) => {
+
+
+const MyProvider = (props: any) => {
 
     // TutorialModal
     const [tutorialModalOpen, setTutorialModalOpen] = useState(false);
@@ -27,8 +27,8 @@ const MyProvider = (props) => {
     return (
         <MyContext.Provider
             value={{
-                tutorialModalOpen, 
-                setTutorialModalOpen  
+                tutorialModalOpen,
+                setTutorialModalOpen
             }}
             {...props}
         />
@@ -39,4 +39,4 @@ const MyProvider = (props) => {
 // const { "your state", ... } = useMyContext();
 const useMyContext = () => useContext(MyContext);
 
-export { MyProvider, useMyContext };
+export { MyContext, MyProvider, useMyContext };

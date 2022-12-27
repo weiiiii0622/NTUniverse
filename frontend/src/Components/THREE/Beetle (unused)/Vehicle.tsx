@@ -7,7 +7,7 @@ import { useControls } from './useControls'
 import Beetle from './Beetle'
 import Wheel from './Wheel'
 
-function Vehicle1({ radius = 0.7, width = 1.2, height = -0.04, front = 1.3, back = -1.15, steer = 0.75, force = 2000, maxBrake = 1e5, ...props }) {
+function TestVehicle({ radius = 0.66, width = 1.2, height = -0.008, front = 1.23, back = -1.03, steer = 0.75, force = 2000, maxBrake = 1e5, ...props }) {
     const chassis = useRef()
     const wheel1 = useRef()
     const wheel2 = useRef()
@@ -43,9 +43,10 @@ function Vehicle1({ radius = 0.7, width = 1.2, height = -0.04, front = 1.3, back
         indexForwardAxis: 2,
         indexRightAxis: 0,
         indexUpAxis: 1,
+        position: [0, 0.5, 0],
     }))
 
-    useFrame(() => {
+        useFrame(() => {
         const { forward, backward, left, right, brake, reset } = controls.current
         for (let e = 2; e < 4; e++) api.applyEngineForce(forward || backward ? force * (forward && !backward ? -1 : 1) : 0, e)
         for (let s = 0; s < 2; s++) api.setSteeringValue(left || right ? steer * (left && !right ? 1 : -1) : 0, s)
@@ -73,4 +74,4 @@ function Vehicle1({ radius = 0.7, width = 1.2, height = -0.04, front = 1.3, back
     )
 }
 
-export default Vehicle1
+export default TestVehicle

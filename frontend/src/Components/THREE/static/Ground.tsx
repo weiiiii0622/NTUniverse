@@ -15,9 +15,9 @@ export default function Ground(props: any) {
 
 
     return (
-        // @ts-ignore
         <Debug>
             <mesh
+                // @ts-ignore
                 ref={ref}
                 receiveShadow
                 position={[0, 5, 0]}
