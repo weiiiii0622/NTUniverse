@@ -1,7 +1,9 @@
 import { Debug, Physics } from "@react-three/cannon";
+import TestVehicle from "../Components/Beetle (unused)/Vehicle";
 import Bike from "../Components/Bike";
 import Ground from "../Components/Ground";
 import ModelFBX from "../Components/models/ModelFBX";
+import TestCube from "../Components/TestCube";
 import Tree from "../Components/Tree";
 
 export default function World() {
@@ -10,18 +12,16 @@ export default function World() {
         <Physics>
             {/* <Debug> */}
                 <Ground
-                    args={[150, 150]}
+                    args={[1000, 1000]}
                     rotation={[-Math.PI / 2, 0, 0]}
                 />
-                <Tree />
+                {/* <Tree /> */}
                 <Bike objectProps={{
-                    position: [3, -1, 3],
+                    position: [5, 0.5, 5],
                     rotation: [0, -Math.PI * 3 / 4, 0],
                 }} />
-                {/* <ModelFBX filePath="./resources/models/bike/frontWheel.fbx"
-                objectProps={{ position: [0, 0, 0] }} /> */}
-
+                {/* <TestVehicle /> */}
             {/* </Debug> */}
         </Physics>
-    )   
+    )
 }

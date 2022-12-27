@@ -1,10 +1,11 @@
 import { OrbitControls, OrthographicCamera, PerspectiveCamera } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
+import Camera from "../Components/Camera";
 import Lights from "../Components/Lights";
 import AppOrbitControls from "../Components/OrbitControls";
 import World from "./World";
 
-const debug = true ;
+const debug = false;
 
 declare global {
     namespace THREE {
@@ -26,13 +27,10 @@ export default function AppCanvas() {
             {debug
                 ? <OrthographicCamera
                     makeDefault
-                    position={[5, 20, 15]}
+                    position={[10, 5, 0]}
                     zoom={70}
                 />
-                : <PerspectiveCamera
-                    makeDefault
-                    position={[5, 20, 15]}
-                />
+                : <Camera />
 
             }
             <World />

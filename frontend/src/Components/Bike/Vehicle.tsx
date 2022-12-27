@@ -1,11 +1,11 @@
 
 import React, { useEffect, useRef, useState } from 'react'
 import { Object3DProps, useFrame } from '@react-three/fiber'
-import { CylinderArgs, Debug, Triplet, useRaycastVehicle, WheelInfoOptions } from '@react-three/cannon'
-import { useControls } from './useControls'
+import { CylinderArgs, Debug, Triplet, useBox, useRaycastVehicle, WheelInfoOptions } from '@react-three/cannon'
+import { useControls } from './hooks/useControls'
 import Wheel from './Wheel+Pedals'
 import BikeMesh from './BikeMesh'
-import useWheels from './useWheels'
+import useWheels from './hooks/useWheels'
 import { Mesh } from 'three'
 import { BikeProps } from '.'
 import ModelFBX from '../models/ModelFBX'
@@ -34,7 +34,7 @@ const defaultWheelProps = {
 };
 const { radius } = defaultWheelProps;
 
-const numOfWheels = 7;
+const numOfWheels = 6;
 const frontIndex = [0, 1, 2];
 const backIndex = [3, 4, 5];
 
@@ -49,7 +49,7 @@ const maxBrake = 1e5;
 /**
  * Justify
  */
-const justifyValue = 1.5;
+const justifyValue = 0.5;
 const justifyPosition = (p: Triplet): Triplet => ([p[0], p[1] + justifyValue, p[2]]);
 
 /**
@@ -133,15 +133,7 @@ function Vehicle(props: VehicleProps) {
 		});
 	}, [chassis]);
 
-	// This code is not working -- the angular velocity just says [0,0,0]
-	useEffect(() => {
-		// console.log(wheelRefs[5].current);
-		return wheelRefs[5]!.current?.api?.angularVelocity.subscribe((w: Triplet) => { });
-	}, []);
-
 	return (
-		// <Debug>
-
 		<group ref={vehicle}>
 			<BikeMesh
 				ref={chassis}
@@ -172,7 +164,6 @@ function Vehicle(props: VehicleProps) {
 				angularVelocity={angularVelocity}
 			/>
 		</group >
-		// </Debug>
 	)
 }
 
