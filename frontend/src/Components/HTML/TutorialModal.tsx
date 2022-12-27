@@ -9,15 +9,14 @@ const TutorialModal = () => {
     return (
         <>
             <Modal
-                title="Vertically centered modal dialog"
+                title="This is a tutorial......"
                 centered
                 open={tutorialModalOpen}
                 onOk={() => setTutorialModalOpen(false)}
                 onCancel={() => setTutorialModalOpen(false)}
             >
-                <p>some contents...</p>
-                <p>some contents...</p>
-                <p>some contents...</p>
+                <p>Press W S A D to control the bike.</p>
+                
             </Modal>
         </>
     )

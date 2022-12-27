@@ -9,10 +9,12 @@ import {
     useGLTF,
 
 } from '@react-three/drei'
-import { Object3DProps } from '@react-three/fiber'
-import { Group } from 'three'
+import { Object3DProps, useFrame } from '@react-three/fiber'
+import { Group, Vector3 } from 'three'
+import { useSpring, animated, config, useSpringRef } from '@react-spring/three'
 import { Button, Modal } from 'antd';
 import { useMyContext } from '../../../../Utils/useMyContext'
+import { Triplet } from '@react-three/cannon'
 
 
 const Tree1 = (props: Object3DProps) => {
@@ -20,15 +22,73 @@ const Tree1 = (props: Object3DProps) => {
     const { nodes, materials } = useGLTF('https://vazxmixjsiawhamofees.supabase.co/storage/v1/object/public/models/tree-lime/model.gltf')
     const { setTutorialModalOpen } = useMyContext();
 
+    /**
+     * Scale
+     */
+    const [isLarge, setIsLarge] = useState(false);
+    const { scale } = useSpring({
+        scale: isLarge ? 1.5 : 1,
+        config: {
+            tension: 250,
+            friction: 18,
+            mass: 3,
+            clamp: true,
+        }
+    });
+
+    /**
+     * Rotation
+     */
+    const api = useSpringRef();
+    const { rotation } = useSpring({
+        ref: api,
+        from: {
+            rotation: [0, 0, 0],
+        },
+        to: {
+            rotation: [0, Math.PI * 2, 0],
+        },
+        loop: true,
+        config: {
+            tension: 250,
+            friction: 18,
+            mass: 3,
+            clamp: true,
+            duration: 6000,
+        },
+    });
+
+    const handleTreeEnter = (e) => {
+        api.start();
+        setIsLarge(true);
+    }
+
+    const handleTreeLeave = (e) => {
+        setIsLarge(false);
+        api.stop();
+    }
+
+
+    /**
+     * Render
+     * - Animation after aligning
+     */
+
     return (
         <group {...props}>
-            <group
-                ref={group}
-                dispose={null}
-                position={[0, 0, 0.5]}
-            >
-                <mesh geometry={nodes['tree-lime'].geometry} material={materials.color_main} onClick={(e) => setTutorialModalOpen(true)} />
-            </group>
+            <animated.mesh rotation={rotation} scale={scale}>
+                <mesh
+                    // basic
+                    geometry={nodes['tree-lime'].geometry}
+                    material={materials.color_main}
+                    position={[0, 0, 0.75]}
+
+                    // Enter Effect
+                    onPointerEnter={handleTreeEnter}
+                    onPointerLeave={handleTreeLeave}
+                    onClick={setTutorialModalOpen}
+                />
+            </animated.mesh>
         </group>
     )
 }

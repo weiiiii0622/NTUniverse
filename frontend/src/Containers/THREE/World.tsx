@@ -9,6 +9,7 @@ import Stairs from "../../Components/THREE/static/Stairs";
 import Tree1 from "../../Components/THREE/static/Trees/Tree1";
 import Tree2 from "../../Components/THREE/static/Trees/Tree2";
 import TestCube from "../../Components/THREE/TestCube";
+import TestInteractiveBlock from "../../Components/THREE/static/TestInteractiveBlock";
 import { ThreeContext } from "./Canvas";
 
 export default function World() {
@@ -28,7 +29,7 @@ export default function World() {
                 position: [5, 0.5, 5],
                 rotation: [0, -Math.PI * 3 / 4, 0],
             }} /> */}
-            <RingElement ringPosition={[0, 0.001, 0]} ringArgs={[3.5, 5, 32]} />
+            <RingElement ringPosition={[0, 0.001, 0]} ringArgs={[4.5, 7.5, 32]} />
             {/* </Debug> */}
         </Physics>
     )

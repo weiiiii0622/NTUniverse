@@ -12,7 +12,7 @@ export default function Camera() {
     const ref = useRef<Object3D>(null!);
     const originPosition: Triplet = [15, 8, 3];
     useFrame(({ camera }) => {
-        console.log(camera.position);
+        //console.log(camera.position);
         // if (bikeControlling) {
         // camera.position.get();
         camera.position.set(...originPosition.map((x, i) => (x + bikePosition[i])) as Triplet);
