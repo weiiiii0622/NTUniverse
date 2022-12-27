@@ -1,7 +1,8 @@
 import { useSpring, animated, config } from '@react-spring/three';
+import { Object3DProps } from '@react-three/fiber';
 import { useEffect } from 'react';
 
-export default function TestCube() {
+export default function TestCube(props: Object3DProps) {
     const [springs, api] = useSpring(
         () => ({
             position: [-1, 0, -3], config: {
@@ -25,7 +26,8 @@ export default function TestCube() {
     })
 
     return (
-        <animated.mesh position={springs.position as any}>
+        //@ts-ignore
+        <animated.mesh {...props}>
             <boxGeometry />
             <meshStandardMaterial color={'brown'} />
         </animated.mesh>
