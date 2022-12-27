@@ -2,7 +2,7 @@ import './App.css'
 import React from 'react'
 import { useState } from 'react';
 import { Button, Modal } from 'antd';
-import AppHtmlElements from './Components/HtmlElements';
+import AppHtmlElements from './HtmlComponents/HtmlElements';
 import AppCanvas from './Containers/Canvas';
 
 function App() {

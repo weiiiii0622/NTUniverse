@@ -4,7 +4,7 @@ import Lights from "../Components/Lights";
 import AppOrbitControls from "../Components/OrbitControls";
 import World from "./World";
 
-const debug = true ;
+const debug = false ;
 
 declare global {
     namespace THREE {
