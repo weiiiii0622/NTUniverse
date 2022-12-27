@@ -5,15 +5,14 @@ import {
 } from '@react-three/drei'
 import { Object3DProps, useFrame } from '@react-three/fiber'
 import { Group, Vector3 } from 'three'
-import { useSpring, animated, config } from '@react-spring/three'
+import { useSpring, animated, useSpringRef, config } from '@react-spring/three'
 import { Button, Modal } from 'antd';
 import { useMyContext } from '../../../Utils/useMyContext'
 import { Debug, usePlane } from "@react-three/cannon"
 
 import { ThreeContext } from '../../../Containers/THREE/Canvas'
 
-
-export default function TestInteractiveBlock(props: any) {
+const InteractiveBlock = (props: any) => {
 
     const delta = 0.8;
     const ref = useRef();
@@ -33,57 +32,68 @@ export default function TestInteractiveBlock(props: any) {
         
     });
     
+    const api = useSpringRef();
+    const { y } = useSpring({
+        ref: api,
+        config: {
+            tension: 250,
+            friction: 18,
+            mass: 3,
+            clamp: true,
+            duration: 700,
+        },
+        // from: {
+        //     position: [props.position[0], props.position[1], props.position[2]]
+        // },
+        // to: {
+        //     position: [props.position[0], props.position[1], isActive ? props.position[2] : props.position[2]]
+        // },
+        y : props.position[1] - 2,
+        from: {
+            y: props.position[1],
+        },
+        loop: true,
+    });
+    
     // check overlap
     useFrame(() => {
         //console.log(bikePosition);
         //console.log(isActive);
         handleOverLap(props);
+        //console.log(y);
     })
-
-    // useEffect(() => {
-    //     if(isActive===true){
-    //         console.log(ref.current.position)
-    //         ref.current.position.y += 1;
-    //     }
-    //     else{
-    //         console.log(ref.current.position)
-    //         ref.current.position.y = props.position[1];
-    //     }
-    // }, [isActive])
 
     // determine if overlapped
     const handleOverLap = ({ args, position }) => {
         //console.log(`x: ${bikePosition[0]} / ${Math.abs(position[0])+Math.abs(args[0])}`);
         //console.log(`z: ${bikePosition[2]} / ${Math.abs(position[2])+Math.abs(args[2])}`);
-        if(bikePosition[0]<= delta*(Math.abs(position[0])+Math.abs(args[0])) && bikePosition[0]>= delta*(Math.abs(position[0])-Math.abs(args[0])) && bikePosition[2]<= delta*(Math.abs(position[2])+Math.abs(args[2])) && bikePosition[2]>=delta*(Math.abs(position[2])-Math.abs(args[2]))){
+        if(bikePosition[0]<= delta*(Math.abs(position[0])+Math.abs(args[0])) && delta*bikePosition[0]>= (Math.abs(position[0])-Math.abs(args[0])) && bikePosition[2]<= delta*(Math.abs(position[2])+Math.abs(args[0])) && delta*bikePosition[2]>=(Math.abs(position[2])-Math.abs(args[0]))){
+            api.start();
             setIsActive(true);
         }
         else{
             setIsActive(false);
+            api.stop();
+            ref.current.position.z = props.position[1];
         }
     }
 
     return (
         //<Debug>
-            <group {...props} dispose={null}>
-                <mesh
-                    // @ts-ignore
-                    receiveShadow
-                    //scale = { swcale }
-                >
-                    <boxGeometry args={[4,0.5,4]} position={[10, 0, 10]}/>
-                    <meshStandardMaterial color={'white'} roughness={1} />
-                </mesh>
+            <group  position={props.position} rotation={props.rotation} dispose={null}>
                 <animated.mesh
                     // @ts-ignore
                     ref={ref}
                     receiveShadow
-                    scale = { scale }
+                    position-z={y}
+                    //scale = { scale }
                 >
-                    <boxGeometry {...props} />
+                    <torusGeometry args={props.args} />
                     <meshStandardMaterial color={'#FFC300'} roughness={1} />
                 </animated.mesh>
         </group>
         //</Debug>
     )
 }
+
+export default InteractiveBlock;
