@@ -8,7 +8,7 @@ import AppOrbitControls from "../../Components/THREE/OrbitControls";
 import TestCube from "../../Components/THREE/TestCube";
 import World from "./World";
 
-const debug = false;
+const debug = true;
 
 interface IContext {
     /**
@@ -48,16 +48,16 @@ export default function AppCanvas() {
                 bikeControlling,
                 setBikeControlling,
             }}>
-                <axesHelper args={[10]} />
-                <gridHelper />
+                {/* <axesHelper args={[10]} />
+                <gridHelper /> */}
                 <Lights />
-                <AppOrbitControls />
-                {debug
-                    ? <OrthographicCamera
-                        makeDefault
-                        position={[10, 5, 0]}
-                        zoom={70}
-                    />
+                <AppOrbitControls enabled={debug} />
+                {debug ? null
+                    // ? <OrthographicCamera
+                    //     makeDefault
+                    //     position={[10, 5, 0]}
+                    //     zoom={70}
+                    // />
                     : <Camera />
                 }
                 <World />

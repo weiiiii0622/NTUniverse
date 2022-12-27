@@ -11,82 +11,85 @@ import {
 } from '@react-three/drei'
 import { Object3DProps, useFrame } from '@react-three/fiber'
 import { Group, Vector3 } from 'three'
-import { useSpring, animated, config } from '@react-spring/three'
+import { useSpring, animated, config, useSpringRef } from '@react-spring/three'
 import { Button, Modal } from 'antd';
 import { useMyContext } from '../../../../Utils/useMyContext'
+import { Triplet } from '@react-three/cannon'
 
 
 const Tree1 = (props: Object3DProps) => {
     const group = useRef<Group>(null!)
     const { nodes, materials } = useGLTF('https://vazxmixjsiawhamofees.supabase.co/storage/v1/object/public/models/tree-lime/model.gltf')
     const { setTutorialModalOpen } = useMyContext();
-    
-    //nodes['tree-lime'].geometry;
 
-    // OnPointerEnter State
-    const [originRotation, setOriginRotation] = useState({x:-1,y:-1,z:-1});
+    /**
+     * Scale
+     */
     const [isLarge, setIsLarge] = useState(false);
-
-    const { scale } = useSpring({ 
-        scale: isLarge ? 1.5 : 1 ,
+    const { scale } = useSpring({
+        scale: isLarge ? 1.5 : 1,
         config: {
             tension: 250,
             friction: 18,
             mass: 3,
             clamp: true,
         }
-        
     });
 
+    /**
+     * Rotation
+     */
+    const api = useSpringRef();
+    const { rotation } = useSpring({
+        ref: api,
+        from: {
+            rotation: [0, 0, 0],
+        },
+        to: {
+            rotation: [0, Math.PI * 2, 0],
+        },
+        loop: true,
+        config: {
+            tension: 250,
+            friction: 18,
+            mass: 3,
+            clamp: true,
+            duration: 6000,
+        },
+    });
 
     const handleTreeEnter = (e) => {
-        setOriginRotation({
-            x : group.current.rotation.x,
-            y : group.current.rotation.y,
-            z : group.current.rotation.z
-        });
-        //group.current.rotateOnAxis(new Vector3(10,0,100), 1);
+        api.start();
         setIsLarge(true);
     }
 
     const handleTreeLeave = (e) => {
         setIsLarge(false);
-        group.current.rotation.x = originRotation.x;
-        group.current.rotation.y = originRotation.y;
-        group.current.rotation.z = originRotation.z;
+        api.stop();
     }
 
-    // Annimation Rotate onHovered
-    //var axis = new Vector3(0, 2, 0);
-    useFrame(({ clock }) => {
-        // console.log(group.current.rotation);
-        if(isLarge) group.current.rotation.y = clock.getElapsedTime();
-        //if(isLarge) group.current.rotateOnWorldAxis(axis, 0.01);
-    })
+
+    /**
+     * Render
+     * - Animation after aligning
+     */
 
     return (
-        <>
-            <group
-                ref={group}
-                dispose={null}
-                //position = {[-50, 0, -5]}
-                {...props}
-            >
-                <animated.mesh 
+        <group {...props}>
+            <animated.mesh rotation={rotation} scale={scale}>
+                <mesh
                     // basic
-                    geometry = {nodes['tree-lime'].geometry} 
-                    material = {materials.color_main}
-                    
+                    geometry={nodes['tree-lime'].geometry}
+                    material={materials.color_main}
+                    position={[0, 0, 0.75]}
+
                     // Enter Effect
-                    
-                    //position = {[-20, 0, -5]}
-                    scale = { scale }
-                    onPointerEnter = {handleTreeEnter}
-                    onPointerLeave = {handleTreeLeave}
-                    onClick = {setTutorialModalOpen}
+                    onPointerEnter={handleTreeEnter}
+                    onPointerLeave={handleTreeLeave}
+                    onClick={setTutorialModalOpen}
                 />
-            </group>      
-        </>
+            </animated.mesh>
+        </group>
     )
 }
 
