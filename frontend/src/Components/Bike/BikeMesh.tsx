@@ -3,7 +3,7 @@ import { Object3DProps, ReactThreeFiber, useFrame } from "@react-three/fiber";
 import React, { RefObject, useEffect, useRef } from "react";
 import { Euler, Mesh, Object3D } from "three";
 import ModelFBX from "../models/ModelFBX";
-
+import { useSpring, animated, config } from '@react-spring/three';
 
 interface BikeMeshProps {
     args: Triplet,
@@ -40,20 +40,26 @@ const BikeMesh = React.forwardRef<any, BikeMeshProps>(
         }, [api]);
 
 
+        const { scale, rotation: steerRotation } = useSpring({
+            scale: 1,
+            rotation: [
+                Math.PI * -0.09,
+                Math.PI / 4 * (arcadeDirection === 'left' ? 1
+                    : arcadeDirection === 'right' ? -1
+                        : 0),
+                0,
+            ],
+            config: config.wobbly,
+        })
         return (
             //@ts-ignore
             <mesh ref={ref} api={api}>
                 <ModelFBX filePath="./resources/models/bike/body.fbx"
                     objectProps={defaultObjectProps}
                 />
-                <group
+                <animated.group
                     position={[0, 0.48, 1.02,]}
-                    rotation={new Euler(
-                        -Math.PI * 0.09,
-                        (arcadeDirection === 'left' ? 1
-                            : arcadeDirection === 'right' ? -1
-                                : 0) * Math.PI / 4,
-                        0, "XYZ")}
+                    rotation={steerRotation as any}
                 >
                     <ModelFBX
                         filePath="./resources/models/bike/arcadeNew.fbx"
@@ -62,7 +68,7 @@ const BikeMesh = React.forwardRef<any, BikeMeshProps>(
                             position: [0, 0, 0],
                             // rotation: new Euler(0, Math.PI / 2, 0, "ZYX"),
                         }} />
-                </group>
+                </animated.group>
             </mesh >
         )
     });

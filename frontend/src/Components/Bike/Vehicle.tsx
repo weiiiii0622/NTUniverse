@@ -3,14 +3,13 @@ import React, { useEffect, useRef, useState } from 'react'
 import { Object3DProps, useFrame } from '@react-three/fiber'
 import { CylinderArgs, Debug, Triplet, useRaycastVehicle, WheelInfoOptions } from '@react-three/cannon'
 import { useControls } from './useControls'
-import Wheel from './Wheel'
+import Wheel from './Wheel+Pedals'
 import BikeMesh from './BikeMesh'
 import useWheels from './useWheels'
 import { Mesh } from 'three'
 import { BikeProps } from '.'
 import ModelFBX from '../models/ModelFBX'
 import FrontWheel from './FrontWheel'
-import { degToRad } from 'three/src/math/MathUtils'
 
 
 /**
@@ -31,11 +30,11 @@ const defaultWheelProps = {
 	height: -0.008,
 	front: 1.23,
 	back: -1.03,
-	args: [0.66, 0.66, 0.5, 16] as CylinderArgs,
+	args: [0.66, 0.66, 0.35, 16] as CylinderArgs,
 };
 const { radius } = defaultWheelProps;
 
-const numOfWheels = 6;
+const numOfWheels = 7;
 const frontIndex = [0, 1, 2];
 const backIndex = [3, 4, 5];
 
@@ -119,13 +118,19 @@ function Vehicle(props: VehicleProps) {
 	 */
 	const [frontPosition, setFrontPosition] = useState<Triplet>([0, 0, 0]);
 	const [frontRotation, setFrontRotation] = useState<Triplet>([0, 0, 0]);
-	const [angularVelocity, setAngularVelocity] = useState<Triplet>([0, 0, 0,]);
+	const [angularVelocity, setAngularVelocity] = useState<number>(0);
 	const delta: Triplet = [0, defaultWheelProps.height - 0.24, defaultWheelProps.front];
 	useEffect(() => {
 		return chassis.current.api.position.subscribe((r: Triplet) => setFrontPosition(r));
 	}, [chassis]);
 	useEffect(() => {
 		return chassis.current.api.rotation.subscribe((r: Triplet) => setFrontRotation(r));
+	}, [chassis]);
+	useEffect(() => {
+		return chassis.current.api.velocity.subscribe((v: Triplet) => {
+			const norm = v.reduce((prev, cur) => (prev + cur * cur), 0)
+			setAngularVelocity(Math.sqrt(norm));
+		});
 	}, [chassis]);
 
 	// This code is not working -- the angular velocity just says [0,0,0]
@@ -137,35 +142,36 @@ function Vehicle(props: VehicleProps) {
 	return (
 		// <Debug>
 
-			<group ref={vehicle}>
-				<BikeMesh
-					ref={chassis}
-					position={justifyPosition(objectProps.position)}
-					rotation={objectProps.rotation}
-					justifyValue={justifyValue}
-					arcadeDirection={arcadeDirection}
-					{...defaultChassisProps} />
-				{
-					wheelRefs.map((ref, i) => (
-						<Wheel
-							key={'wheel' + i}
-							ref={ref}
-							args={defaultWheelProps.args}
-							wheelProps={defaultWheelProps}
-							isBack={i == 4}
-							arcadeDirection={arcadeDirection} />
-					))
-				}
-				<FrontWheel
-					objectProps={{
-						position: frontPosition,
-						rotation: frontRotation,
-					}}
-					delta={delta}
-					arcadeDirection={arcadeDirection}
-					angularVelocity={angularVelocity}
-				/>
-			</group >
+		<group ref={vehicle}>
+			<BikeMesh
+				ref={chassis}
+				position={justifyPosition(objectProps.position)}
+				rotation={objectProps.rotation}
+				justifyValue={justifyValue}
+				arcadeDirection={arcadeDirection}
+				{...defaultChassisProps} />
+			{
+				wheelRefs.map((ref, i) => (
+					<Wheel
+						key={'wheel' + i}
+						ref={ref}
+						args={defaultWheelProps.args}
+						wheelProps={defaultWheelProps}
+						isBack={i == 4}
+						isPedals={i == 6}
+						arcadeDirection={arcadeDirection} />
+				))
+			}
+			<FrontWheel
+				objectProps={{
+					position: frontPosition,
+					rotation: frontRotation,
+				}}
+				delta={delta}
+				arcadeDirection={arcadeDirection}
+				angularVelocity={angularVelocity}
+			/>
+		</group >
 		// </Debug>
 	)
 }

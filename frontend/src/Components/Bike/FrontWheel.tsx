@@ -1,5 +1,7 @@
+import { useSpring, animated, config } from "@react-spring/three";
 import { Triplet, useCompoundBody, useCylinder } from "@react-three/cannon";
 import { Object3DProps } from "@react-three/fiber";
+import { useFrame } from "@react-three/fiber";
 import { useEffect } from "react";
 import { Euler, Object3D, Vector3 } from "three/src/Three";
 import ModelFBX from "../models/ModelFBX";
@@ -10,40 +12,25 @@ interface IProps {
         rotation?: Triplet,
     },
     delta: Triplet,
-    angularVelocity: Triplet,
+    angularVelocity: number,
     arcadeDirection: 'front' | 'left' | 'right',
 };
 
 export default function FrontWheel({ objectProps, arcadeDirection, angularVelocity, delta }: IProps) {
-    // const [] = useCompoundBody(() => ({
-    //     // mass: 1,
-    //     type: "Static",
-    //     // material: 'wheel',
-    //     // collisionFilterGroup: 0,
-    //     collisionResponse: false,
-    //     shapes: [{
-    //         type: 'Cylinder',
-    //         rotation: [0, 0, Math.PI / 2],
-    //         args: [0.05, 0.05, 0.5, 16],
-    //     }],
-    //     position: [0, 3, 0],
-    //     // ...props
-    // }));
 
-    // const [ref, api] = useCompoundBody(() => ({
-    //     mass: 1,
-    //     // type: "Kinematic",
-    //     // material: 'wheel',
-    //     // collisionFilterGroup: 0,
-    //     // collisionResponse: false,
-    //     shapes: [{
-    //         type: 'Cylinder',
-    //         rotation: [0, 0, 0],
-    //         args: [0.5, 0.5, 0.5, 16],
-    //     }],
-    //     position: [0, 3, 0],
-    //     // ...props
-    // }));
+    const [ref, api] = useCompoundBody(() => ({
+        mass: 1,
+        type: "Kinematic",
+        // material: 'wheel',
+        // collisionFilterGroup: 0,
+        collisionResponse: false,
+        shapes: [{
+            type: 'Cylinder',
+            rotation: [0, 0, 0],
+            args: [0.5, 0.5, 0.5, 16],
+        }],
+        // ...props
+    }));
 
     const { position, rotation } = objectProps;
 
@@ -52,19 +39,26 @@ export default function FrontWheel({ objectProps, arcadeDirection, angularVeloci
         position: [-0.03, 0, 0] as Triplet,
     };
 
-    const steerRotation = (dir: any) => {
+    const toSteerRotation = (dir: any) => {
         const sign = (dir === 'left' ? 1 : dir === 'right' ? -1 : 0);
-        return new Euler(
-            -Math.PI * 0.09,
+        return [
+            - Math.PI * 0.09,
             sign * Math.PI / 4,
-            // 0,
-            0, "XYZ");
+            0,
+        ];
     }
+    const { rotation: steerRotation } = useSpring({
+        rotation: toSteerRotation(arcadeDirection),
+        config: config.wobbly,
+    });
 
-    // useEffect(() => {
-    //     api.angularVelocity.set(...angularVelocity);
-    //     console.log(angularVelocity);
-    // }, [angularVelocity]);
+    useFrame(() => {
+        api.angularVelocity.set(angularVelocity, 0, 0);
+    })
+
+    useEffect(() => {
+        // console.log(angularVelocity);
+    }, [angularVelocity]);
 
     return <>
         <group
@@ -78,10 +72,10 @@ export default function FrontWheel({ objectProps, arcadeDirection, angularVeloci
                 <boxGeometry args={[0.3, 0.3, 0.3]} />
                 <meshStandardMaterial color={'red'} />
             </mesh> */}
-            <group
-                rotation={steerRotation(arcadeDirection)}
+            <animated.group
+                rotation={steerRotation as any}
             >
-                <group>
+                <group ref={ref}>
                     <ModelFBX filePath="./resources/models/bike/frontWheel.fbx"
                         objectProps={{
                             ...defaultObjectProps,
@@ -89,7 +83,7 @@ export default function FrontWheel({ objectProps, arcadeDirection, angularVeloci
                             // rotation,
                         }} />
                 </group>
-            </group>
+            </animated.group>
         </group >
         {/* <mesh ref={ref} rotation={[Math.PI / 2, 0, 0]}>
             <sphereGeometry />
