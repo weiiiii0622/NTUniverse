@@ -31,7 +31,7 @@ export default function AppCanvas() {
                 />
                 : <PerspectiveCamera
                     makeDefault
-                    position={[5, 20, 15]}
+                    position={[30, 5, 15]}
                 />
 
             }

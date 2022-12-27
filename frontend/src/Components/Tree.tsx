@@ -7,8 +7,9 @@ import {
     useGLTF,
 
 } from '@react-three/drei'
-import { Object3DProps } from '@react-three/fiber'
-import { Group } from 'three'
+import { Object3DProps, useFrame } from '@react-three/fiber'
+import { Group, Vector3 } from 'three'
+import { useSpring, animated, config } from '@react-spring/three'
 import { useMyContext } from '../Utils/useMyContext'
 
 import { Button, Modal } from 'antd';
@@ -18,15 +19,70 @@ const Tree = (props: Object3DProps) => {
     const group = useRef<Group>(null!)
     const { nodes, materials } = useGLTF('https://vazxmixjsiawhamofees.supabase.co/storage/v1/object/public/models/tree-lime/model.gltf')
     const { setTutorialModalOpen } = useMyContext();
+    
+    //nodes['tree-lime'].geometry;
+
+    // OnPointerEnter State
+    const [originRotation, setOriginRotation] = useState({x:-1,y:-1,z:-1});
+    const [isLarge, setIsLarge] = useState(false);
+
+    const { scale } = useSpring({ 
+        scale: isLarge ? 1.5 : 1 ,
+        config: {
+            tension: 250,
+            friction: 18,
+            mass: 3,
+            clamp: true,
+        }
+        
+    });
+
+
+    const handleTreeEnter = (e) => {
+        setOriginRotation({
+            x : group.current.rotation.x,
+            y : group.current.rotation.y,
+            z : group.current.rotation.z
+        });
+        //group.current.rotateOnAxis(new Vector3(10,0,100), 1);
+        setIsLarge(true);
+    }
+
+    const handleTreeLeave = (e) => {
+        setIsLarge(false);
+        group.current.rotation.x = originRotation.x;
+        group.current.rotation.y = originRotation.y;
+        group.current.rotation.z = originRotation.z;
+    }
+
+    // Annimation Rotate onHovered
+    //var axis = new Vector3(0, 2, 0);
+    useFrame(({ clock }) => {
+        console.log(group.current.rotation);
+        if(isLarge) group.current.rotation.y = clock.getElapsedTime();
+        //if(isLarge) group.current.rotateOnWorldAxis(axis, 0.01);
+    })
 
     return (
         <>
             <group
             ref={group}
             dispose={null}
+            position = {[-5, 0, -5]}
             {...props}
             >
-                <mesh geometry={nodes['tree-lime'].geometry} material={materials.color_main} onClick={(e) => setTutorialModalOpen(true)}/>
+                <animated.mesh 
+                    // basic
+                    geometry = {nodes['tree-lime'].geometry} 
+                    material = {materials.color_main}
+                    
+                    // Enter Effect
+                    
+                    //position = {[-20, 0, -5]}
+                    scale = { scale }
+                    onPointerEnter = {handleTreeEnter}
+                    onPointerLeave = {handleTreeLeave}
+                />
             </group>      
         </>
     )
