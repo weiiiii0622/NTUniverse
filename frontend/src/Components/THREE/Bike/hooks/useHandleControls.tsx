@@ -68,8 +68,8 @@ export default function useHandleControls({
 	 * Camera
 	 */
 	const { setBikeControlling } = useContext(ThreeContext);
-	useFrame(() => {
-		const controlling = Object.values(controls.current).some(x => x);
-		setBikeControlling(controlling);
-	});
+	// useFrame(() => {
+	// 	const controlling = Object.values(controls.current).some(x => x);
+	// 	setBikeControlling(controlling);
+	// });
 }

@@ -16,12 +16,12 @@ export default function Bench(props: Object3DProps) {
     const { nodes, materials } = useGLTF('https://market-assets.fra1.cdn.digitaloceanspaces.com/market-assets/models/bench/model.gltf')
     return (
         <group ref={group} {...props} dispose={null}>
-            <mesh geometry={nodes.bench.geometry} material={materials['metal.004']} >
-                <mesh geometry={nodes.Plane001.geometry} material={materials['wood.004']} />
-                <mesh geometry={nodes.Plane005.geometry} material={materials['wood.003']} />
-                <mesh geometry={nodes.Vert001.geometry} material={materials['metal.003']} />
+            <mesh castShadow geometry={nodes.bench.geometry} material={materials['metal.004']} >
+                <mesh castShadow geometry={nodes.Plane001.geometry} material={materials['wood.004']} />
+                <mesh castShadow geometry={nodes.Plane005.geometry} material={materials['wood.003']} />
+                <mesh castShadow geometry={nodes.Vert001.geometry} material={materials['metal.003']} />
             </mesh>
-
+        
         </group>
     )
 }

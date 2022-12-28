@@ -1,10 +1,13 @@
 import { Triplet } from "@react-three/cannon";
-import { OrbitControls, OrthographicCamera, PerspectiveCamera } from "@react-three/drei";
+import { AccumulativeShadows, ContactShadows, OrbitControls, OrthographicCamera, PerspectiveCamera, RandomizedLight, softShadows } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
+import { Leva } from "leva";
+import { Perf } from "r3f-perf";
 import { createContext, useState } from "react";
 import Camera from "../../Components/THREE/Camera";
 import Lights from "../../Components/THREE/Lights";
 import AppOrbitControls from "../../Components/THREE/OrbitControls";
+import Shadow from "../../Components/THREE/Shadow";
 import TestCube from "../../Components/THREE/TestCube";
 import World from "./World";
 
@@ -30,6 +33,14 @@ const ThreeContext = createContext<IContext>({
     setBikeControlling: (x) => { },
 });
 
+// softShadows({
+//     frustum: 3.75,
+//     size: 0.005,
+//     near: 9.5,
+//     samples: 20,
+//     rings: 11
+// });
+
 export default function AppCanvas() {
 
     /**
@@ -40,16 +51,36 @@ export default function AppCanvas() {
 
     return (
         <Canvas
-            shadows
+        // shadows
         >
+            {/* <AccumulativeShadows
+                position={[0, - 0.99, 0]}
+                scale={10}
+                color="#316d39"
+                opacity={0.3}
+                frames={Infinity}
+                temporal
+                blend={10}
+            >
+                <RandomizedLight
+                    // amount={8}
+                    // radius={1}
+                    // ambient={0.5}
+                    // intensity={1}
+                    position={[10, 5, 10]}
+                // bias={0.001}
+                />
+            // </AccumulativeShadows> */}
+            <Shadow />
+            <Perf position="top-left" />
             <ThreeContext.Provider value={{
                 bikePosition,
                 setBikePosition,
                 bikeControlling,
                 setBikeControlling,
             }}>
-                {/* <axesHelper args={[10]} />
-                <gridHelper /> */}
+                {/* <axesHelper args={[10]} /> */}
+                {/* <gridHelper /> */}
                 <Lights />
                 <AppOrbitControls enabled={debug} />
                 {debug ? null
@@ -61,7 +92,6 @@ export default function AppCanvas() {
                     : <Camera />
                 }
                 <World />
-
             </ThreeContext.Provider>
         </Canvas >
     )
