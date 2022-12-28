@@ -11,27 +11,21 @@ import { useMyContext } from '../../../Utils/useMyContext'
 import { Debug, usePlane } from "@react-three/cannon"
 
 import { ThreeContext } from '../../../Containers/THREE/Canvas'
+import { useControls } from '../Bike/hooks/useControls'
+
 
 const InteractiveBlock = (props: any) => {
 
-    const delta = 0.8;
+    const DEBUG = 0;
+    const delta = 0.6;
+    const controls = useControls();
+    const { navigate } = controls.current;
+
     const ref = useRef();
     const { bikePosition } = useContext(ThreeContext);
     const [isActive, setIsActive] = useState(false);
 
     // overlap transition
-    const { scale } = useSpring({ 
-        scale: isActive ? 1.2 : 1 ,
-        
-        config: {
-            tension: 250,
-            friction: 18,
-            mass: 3,
-            clamp: true,
-        }
-        
-    });
-    
     const api = useSpringRef();
     const { y } = useSpring({
         ref: api,
@@ -42,41 +36,51 @@ const InteractiveBlock = (props: any) => {
             clamp: true,
             duration: 700,
         },
-        // from: {
-        //     position: [props.position[0], props.position[1], props.position[2]]
-        // },
-        // to: {
-        //     position: [props.position[0], props.position[1], isActive ? props.position[2] : props.position[2]]
-        // },
-        y : props.position[1] - 2,
+        loop: true,
+
+        onRest: () => {
+            ref.current.position.z = props.position[1];
+        },
         from: {
             y: props.position[1],
         },
-        loop: true,
+        to: {
+            y: props.position[1] - 1.5,
+        },
+
     });
     
     // check overlap
     useFrame(() => {
         //console.log(bikePosition);
-        //console.log(isActive);
+        if(DEBUG) console.log(`id: ${props.id} isActive: ${isActive}`);
         handleOverLap(props);
+        //console.log(navigate);
+        //if(isActive && navigate) console.log(`id: ${props.id}`);
         //console.log(y);
     })
 
-    // determine if overlapped
     const handleOverLap = ({ args, position }) => {
-        //console.log(`x: ${bikePosition[0]} / ${Math.abs(position[0])+Math.abs(args[0])}`);
-        //console.log(`z: ${bikePosition[2]} / ${Math.abs(position[2])+Math.abs(args[2])}`);
-        if(bikePosition[0]<= delta*(Math.abs(position[0])+Math.abs(args[0])) && delta*bikePosition[0]>= (Math.abs(position[0])-Math.abs(args[0])) && bikePosition[2]<= delta*(Math.abs(position[2])+Math.abs(args[0])) && delta*bikePosition[2]>=(Math.abs(position[2])-Math.abs(args[0]))){
+        const dis_x = Math.abs(bikePosition[0]-position[0]);
+        const dis_z = Math.abs(bikePosition[2]-position[2]);
+
+        const dist = delta * Math.sqrt( dis_x*dis_x + dis_z*dis_z );
+        if(dist <= args[0]){
             api.start();
             setIsActive(true);
         }
         else{
             setIsActive(false);
             api.stop();
-            ref.current.position.z = props.position[1];
         }
     }
+
+    // navigation on keyboard 'Enter'
+    useEffect(() => {
+        console.log("Entered");
+        
+        if(isActive) alert(`id: ${props.id}`);
+    }, [navigate])
 
     return (
         //<Debug>

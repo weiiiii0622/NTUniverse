@@ -25,7 +25,8 @@ export default function World() {
                 />
                 <Tree1 position={[-5, 0, -5]} />
                 <Bench position={[-5, 0, 5]} rotation={[0, Math.PI / 2, 0]} />
-                <InteractiveBlock args={[4, 0.2, 3, 4, Math.PI*2]} position={[10, 0, 10]} rotation={[Math.PI / 2, 0, 0]}/>
+                <InteractiveBlock id={1} args={[4, 0.2, 3, 4, Math.PI*2]} position={[10, 0, 10]} rotation={[Math.PI / 2, 0, 0]}/>
+                <InteractiveBlock id={2} args={[4, 0.2, 3, 4, Math.PI*2]} position={[-15, 0, -15]} rotation={[Math.PI / 2, 0, 0]}/>
                 <Bike objectProps={{
                     position: [5, 0.5, 5],
                     rotation: [0, -Math.PI * 3 / 4, 0],
