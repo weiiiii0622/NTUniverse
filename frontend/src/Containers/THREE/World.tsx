@@ -9,6 +9,8 @@ import InteractiveBlock from "../../Components/THREE/interaction/InteractiveBloc
 import { FC } from "react";
 import { Trail } from "@react-three/drei";
 
+import { useMyContext } from "../../Utils/useMyContext";
+
 const DebugWorld: FC<any> = ({ children, debug = false }) => {
 	return (
 		<>
@@ -26,6 +28,8 @@ const DebugWorld: FC<any> = ({ children, debug = false }) => {
 
 export default function World() {
 
+    const { setTutorialModalOpen } = useMyContext();
+
 	return (
 		<Physics>
 			<DebugWorld >
@@ -41,7 +45,9 @@ export default function World() {
 				<Palm objectProps={{
 					position: [5, 0, -5],
 				}} />
-                <InteractiveBlock args={[4, 0.2, 3, 4, Math.PI*2]} position={[10, 0 ,10]} rotation={[Math.PI / 2, 0, 0]}/>
+
+                {/* Pass in your EventHandler to handleEvent={ } */}
+                <InteractiveBlock handleEvent={setTutorialModalOpen} position={[10, 0 ,10]}/>
 			</DebugWorld>
 		</Physics >
 	)
