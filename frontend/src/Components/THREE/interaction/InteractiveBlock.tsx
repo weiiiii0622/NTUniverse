@@ -52,7 +52,7 @@ const InteractiveBlock = (props: any) => {
     
     // check overlap
     useFrame(() => {
-        //console.log(bikePosition);
+        //console.log(`${props.position} / ${bikePosition}`);
         if(DEBUG) console.log(`id: ${props.id} isActive: ${isActive}`);
         handleOverLap(props);
         //console.log(navigate);
@@ -64,8 +64,9 @@ const InteractiveBlock = (props: any) => {
         const dis_x = Math.abs(bikePosition[0]-position[0]);
         const dis_z = Math.abs(bikePosition[2]-position[2]);
 
-        const dist = delta * Math.sqrt( dis_x*dis_x + dis_z*dis_z );
-        if(dist <= args[0]){
+        const dist =  Math.sqrt( dis_x*dis_x + dis_z*dis_z );
+        //console.log(`${dist} / ${args[0]}`);
+        if(dist <= delta * args[0]){
             api.start();
             setIsActive(true);
         }

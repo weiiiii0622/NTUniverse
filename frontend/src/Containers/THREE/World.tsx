@@ -5,6 +5,7 @@ import Ground from "../../Components/THREE/static/Ground";
 import Tree1 from "../../Components/THREE/static/Trees/Tree1";
 import TestContainer from "./TestContainer";
 import Palm from "../../Components/THREE/static/Palm";
+import InteractiveBlock from "../../Components/THREE/interaction/InteractiveBlock";
 import { FC } from "react";
 import { Trail } from "@react-three/drei";
 
@@ -40,6 +41,7 @@ export default function World() {
 				<Palm objectProps={{
 					position: [5, 0, -5],
 				}} />
+                <InteractiveBlock args={[4, 0.2, 3, 4, Math.PI*2]} position={[10, 0 ,10]} rotation={[Math.PI / 2, 0, 0]}/>
 			</DebugWorld>
 		</Physics >
 	)
