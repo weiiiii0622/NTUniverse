@@ -1,7 +1,8 @@
 import { useSpring, animated, config } from "@react-spring/three"
 import { Triplet } from "@react-three/cannon"
 import { RingGeometryProps } from "@react-three/fiber"
-import { ObjectProps } from "./Bike"
+import { Object3D } from "three/src/Three"
+import { ObjectProps } from "../Bike"
 
 interface RingElementProps {
     ringPosition: Triplet,
@@ -27,8 +28,9 @@ function RingElement({ ringArgs, ringPosition }: RingElementProps) {
 
     return (
         <animated.mesh
+            position={ringPosition}
             scale={spring.scale as any}
-        ><mesh position={ringPosition} rotation={[-Math.PI / 2, 0, 0,]}>
+        ><mesh rotation={[-Math.PI / 2, 0, 0,]}>
                 <ringGeometry args={ringArgs} />
                 <meshStandardMaterial color={'yellow'} transparent opacity={0.5} />
             </mesh>
@@ -38,10 +40,17 @@ function RingElement({ ringArgs, ringPosition }: RingElementProps) {
 export { RingElement };
 
 
+interface IProps extends RingElementProps {
+    objectProps: ObjectProps,
+};
+
 export default function HintCircle(Component: React.FC<any>) {
-    return function HintCircledComponent({ }) {
-
-
-
+    return function HintCircledComponent({ ringArgs, ringPosition, objectProps }: IProps) {
+        return (
+            <>
+                <Component {...objectProps} />
+                {/* <RingElement ringArgs={ringArgs} ringPosition={ringPosition} /> */}
+            </>
+        )
     }
 }

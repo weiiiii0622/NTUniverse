@@ -1,39 +1,46 @@
 import { Debug, Physics } from "@react-three/cannon";
-import { Stars } from "@react-three/drei";
-import { useContext } from "react";
 import Bike from "../../Components/THREE/Bike";
-import { RingElement } from "../../Components/THREE/HintCircle";
 import Bench from "../../Components/THREE/static/Bench";
 import Ground from "../../Components/THREE/static/Ground";
-import Stairs from "../../Components/THREE/static/Stairs";
 import Tree1 from "../../Components/THREE/static/Trees/Tree1";
-import Tree2 from "../../Components/THREE/static/Trees/Tree2";
-import TestCube from "../../Components/THREE/TestCube";
-import InteractiveBlock from "../../Components/THREE/static/InteractiveBlock";
-import { ThreeContext } from "./Canvas";
+import TestContainer from "./TestContainer";
+import Palm from "../../Components/THREE/static/Palm";
+import { FC } from "react";
+import { Trail } from "@react-three/drei";
+
+const DebugWorld: FC<any> = ({ children, debug = false }) => {
+	return (
+		<>
+			{debug
+				? <Debug>
+					{children}
+				</Debug>
+				: <>
+					{children}
+				</>
+			}
+		</>
+	)
+}
 
 export default function World() {
 
-    const { bikePosition } = useContext(ThreeContext);
-
-    return (
-        <Physics>
-            {/* <Debug> */}
-                <Ground
-                    args={[1000, 1000]}
-                    rotation={[-Math.PI / 2, 0, 0]}
-                />
-                <Tree1 position={[-5, 0, -5]} />
-                <Bench position={[-5, 0, 5]} rotation={[0, Math.PI / 2, 0]} />
-                <InteractiveBlock id={1} args={[4, 0.2, 3, 4, Math.PI*2]} position={[10, 0, 10]} rotation={[Math.PI / 2, 0, 0]}/>
-                <InteractiveBlock id={2} args={[4, 0.2, 3, 4, Math.PI*2]} position={[-15, 0, -15]} rotation={[Math.PI / 2, 0, 0]}/>
-                <Bike objectProps={{
-                    position: [5, 0.5, 5],
-                    rotation: [0, -Math.PI * 3 / 4, 0],
-                }} />
-
-                {/* <TestCube position={bikePosition} /> */}
-            {/* </Debug> */}
-        </Physics>
-    )
+	return (
+		<Physics>
+			<DebugWorld >
+				<TestContainer />
+				<Ground />
+				<Tree1 position={[-5, 0.0, -5]} />
+				{/* <RingElement ringPosition={[-5, 0.1, -5]} ringArgs={[4.5, 7, 32]} /> */}
+				<Bench position={[-5, 0, 5]} rotation={[0, Math.PI / 2, 0]} castShadow />
+				<Bike objectProps={{
+					position: [5, 0, 5],
+					rotation: [0, -Math.PI * 3 / 4, 0],
+				}} />
+				<Palm objectProps={{
+					position: [5, 0, -5],
+				}} />
+			</DebugWorld>
+		</Physics >
+	)
 }
