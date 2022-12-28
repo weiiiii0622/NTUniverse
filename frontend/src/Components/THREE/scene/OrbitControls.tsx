@@ -3,7 +3,6 @@ import { useFrame } from "@react-three/fiber";
 import { useContext } from "react";
 
 import * as THREE from 'three';
-import { ThreeContext } from "../../Containers/THREE/Canvas";
 
 const debug = true;
 

@@ -1,13 +1,20 @@
 import { useSpring, animated, config } from '@react-spring/three';
+import { Trail } from '@react-three/drei';
 import { Object3DProps } from '@react-three/fiber';
 import { useControls } from 'leva';
-import { useEffect } from 'react';
-import Shadow from './Shadow';
+import { useEffect, useRef } from 'react';
+import { Mesh } from 'three';
+import Shadow from '../scene/Shadow';
 
 export default function TestCube(props: Object3DProps) {
-    const [springs, api] = useSpring(
+    const [{ position }, api] = useSpring(
         () => ({
-            position: [-1, 0, -3], config: {
+            // from: {
+            //     position: [-1, 0, -3],
+            // },
+            position: [0, 0, 0],
+            // reset: true,
+            config: {
                 mass: 1,
                 friction: 10,
                 damping: 3,
@@ -16,18 +23,18 @@ export default function TestCube(props: Object3DProps) {
         }));
     // console.log(springs.position, api);
 
-    const { position } = useControls({
-        position: {
-            step: 0.1,
-            value: {
-                x: 1,
-                z: 1,
-            },
-            // min: {
-            //     x: 0,
-            // },
-        },
-    })
+    // const { position } = useControls({
+    //     position: {
+    //         step: 0.1,
+    //         value: {
+    //             x: 1,
+    //             z: 1,
+    //         },
+    //         // min: {
+    //         //     x: 0,
+    //         // },
+    //     },
+    // })
 
     useEffect(() => {
         window.addEventListener('keypress', (e) => {
@@ -39,14 +46,14 @@ export default function TestCube(props: Object3DProps) {
             }
             return;
         })
-    })
+    }, []);
 
     return (
         <>
             {/* @ts-ignore */}
-            <animated.mesh {...props} position={[position.x, 1.7, position.z]} castShadow>
+            <animated.mesh {...props} position={position} castShadow>
                 <boxGeometry args={[3, 3, 3]} />
-                <meshStandardMaterial color={'brown'} />
+                <meshStandardMaterial color={'brown'} envMapIntensity={10} />
             </animated.mesh>
         </>
     )

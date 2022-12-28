@@ -6,7 +6,7 @@ import { useControls } from "leva";
 
 export default function Shadow() {
 
-    const { opacity, blur, color } = useControls('Shadow', {
+    const { opacity, blur, color, scale } = useControls('Shadow', {
         color: '#24344e',
         opacity: {
             value: 0.25,
@@ -18,17 +18,19 @@ export default function Shadow() {
             min: 0,
             max: 10,
         },
+        scale: {
+            value: 50,
+            min: 1,
+            max: 100,
+            step: 0.5,
+        }
     });
 
     return (
         <ContactShadows
-            // resolution={2048}
+            resolution={2048}
             position={[0, 0, 0]}
-            scale={50}
-            // width={20}
-            far={5}
-            rotation={[Math.PI / 2, 0, 0]}
-            {...{ color, opacity, blur }}
+            {...{ color, opacity, blur, scale}}
         />
     )
 }

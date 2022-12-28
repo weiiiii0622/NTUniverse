@@ -15,7 +15,7 @@ import { ThreeContext } from '../../../Containers/THREE/Canvas'
 const InteractiveBlock = (props: any) => {
 
     const delta = 0.8;
-    const ref = useRef();
+    const ref = useRef(null!);
     const { bikePosition } = useContext(ThreeContext);
     const [isActive, setIsActive] = useState(false);
 

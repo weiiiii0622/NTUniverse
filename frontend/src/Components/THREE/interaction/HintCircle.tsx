@@ -2,7 +2,7 @@ import { useSpring, animated, config } from "@react-spring/three"
 import { Triplet } from "@react-three/cannon"
 import { RingGeometryProps } from "@react-three/fiber"
 import { Object3D } from "three/src/Three"
-import { ObjectProps } from "./Bike"
+import { ObjectProps } from "../Bike"
 
 interface RingElementProps {
     ringPosition: Triplet,
