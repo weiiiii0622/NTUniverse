@@ -21,7 +21,7 @@ const InteractiveBlock = (props: any) => {
     const controls = useControls();
     const { navigate } = controls.current;
 
-    const ref = useRef();
+    const ref = useRef(null!);
     const { bikePosition } = useContext(ThreeContext);
     const [isActive, setIsActive] = useState(false);
 

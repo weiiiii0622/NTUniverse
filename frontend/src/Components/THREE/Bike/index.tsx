@@ -1,6 +1,9 @@
 import { Triplet } from "@react-three/cannon";
+import { Trail } from "@react-three/drei";
 import { Object3DProps, ReactThreeFiber } from "@react-three/fiber";
-import { Vector3 } from "three";
+import { useRef } from "react";
+import { Mesh, Vector3 } from "three";
+import TestCube from "../testing/TestCube";
 import Vehicle from "./Vehicle";
 
 interface ObjectProps extends Object3DProps {
@@ -10,11 +13,17 @@ interface ObjectProps extends Object3DProps {
 
 interface BikeProps {
     objectProps?: ObjectProps,
+    trail?: boolean,
 };
 
-export default function Bike(props: BikeProps) {
+export default function Bike({ objectProps, trail = false }: BikeProps) {
+
+    const ref = useRef<Mesh>(null!);
+
     return (
-        <Vehicle {...props} />
+        <>
+            <Vehicle objectProps={objectProps} ref={ref} />
+        </>
     )
 }
 

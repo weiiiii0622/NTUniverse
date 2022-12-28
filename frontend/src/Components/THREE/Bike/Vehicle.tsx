@@ -1,5 +1,5 @@
 
-import React, { useContext, useEffect, useRef, useState } from 'react'
+import React, { forwardRef, RefObject, useContext, useEffect, useRef, useState } from 'react'
 import { Object3DProps, useFrame } from '@react-three/fiber'
 import { CylinderArgs, Debug, Triplet, useBox, useRaycastVehicle, WheelInfoOptions } from '@react-three/cannon'
 import { useControls } from './hooks/useControls'
@@ -54,7 +54,7 @@ type ArcadeDirection = 'left' | 'right' | 'front';
 interface VehicleProps extends BikeProps {
 	// objectProps?: Object3DProps,
 };
-function Vehicle(props: VehicleProps) {
+const Vehicle = forwardRef((props: VehicleProps, vehicle: RefObject<Mesh>) => {
 	const { objectProps } = props;
 
 	const chassis = useRef<any>(null!)
@@ -65,7 +65,8 @@ function Vehicle(props: VehicleProps) {
 	 * Physics
 	 * - build the whole vehicle w/ chassis, wheelRef & infos
 	 */
-	const [vehicle, api] = useRaycastVehicle(() => ({
+	// const vehicle = useRef(null!);
+	const [, api] = useRaycastVehicle(() => ({
 		chassisBody: chassis,
 		wheels: wheelRefs,
 		wheelInfos: wheelInfos,
@@ -73,7 +74,7 @@ function Vehicle(props: VehicleProps) {
 		indexRightAxis: 0,  // x=0
 		indexUpAxis: 1,  // y=1
 		...objectProps,
-	}))
+	}), vehicle);
 
 	/**
 	 * Motion:
@@ -94,13 +95,13 @@ function Vehicle(props: VehicleProps) {
 	const [angularVelocity, setAngularVelocity] = useState<number>(0);
 	const delta: Triplet = [0, defaultWheelProps.height - 0.24, defaultWheelProps.front];
 	useEffect(() => {
-		return chassis.current.api.position.subscribe((r: Triplet) => setFrontPosition(r));
+		return chassis!.current?.api.position.subscribe((r: Triplet) => setFrontPosition(r));
 	}, [chassis]);
 	useEffect(() => {
-		return chassis.current.api.rotation.subscribe((r: Triplet) => setFrontRotation(r));
+		return chassis!.current?.api.rotation.subscribe((r: Triplet) => setFrontRotation(r));
 	}, [chassis]);
 	useEffect(() => {
-		return chassis.current.api.velocity.subscribe((v: Triplet) => {
+		return chassis!.current?.api.velocity.subscribe((v: Triplet) => {
 			const norm = v.reduce((prev, cur) => (prev + cur * cur), 0)
 			setAngularVelocity(Math.sqrt(norm));
 		});
@@ -110,9 +111,13 @@ function Vehicle(props: VehicleProps) {
 	/**
 	 * Get Position
 	 */
-	const { setBikePosition } = useContext(ThreeContext);
+	const { setBikePosition, bikePosition } = useContext(ThreeContext);
 	useEffect(() => {
-		return chassis.current.api.position.subscribe((r: Triplet) => setBikePosition(r));
+		return chassis!.current?.api.position.subscribe((r: Triplet) => {
+			setBikePosition(() => r);
+			// console.log(r);
+			// console.log(bikePosition);
+		});
 	}, [chassis]);
 
 	return (
@@ -148,7 +153,7 @@ function Vehicle(props: VehicleProps) {
 			/>
 		</group >
 	)
-}
+});
 
 export default Vehicle
 
