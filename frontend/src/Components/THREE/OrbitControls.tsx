@@ -1,4 +1,5 @@
 import { OrbitControls } from "@react-three/drei";
+import { useFrame } from "@react-three/fiber";
 import { useContext } from "react";
 
 import * as THREE from 'three';
@@ -10,9 +11,8 @@ export default function AppOrbitControls({ enabled }) {
     return (
         <OrbitControls
             enabled={enabled}
-            panSpeed={2.5}
             enableDamping
-            dampingFactor={1}
+            dampingFactor={0.05}
             screenSpacePanning={false}
             maxPolarAngle={debug ? Math.PI * 2 : Math.PI * 0.4}
             minPolarAngle={0}
