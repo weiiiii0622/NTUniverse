@@ -11,16 +11,13 @@ import { useMyContext } from '../../../Utils/useMyContext'
 import { Debug, usePlane } from "@react-three/cannon"
 
 import { ThreeContext } from '../../../Containers/THREE/Canvas'
-//import { useControls } from '../Bike/hooks/useControls'
 
 
 const InteractiveBlock = (props: any) => {
 
     const DEBUG = 0;
-    const delta = 0.6;
+    const delta = 0.8;
     const args = [4, 0.2, 3, 4, Math.PI*2];
-    //const controls = useControls();
-    //const { navigate } = controls.current;
 
     const ref = useRef(null!);
     const { bikePosition } = useContext(ThreeContext);
@@ -54,11 +51,8 @@ const InteractiveBlock = (props: any) => {
     // check overlap
     useFrame(() => {
         //console.log(`${props.position} / ${bikePosition}`);
-        if(DEBUG) console.log(`id: ${props.id} isActive: ${isActive}`);
+        //if(DEBUG) console.log(`id: ${props.id} isActive: ${isActive}`);
         handleOverLap(props);
-        //console.log(navigate);
-        //if(isActive && navigate) console.log(`id: ${props.id}`);
-        //console.log(y);
     })
 
     const handleOverLap = ({ position }) => {
@@ -95,7 +89,7 @@ const InteractiveBlock = (props: any) => {
     useKeyPress(['Enter'], (pressed) => (setIsEvent(pressed)))
 
     useEffect(() => {
-        console.log("Entered");
+        //console.log("Entered");
         
         if(isActive && isEvent) props.handleEvent(true);
         
@@ -103,7 +97,7 @@ const InteractiveBlock = (props: any) => {
 
     return (
         //<Debug>
-            <group  position={props.position} rotation={[Math.PI / 2, 0, 0]} dispose={null}>
+            <group  position={props.position} rotation={[Math.PI / 2, 0, Math.PI / 4]} dispose={null}>
                 <animated.mesh
                     // @ts-ignore
                     ref={ref}
