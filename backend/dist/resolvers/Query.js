@@ -8,13 +8,15 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-const server_1 = __importDefault(require("./server"));
-const mongo_1 = __importDefault(require("./mongo"));
-(() => __awaiter(void 0, void 0, void 0, function* () { return console.log('hello world!'); }))();
-(0, mongo_1.default)();
-const PORT = process.env.PORT || 4001;
-server_1.default.listen(PORT, () => { console.log(`listening on PORT ${PORT}`); });
+const Query = {
+    user: (parent, { name }, { UserModel }) => __awaiter(void 0, void 0, void 0, function* () {
+        const user = yield UserModel.findOne({ name: name });
+        return user;
+    }),
+    userByEmail: (parent, { email }, { UserModel }) => __awaiter(void 0, void 0, void 0, function* () {
+        const user = yield UserModel.findOne({ email: email });
+        return user;
+    })
+};
+exports.default = Query;
