@@ -3,10 +3,10 @@ import { Environment } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import { Perf } from "r3f-perf";
 import { createContext, useState } from "react";
+import Bike from "../../Components/THREE/Bike";
 import Camera from "../../Components/THREE/scene/Camera";
 import Lights from "../../Components/THREE/scene/Lights";
 import AppOrbitControls from "../../Components/THREE/scene/OrbitControls";
-import Shadow from "../../Components/THREE/scene/Shadow";
 import AppSky from "../../Components/THREE/static/Sky";
 import { SetStateType } from "../../Utils/type";
 import TestContainer from "./TestContainer";
@@ -71,15 +71,15 @@ export default function AppCanvas() {
 	 */
 	const [bikePosition, setBikePosition] = useState<Triplet>([0, 0, 0]);
 	const [bikeControlling, setBikeControlling] = useState<boolean>(false);
-	const [helpers, setHelpers] = useState<boolean>(false);
-	const [enableControls, setEnableControls] = useState<boolean>(false);
+	const [helpers, setHelpers] = useState<boolean>(true);
+	const [enableControls, setEnableControls] = useState<boolean>(true);
 	return (
 		<Canvas
 		// shadows
 		>
 			<Perf position="top-left" />
 
-			<Shadow />
+			{/* <Shadow /> */}
 			<Lights />
 			{helpers && <>
 				<axesHelper args={[10]} />
@@ -87,15 +87,15 @@ export default function AppCanvas() {
 			</>}
 
 			<AppSky />
-			<Environment
-			// files={ './env.hdr'}
+			{/* <Environment */}
+			{/* files={'./env.hdr'}
 			// background
-			>
-				{/* <color args={['#F8EEDC']} attach='background' /> */}
-				{/* <color args={['#1dc5a9']} attach='background' /> */}
-				{/* <color args={['#ff0000']} attach='background' /> */}
-				<color args={['#A2B4C2']} attach='background' />
-			</Environment>
+			> */}
+			{/* <color args={['#F8EEDC']} attach='background' /> */}
+			{/* <color args={['#1dc5a9']} attach='background' /> */}
+			{/* <color args={['#ff0000']} attach='background' /> */}
+			{/* <color args={['#A2B4C2']} attach='background' /> */}
+			{/* </Environment> */}
 
 			<ThreeContext.Provider value={{
 				bikePosition,
