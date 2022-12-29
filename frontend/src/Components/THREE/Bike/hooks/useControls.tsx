@@ -23,13 +23,14 @@ interface IControls {
 };
 
 export function useControls() {
-    const keys = useRef({ forward: false, backward: false, left: false, right: false, brake: false, reset: false })
+    const keys = useRef({ forward: false, backward: false, left: false, right: false, brake: false, reset: false, navigate: false })
     useKeyPress(['ArrowUp', 'w'], (pressed) => (keys.current.forward = pressed))
     useKeyPress(['ArrowDown', 's'], (pressed) => (keys.current.backward = pressed))
     useKeyPress(['ArrowLeft', 'a'], (pressed) => (keys.current.left = pressed))
     useKeyPress(['ArrowRight', 'd'], (pressed) => (keys.current.right = pressed))
     useKeyPress([' '], (pressed) => (keys.current.brake = pressed))
     useKeyPress(['r'], (pressed) => (keys.current.reset = pressed))
+    useKeyPress(['Enter'], (pressed) => (keys.current.navigate = pressed))
     return keys
 }
 

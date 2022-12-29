@@ -5,7 +5,11 @@ import Ground from "../../Components/THREE/static/Ground";
 import Tree1 from "../../Components/THREE/static/Trees/Tree1";
 import TestContainer from "./TestContainer";
 import Palm from "../../Components/THREE/static/Palm";
+import InteractiveBlock from "../../Components/THREE/interaction/InteractiveBlock";
 import { FC } from "react";
+import { Trail } from "@react-three/drei";
+
+import { useMyContext } from "../../Utils/useMyContext";
 
 const DebugWorld: FC<any> = ({ children, debug = false }) => {
 	return (
@@ -24,6 +28,8 @@ const DebugWorld: FC<any> = ({ children, debug = false }) => {
 
 export default function World() {
 
+    const { setTutorialModalOpen } = useMyContext();
+
 	return (
 		<Physics>
 			<DebugWorld >
@@ -37,7 +43,10 @@ export default function World() {
 				}} />
 				{/* <Palm objectProps={{
 					position: [5, 0, -5],
-				}} /> */}
+				}} />
+
+                {/* Pass in your EventHandler to handleEvent={ } */}
+                <InteractiveBlock handleEvent={setTutorialModalOpen} position={[10, 0 ,10]}/>
 			</DebugWorld>
 		</Physics >
 	)
