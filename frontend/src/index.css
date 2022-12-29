@@ -3,11 +3,99 @@
   box-sizing: border-box;
 }
 
+/*
+ *  Chinese fonts
+ */
+
+@font-face {
+  font-family: 'GenRyuMin';
+  src: url(./fonts/GenRyuMin-EL.ttc) format('truetype');
+  font-weight: 200;
+}
+
+@font-face {
+  font-family: 'GenRyuMin';
+  src: url(./fonts/GenRyuMin-L.ttc) format('truetype');
+  font-weight: 300;
+}
+
+@font-face {
+  font-family: 'GenRyuMin';
+  src: url(./fonts/GenRyuMin-R.ttc) format('truetype');
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: 'GenRyuMin';
+  src: url(./fonts/GenRyuMin-M.ttc) format('truetype');
+  font-weight: 500;
+}
+
+@font-face {
+  font-family: 'GenRyuMin';
+  src: url(./fonts/GenRyuMin-SB.ttc) format('truetype');
+  font-weight: 600;
+}
+
+@font-face {
+  font-family: 'GenRyuMin';
+  src: url(./fonts/GenRyuMin-B.ttc) format('truetype');
+  font-weight: 700;
+}
+
+@font-face {
+  font-family: 'GenRyuMin';
+  src: url(./fonts/GenRyuMin-H.ttc) format('truetype');
+  font-weight: 900;
+}
+
+
+/*
+ *  English fonts
+ */
+
+@font-face {
+  font-family: 'Playfair Display';
+  src: url(./fonts/Playfair_Display/static/PlayfairDisplay-Black.ttf) format(truetype);
+  font-weight: 900;
+}
+
+@font-face {
+  font-family: 'Playfair Display';
+  src: url(./fonts/Playfair_Display/static/PlayfairDisplay-ExtraBold.ttf) format(truetype);
+  font-weight: 800;
+}
+
+@font-face {
+  font-family: 'Playfair Display';
+  src: url(./fonts/Playfair_Display/static/PlayfairDisplay-Bold.ttf) format(truetype);
+  font-weight: 700;
+}
+
+@font-face {
+  font-family: 'Playfair Display';
+  src: url(./fonts/Playfair_Display/static/PlayfairDisplay-SemiBold.ttf) format(truetype);
+  font-weight: 600;
+}
+
+@font-face {
+  font-family: 'Playfair Display';
+  src: url(./fonts/Playfair_Display/static/PlayfairDisplay-Medium.ttf) format(truetype);
+  font-weight: 500;
+}
+
+@font-face {
+  font-family: 'Playfair Display';
+  src: url(./fonts/Playfair_Display/static/PlayfairDisplay-Regular.ttf) format(truetype);
+  font-weight: 400;
+}
+
 
 html,
 body {
   margin: 0;
   padding: 0;
+  font-family: 'Playfair Display', 'GenRyuMin';
 }
 
 #root {
