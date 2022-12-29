@@ -28,7 +28,7 @@ const DebugWorld: FC<any> = ({ children, debug = false }) => {
 
 export default function World() {
 
-    const { setTutorialModalOpen } = useMyContext();
+    const { setTutorialModalOpen, isLogin, setIsLogin } = useMyContext();
 
 	return (
 		<Physics>
@@ -46,7 +46,7 @@ export default function World() {
 				}} />
 
                 {/* Pass in your EventHandler to handleEvent={ } */}
-                <InteractiveBlock handleEvent={setTutorialModalOpen} position={[10, 0 ,10]}/>
+                <InteractiveBlock handleEvent={() => {setTutorialModalOpen(true)}} position={[10, 0 ,10]}/>
 			</DebugWorld>
 		</Physics >
 	)
