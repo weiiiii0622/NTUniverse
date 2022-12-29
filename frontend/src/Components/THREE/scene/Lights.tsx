@@ -9,11 +9,11 @@ export default function Lights() {
 
     return (
         <>
-            <ambientLight intensity={0.24} />
+            <ambientLight intensity={0.5} />
             <directionalLight
                 color={'#ffffff'}
                 position={[10, 10, 10]}
-                intensity={1}
+                intensity={0.5}
                 castShadow
                 shadow-mapSize={[2048, 2048]}
                 ref={ref}

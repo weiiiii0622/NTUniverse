@@ -61,6 +61,8 @@ const Vehicle = forwardRef((props: VehicleProps, vehicle: RefObject<Mesh>) => {
 	const [wheelRefs, wheelInfos] = useWheels(
 		{ numOfWheels, wheelProps: defaultWheelProps }) as [any[], WheelInfoOptions[]];
 
+	console.log('render vehicle');
+
 	/**
 	 * Physics
 	 * - build the whole vehicle w/ chassis, wheelRef & infos

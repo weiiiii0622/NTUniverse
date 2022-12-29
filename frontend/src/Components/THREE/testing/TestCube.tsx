@@ -1,60 +1,58 @@
-import { useSpring, animated, config } from '@react-spring/three';
-import { Trail } from '@react-three/drei';
+import { animated, config, useSpring } from '@react-spring/three';
 import { Object3DProps } from '@react-three/fiber';
-import { useControls } from 'leva';
-import { useEffect, useRef } from 'react';
-import { Mesh } from 'three';
-import Shadow from '../scene/Shadow';
+import { RefObject, useEffect, useState, useRef } from 'react';
+import { Object3D } from 'three';
+import { SetStateType } from '../../../Utils/type';
 
-export default function TestCube(props: Object3DProps) {
-    const [{ position }, api] = useSpring(
-        () => ({
-            // from: {
-            //     position: [-1, 0, -3],
-            // },
-            position: [0, 0, 0],
-            // reset: true,
-            config: {
-                mass: 1,
-                friction: 10,
-                damping: 3,
-                // frequency: 3,
-            }
-        }));
-    // console.log(springs.position, api);
+function TestCube(props: Object3DProps & {
+    isDragging: boolean, setIsDragging: SetStateType<boolean>,
+    setObjects: SetStateType<any[]>,
+}) {
 
-    // const { position } = useControls({
-    //     position: {
-    //         step: 0.1,
-    //         value: {
-    //             x: 1,
-    //             z: 1,
-    //         },
-    //         // min: {
-    //         //     x: 0,
-    //         // },
-    //     },
-    // })
+    const ref = useRef<any>(null!);
+    const { isDragging, setIsDragging, setObjects } = props;
+
+    const [scale, setScale] = useState(1);
+    const spring = useSpring({
+        scale,
+        config: config.stiff,
+    });
 
     useEffect(() => {
-        window.addEventListener('keypress', (e) => {
-            if ((e.key === 'l')) {
-                api.start({ position: [2, 2, 2] });
-            }
-            if (e.key === 'k') {
-                api.start({ position: [-1, 0, -1] });
-            }
-            return;
-        })
-    }, []);
+        if (!isDragging)
+            setScale(() => 1);
+    }, [isDragging]);
+
+    useEffect(() => {
+        if (ref!.current) {
+            setObjects((objects) => [...objects, ref.current]);
+        }
+    }, [ref]);
+
+    const onHover = () => {
+        if (isDragging) {
+            setScale(1.05);
+        }
+    }
 
     return (
         <>
             {/* @ts-ignore */}
-            <animated.mesh {...props} position={position} castShadow>
+            <animated.mesh
+                // @ts-ignore
+                ref={ref}
+                position={[0, 0, -1.6]}
+                scale={spring.scale}
+                // @ts-ignore
+                // {...(!enableControls ? bind() : null)}
+                {...props} castShadow
+                onPointerOver={onHover}
+                onPointerOut={() => setScale(1)}
+            >
                 <boxGeometry args={[3, 3, 3]} />
-                <meshStandardMaterial color={'brown'} envMapIntensity={10} />
+                <meshStandardMaterial color={'grey'} envMapIntensity={10} />
             </animated.mesh>
         </>
     )
-}
+};
+export default TestCube;
