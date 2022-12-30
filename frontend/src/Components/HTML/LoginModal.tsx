@@ -27,12 +27,12 @@ const LoginModal = () => {
                 email: info['email'],
                 first_name: info['given_name'],
                 last_name: info['family_name'],
+                nick_name: info['given_name'],
                 picture: info['picture'],
             }
         })
         console.log(user);
         await handleLoading(user.data.createUser);
-        console.log(me);
     };
 
 

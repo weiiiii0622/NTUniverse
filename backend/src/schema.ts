@@ -9,7 +9,7 @@ const Schema = gql`
     email: String!
     first_name: String!
     last_name: String!
-    nick_name: String
+    nick_name: String!
     description: String!
     picture: String!
   }
@@ -45,7 +45,7 @@ const Schema = gql`
   }
 
   type Mutation {
-    createUser(email: String!, first_name: String!, last_name: String!, picture: String!): User!
+    createUser(email: String!, first_name: String!, nick_name: String!, last_name: String!, picture: String!): User!
     updateUser(email: String!, nick_name: String! ,picture: String!, description: String!): User!
   }
 

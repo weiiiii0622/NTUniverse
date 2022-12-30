@@ -42,6 +42,15 @@ const ProfileModal = () => {
         
     };
 
+    const [form] = Form.useForm();
+    useEffect(() => {
+        console.log("Hi");
+        form.setFieldsValue({
+            nick_name: me['nick_name'],
+            description: me['description'],
+        });
+    }, [me])
+
     const normFile = (e: any) => {
         console.log('Upload event:', e);
         if (Array.isArray(e)) {
@@ -94,17 +103,14 @@ const ProfileModal = () => {
             >
             <>
                 <Form
+                    form={form}
                     labelCol={{ offset: 5}}
                     wrapperCol={{ span: 20, offset: 0}}
                     layout="vertical"
                     onFinish={onFinish}
                     onFinishFailed={onFinishFailed}
                     initialValues={{
-                        ["名"]: me['last_name'],
-                        ["姓"]: me['first_name'],
-                        ["暱稱"]: me['nick_name'],
-                        ["Email"]: me['email'],
-                        ["Description"]: me['description'], 
+                        nick_name: "Hi"
                     }}
                     //onValuesChange={onFormLayoutChange}
                     //disabled={componentDisabled}
@@ -125,23 +131,23 @@ const ProfileModal = () => {
                         <Input.Group>
                             <Row gutter={8}>
                                 <Col span={8}>
-                                    <Input name="名" disabled={true} placeholder={me['first_name']}/>
+                                    <Input name="名" disabled={true} value={me['first_name']}/>
                                 </Col>
                                 <Col span={8}>
-                                <Input name="姓" disabled={true} placeholder={me['last_name']}/>
+                                <Input name="姓" disabled={true} value={me['last_name']}/>
                                 </Col>
                             </Row>
                         </Input.Group>
                     </Form.Item>
-                    <Form.Item label="Email" wrapperCol={{span:15}}>
-                        <Input name="Email" disabled={true} placeholder={me['email']}/>
+                    <Form.Item label="Email"  wrapperCol={{span:15}}>
+                        <Input name="Email" disabled={true} value={me['email']}/>
                     </Form.Item>
-                    <Form.Item label="暱稱" wrapperCol={{span:20}}>
-                        <Input name="暱稱" placeholder='輸入你的暱稱'/>
+                    <Form.Item name="nick_name" label="暱稱"  wrapperCol={{span:20}} >
+                        <Input placeholder={"幫自己取個暱稱吧"}/>
                     </Form.Item>
 
                     <Form.Item
-                        name="Description"
+                        name="description"
                         label="想說的話"
                         //rules={[{ required: false, message: 'Please input Intro' }]}
                     >

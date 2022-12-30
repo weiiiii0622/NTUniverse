@@ -9,7 +9,7 @@ interface IMutation {
     // messages: Types.ObjectId[],
 }
 
-const validateUser:any = async (UserModel: any, email: String, first_name: String, last_name: String, picture: String, nick_name: String, description: String) => {
+const validateUser:any = async (UserModel: any, email: String, first_name: String, last_name: String, nick_name: String, picture: String, description: String) => {
     let usr = await UserModel.findOne({ email });
     console.log(usr);
     if(!usr){
@@ -24,9 +24,9 @@ const validateUser:any = async (UserModel: any, email: String, first_name: Strin
 }
   
 const Mutation:IMutation = {
-    createUser: async (parent, { email, first_name, last_name, picture }, { UserModel }) => {
+    createUser: async (parent, { email, first_name, last_name, nick_name, picture }, { UserModel }) => {
 
-        let usr = await validateUser(UserModel, email, first_name, last_name, picture, "", "");
+        let usr = await validateUser(UserModel, email, first_name, last_name, nick_name, picture, "", "");
 
         return usr;
     },

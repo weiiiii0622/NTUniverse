@@ -10,7 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = void 0;
-const validateUser = (UserModel, email, first_name, last_name, picture, nick_name, description) => __awaiter(void 0, void 0, void 0, function* () {
+const validateUser = (UserModel, email, first_name, last_name, nick_name, picture, description) => __awaiter(void 0, void 0, void 0, function* () {
     let usr = yield UserModel.findOne({ email });
     console.log(usr);
     if (!usr) {
@@ -24,8 +24,8 @@ const validateUser = (UserModel, email, first_name, last_name, picture, nick_nam
     return usr;
 });
 const Mutation = {
-    createUser: (parent, { email, first_name, last_name, picture }, { UserModel }) => __awaiter(void 0, void 0, void 0, function* () {
-        let usr = yield validateUser(UserModel, email, first_name, last_name, picture, "", "");
+    createUser: (parent, { email, first_name, last_name, nick_name, picture }, { UserModel }) => __awaiter(void 0, void 0, void 0, function* () {
+        let usr = yield validateUser(UserModel, email, first_name, last_name, nick_name, picture, "", "");
         return usr;
     }),
     updateUser: (parent, { email, nick_name, picture, description }, { UserModel }) => __awaiter(void 0, void 0, void 0, function* () {
