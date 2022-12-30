@@ -12,13 +12,15 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = void 0;
 const validateUser = (UserModel, email, first_name, last_name, picture) => __awaiter(void 0, void 0, void 0, function* () {
     let usr = yield UserModel.findOne({ email });
+    console.log(usr);
     if (!usr) {
-        usr = yield new UserModel({ email, first_name, last_name, picture });
+        usr = yield new UserModel({ email, first_name, last_name, picture }).save();
         console.log(`user ${email} created`);
     }
     else {
         console.log(`user ${email} found`);
     }
+    console.log(usr);
     return usr;
 });
 const Mutation = {

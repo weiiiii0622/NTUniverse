@@ -10,14 +10,15 @@ interface IMutation {
 
 const validateUser:any = async (UserModel: any, email: String, first_name: String, last_name: String, picture: String) => {
     let usr = await UserModel.findOne({ email });
-
+    console.log(usr);
     if(!usr){
-        usr = await new UserModel({ email, first_name, last_name, picture});
+        usr = await new UserModel({ email, first_name, last_name, picture}).save();
         console.log(`user ${email} created`);
     }
     else{
         console.log(`user ${email} found`);
     }
+    console.log(usr);
     return usr;
 }
   

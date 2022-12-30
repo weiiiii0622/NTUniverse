@@ -15,13 +15,13 @@ async function mongoConnect() {
   mongoose.connection.on('error',
     console.error.bind(console, 'connection error:'));
   // const testData = new UserModel({
-  //   id: '1234',
-  //   name: 'test',
+  //   first_name: 'test',
+  //   last_name: 'Chen',
   //   email: 'ntuniverse@gmail.com',
   //   picture: 'pi4c',
   // });
   //await testData.save();
-  //console.log('add one');
+  console.log('add one');
   
 }
 
