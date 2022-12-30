@@ -1,5 +1,5 @@
 import { Triplet } from "@react-three/cannon";
-import { useState, useEffect, createContext, useContext } from "react";
+import { useState, useEffect, createContext, useContext, useRef } from "react";
 import { useMutation } from "@apollo/client";
 
 import { CREATE_USER_MUTATION, UPDATE_USER_MUTATION } from "../graphql";
@@ -51,7 +51,7 @@ const MyProvider = (props: any) => {
      */
 
     // TutorialModal
-    const [tutorialModalOpen, setTutorialModalOpen] = useState(false);
+    const [tutorialModalOpen, setTutorialModalOpen] = useState(true);
 
     // ProfileModal
     const [profileModalOpen, setProfileModalOpen] = useState(false);
