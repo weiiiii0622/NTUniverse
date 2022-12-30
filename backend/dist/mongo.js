@@ -12,9 +12,27 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const server_1 = __importDefault(require("./server"));
-const mongo_1 = __importDefault(require("./mongo"));
-(() => __awaiter(void 0, void 0, void 0, function* () { return console.log('hello world!'); }))();
-(0, mongo_1.default)();
-const PORT = process.env.PORT || 4001;
-server_1.default.listen(PORT, () => { console.log(`listening on PORT ${PORT}`); });
+const mongoose_1 = __importDefault(require("mongoose"));
+require("dotenv-defaults/config");
+const user_1 = __importDefault(require("./models/user"));
+/* handle connection to mongodb */
+function mongoConnect() {
+    return __awaiter(this, void 0, void 0, function* () {
+        require('dotenv-defaults').config();
+        if (!process.env.MONGO_URL) {
+            console.error('Missing MONGO_URL!!!');
+            process.exit(1);
+        }
+        yield mongoose_1.default.connect(`${process.env.MONGO_URL}`)
+            .then((res) => console.log("mongo db connection created"));
+        const testData = new user_1.default({
+            id: '1234',
+            name: 'test',
+            email: 'ntuniverse@gmail.com',
+            picture: 'pi4c',
+        });
+        yield testData.save();
+        console.log('add one');
+    });
+}
+exports.default = mongoConnect;
