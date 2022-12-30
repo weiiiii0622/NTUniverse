@@ -75,9 +75,10 @@ export default function AppCanvas() {
 	const [enableControls, setEnableControls] = useState<boolean>(true);
 	return (
 		<Canvas
+			style={{position: 'unset'}}
 		// shadows
 		>
-			<Perf position="top-left" />
+			<Perf position="bottom-right" />
 
 			{/* <Shadow /> */}
 			<Lights />

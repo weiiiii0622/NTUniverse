@@ -13,7 +13,12 @@ const TutorialModal = () => {
                 centered
                 open={tutorialModalOpen}
                 onOk={() => setTutorialModalOpen(false)}
-                onCancel={() => setTutorialModalOpen(false)}
+                //onCancel={() => setTutorialModalOpen(false)}
+                footer={[
+                    <Button key="submit" type="primary" onClick={() => setTutorialModalOpen(false)}>
+                      Ok
+                    </Button>,
+                ]}
             >
                 <p>Press W S A D to control the bike.</p>
                 

@@ -8,6 +8,8 @@ import { Material, RepeatWrapping, Texture } from "three";
 import { useControls } from "leva";
 import { animated, config, easings, useSpring } from "@react-spring/three";
 import { Modal } from "antd";
+import { EffectComposer } from "@react-three/postprocessing";
+import { Bloom } from "@react-three/postprocessing";
 
 export default function TestContainer() {
 
@@ -61,6 +63,12 @@ export default function TestContainer() {
 
     return (
         <>
+            <EffectComposer>
+                <Bloom
+                    mipmapBlur
+                    intensity={0.5}
+                />
+            </EffectComposer>
             {/* <Float
                 // position={[0, 0, 0]}
                 // rotation={[Math.PI / 3.5, 0, 0]}
@@ -70,19 +78,26 @@ export default function TestContainer() {
                 speed={5}
             > */}
             {/*@ts-ignore*/}
-            <C {...spring}>
+            <C
+                {...spring}
+            >
                 <Text3D font={'/fonts/burnfont-1.2.json'} bevelEnabled bevelSize={0.05}>
                     {/* <meshNormalMaterial /> */}
-                    <animated.meshStandardMaterial {...spring} transparent color={"#e0e272"} roughness={1} />
+                    <animated.meshStandardMaterial
+                        // {...spring}
+                        transparent
+                        emissive={'#d3d300'}
+                        emissiveIntensity={3}
+                        color={"#d7c86b"}
+                        roughness={1}
+                        toneMapped={false}
+                    />
                     ！
                 </Text3D>
             </C>
             {/* </Float> */}
 
             <Html>
-                <Modal
-                    open={true}
-                    bodyStyle={{ backgroundColor: 'red', backdropFilter: 'blur' }} />
             </Html>
 
             <Sparkles

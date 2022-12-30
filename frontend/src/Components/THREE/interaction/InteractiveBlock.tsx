@@ -20,6 +20,7 @@ const InteractiveBlock = (props: any) => {
     const args = [4, 0.2, 3, 4, Math.PI*2];
 
     const ref = useRef(null!);
+    const { isLogin } = useMyContext();
     const { bikePosition } = useContext(ThreeContext);
     const [isActive, setIsActive] = useState(false);
 
@@ -91,7 +92,7 @@ const InteractiveBlock = (props: any) => {
     useEffect(() => {
         //console.log("Entered");
         
-        if(isActive && isEvent) props.handleEvent(true);
+        if(isActive && isEvent) {props.handleEvent(); console.log(isLogin)}
         
     }, [isEvent])
 
