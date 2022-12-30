@@ -1,65 +1,53 @@
 
-import { forwardRef, useEffect, useRef } from 'react'
-import { useGLTF } from '@react-three/drei'
-import { CylinderArgs, Triplet, useCompoundBody, useCylinder } from '@react-three/cannon'
+import { forwardRef } from 'react'
+import { CylinderArgs, Triplet, useCompoundBody } from '@react-three/cannon'
 import ModelFBX from '../models/ModelFBX';
-import { useFrame } from '@react-three/fiber';
-import { Euler, Quaternion, Vector3 } from 'three';
 
-const Wheel = forwardRef
-	<any, {
-		args: CylinderArgs,
-		wheelProps: any,
-		isBack: boolean,
-		isPedals: boolean,
-		arcadeDirection: 'left' | 'right' | 'front',
-	}>(
-		({
+
+interface WheelProps {
+	mass: number,
+	args: CylinderArgs,
+	display: 'back' | 'pedal' | 'none',
+};
+
+const Wheel = forwardRef<any, WheelProps>(({ mass, args, display }, ref) => {
+
+	const [, api] = useCompoundBody(() => ({
+		mass,
+		type: 'Dynamic',
+		material: 'wheel',
+		collisionFilterGroup: 0,
+		shapes: [{
+			type: 'Cylinder',
+			rotation: [0, 0, Math.PI / 2],
 			args,
-			wheelProps,
-			isBack,
-			arcadeDirection,
-			isPedals,
-			...props }, ref) => {
+		}],
+	}), ref);
 
-			const mass = 10;
+	const backProps = {
+		scale: 0.02,
+		position: [0, 0, 0] as Triplet,
+	};
 
-			const [, api] = useCompoundBody(() => ({
-				mass,
-				type: 'Dynamic',
-				material: 'wheel',
-				collisionFilterGroup: 0,
-				shapes: [{
-					type: 'Cylinder',
-					rotation: [0, 0, Math.PI / 2],
-					args,
-				}],
-				...props
-			}), ref);
+	return (
+		<>
+			{/* @ts-ignore */}
+			<group ref={ref} api={api} name={'wheel'}>
+				{display == 'back' ?
+					<ModelFBX filePath="./resources/models/bike/backWheel.fbx"
+						objectProps={{ ...backProps }}
+					/>
 
-			const { width, back, height } = wheelProps;
+					: display == 'pedal' ?
+						<ModelFBX filePath="./resources/models/bike/pedals.fbx"
+							objectProps={{ ...backProps }}
+						/>
 
-			const backProps = {
-				scale: 0.02,
-				position: [0, 0, 0] as Triplet,
-			};
-
-			return (
-				<>
-					{/* @ts-ignore */}
-					<group ref={ref} api={api}>
-						{isBack &&
-							<ModelFBX filePath="./resources/models/bike/backWheel.fbx"
-								objectProps={{ ...backProps }}
-							/>}
-						{isPedals &&
-							<ModelFBX filePath="./resources/models/bike/pedals.fbx"
-								objectProps={{ ...backProps }}
-							/>
-						}
-					</group >
-				</>
-			)
-		})
+						: null
+				}
+			</group >
+		</>
+	)
+})
 
 export default Wheel

@@ -1,5 +1,5 @@
-import { Triplet } from "@react-three/cannon";
-import { Environment } from "@react-three/drei";
+import { Physics, Triplet } from "@react-three/cannon";
+import { AdaptiveDpr, AdaptiveEvents, Environment } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import { Perf } from "r3f-perf";
 import { createContext, useState } from "react";
@@ -71,11 +71,11 @@ export default function AppCanvas() {
 	 */
 	const [bikePosition, setBikePosition] = useState<Triplet>([0, 0, 0]);
 	const [bikeControlling, setBikeControlling] = useState<boolean>(false);
-	const [helpers, setHelpers] = useState<boolean>(true);
+	const [helpers, setHelpers] = useState<boolean>(false);
 	const [enableControls, setEnableControls] = useState<boolean>(true);
 	return (
 		<Canvas
-			style={{position: 'unset'}}
+			style={{ position: 'unset' }}
 		// shadows
 		>
 			<Perf position="bottom-right" />
@@ -98,6 +98,10 @@ export default function AppCanvas() {
 			{/* <color args={['#A2B4C2']} attach='background' /> */}
 			{/* </Environment> */}
 
+			<Environment background>
+				<color args={['#0b1f2c']} attach='background' />
+			</Environment>
+
 			<ThreeContext.Provider value={{
 				bikePosition,
 				setBikePosition,
@@ -108,13 +112,16 @@ export default function AppCanvas() {
 				enableControls,
 				setEnableControls,
 			}}>
+				<Physics>
+					<World />
+					{/* <TestContainer /> */}
+				</Physics>
 				<Camera />
 				<AppOrbitControls enabled={enableControls} />
 
-				<World />
-				<TestContainer />
-
 			</ThreeContext.Provider>
+			<AdaptiveDpr pixelated />
+			<AdaptiveEvents />
 		</Canvas >
 	)
 }

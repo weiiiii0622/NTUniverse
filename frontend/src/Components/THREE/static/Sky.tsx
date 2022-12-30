@@ -6,7 +6,7 @@ import { useState } from "react";
 export default function AppSky() {
 
 
-    const [inclination, setInclination] = useState(1);
+    const [inclination, setInclination] = useState(0.5);
     // useFrame(() => {
     //     setInclination((a) => a + 0.0005);
     // })

@@ -1,7 +1,6 @@
 
-import React, { forwardRef, RefObject, useContext, useEffect, useRef, useState } from 'react'
-import { Object3DProps, useFrame } from '@react-three/fiber'
-import { CylinderArgs, Debug, Triplet, useBox, useRaycastVehicle, WheelInfoOptions } from '@react-three/cannon'
+import { forwardRef, RefObject, useContext, useEffect, useRef, useState } from 'react'
+import { CylinderArgs, Triplet, useRaycastVehicle, WheelInfoOptions } from '@react-three/cannon'
 import { useControls } from './hooks/useControls'
 import Wheel from './Wheel+Pedals'
 import BikeMesh from './BikeMesh'
@@ -11,6 +10,7 @@ import { BikeProps } from '.'
 import FrontWheel from './FrontWheel'
 import { ThreeContext } from '../../../Containers/THREE/Canvas'
 import useHandleControls from './hooks/useHandleControls'
+import useSound from './hooks/useSound'
 
 
 /**
@@ -25,19 +25,22 @@ const defaultChassisProps = {
 /**
  * Wheel info
  */
-const defaultWheelProps = {
-	radius: 0.66,
+const radius = 0.66;
+const wheelPosition = {
+	radius,
 	width: 1.2,
 	height: -0.008,
 	front: 1.23,
 	back: -1.03,
-	args: [0.66, 0.66, 0.35, 16] as CylinderArgs,
 };
-const { radius } = defaultWheelProps;
+const wheelProps = {
+	mass: 10,
+	args: [radius, radius, 0.35, 16] as CylinderArgs,
+}
 
-const numOfWheels = 6;  // [F, F, M, B, B, B]
-const frontIndex = [0, 1];
-const backIndex = [3, 4, 5];
+const numOfWheels = 5;  // [F, M, B, B, B]
+const frontIndex = [0];
+const backIndex = [2, 3, 4];
 
 /**
  * Justify
@@ -51,17 +54,13 @@ type ArcadeDirection = 'left' | 'right' | 'front';
 /**
  * Component
  */
-interface VehicleProps extends BikeProps {
-	// objectProps?: Object3DProps,
-};
+interface VehicleProps extends BikeProps { };
 const Vehicle = forwardRef((props: VehicleProps, vehicle: RefObject<Mesh>) => {
 	const { objectProps } = props;
 
 	const chassis = useRef<any>(null!)
 	const [wheelRefs, wheelInfos] = useWheels(
-		{ numOfWheels, wheelProps: defaultWheelProps }) as [any[], WheelInfoOptions[]];
-
-	//console.log('render vehicle');
+		{ numOfWheels, wheelPosition }) as [any[], WheelInfoOptions[]];
 
 	/**
 	 * Physics
@@ -86,6 +85,7 @@ const Vehicle = forwardRef((props: VehicleProps, vehicle: RefObject<Mesh>) => {
 	const controls = useControls()
 	useHandleControls({
 		controls, chassis, backIndex, frontIndex, api, setArcadeDirection,
+		numOfWheels,
 		objectProps: { ...objectProps, position: justifyPosition(objectProps.position) },
 	})
 
@@ -95,7 +95,8 @@ const Vehicle = forwardRef((props: VehicleProps, vehicle: RefObject<Mesh>) => {
 	const [frontPosition, setFrontPosition] = useState<Triplet>([0, 0, 0]);
 	const [frontRotation, setFrontRotation] = useState<Triplet>([0, 0, 0]);
 	const [angularVelocity, setAngularVelocity] = useState<number>(0);
-	const delta: Triplet = [0, defaultWheelProps.height - 0.24, defaultWheelProps.front];
+	const [speed, setSpeed] = useState<number>();
+	const delta: Triplet = [0, wheelPosition.height - 0.24, wheelPosition.front];
 	useEffect(() => {
 		return chassis!.current?.api.position.subscribe((r: Triplet) => setFrontPosition(r));
 	}, [chassis]);
@@ -105,9 +106,11 @@ const Vehicle = forwardRef((props: VehicleProps, vehicle: RefObject<Mesh>) => {
 	useEffect(() => {
 		return chassis!.current?.api.velocity.subscribe((v: Triplet) => {
 			const norm = v.reduce((prev, cur) => (prev + cur * cur), 0)
-			setAngularVelocity(Math.sqrt(norm));
+			setSpeed(norm);
+			setAngularVelocity(Math.sqrt(norm) / radius);
 		});
 	}, [chassis]);
+	useSound({ speed });
 
 
 	/**
@@ -129,7 +132,6 @@ const Vehicle = forwardRef((props: VehicleProps, vehicle: RefObject<Mesh>) => {
 				ref={chassis}
 				position={justifyPosition(objectProps.position)}
 				rotation={objectProps.rotation}
-				justifyValue={justifyValue}
 				arcadeDirection={arcadeDirection}
 				{...defaultChassisProps} />
 			{
@@ -137,11 +139,9 @@ const Vehicle = forwardRef((props: VehicleProps, vehicle: RefObject<Mesh>) => {
 					<Wheel
 						key={'wheel' + i}
 						ref={ref}
-						args={defaultWheelProps.args}
-						wheelProps={defaultWheelProps}
-						isBack={i == 4}
-						isPedals={i == 2}
-						arcadeDirection={arcadeDirection} />
+						{...wheelProps}
+						display={i == 3 ? 'back' : i == 1 ? 'pedal' : 'none'}
+					/>
 				))
 			}
 			<FrontWheel

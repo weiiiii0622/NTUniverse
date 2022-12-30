@@ -53,5 +53,5 @@ const Schema = gql`
 
   # }
 `;
-export default Schema; 
+export default Schema;
 //export this Schema so we can use it in our project

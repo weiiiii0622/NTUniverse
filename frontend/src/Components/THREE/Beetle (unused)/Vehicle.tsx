@@ -36,7 +36,8 @@ function TestVehicle({ radius = 0.66, width = 1.2, height = -0.008, front = 1.23
     const wheelInfo3 = { ...wheelInfo, isFrontWheel: false, chassisConnectionPointLocal: [-width / 2, height, back] }
     const wheelInfo4 = { ...wheelInfo, isFrontWheel: false, chassisConnectionPointLocal: [width / 2, height, back] }
 
-    const [vehicle, api] = useRaycastVehicle(() => ({
+    const vehicle = useRef();
+    const [, api] = useRaycastVehicle(() => ({
         chassisBody: chassis,
         wheels: [wheel1, wheel2, wheel3, wheel4],
         wheelInfos: [wheelInfo1, wheelInfo2, wheelInfo3, wheelInfo4],
@@ -44,9 +45,9 @@ function TestVehicle({ radius = 0.66, width = 1.2, height = -0.008, front = 1.23
         indexRightAxis: 0,
         indexUpAxis: 1,
         position: [0, 0.5, 0],
-    }))
+    }), vehicle);
 
-        useFrame(() => {
+    useFrame(() => {
         const { forward, backward, left, right, brake, reset } = controls.current
         for (let e = 2; e < 4; e++) api.applyEngineForce(forward || backward ? force * (forward && !backward ? -1 : 1) : 0, e)
         for (let s = 0; s < 2; s++) api.setSteeringValue(left || right ? steer * (left && !right ? 1 : -1) : 0, s)

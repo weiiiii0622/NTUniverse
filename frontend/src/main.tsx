@@ -1,6 +1,6 @@
 import { PublicApi } from '@react-three/cannon'
 import React from 'react'
-import ReactDOM from 'react-dom/client'
+  import ReactDOM from 'react-dom/client'
 import dotenv from 'dotenv-defaults';
 import { ApolloClient, InMemoryCache, ApolloProvider, split, HttpLink } from '@apollo/client';
 import { getMainDefinition } from '@apollo/client/utilities';

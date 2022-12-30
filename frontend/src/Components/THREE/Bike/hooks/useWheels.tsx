@@ -17,7 +17,7 @@ const wheelInfo = {
     frictionSlip: 50,
 }
 
-interface IWheelProps {
+interface IWheelPosition {
     radius: number,
     front: number,
     back: number,
@@ -27,20 +27,19 @@ interface IWheelProps {
 
 interface IProps {
     numOfWheels: number,
-    wheelProps: IWheelProps,
+    wheelPosition: IWheelPosition,
 };
 
 export default function useWheels(props: IProps): [Ref<Mesh>[], WheelInfoOptions[]] {
 
     const { numOfWheels,
-        wheelProps: { radius, front, back, width, height },
+        wheelPosition: { radius, front, back, width, height },
     } = props;
 
     const wheelRefs = Array.from({ length: numOfWheels }, (_, __) => useRef<Mesh>());
 
     const wheelInfosUtils = [
-        { isFrontWheel: true, chassisConnectionPointLocal: [width / 2, height, front] },
-        { isFrontWheel: true, chassisConnectionPointLocal: [-width / 2, height, front] },
+        { isFrontWheel: true, chassisConnectionPointLocal: [0, height, front] },
         // Pedals
         { isFrontWheel: false, chassisConnectionPointLocal: [0, height, -0.15] },
         { isFrontWheel: false, chassisConnectionPointLocal: [width / 2, height, back] },
@@ -48,6 +47,7 @@ export default function useWheels(props: IProps): [Ref<Mesh>[], WheelInfoOptions
         { isFrontWheel: false, chassisConnectionPointLocal: [-width / 2, height, back] },
     ]
     const wheelInfos = wheelInfosUtils.map(info => ({
+        radius,
         ...wheelInfo,
         ...info,
     }))

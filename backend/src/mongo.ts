@@ -3,7 +3,7 @@ import dotenv from 'dotenv-defaults';
 import UserModel from './models/user';
 
 /* handle connection to mongodb */
-async function mongoConnect() {  
+async function mongoConnect() {
   dotenv.config();
   if (!process.env.MONGO_URL) {
     console.error('Missing MONGO_URL!!!');
@@ -23,8 +23,13 @@ async function mongoConnect() {
   //   picture: 'pi4c',
   // });
   //await testData.save();
+<<<<<<< HEAD
+  console.log('add one');
+
+=======
   // console.log('add one');
   
+>>>>>>> 0eeeab2df40265519f83d33d19f863e3180ec7ef
 }
 
 export default mongoConnect;
