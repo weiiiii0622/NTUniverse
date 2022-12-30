@@ -1,5 +1,5 @@
 import { Triplet } from "@react-three/cannon";
-import { useState, useEffect, createContext, useContext } from "react";
+import { useState, useEffect, createContext, useContext, useRef } from "react";
 import { useMutation } from "@apollo/client";
 
 import { CREATE_USER_MUTATION } from "../graphql";
@@ -35,7 +35,7 @@ const MyContext = createContext<IContext>({
 const MyProvider = (props: any) => {
 
     // TutorialModal
-    const [tutorialModalOpen, setTutorialModalOpen] = useState(false);
+    const [tutorialModalOpen, setTutorialModalOpen] = useState(true);
 
     // MySider
     const [isLogin, setIsLogin] = useState(false);
