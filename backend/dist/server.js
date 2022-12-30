@@ -21,6 +21,7 @@ const user_1 = __importDefault(require("./models/user"));
 const Query_1 = __importDefault(require("./resolvers/Query"));
 const Mutation_1 = __importDefault(require("./resolvers/Mutation"));
 // import Subscription from './resolvers/Subscription';
+const Date_1 = __importDefault(require("./resolvers/Date"));
 const pubsub = (0, graphql_yoga_1.createPubSub)();
 const yoga = (0, graphql_yoga_1.createYoga)({
     schema: (0, graphql_yoga_1.createSchema)({
@@ -29,6 +30,7 @@ const yoga = (0, graphql_yoga_1.createYoga)({
             Query: Query_1.default,
             Mutation: Mutation_1.default,
             //   Subscription,
+            Date: Date_1.default,
         }),
     }),
     context: ({

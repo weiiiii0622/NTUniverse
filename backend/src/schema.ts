@@ -1,6 +1,9 @@
 import { gql } from 'apollo-server-express';
 
+
 const Schema = gql`
+  scalar Date
+
   type User {
     id: ID!
     email: String!
@@ -18,7 +21,7 @@ const Schema = gql`
   type Message {
     chatRoomName: String!
     sender: User!
-    time: String! #先用 string 到時候再改
+    time: Date!
   }
   
   type Board {
@@ -30,7 +33,7 @@ const Schema = gql`
     announcer: User!
     title: String!
     text: String!
-    time: String! #先用 string 到時候再改
+    time: Date!
     tags: [String!]
   }
 

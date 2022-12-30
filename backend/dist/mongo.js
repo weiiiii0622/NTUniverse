@@ -22,6 +22,7 @@ function mongoConnect() {
             console.error('Missing MONGO_URL!!!');
             process.exit(1);
         }
+        // console.log(`${process.env.MONGO_URL}`);
         yield mongoose_1.default.connect(`${process.env.MONGO_URL}`)
             .then((res) => console.log("mongo db connection created"));
         mongoose_1.default.connection.on('error', console.error.bind(console, 'connection error:'));
@@ -32,7 +33,7 @@ function mongoConnect() {
         //   picture: 'pi4c',
         // });
         //await testData.save();
-        console.log('add one');
+        // console.log('add one');
     });
 }
 exports.default = mongoConnect;
