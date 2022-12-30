@@ -9,6 +9,8 @@ async function mongoConnect() {
     console.error('Missing MONGO_URL!!!');
     process.exit(1);
   }
+  // console.log(`${process.env.MONGO_URL}`);
+  
 
   await mongoose.connect(`${process.env.MONGO_URL}`)
     .then((res) => console.log("mongo db connection created"));
@@ -21,8 +23,13 @@ async function mongoConnect() {
   //   picture: 'pi4c',
   // });
   //await testData.save();
+<<<<<<< HEAD
   console.log('add one');
 
+=======
+  // console.log('add one');
+  
+>>>>>>> 0eeeab2df40265519f83d33d19f863e3180ec7ef
 }
 
 export default mongoConnect;

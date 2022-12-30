@@ -2,11 +2,15 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const apollo_server_express_1 = require("apollo-server-express");
 const Schema = (0, apollo_server_express_1.gql) `
+  scalar Date
+
   type User {
     id: ID!
     email: String!
     first_name: String!
     last_name: String!
+    nick_name: String!
+    description: String!
     picture: String!
   }
 
@@ -19,7 +23,7 @@ const Schema = (0, apollo_server_express_1.gql) `
   type Message {
     chatRoomName: String!
     sender: User!
-    time: String! #先用 string 到時候再改
+    time: Date!
   }
   
   type Board {
@@ -31,7 +35,7 @@ const Schema = (0, apollo_server_express_1.gql) `
     announcer: User!
     title: String!
     text: String!
-    time: String! #先用 string 到時候再改
+    time: Date!
     tags: [String!]
   }
 
@@ -41,7 +45,8 @@ const Schema = (0, apollo_server_express_1.gql) `
   }
 
   type Mutation {
-    createUser(email: String!, first_name: String!, last_name: String!, picture: String!): User!
+    createUser(email: String!, first_name: String!, nick_name: String!, last_name: String!, picture: String!): User!
+    updateUser(email: String!, nick_name: String! ,picture: String!, description: String!): User!
   }
 
   # type Subscription {

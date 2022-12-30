@@ -7,13 +7,12 @@ import { GoogleLogin, googleLogout } from '@react-oauth/google';
 import jwt_decode from 'jwt-decode'
 
 import { useMyContext } from '../../Utils/useMyContext';
-import { CREATE_USER_MUTATION } from '../../graphql/mutation';
 
 
 
 
 const LoginModal = () => {
-    const { loginModalOpen, setLoginModalOpen, isLogin, setIsLogin, login } = useMyContext();
+    const { loginModalOpen, setLoginModalOpen, isLogin, setIsLogin, login, me, setMe } = useMyContext();
     const [ loading, setLoading ] = useState(false);
 
     const clientId = '400363191853-gjef8qplkajcu781n791f6eonffkcfq3.apps.googleusercontent.com';
@@ -28,17 +27,25 @@ const LoginModal = () => {
                 email: info['email'],
                 first_name: info['given_name'],
                 last_name: info['family_name'],
+                nick_name: info['given_name'],
                 picture: info['picture'],
             }
         })
         console.log(user);
         await handleLoading(user.data.createUser);
-        
     };
 
 
-    const handleLoading =  async ( { first_name } ) => {
+    const handleLoading =  async ( { first_name, last_name, nick_name, email, picture, description } ) => {
         //setModalText('The modal will be closed after two seconds');
+        setMe({
+            first_name,
+            last_name,
+            nick_name, 
+            email, 
+            picture, 
+            description
+        })
         setLoading(true);
         setTimeout(() => {
           setLoginModalOpen(false);
