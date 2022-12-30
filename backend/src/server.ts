@@ -8,6 +8,7 @@ import UserModel from './models/user';
 import Query from './resolvers/Query';
 import Mutation from './resolvers/Mutation';
 // import Subscription from './resolvers/Subscription';
+import dateScalar from './resolvers/Date';
 
 const pubsub = createPubSub();
 
@@ -18,6 +19,7 @@ const yoga = createYoga<any>({
       Query,
       Mutation,
     //   Subscription,
+      Date: dateScalar,
     }),
   }),
   context: <any>({
