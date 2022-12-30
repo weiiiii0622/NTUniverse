@@ -1,30 +1,30 @@
-import { PublicApi, Triplet, useBox } from "@react-three/cannon";
-import { Object3DProps, ReactThreeFiber, useFrame } from "@react-three/fiber";
+import { Triplet, useBox } from "@react-three/cannon";
 import React, { RefObject, useEffect, useRef } from "react";
-import { Euler, Mesh, Object3D } from "three";
+import { Mesh } from "three";
 import ModelFBX from "../models/ModelFBX";
 import { useSpring, animated, config } from '@react-spring/three';
+import { ArcadeDirection } from "./Vehicle";
 
 interface BikeMeshProps {
 	args: Triplet,
 	mass: number,
 	position?: Triplet,
 	rotation?: Triplet,
-	justifyValue: number,
 	// left?: boolean,
 	// right?: boolean,
-	arcadeDirection: 'front' | 'left' | 'right',
+	arcadeDirection: ArcadeDirection,
 }
 
 const BikeMesh = React.forwardRef<any, BikeMeshProps>(
-	({ args, mass, position, rotation, justifyValue = 0, arcadeDirection }, ref: RefObject<Mesh>) => {
+	({ args, mass, position, rotation, arcadeDirection }, ref: RefObject<Mesh>) => {
 		const [, api] = useBox(() => ({
 			mass,
 			args,
 			position,
 			rotation,
 			allowSleep: false,
-			onCollide: (e: any) => console.log('bonk', e.body.userData),
+			collisionFilterGroup: 0,
+			onCollide: (e: any) => console.log('bonk', e),
 		}), ref);
 
 		const delta = -0.125;

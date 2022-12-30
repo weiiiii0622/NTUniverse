@@ -1,15 +1,18 @@
 import { gql } from 'apollo-server-express';
 
+
 const Schema = gql`
   type User {
     id: ID!
-    name: String!
-    picture: String!  #先用 string 到時候再改
+    email: String!
+    first_name: String!
+    last_name: String!
+    picture: String!
   }
 
   type ChatRoom {
-    users: [User!]!
     chatRoomName: String!
+    users: [User!]!
     messages: [Message!]
   }
 
@@ -33,16 +36,17 @@ const Schema = gql`
   }
 
   type Query {
-  
+    user(name: String!): User!
+    userByEmail(email: String!): User!
   }
 
   type Mutation {
-
+    createUser(email: String!, first_name: String!, last_name: String!, picture: String!): User!
   }
 
-  type Subscription {
+  # type Subscription {
 
-  }
+  # }
 `;
-export default Schema; 
+export default Schema;
 //export this Schema so we can use it in our project

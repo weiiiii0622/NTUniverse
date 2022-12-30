@@ -1,4 +1,4 @@
-import { Triplet } from "@react-three/cannon";
+import { Physics, Triplet } from "@react-three/cannon";
 import { AdaptiveDpr, AdaptiveEvents, Environment } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import { Perf } from "r3f-perf";
@@ -75,7 +75,7 @@ export default function AppCanvas() {
 	const [enableControls, setEnableControls] = useState<boolean>(true);
 	return (
 		<Canvas
-			style={{position: 'unset'}}
+			style={{ position: 'unset' }}
 		// shadows
 		>
 			<Perf position="bottom-right" />
@@ -87,7 +87,7 @@ export default function AppCanvas() {
 				<gridHelper />
 			</>}
 
-			{/* <AppSky /> */}
+			<AppSky />
 			{/* <Environment */}
 			{/* files={'./env.hdr'}
 			// background
@@ -112,11 +112,12 @@ export default function AppCanvas() {
 				enableControls,
 				setEnableControls,
 			}}>
+				<Physics>
+					<World />
+					{/* <TestContainer /> */}
+				</Physics>
 				<Camera />
 				<AppOrbitControls enabled={enableControls} />
-
-				<World />
-				<TestContainer />
 
 			</ThreeContext.Provider>
 			<AdaptiveDpr pixelated />

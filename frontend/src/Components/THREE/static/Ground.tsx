@@ -1,14 +1,9 @@
-import { Debug, Triplet, usePlane } from "@react-three/cannon"
-import { MeshReflectorMaterial, useTexture } from "@react-three/drei"
+import { usePlane } from "@react-three/cannon"
 import { useControls } from "leva";
 import { RefObject } from "react";
-import { Group, Mesh, Object3D, RepeatWrapping, Texture } from "three";
+import { Group } from "three";
 
 
-interface IProps {
-    args: [number, number],
-    rotation: [number, number, number],
-};
 
 export default function Ground(props: any) {
 

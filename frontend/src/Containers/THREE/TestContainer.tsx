@@ -1,5 +1,5 @@
 import { Center, Decal, Float, Html, Sparkles, Stage, Text, Text3D, Trail, useTexture } from "@react-three/drei";
-import { useMemo } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import ModelFBX from "../../Components/THREE/models/ModelFBX";
 import HtmlBtn from "../../Components/THREE/testing/HtmlBtn";
 import Map from "../../Components/THREE/testing/Map";
@@ -7,7 +7,7 @@ import { QuestionCircleTwoTone } from '@ant-design/icons';
 import { Material, RepeatWrapping, Texture } from "three";
 import { useControls } from "leva";
 import { animated, config, easings, useSpring } from "@react-spring/three";
-import { Modal } from "antd";
+import { Modal, Tour, TourProps } from "antd";
 import { EffectComposer } from "@react-three/postprocessing";
 import { Bloom } from "@react-three/postprocessing";
 
@@ -61,8 +61,29 @@ export default function TestContainer() {
     const C = animated(Center);
     console.log(C);
 
+    const ref = useRef<HTMLButtonElement>(null!);
+
+    useEffect(() => {
+        ref.current?.click();
+    }, [ref])
+
+    const steps: TourProps['steps'] = [
+        {
+            title: '1234',
+            target: () => ref.current,
+        },
+    ];
+
     return (
         <>
+            <Html transform>
+                <button ref={ref} onClick={() => console.log('123')}>
+                    1234
+                </button>
+            </Html>
+            <Html>
+                <Tour open={true} steps={steps} />
+           </Html>
             <EffectComposer>
                 <Bloom
                     mipmapBlur

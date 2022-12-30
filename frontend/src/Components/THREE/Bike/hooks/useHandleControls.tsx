@@ -1,6 +1,6 @@
 import { PublicApi, RaycastVehiclePublicApi, useContactMaterial } from "@react-three/cannon";
 import { useFrame } from "@react-three/fiber";
-import { Ref, RefObject, useContext, useEffect } from "react";
+import { Ref, RefObject, useContext, useEffect, useState } from "react";
 import { Object3D } from "three";
 import { ObjectProps } from "..";
 import { ThreeContext } from "../../../../Containers/THREE/Canvas";
@@ -11,15 +11,16 @@ import { IControls } from "./useControls";
 /**
  * Dynamics
  */
-const steer = 1;
-const force = 1000;
-const maxBrake = 1e5;
+const steer = .75;
+const force = 1300;
+const maxBrake = 0;   // non-fixable
 
 
 interface IProps {
 	controls: RefObject<IControls>,
 	backIndex: number[],
 	frontIndex: number[],
+	numOfWheels: number,
 	api: RaycastVehiclePublicApi,
 	chassis: RefObject<Object3D> & {
 		current: { api: PublicApi }
@@ -29,7 +30,7 @@ interface IProps {
 }
 
 export default function useHandleControls({
-	controls, backIndex, frontIndex,
+	controls, backIndex, frontIndex, numOfWheels,
 	api, chassis, setArcadeDirection, objectProps,
 }: IProps) {
 
@@ -43,8 +44,12 @@ export default function useHandleControls({
 			api.applyEngineForce(forward || backward ? force * (forward && !backward ? -1 : 1) : 0, i))
 		frontIndex.forEach(i =>
 			api.setSteeringValue(left || right ? steer * (left && !right ? 1 : -1) : 0, i));
-		backIndex.forEach(i =>
-			api.setBrake(brake ? maxBrake : 0, i));
+
+		api.setBrake(brake ? maxBrake : 0, 1);
+		api.setBrake(brake ? maxBrake : 0, 3);
+		// api.setBrake(brake ? maxBrake : 0, 2);
+
+
 
 		if (left && !right)
 			setArcadeDirection('left');

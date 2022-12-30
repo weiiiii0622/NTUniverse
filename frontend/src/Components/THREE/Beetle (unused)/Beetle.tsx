@@ -10,11 +10,19 @@ useGLTF.preload('../../../resources/models/Beetle.glb')
 // Model via KrStolorz on Sketchfab, CC-BY-4.0
 // https://sketchfab.com/3d-models/low-poly-volkswagen-beetle-f680ad7e98e445eaafed1a70f2c53911
 const Beetle = forwardRef(({ args = [1.3, 1.6, 4], mass = 500, ...props }, ref) => {
+
     const { nodes, materials } = useGLTF('../../../resources/models/Beetle.glb')
-    const [, api] = useBox(() => ({ mass, args, allowSleep: false, onCollide: (e) => console.log('bonk', e.body.userData), ...props }), ref)
+    const [, api] = useBox(() => ({
+        mass,
+        args,
+        allowSleep: false,
+        onCollide: (e) => console.log('bonk', e.body.userData),
+        position: [0, 1.5, 0],
+    }), ref)
+
     return (
         <mesh ref={ref} api={api} >
-            <group position={[0, -0.6, 0]}>
+            {/* <group position={[0, -0.6, 0]}>
                 <mesh castShadow material={materials['Black paint']} geometry={nodes.chassis_1.geometry} />
                 <mesh castShadow material={materials.Rubber} geometry={nodes.chassis_2.geometry} />
                 <mesh castShadow material={materials.Paint} geometry={nodes.chassis_3.geometry} />
@@ -31,7 +39,7 @@ const Beetle = forwardRef(({ args = [1.3, 1.6, 4], mass = 500, ...props }, ref) 
                 <mesh castShadow material={materials['Orange plastic']} geometry={nodes.chassis_14.geometry} />
                 <mesh castShadow material={materials['Tail lights']} geometry={nodes.chassis_15.geometry} />
                 <mesh castShadow material={materials['License Plate']} geometry={nodes.chassis_16.geometry} />
-            </group>
+            </group> */}
         </mesh>
     )
 })

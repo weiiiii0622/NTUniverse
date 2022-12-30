@@ -22,7 +22,7 @@ export default function FrontWheel({ objectProps, arcadeDirection, angularVeloci
 		mass: 1,
 		type: "Kinematic",
 		// material: 'wheel',
-		// collisionFilterGroup: 0,
+		collisionFilterGroup: 0,
 		collisionResponse: false,
 		shapes: [{
 			type: 'Cylinder',

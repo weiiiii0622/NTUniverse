@@ -46,7 +46,7 @@ const MySider: React.FC = () => {
   const handleLogin = () => {
     console.log("Login");
     setLoginModalOpen(true);
-    setIsLogin(true);
+    //setIsLogin(true);
   }
 
   const handleLogout = () => {
