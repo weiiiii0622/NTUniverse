@@ -1,5 +1,8 @@
 import { Triplet } from "@react-three/cannon";
 import { useState, useEffect, createContext, useContext } from "react";
+import { useMutation } from "@apollo/client";
+
+import { CREATE_USER_MUTATION } from "../graphql";
 
 interface IContext {
     tutorialModalOpen: boolean,
@@ -8,6 +11,8 @@ interface IContext {
     setIsLogin(x: boolean): void,
     loginModalOpen: boolean,
     setLoginModalOpen(x: boolean): void,
+
+    login: any,
 
     bikePosition: Triplet,
 }
@@ -19,6 +24,8 @@ const MyContext = createContext<IContext>({
     setIsLogin: (x) => { },
     loginModalOpen: false,
     setLoginModalOpen: (x) => { },
+
+    login: () => { },
 
     bikePosition: [0, 0, 0],
 });
@@ -36,13 +43,16 @@ const MyProvider = (props: any) => {
     // LoginModal
     const [loginModalOpen, setLoginModalOpen] = useState(false);
 
+    // Login - query/create User
+    const [login] = useMutation(CREATE_USER_MUTATION);
+
     // Add Other component......
 
     return (
         <MyContext.Provider
             value={{
                 tutorialModalOpen, isLogin, loginModalOpen,
-                setTutorialModalOpen, setIsLogin, setLoginModalOpen,
+                setTutorialModalOpen, setIsLogin, setLoginModalOpen, login,
             }}
             {...props}
         />
