@@ -19,7 +19,7 @@ const ws_2 = require("ws");
 const schema_1 = __importDefault(require("./schema"));
 const user_1 = __importDefault(require("./models/user"));
 const Query_1 = __importDefault(require("./resolvers/Query"));
-// import Mutation from './resolvers/Mutation';
+const Mutation_1 = __importDefault(require("./resolvers/Mutation"));
 // import Subscription from './resolvers/Subscription';
 const pubsub = (0, graphql_yoga_1.createPubSub)();
 const yoga = (0, graphql_yoga_1.createYoga)({
@@ -27,7 +27,7 @@ const yoga = (0, graphql_yoga_1.createYoga)({
         typeDefs: schema_1.default,
         resolvers: ({
             Query: Query_1.default,
-            //   Mutation,
+            Mutation: Mutation_1.default,
             //   Subscription,
         }),
     }),

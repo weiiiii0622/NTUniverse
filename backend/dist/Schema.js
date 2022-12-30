@@ -4,9 +4,10 @@ const apollo_server_express_1 = require("apollo-server-express");
 const Schema = (0, apollo_server_express_1.gql) `
   type User {
     id: ID!
-    name: String!
     email: String!
-    picture: String!  #先用 string 到時候再改
+    first_name: String!
+    last_name: String!
+    picture: String!
   }
 
   type ChatRoom {
@@ -39,9 +40,9 @@ const Schema = (0, apollo_server_express_1.gql) `
     userByEmail(email: String!): User!
   }
 
-  # type Mutation {
-
-  # }
+  type Mutation {
+    createUser(email: String!, first_name: String!, last_name: String!, picture: String!): User!
+  }
 
   # type Subscription {
 

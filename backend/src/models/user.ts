@@ -1,16 +1,18 @@
 import { Schema, Types, model } from 'mongoose';
 
 interface IUser {
-  id: String,
-  name: String,
+  //id: String,
   email: String,
+  first_name: String,
+  last_name: String,
   picture: String,
 }
 
 const UserSchema = new Schema<IUser>({
-  id: String,
-  name: String,
+  //id: String,
   email: String,
+  first_name: String,
+  last_name: String,
   picture: String,
 });
 

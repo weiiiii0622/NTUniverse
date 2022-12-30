@@ -13,26 +13,26 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importDefault(require("mongoose"));
-require("dotenv-defaults/config");
-const user_1 = __importDefault(require("./models/user"));
+const dotenv_defaults_1 = __importDefault(require("dotenv-defaults"));
 /* handle connection to mongodb */
 function mongoConnect() {
     return __awaiter(this, void 0, void 0, function* () {
-        require('dotenv-defaults').config();
+        dotenv_defaults_1.default.config();
         if (!process.env.MONGO_URL) {
             console.error('Missing MONGO_URL!!!');
             process.exit(1);
         }
         yield mongoose_1.default.connect(`${process.env.MONGO_URL}`)
             .then((res) => console.log("mongo db connection created"));
-        const testData = new user_1.default({
-            id: '1234',
-            name: 'test',
-            email: 'ntuniverse@gmail.com',
-            picture: 'pi4c',
-        });
-        yield testData.save();
-        console.log('add one');
+        mongoose_1.default.connection.on('error', console.error.bind(console, 'connection error:'));
+        // const testData = new UserModel({
+        //   id: '1234',
+        //   name: 'test',
+        //   email: 'ntuniverse@gmail.com',
+        //   picture: 'pi4c',
+        // });
+        //await testData.save();
+        //console.log('add one');
     });
 }
 exports.default = mongoConnect;

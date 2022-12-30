@@ -6,7 +6,7 @@ import * as fs from 'fs';
 import Schema from './schema';
 import UserModel from './models/user';
 import Query from './resolvers/Query';
-// import Mutation from './resolvers/Mutation';
+import Mutation from './resolvers/Mutation';
 // import Subscription from './resolvers/Subscription';
 
 const pubsub = createPubSub();
@@ -16,7 +16,7 @@ const yoga = createYoga<any>({
     typeDefs: Schema,
     resolvers: <any>({
       Query,
-    //   Mutation,
+      Mutation,
     //   Subscription,
     }),
   }),
