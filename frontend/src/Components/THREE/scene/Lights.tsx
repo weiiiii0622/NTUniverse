@@ -13,7 +13,7 @@ export default function Lights() {
             <directionalLight
                 color={'#ffffff'}
                 position={[10, 10, 10]}
-                intensity={0.5}
+                intensity={1}
                 castShadow
                 shadow-mapSize={[2048, 2048]}
                 ref={ref}

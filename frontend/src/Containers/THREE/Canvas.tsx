@@ -1,5 +1,5 @@
 import { Triplet } from "@react-three/cannon";
-import { Environment } from "@react-three/drei";
+import { AdaptiveDpr, AdaptiveEvents, Environment } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import { Perf } from "r3f-perf";
 import { createContext, useState } from "react";
@@ -71,7 +71,7 @@ export default function AppCanvas() {
 	 */
 	const [bikePosition, setBikePosition] = useState<Triplet>([0, 0, 0]);
 	const [bikeControlling, setBikeControlling] = useState<boolean>(false);
-	const [helpers, setHelpers] = useState<boolean>(true);
+	const [helpers, setHelpers] = useState<boolean>(false);
 	const [enableControls, setEnableControls] = useState<boolean>(true);
 	return (
 		<Canvas
@@ -86,7 +86,7 @@ export default function AppCanvas() {
 				<gridHelper />
 			</>}
 
-			<AppSky />
+			{/* <AppSky /> */}
 			{/* <Environment */}
 			{/* files={'./env.hdr'}
 			// background
@@ -96,6 +96,10 @@ export default function AppCanvas() {
 			{/* <color args={['#ff0000']} attach='background' /> */}
 			{/* <color args={['#A2B4C2']} attach='background' /> */}
 			{/* </Environment> */}
+
+			<Environment background>
+				<color args={['#0b1f2c']} attach='background' />
+			</Environment>
 
 			<ThreeContext.Provider value={{
 				bikePosition,
@@ -114,6 +118,8 @@ export default function AppCanvas() {
 				<TestContainer />
 
 			</ThreeContext.Provider>
+			<AdaptiveDpr pixelated />
+			<AdaptiveEvents />
 		</Canvas >
 	)
 }
