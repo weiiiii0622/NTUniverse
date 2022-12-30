@@ -5,7 +5,9 @@ interface IUser {
   email: String,
   first_name: String,
   last_name: String,
+  nick_name: String,
   picture: String,
+  description: String,
 }
 
 const UserSchema = new Schema<IUser>({
@@ -13,7 +15,9 @@ const UserSchema = new Schema<IUser>({
   email: String,
   first_name: String,
   last_name: String,
+  nick_name: String,
   picture: String,
+  description: String,
 });
 
 const UserModel = model<IUser>('User', UserSchema);

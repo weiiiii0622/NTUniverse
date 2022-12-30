@@ -10,22 +10,30 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = void 0;
-const validateUser = (UserModel, email, first_name, last_name, picture) => __awaiter(void 0, void 0, void 0, function* () {
+const validateUser = (UserModel, email, first_name, last_name, picture, nick_name, description) => __awaiter(void 0, void 0, void 0, function* () {
     let usr = yield UserModel.findOne({ email });
     console.log(usr);
     if (!usr) {
-        usr = yield new UserModel({ email, first_name, last_name, picture }).save();
+        usr = yield new UserModel({ email, first_name, last_name, picture, nick_name, description }).save();
         console.log(`user ${email} created`);
     }
     else {
         console.log(`user ${email} found`);
     }
-    console.log(usr);
+    //console.log(usr);
     return usr;
 });
 const Mutation = {
     createUser: (parent, { email, first_name, last_name, picture }, { UserModel }) => __awaiter(void 0, void 0, void 0, function* () {
-        let usr = yield validateUser(UserModel, email, first_name, last_name, picture);
+        let usr = yield validateUser(UserModel, email, first_name, last_name, picture, "", "");
+        return usr;
+    }),
+    updateUser: (parent, { email, nick_name, picture, description }, { UserModel }) => __awaiter(void 0, void 0, void 0, function* () {
+        let usr = yield UserModel.findOne({ email });
+        usr.picture = picture;
+        usr.nick_name = nick_name;
+        usr.description = description;
+        yield usr.save();
         return usr;
     }),
     // createMessage: async(parent, { name, to, body }, { ChatBoxModel, pubsub }) => {

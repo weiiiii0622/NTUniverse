@@ -41,7 +41,7 @@ const MySider: React.FC = () => {
     token: { colorBgContainer },
   } = theme.useToken();
 
-  const { isLogin, setIsLogin, loginModalOpen, setLoginModalOpen } = useMyContext();
+  const { isLogin, setIsLogin, loginModalOpen, setLoginModalOpen, setProfileModalOpen } = useMyContext();
 
   const handleLogin = () => {
     console.log("Login");
@@ -54,18 +54,23 @@ const MySider: React.FC = () => {
     setIsLogin(false);
   }
 
+  const handleOpenProfile = () => {
+    console.log("Open Profile");
+    setProfileModalOpen(true);
+  }
+
   const items: MenuItem[] = [
-    // 個人資料
-    getItem('個人資料', '1', <UserOutlined />, null),
-
     // 登入/登出
-    isLogin ? getItem('登出', '2', <LoginOutlined />, handleLogout) : getItem('登入', '2', <LogoutOutlined />, handleLogin),
-   
+    isLogin ? getItem('登出', '1', <LoginOutlined />, handleLogout) : getItem('登入', '1', <LogoutOutlined />, handleLogin),
+    
     // 關於
-    getItem('關於', '3', <InfoCircleOutlined />, null),
-
+    getItem('關於', '2', <InfoCircleOutlined />, null),
+    
+    // 個人資料
+    isLogin ? getItem('個人資料', '3', <UserOutlined />, handleOpenProfile) : null,
+   
     // 設定
-    getItem('設定', '4', <SettingOutlined />, null),
+    isLogin ? getItem('設定', '4', <SettingOutlined />, null) : null,
     //getItem('Option 2', '2', <DesktopOutlined />),
     // getItem('User', 'sub1', <UserOutlined />, null,[
     //   getItem('Tom', '3'),

@@ -9,6 +9,8 @@ const Schema = (0, apollo_server_express_1.gql) `
     email: String!
     first_name: String!
     last_name: String!
+    nick_name: String
+    description: String!
     picture: String!
   }
 
@@ -44,6 +46,7 @@ const Schema = (0, apollo_server_express_1.gql) `
 
   type Mutation {
     createUser(email: String!, first_name: String!, last_name: String!, picture: String!): User!
+    updateUser(email: String!, nick_name: String! ,picture: String!, description: String!): User!
   }
 
   # type Subscription {
