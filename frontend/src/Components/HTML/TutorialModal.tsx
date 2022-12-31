@@ -5,7 +5,7 @@ import type { TourProps } from 'antd';
 import { useMyContext } from '../../Utils/useMyContext';
 
 const TutorialModal: React.FC = () => {
-    const { tutorialModalOpen, setTutorialModalOpen } = useMyContext();
+    const { tutorialModalOpen, setTutorialModalOpen, setBikeEnabled } = useMyContext();
 
     const steps: TourProps['steps'] = [
         {
@@ -94,7 +94,7 @@ const TutorialModal: React.FC = () => {
                 <p> hello tutorial </p>
                 
             </Modal> */}
-             <Tour open={tutorialModalOpen} onClose={() => setTutorialModalOpen(false)} steps={steps}></Tour>
+             <Tour open={tutorialModalOpen} onClose={() => {setBikeEnabled(true); setTutorialModalOpen(false)}} steps={steps}></Tour>
         </>
     )
 }

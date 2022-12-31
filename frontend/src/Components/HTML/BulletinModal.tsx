@@ -10,7 +10,9 @@ import {
     Avatar,
     Card,
     List,
+    Divider,
     Space,
+    Tag,
     message 
 } from 'antd';
 import {
@@ -21,6 +23,8 @@ import {
 } from '@ant-design/icons';
 import styled from 'styled-components';
 
+import MyTag from './Tag';
+import PlsLogin from './PleaseLogIn';
 import { useMyContext } from '../../Utils/useMyContext';
 
 type ValidateStatus = Parameters<typeof Form.Item>[0]['validateStatus'];
@@ -29,6 +33,10 @@ const StyledCard = styled(Card)`
   .ant-card-head-title {
     padding: 0;
     padding-top: 4px;
+  }
+  .ant-card-body {
+    padding-top: 16px;
+    padding-bottom: 8px;
   }
 `;
 
@@ -39,15 +47,25 @@ const StyledModal = styled(Modal)`
 //   .ant-modal-header {
 //     background-color: #EDEDE9;
 //   }
+`;
 
+const StyledDivider = styled(Divider)`
+  .ant-divider-horizontal {
+    margin-top: 24px;
+    margin-bottom: 6px;
+  }
 `;
 
 
 const BulletinModal = () => {
-    const { bulletinModalOpen, setBulletinModalOpen, me } = useMyContext();
+    const { bulletinModalOpen, setBulletinModalOpen, setBikeEnabled, me, isLogin } = useMyContext();
     const [ pageInfo, setPageInfo ] = useState({page:0, size:4});
     const [ loading, setLoading ] = useState(false);
-    const [ bulletinMessages, setBulletinMessages ] = useState<Object[]>([{usr:"wei", msg:"Good"}, {usr:"xia", msg:"Good"}, {usr:"kc", msg:"Good"}, {usr:"33", msg:"Good"}, {usr:"wchin", msg:"Good"}, {usr:"frog", msg:"Good"}]);
+    const [ canSubmit, setCanSubmit ] = useState(false);
+
+    const [ bulletinMessages, setBulletinMessages ] = useState<Object[]>([{usr:"wei", msg:"嗨嗨嗨嗨嗨嗨嗨嗨嗨嗨嗨嗨嗨嗨嗨嗨嗨嗨嗨嗨嗨嗨嗨嗨嗨嗨嗨嗨嗨嗨嗨嗨嗨嗨嗨嗨嗨嗨嗨嗨嗨嗨嗨嗨嗨嗨嗨嗨嗨嗨", tag:["做愛", "Hii", "HELLO"]}, {usr:"xia", msg:"Good", tag:["做愛", "Hii", "HELLO"]}, {usr:"kc", msg:"Good", tag:["做愛", "Hii", "HELLO"]}, {usr:"33", msg:"Good", tag:["做愛", "Hii", "HELLO"]}, {usr:"wchin", msg:"Good", tag:["做愛", "Hii", "HELLO"]}, {usr:"frog", msg:"Good", tag:["做愛", "Hii", "HELLO"]}]);
+    const [ NewMsg, setNewMsg ] = useState<{value: string; validateStatus?: ValidateStatus; errorMsg?: string | null;}>({value: "", validateStatus: "", errorMsg: null});
+
 
 
     const [form] = Form.useForm();
@@ -89,6 +107,32 @@ const BulletinModal = () => {
         form.submit()
     };
 
+    const validateNewMsg = (value: string): {
+        validateStatus: ValidateStatus;
+        errorMsg: string | null;
+    } => {
+    if (value.length > 0 && value[0]!=' ') {
+        setCanSubmit(true);
+        return {
+        validateStatus: 'success',
+        errorMsg: null,
+        };
+    }
+    else{
+        setCanSubmit(false);
+        return {
+            validateStatus: 'error',
+            errorMsg: '留言不可為空！',
+        };
+    }
+};
+
+    const onNewMsgChange = (e) => {
+        setNewMsg({
+            ...validateNewMsg(e.target.value),
+            value: e.target.value
+        })
+    }
 
     return (
         <>
@@ -100,6 +144,7 @@ const BulletinModal = () => {
                 //onOk={handleOk}
                 onCancel={() => {
                     form.resetFields();
+                    setBikeEnabled(true);
                     setBulletinModalOpen(false);
                 }}
                 width={"50vw"}
@@ -109,20 +154,21 @@ const BulletinModal = () => {
                 bodyStyle={{
                     
                     overflow: 'auto',
-                    height: '70vh',
+                    height: '75vh',
                     padding: 'inherit',
                     paddingTop: '0',
                     
                 }}
                 footer={[
-                    <Button  key="submit" type="primary" loading={loading} onClick={handleSave}>
+                    <Button disabled={canSubmit===false} key="submit" type="primary" loading={loading} onClick={handleSave}>
                       Save
                     </Button>
                 ]}
             >
-
-            
-            <>
+            {
+                isLogin
+                ?
+                <>    
                 <Card
                     bodyStyle={{
                         height: '55vh',
@@ -148,7 +194,7 @@ const BulletinModal = () => {
                                 })
                                 console.log(`BulletinPage: ${pageSize}`);
                             },
-                            pageSize: 4,
+                            pageSize: 3,
                             position: 'top'
                         }}
                         dataSource={bulletinMessages}
@@ -174,11 +220,13 @@ const BulletinModal = () => {
                                                 /> 
                                             </Col>
                                             <Col flex={39}>
-                                                B{idx+pageInfo['page']*pageInfo['size']}- 
+                                                B{1+idx+pageInfo['page']*pageInfo['size']}- 
                                                 <a 
-                                                    onClick={(e)=>console.log(msg.usr)}
+                                                    onClick={(e)=>{
+                                                        console.log(msg.usr)
+                                                    }}
                                                 >
-                                                     {msg.usr}
+                                                    {msg.usr}
                                                 </a>
                                             </Col>
                                             <Col flex={1}>
@@ -198,21 +246,27 @@ const BulletinModal = () => {
                                     bodyStyle={{
                                         backgroundColor: '#ced4da'
                                     }}
+                                    
                                     actions={[
 
                                     ]}
                                 >
                                     {msg.msg}
+                                    <Divider style={{marginTop: "24px", marginBottom: "6px"}}/>
+                                    {
+                                        msg.tag.map((tag, idx) => {
+                                            return (
+                                                <Tag color="#6c757d">#{tag}</Tag>
+                                            )
+                                        })
+                                    }
                                 </StyledCard>
 
                             </List.Item>
                         )}
                     />
                 </Card>
-            </>
 
-
-            <>
                 <Form
                     form={form}
                     wrapperCol={{ span: 20, offset:0}}
@@ -231,7 +285,8 @@ const BulletinModal = () => {
                         wrapperCol={{span:10}} 
                         style={{marginBottom: '1vh',}}
                     >
-                        <Input placeholder={"輸入你想要的標籤"}/>
+                        <MyTag />
+                        {/* <Input placeholder={"輸入你想要的標籤"}/> */}
                     </Form.Item>
 
                     <Form.Item
@@ -239,12 +294,26 @@ const BulletinModal = () => {
                         label="想留的話"
                         style={{marginBottom: '1vh',}}
                         rules={[{ type: 'string', min: 1 }]}
+                        validateStatus={NewMsg.validateStatus} 
+                        help={NewMsg.errorMsg || ""}
                     >
-                        <Input.TextArea rows={1} autoSize={{ minRows: 1 }} showCount maxLength={50}  placeholder="你還沒留下任何訊息"/>
+                        <Input.TextArea 
+                            rows={1} 
+                            autoSize={{ maxRows: 1 }} 
+                            showCount maxLength={50}  
+                            placeholder="你還沒留下任何訊息"
+                            onChange={onNewMsgChange}
+                        />
                     </Form.Item>
                 </Form>
-            </>
-                                    
+                </>
+
+                :
+
+                <> 
+                <PlsLogin />
+                </>
+            }
             </StyledModal>
         </>
     )
