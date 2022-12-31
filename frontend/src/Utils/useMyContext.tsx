@@ -15,6 +15,8 @@ interface IContext {
     setLogoutModalOpen(x: boolean): void,
     profileModalOpen: boolean,
     setProfileModalOpen(x: boolean): void,
+    bulletinModalOpen: boolean,
+    setBulletinModalOpen(x: boolean): void,
     me: object,
     setMe(x: object): void,
 
@@ -35,6 +37,8 @@ const MyContext = createContext<IContext>({
     setLogoutModalOpen: (x) => { },
     profileModalOpen: false,
     setProfileModalOpen: (x) => { },
+    bulletinModalOpen: false,
+    setBulletinModalOpen: (x) => { },
     me: {},
     setMe: (x) => { },
 
@@ -66,6 +70,9 @@ const MyProvider = (props: any) => {
     // LogoutModal
     const [logoutModalOpen, setLogoutModalOpen] = useState(false);
 
+    // BulletinModal
+    const [bulletinModalOpen, setBulletinModalOpen] = useState(false);
+
     /**
      * 
      * User
@@ -90,8 +97,8 @@ const MyProvider = (props: any) => {
     return (
         <MyContext.Provider
             value={{
-                tutorialModalOpen, isLogin, loginModalOpen, logoutModalOpen, profileModalOpen, me,
-                setTutorialModalOpen, setIsLogin, setLoginModalOpen, setLogoutModalOpen, setProfileModalOpen, login, updateUser, setMe,
+                tutorialModalOpen, isLogin, loginModalOpen, logoutModalOpen, profileModalOpen, bulletinModalOpen, me,
+                setTutorialModalOpen, setIsLogin, setLoginModalOpen, setLogoutModalOpen, setProfileModalOpen, setBulletinModalOpen, login, updateUser, setMe,
             }}
             {...props}
         />

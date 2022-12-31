@@ -27,7 +27,7 @@ const DebugWorld: FC<any> = ({ debug = false, children }) => {
 
 function World() {
 
-	const { setTutorialModalOpen, isLogin, setIsLogin } = useMyContext();
+	const { setBulletinModalOpen, isLogin, setIsLogin } = useMyContext();
 
 	return (
 		<DebugWorld >
@@ -45,7 +45,7 @@ function World() {
 				}} />
 
                 {/* Pass in your EventHandler to handleEvent={ } */}
-			{/* <InteractiveBlock handleEvent={() => { setTutorialModalOpen(true) }} position={[10, 0, 10]} /> */}
+			<InteractiveBlock handleEvent={() => { setBulletinModalOpen(true) }} position={[5, 0, 5]} />
 		</DebugWorld>
 	)
 }
