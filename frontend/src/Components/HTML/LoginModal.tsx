@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Modal } from 'antd';
+import { Button, Modal, message } from 'antd';
 import {
     LoadingOutlined
 } from '@ant-design/icons';
@@ -51,7 +51,7 @@ const LoginModal = () => {
           setLoginModalOpen(false);
           setLoading(false);
           setIsLogin(true);
-          alert(`歡迎回來 ${first_name}`);
+          message.success(`歡迎回來 ${nick_name}`);
         }, 1000);
     };
 
@@ -61,26 +61,12 @@ const LoginModal = () => {
                 title="Login"
                 centered
                 open={loginModalOpen}
-                //onOk={handleOk}
                 onCancel={() => setLoginModalOpen(false)}
                 bodyStyle={{
                     display: 'flex',
                     justifyContent: 'center'
                 }}
-                footer={[
-                    // <Button key="submit" type="primary" loading={loading} onClick={handleOk}>
-                    //   Submit
-                    // </Button>,
-                    // <Button
-                    //   key="link"
-                    //   href="https://google.com"
-                    //   type="primary"
-                    //   loading={loading}
-                    //   onClick={handleOk}
-                    // >
-                    //   Search on Google
-                    // </Button>,
-                ]}
+                footer={[]}
             >
                 {
                     loading 
@@ -93,7 +79,7 @@ const LoginModal = () => {
                             locale={"zh-TW"}
                             onSuccess={onSuccess}
                             onError={() => {
-                                alert('登入失敗 請稍後再試');
+                                message.error('登入失敗 請稍後再試');
                             }}
                         />
                 }                

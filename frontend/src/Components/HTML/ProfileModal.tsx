@@ -17,34 +17,17 @@ import {
 
 import { useMyContext } from '../../Utils/useMyContext';
 
-
+type ValidateStatus = Parameters<typeof Form.Item>[0]['validateStatus'];
 
 
 const ProfileModal = () => {
-    const { profileModalOpen, setProfileModalOpen, updateUser, me } = useMyContext();
+    const { profileModalOpen, setProfileModalOpen, updateUser, me, setMe } = useMyContext();
     const [ loading, setLoading ] = useState(false);
-
-    const clientId = '400363191853-gjef8qplkajcu781n791f6eonffkcfq3.apps.googleusercontent.com';
-
-    const onSuccess = async () => {
-        //console.log('success:', res);
-        // setLoading(true);
-        // let user = await updateUser({
-        //     variables:{
-        //         email: info['email'],
-        //         first_name: info['given_name'],
-        //         last_name: info['family_name'],
-        //         picture: info['picture'],
-        //     }
-        // })
-        // console.log(user);
-        // await handleLoading(user.data.createUser);
-        
-    };
-
+    const [ Nickname, setNickname ] = useState<{value: string; validateStatus?: ValidateStatus; errorMsg?: string | null;}>({value: me['nick_name']});
     const [form] = Form.useForm();
+
+    
     useEffect(() => {
-        console.log("Hi");
         form.setFieldsValue({
             nick_name: me['nick_name'],
             description: me['description'],
@@ -59,25 +42,65 @@ const ProfileModal = () => {
         return e?.fileList;
     };
 
-    const onFinish = () => {
-        
+    const onFinish = async () => {
+        setLoading(true);
+        let user = await updateUser({
+            variables:{
+                email: me['email'],
+                nick_name: form.getFieldValue('nick_name'),
+                picture: me['picture'],
+                description: form.getFieldValue('description'),
+            }
+        })
+        console.log(user);
+        setMe({
+            first_name: user.data.updateUser['first_name'],
+            last_name: user.data.updateUser['last_name'],
+            nick_name: user.data.updateUser['nick_name'], 
+            email: user.data.updateUser['email'], 
+            picture: user.data.updateUser['picture'], 
+            description: user.data.updateUser['description']
+        })
+        setTimeout(() => {
+            message.success('更新個人資料成功！');
+            console.log(me);
+            setProfileModalOpen(false);
+            setLoading(false);
+        }, 1000);
     };
 
-    const onFinishFailed = () => {
-        message.error('Submit failed!');
+    const onFinishFailed = (e) => {
+        message.error('更新個人資料失敗！');
     };
 
 
     const handleSave =  async () => {
-        //setModalText('The modal will be closed after two seconds');
-        setLoading(true);
-        setTimeout(() => {
-        message.success('更新個人資料成功！');
-          setProfileModalOpen(false);
-          setLoading(false);
-          //alert(`歡迎回來 ${first_name}`);
-        }, 1000);
+        console.log(form.getFieldValue('nick_name'));
+        form.submit()
     };
+
+const validateNickName = (value: string): {
+        validateStatus: ValidateStatus;
+        errorMsg: string | null;
+    } => {
+    if (value.length > 0) {
+        return {
+        validateStatus: 'success',
+        errorMsg: null,
+        };
+    }
+    return {
+        validateStatus: 'error',
+        errorMsg: '暱稱不可為空！',
+    };
+};
+
+    const onNicknameChange = (e) => {
+        setNickname({
+            ...validateNickName(e.target.value),
+            value: e.target.value
+        })
+    }
 
     return (
         <>
@@ -86,17 +109,15 @@ const ProfileModal = () => {
                 centered
                 open={profileModalOpen}
                 //onOk={handleOk}
-                onCancel={() => setProfileModalOpen(false)}
+                onCancel={() => { form.setFieldsValue({nick_name: me['nick_name'],description: me['description']}); setProfileModalOpen(false)}}
                 width={"50vw"}
                 bodyStyle={{
-                    //display: 'block',
                     overflow: 'auto',
                     height: '70vh',
                     padding: 'inherit'
-                    //justifyContent: 'center'
                 }}
                 footer={[
-                    <Button key="submit" type="primary" loading={loading} onClick={handleSave}>
+                    <Button  key="submit" type="primary" loading={loading} onClick={handleSave}>
                       Save
                     </Button>,
                 ]}
@@ -109,11 +130,6 @@ const ProfileModal = () => {
                     layout="vertical"
                     onFinish={onFinish}
                     onFinishFailed={onFinishFailed}
-                    initialValues={{
-                        nick_name: "Hi"
-                    }}
-                    //onValuesChange={onFormLayoutChange}
-                    //disabled={componentDisabled}
                 >
                     
                     <Form.Item label="個人照片">
@@ -142,16 +158,15 @@ const ProfileModal = () => {
                     <Form.Item label="Email"  wrapperCol={{span:15}}>
                         <Input name="Email" disabled={true} value={me['email']}/>
                     </Form.Item>
-                    <Form.Item name="nick_name" label="暱稱"  wrapperCol={{span:20}} >
-                        <Input placeholder={"幫自己取個暱稱吧"}/>
+                    <Form.Item name="nick_name" label="暱稱"  wrapperCol={{span:20}} rules={[{ type: 'string', min: 1 }]} validateStatus={Nickname.validateStatus} help={Nickname.errorMsg || ""}>
+                        <Input placeholder={"幫自己取個暱稱吧"} onChange={onNicknameChange}/>
                     </Form.Item>
 
                     <Form.Item
                         name="description"
                         label="想說的話"
-                        //rules={[{ required: false, message: 'Please input Intro' }]}
                     >
-                        <Input.TextArea rows={4} autoSize={{ minRows: 6 }} showCount maxLength={500}  placeholder="你還沒留下任何訊息"/>
+                        <Input.TextArea rows={4} autoSize={{ minRows: 4 }} showCount maxLength={500}  placeholder="你還沒留下任何訊息"/>
                     </Form.Item>
 
                     {/* <Form.Item
