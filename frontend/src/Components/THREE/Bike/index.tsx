@@ -1,4 +1,4 @@
-import { Triplet } from "@react-three/cannon";
+import { Triplet, useContactMaterial } from "@react-three/cannon";
 import { Trail } from "@react-three/drei";
 import { Object3DProps, ReactThreeFiber } from "@react-three/fiber";
 import { Howl } from "howler";
@@ -22,8 +22,13 @@ export default function Bike({ objectProps, trail = false }: BikeProps) {
 
     const ref = useRef<Mesh>(null!);
 
+    useContactMaterial('ground', 'wheel', {
+        friction: 1e10,
+    });
+
     return (
         <>
+            {/* <Contact */}
             <Vehicle objectProps={objectProps} ref={ref} />
         </>
     )

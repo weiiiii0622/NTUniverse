@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react'
+import { useMyContext } from '../../../../Utils/useMyContext'
 
 export function useKeyPress(target, event) {
     useEffect(() => {
@@ -23,6 +24,7 @@ interface IControls {
 };
 
 export function useControls() {
+
     const keys = useRef({ forward: false, backward: false, left: false, right: false, brake: false, reset: false, navigate: false })
     useKeyPress(['ArrowUp', 'w'], (pressed) => (keys.current.forward = pressed))
     useKeyPress(['ArrowDown', 's'], (pressed) => (keys.current.backward = pressed))
