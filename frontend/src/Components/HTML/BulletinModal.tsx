@@ -73,9 +73,8 @@ const BulletinModal = () => {
         // console.log(user);
 
         setTimeout(() => {
+            form.resetFields();
             message.success('留言成功！');
-            console.log(me);
-            //setBulletinModalOpen(false);
             setLoading(false);
         }, 1000);
     };
@@ -86,7 +85,7 @@ const BulletinModal = () => {
 
 
     const handleSave =  async () => {
-        console.log(form.getFieldValue('nick_name'));
+        //console.log(form.getFieldValue('nick_name'));
         form.submit()
     };
 
