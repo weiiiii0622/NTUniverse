@@ -27,6 +27,9 @@ interface IContext {
     bikePosition: Triplet,
     bikeEnabled: boolean,
     setBikeEnabled: SetStateType<boolean>,
+
+    chatRoomModalOpen: boolean,
+    setChatRoomModalOpen(x: boolean): void,
 }
 
 const MyContext = createContext<IContext>({
@@ -51,6 +54,9 @@ const MyContext = createContext<IContext>({
     bikePosition: [0, 0, 0],
     bikeEnabled: false,
     setBikeEnabled: () => { },
+
+    chatRoomModalOpen: false,
+    setChatRoomModalOpen: (x) => { },
 });
 
 
@@ -64,7 +70,7 @@ const MyProvider = (props: any) => {
      */
 
     // TutorialModal
-    const [tutorialModalOpen, setTutorialModalOpen] = useState(true);
+    const [tutorialModalOpen, setTutorialModalOpen] = useState(false);
 
     // ProfileModal
     const [profileModalOpen, setProfileModalOpen] = useState(false);
@@ -103,6 +109,8 @@ const MyProvider = (props: any) => {
 
     const [bikeEnabled, setBikeEnabled] = useState(false);
 
+    // ChatRoomModal
+    const [chatRoomModalOpen, setChatRoomModalOpen] = useState(false);
 
 
     return (
@@ -111,6 +119,7 @@ const MyProvider = (props: any) => {
                 tutorialModalOpen, isLogin, loginModalOpen, logoutModalOpen, profileModalOpen, bulletinModalOpen, me,
                 setTutorialModalOpen, setIsLogin, setLoginModalOpen, setLogoutModalOpen, setProfileModalOpen, setBulletinModalOpen, login, updateUser, setMe,
                 bikeEnabled, setBikeEnabled,
+                chatRoomModalOpen, setChatRoomModalOpen,
             }}
             {...props}
         />
