@@ -32,13 +32,13 @@ const lingLing = (e: KeyboardEvent) => {
 const minSpeed = 15;
 const maxSpeed = 30;
 
-const totalVolume = 1;  // should be a context state in the future
+const totalVolume = 0;  // should be a context state in the future
 
 export default function useSound({ speed }: IProps) {
 
     useEffect(() => {
-        sound1.play();
-        sound2.play();
+        // sound1.play();
+        // sound2.play();
 
         window.addEventListener('keypress', lingLing);
 
@@ -50,7 +50,8 @@ export default function useSound({ speed }: IProps) {
     }, []);
 
     useFrame(() => {
-        sound1.rate(Math.sqrt(Math.sqrt(speed / minSpeed)));
+        if (isFinite(Math.sqrt(Math.sqrt(speed / minSpeed))))
+            sound1.rate(Math.sqrt(Math.sqrt(speed / minSpeed)));
         sound1.volume(Math.pow(speed / maxSpeed, 2) * totalVolume);
 
         sound2.volume(Math.sqrt(speed / maxSpeed * 0.2) * totalVolume);

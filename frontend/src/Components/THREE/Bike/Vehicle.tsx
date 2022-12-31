@@ -5,12 +5,14 @@ import { useControls } from './hooks/useControls'
 import Wheel from './Wheel+Pedals'
 import BikeMesh from './BikeMesh'
 import useWheels from './hooks/useWheels'
-import { Mesh } from 'three'
+import { Mesh, Vector3 } from 'three'
 import { BikeProps } from '.'
 import FrontWheel from './FrontWheel'
 import { ThreeContext } from '../../../Containers/THREE/Canvas'
 import useHandleControls from './hooks/useHandleControls'
 import useSound from './hooks/useSound'
+import { Camera } from '@react-three/fiber'
+import { PerspectiveCamera } from '@react-three/drei'
 
 
 /**
@@ -95,7 +97,7 @@ const Vehicle = forwardRef((props: VehicleProps, vehicle: RefObject<Mesh>) => {
 	const [frontPosition, setFrontPosition] = useState<Triplet>([0, 0, 0]);
 	const [frontRotation, setFrontRotation] = useState<Triplet>([0, 0, 0]);
 	const [angularVelocity, setAngularVelocity] = useState<number>(0);
-	const [speed, setSpeed] = useState<number>();
+	const [speed, setSpeed] = useState<number>(0);
 	const delta: Triplet = [0, wheelPosition.height - 0.24, wheelPosition.front];
 	useEffect(() => {
 		return chassis!.current?.api.position.subscribe((r: Triplet) => setFrontPosition(r));
@@ -110,7 +112,7 @@ const Vehicle = forwardRef((props: VehicleProps, vehicle: RefObject<Mesh>) => {
 			setAngularVelocity(Math.sqrt(norm) / radius);
 		});
 	}, [chassis]);
-	useSound({ speed });
+	// useSound({ speed });
 
 
 	/**
@@ -144,7 +146,7 @@ const Vehicle = forwardRef((props: VehicleProps, vehicle: RefObject<Mesh>) => {
 					/>
 				))
 			}
-			<FrontWheel
+			{/* <FrontWheel
 				objectProps={{
 					position: frontPosition,
 					rotation: frontRotation,
@@ -152,7 +154,7 @@ const Vehicle = forwardRef((props: VehicleProps, vehicle: RefObject<Mesh>) => {
 				delta={delta}
 				arcadeDirection={arcadeDirection}
 				angularVelocity={angularVelocity}
-			/>
+			/> */}
 		</group >
 	)
 });

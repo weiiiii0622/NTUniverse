@@ -5,14 +5,15 @@ import { Object3D } from "three";
 import { ObjectProps } from "..";
 import { ThreeContext } from "../../../../Containers/THREE/Canvas";
 import { SetStateType } from "../../../../Utils/type";
+import { useMyContext } from "../../../../Utils/useMyContext";
 import { ArcadeDirection } from "../Vehicle";
 import { IControls } from "./useControls";
 
 /**
  * Dynamics
  */
-const steer = .75;
-const force = 1300;
+const steer = 0.75;
+const force = 1100;
 const maxBrake = 0;   // non-fixable
 
 
@@ -38,7 +39,12 @@ export default function useHandleControls({
 	 * Motion:
 	 * - control the vehicle based on "controls"
 	 */
+	const { bikeEnabled } = useMyContext();
+
 	useFrame(() => {
+		if (!bikeEnabled)
+			return;
+
 		const { forward, backward, left, right, brake, reset } = controls.current
 		backIndex.forEach(i =>
 			api.applyEngineForce(forward || backward ? force * (forward && !backward ? -1 : 1) : 0, i))
@@ -47,9 +53,8 @@ export default function useHandleControls({
 
 		api.setBrake(brake ? maxBrake : 0, 1);
 		api.setBrake(brake ? maxBrake : 0, 3);
+
 		// api.setBrake(brake ? maxBrake : 0, 2);
-
-
 
 		if (left && !right)
 			setArcadeDirection('left');

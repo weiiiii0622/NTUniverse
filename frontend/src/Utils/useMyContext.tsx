@@ -3,6 +3,7 @@ import { useState, useEffect, createContext, useContext, useRef } from "react";
 import { useMutation } from "@apollo/client";
 
 import { CREATE_USER_MUTATION, UPDATE_USER_MUTATION } from "../graphql";
+import { SetStateType } from "./type";
 
 interface IContext {
     tutorialModalOpen: boolean,
@@ -24,6 +25,8 @@ interface IContext {
     updateUser: any,
 
     bikePosition: Triplet,
+    bikeEnabled: boolean,
+    setBikeEnabled: SetStateType<boolean>,
 }
 
 const MyContext = createContext<IContext>({
@@ -46,6 +49,8 @@ const MyContext = createContext<IContext>({
     updateUser: () => { },
 
     bikePosition: [0, 0, 0],
+    bikeEnabled: false,
+    setBikeEnabled: () => { },
 });
 
 
@@ -80,7 +85,7 @@ const MyProvider = (props: any) => {
      */
 
     // User info
-    const[me, setMe] = useState({ email:"", first_name:"", last_name:"", nick_name:"", picture:"", description:"" });
+    const [me, setMe] = useState({ email: "", first_name: "", last_name: "", nick_name: "", picture: "", description: "" });
 
     // Login - state
     const [isLogin, setIsLogin] = useState(false);
@@ -92,6 +97,12 @@ const MyProvider = (props: any) => {
     // Add Other component......
 
 
+    /**
+     * Bike
+     */
+
+    const [bikeEnabled, setBikeEnabled] = useState(false);
+
 
 
     return (
@@ -99,6 +110,7 @@ const MyProvider = (props: any) => {
             value={{
                 tutorialModalOpen, isLogin, loginModalOpen, logoutModalOpen, profileModalOpen, bulletinModalOpen, me,
                 setTutorialModalOpen, setIsLogin, setLoginModalOpen, setLogoutModalOpen, setProfileModalOpen, setBulletinModalOpen, login, updateUser, setMe,
+                bikeEnabled, setBikeEnabled,
             }}
             {...props}
         />
