@@ -101,7 +101,7 @@ const MyProvider = (props: any) => {
      * Bike
      */
 
-    const [bikeEnabled, setBikeEnabled] = useState(false);
+    const [bikeEnabled, setBikeEnabled] = useState(true);
 
 
 
