@@ -4,11 +4,18 @@ import { useServer } from 'graphql-ws/lib/use/ws';
 import { WebSocketServer } from 'ws';
 import * as fs from 'fs';
 import Schema from './schema';
-import UserModel from './models/user';
 import Query from './resolvers/Query';
 import Mutation from './resolvers/Mutation';
 // import Subscription from './resolvers/Subscription';
+
+import UserModel from './models/userModel';
+import BulletinModel from './models/bulletinModel';
+import BulletinMsgModel from './models/bulletinMsgModel';
+
+
+import { DateTimeResolver } from 'graphql-scalars';
 import dateScalar from './resolvers/Date';
+import BulletinMsg from './resolvers/BulletinMsg';
 
 const pubsub = createPubSub();
 
@@ -18,12 +25,16 @@ const yoga = createYoga<any>({
     resolvers: <any>({
       Query,
       Mutation,
-    //   Subscription,
-      Date: dateScalar,
+      //   Subscription,
+      // Date: dateScalar,
+      // DateTime: DateTimeResolver,
+      BulletinMsg,
     }),
   }),
   context: <any>({
     UserModel,
+    BulletinModel,
+    BulletinMsgModel,
     pubsub,
   }),
   //  graphqlEndpoint: '/',   // uncomment this to send the app to: 4000/

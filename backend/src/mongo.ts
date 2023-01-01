@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 import dotenv from 'dotenv-defaults';
-import UserModel from './models/user';
+import UserModel from './models/userModel';
 
 /* handle connection to mongodb */
 async function mongoConnect() {

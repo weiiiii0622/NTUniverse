@@ -4,6 +4,7 @@ import { Schema, Types, model } from 'mongoose';
 interface IMutation {
     createUser: (x: any, y: any, z: any) => { },
     updateUser: (x: any, y: any, z: any) => { },
+    createBulletinMsg: (x: any, y: any, z: any) => { },
     // chatRoomName: String,
     // users: Types.ObjectId[],
     // messages: Types.ObjectId[],
@@ -21,6 +22,20 @@ const validateUser:any = async (UserModel: any, email: String, first_name: Strin
     }
     //console.log(usr);
     return usr;
+}
+
+const validateBulletin:any = async (BulletinModel: any, location: string) => {
+    let bulletin = await BulletinModel.findOne({ location });
+    //console.log(bulletin);
+    if(!bulletin){
+        bulletin = await new BulletinModel({ location }).save();
+        console.log(`bulletin ${location} created`);
+    }
+    else{
+        console.log(`bulletion ${location} found`);
+    }
+    //console.log(usr);
+    return bulletin.populate([{path: 'messages', populate: 'author' }]);
 }
   
 const Mutation:IMutation = {
@@ -42,6 +57,23 @@ const Mutation:IMutation = {
         await usr.save();
         return usr;
     },
+
+    createBulletinMsg: async (parent, { location ,author, body, time, tags }, { BulletinModel, BulletinMsgModel, pubsub }) => {
+
+        let bulletin = await validateBulletin(BulletinModel, location);
+        let newMsg = await new BulletinMsgModel({ author, body, time, tags }).save();
+
+        //console.log(bulletin.messages[0].author.nick_name);
+        bulletin.messages.push(newMsg);
+
+        await bulletin.save();
+
+        // pubsub.publish(`Bulletin ${location}`, {
+        //     message: newMsg,
+        // });
+
+        return newMsg;
+    }
 
     // createMessage: async(parent, { name, to, body }, { ChatBoxModel, pubsub }) => {
     //     const chatName = makeName(name, to);

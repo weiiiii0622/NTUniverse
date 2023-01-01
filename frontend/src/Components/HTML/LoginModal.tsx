@@ -36,9 +36,10 @@ const LoginModal = () => {
     };
 
 
-    const handleLoading =  async ( { first_name, last_name, nick_name, email, picture, description } ) => {
+    const handleLoading =  async ( { id, first_name, last_name, nick_name, email, picture, description } ) => {
         //setModalText('The modal will be closed after two seconds');
         setMe({
+            id,
             first_name,
             last_name,
             nick_name, 

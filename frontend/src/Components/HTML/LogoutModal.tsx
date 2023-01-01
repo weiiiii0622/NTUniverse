@@ -19,6 +19,7 @@ const LogoutModal = () => {
     const handleLogout =  async ( nick_name: string ) => {
         //setModalText('The modal will be closed after two seconds');
         setMe({
+            id: "",
             first_name: "",
             last_name: "",
             nick_name: "", 

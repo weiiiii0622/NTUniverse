@@ -17,11 +17,13 @@ const node_http_1 = require("node:http");
 const ws_1 = require("graphql-ws/lib/use/ws");
 const ws_2 = require("ws");
 const schema_1 = __importDefault(require("./schema"));
-const user_1 = __importDefault(require("./models/user"));
 const Query_1 = __importDefault(require("./resolvers/Query"));
 const Mutation_1 = __importDefault(require("./resolvers/Mutation"));
 // import Subscription from './resolvers/Subscription';
-const Date_1 = __importDefault(require("./resolvers/Date"));
+const userModel_1 = __importDefault(require("./models/userModel"));
+const bulletinModel_1 = __importDefault(require("./models/bulletinModel"));
+const bulletinMsgModel_1 = __importDefault(require("./models/bulletinMsgModel"));
+const BulletinMsg_1 = __importDefault(require("./resolvers/BulletinMsg"));
 const pubsub = (0, graphql_yoga_1.createPubSub)();
 const yoga = (0, graphql_yoga_1.createYoga)({
     schema: (0, graphql_yoga_1.createSchema)({
@@ -30,11 +32,15 @@ const yoga = (0, graphql_yoga_1.createYoga)({
             Query: Query_1.default,
             Mutation: Mutation_1.default,
             //   Subscription,
-            Date: Date_1.default,
+            // Date: dateScalar,
+            // DateTime: DateTimeResolver,
+            BulletinMsg: BulletinMsg_1.default,
         }),
     }),
     context: ({
-        UserModel: user_1.default,
+        UserModel: userModel_1.default,
+        BulletinModel: bulletinModel_1.default,
+        BulletinMsgModel: bulletinMsgModel_1.default,
         pubsub,
     }),
     //  graphqlEndpoint: '/',   // uncomment this to send the app to: 4000/
