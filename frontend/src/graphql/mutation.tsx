@@ -51,11 +51,31 @@ const CREATE_BULLETINMSG_MUTATION = gql`
         id
         nick_name
       }
+      id
       body
       tags
+    }
+  }
+`;
+
+const UPDATE_BULLETINMSG_MUTATION = gql`
+  mutation createBulletinMsg(
+    $location: String!,
+    $id: ID!,
+    $email: String!,
+    $isLiked: Boolean!
+  ){
+    updateBulletinMsg(location: $location, id: $id, email: $email, isLiked: $isLiked) {
+      body
+      id
+      tags
+      likers {
+        id
+        nick_name
+      }
     }
   }
 
 `;
 
-export {CREATE_USER_MUTATION, UPDATE_USER_MUTATION, CREATE_BULLETINMSG_MUTATION };
+export {CREATE_USER_MUTATION, UPDATE_USER_MUTATION, CREATE_BULLETINMSG_MUTATION, UPDATE_BULLETINMSG_MUTATION };

@@ -5,8 +5,14 @@ const BULLETIN_SUBSCRIPTION = gql`
     $location: String!,
   ){
     bulletin(location: $location){
+      type
+      data{
+        id
         body
         tags
+        likers {
+          id
+        }
         author {
             id
             email
@@ -16,6 +22,7 @@ const BULLETIN_SUBSCRIPTION = gql`
             last_name
             picture
         }     
+      }
     }
   }
 `;

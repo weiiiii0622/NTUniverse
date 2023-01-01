@@ -10,7 +10,7 @@ const Query = {
 
   //Bulletin
   bulletin: async (parent: any, { location }: any, { BulletinModel }: any) => {
-    const bulletin = await BulletinModel.findOne({ location }).populate(["messages"]);
+    const bulletin = await BulletinModel.findOne({ location }).populate(["messages", {path: 'messages', populate: 'likers' }]);
     //console.log(bulletin);
     return bulletin;
   },

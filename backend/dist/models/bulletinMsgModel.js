@@ -6,6 +6,7 @@ const BulletinMsgSchema = new mongoose_1.Schema({
     author: { type: mongoose_1.Schema.Types.ObjectId, ref: 'User' },
     body: String,
     tags: [String],
+    likers: [{ type: mongoose_1.Schema.Types.ObjectId, ref: 'User' }]
 }, {
     timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' },
 });

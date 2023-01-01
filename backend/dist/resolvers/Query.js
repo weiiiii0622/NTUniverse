@@ -20,7 +20,7 @@ const Query = {
     }),
     //Bulletin
     bulletin: (parent, { location }, { BulletinModel }) => __awaiter(void 0, void 0, void 0, function* () {
-        const bulletin = yield BulletinModel.findOne({ location }).populate(["messages"]);
+        const bulletin = yield BulletinModel.findOne({ location }).populate(["messages", { path: 'messages', populate: 'likers' }]);
         //console.log(bulletin);
         return bulletin;
     }),

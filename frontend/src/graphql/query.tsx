@@ -7,6 +7,7 @@ const BULLETIN_QUERY = gql`
     bulletin(location: $location){
         location
         messages {
+            id
             body
             tags
             author {
@@ -18,28 +19,8 @@ const BULLETIN_QUERY = gql`
                 last_name
                 picture
             }
-        }
-    }
-  }
-`;
-
-const USER_QUERY = gql`
-  query user(
-    $location: String!
-  ){
-    bulletin(location: $location){
-        location
-        messages {
-            body
-            tags
-            author {
-                id
-                email
-                nick_name
-                description
-                first_name
-                last_name
-                picture
+            likers{
+              id
             }
         }
     }

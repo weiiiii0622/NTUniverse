@@ -10,6 +10,7 @@ import {
     CREATE_USER_MUTATION,
     UPDATE_USER_MUTATION,
     CREATE_BULLETINMSG_MUTATION,
+    UPDATE_BULLETINMSG_MUTATION,
 
     BULLETIN_SUBSCRIPTION,
 } from "../graphql";
@@ -38,6 +39,7 @@ interface IContext {
     login: any,
     updateUser: any,
     leaveComment: any,
+    likeComment: any,
 
     bikePosition: Triplet,
     bikeEnabled: boolean,
@@ -66,6 +68,7 @@ const MyContext = createContext<IContext>({
     login: () => { },
     updateUser: () => { },
     leaveComment: () => { },
+    likeComment: () => { },
 
     bikePosition: [0, 0, 0],
     bikeEnabled: false,
@@ -110,8 +113,8 @@ const MyProvider = (props: any) => {
     const [isLogin, setIsLogin] = useState(false);
 
     // Login - query/create User
-    const [login] = useMutation(CREATE_USER_MUTATION);
-    const [updateUser] = useMutation(UPDATE_USER_MUTATION);
+    const [ login ] = useMutation(CREATE_USER_MUTATION);
+    const [ updateUser ] = useMutation(UPDATE_USER_MUTATION);
 
     // Add Other component......
 
@@ -131,6 +134,8 @@ const MyProvider = (props: any) => {
     const [ location, setLocation ] = useState("");
     const [ bulletinMessages, setBulletinMessages ] = useState<Object[]>([]);
     const [ leaveComment ]  = useMutation(CREATE_BULLETINMSG_MUTATION);
+    const [ likeComment ]  = useMutation(UPDATE_BULLETINMSG_MUTATION);
+
 
     const {data, loading, subscribeToMore} = useQuery(BULLETIN_QUERY, {
         variables:{
@@ -140,8 +145,8 @@ const MyProvider = (props: any) => {
     })
 
     useEffect(() => {
-        //console.log("Set Data!");
-        //console.log(data);
+        console.log("Set Data!");
+        console.log(data);
         if(data!==undefined) setBulletinMessages([...data.bulletin.messages]);
     }, [data])
 
@@ -152,20 +157,21 @@ const MyProvider = (props: any) => {
     useEffect(() => {
         let unsub;
         try {
-            //console.log(`sub! ${location}`);
+            console.log(`sub! ${location}`);
             unsub = subscribeToMore({
                 document: BULLETIN_SUBSCRIPTION,
                 variables: { location: location },
                 updateQuery: (prev, { subscriptionData }) => {
                     
-                    //console.log("subData:")
-                    //console.log(subscriptionData);
+                    console.log("subData:")
+                    console.log(subscriptionData);
                     if (!subscriptionData) return prev;
-                    const newMessage = subscriptionData.data.bulletin;
+                    var newMessage = subscriptionData.data.bulletin.data;
+                    const type = subscriptionData.data.bulletin.type;
                     //console.log("prev:");
                     //console.log(prev);
                     let temp = _.cloneDeep(prev);
-                    console.log(temp);
+                    //console.log(temp);
                     if(temp.bulletin === undefined){
                         temp = {
                             bulletin:{
@@ -173,13 +179,28 @@ const MyProvider = (props: any) => {
                             }
                         }
                     }
-                    return {
-                        bulletin:{
-                            __typename: "Bulletin",
-                            location: location,
-                            messages: [...temp.bulletin.messages, newMessage],
-                        }
-                    };
+                    if(type === "CREATED"){
+                        return {
+                            bulletin:{
+                                __typename: "Bulletin",
+                                location: location,
+                                messages: [...temp.bulletin.messages, newMessage],
+                            }
+                        };
+                    }
+                    else if(type === "UPDATED"){
+                        let newMsgs = temp.bulletin.messages;
+                        let idx = newMsgs.findIndex((msg) => {return msg.id === newMessage.id});
+                        console.log(idx);
+                        newMsgs[idx] = newMessage;
+                        return {
+                            bulletin:{
+                                __typename: "Bulletin",
+                                location: location,
+                                messages: [...newMsgs],
+                            }
+                        };
+                    }
                 },
             });
         } catch (e) {
@@ -192,7 +213,7 @@ const MyProvider = (props: any) => {
         <MyContext.Provider
             value={{
                 tutorialModalOpen, isLogin, loginModalOpen, logoutModalOpen, profileModalOpen, bulletinModalOpen, me, location, bulletinMessages,
-                setTutorialModalOpen, setIsLogin, setLoginModalOpen, setLogoutModalOpen, setProfileModalOpen, setBulletinModalOpen, login, updateUser, leaveComment, setMe,
+                setTutorialModalOpen, setIsLogin, setLoginModalOpen, setLogoutModalOpen, setProfileModalOpen, setBulletinModalOpen, login, updateUser, leaveComment, likeComment, setMe,
                 setLocation, setBulletinMessages,
                 bikeEnabled, setBikeEnabled,
             }}

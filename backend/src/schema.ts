@@ -33,17 +33,12 @@ const Schema = gql`
   }
 
   type BulletinMsg {
+    id: ID!
     author: User!
     body: String!
     tags: [String]
+    likers: [User]
   }
-
-  input CreateBulletinMsgInput {
-    author: ID!
-    body: String!
-    tags: [String]
-  }
-
 
   type Query {
     user(name: String!): User!
@@ -56,10 +51,22 @@ const Schema = gql`
     createUser(email: String!, first_name: String!, nick_name: String!, last_name: String!, picture: String!): User!
     updateUser(email: String!, nick_name: String!, picture: String!, description: String!): User!
     createBulletinMsg(location: String!, author: ID!, body: String!, tags:[String]): BulletinMsg!
+    updateBulletinMsg(location: String!, id: ID!, email: String!, isLiked: Boolean!): BulletinMsg!
   }
 
   type Subscription {
-    bulletin(location: String!): BulletinMsg!
+    bulletin(location: String!): BulletinMsgSubscriptionPayload!
+  }
+
+  type BulletinMsgSubscriptionPayload {
+    type: MutationType!
+    data: BulletinMsg!
+  }
+
+  enum MutationType {
+    CREATED
+    UPDATED
+    DELETED
   }
 `;
 export default Schema;
