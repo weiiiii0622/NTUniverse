@@ -29,7 +29,7 @@ const Schema = gql`
   
   type Bulletin {
     location: String!
-    messages: [BulletinMsg!]
+    messages: [BulletinMsg]
   }
 
   type BulletinMsg {

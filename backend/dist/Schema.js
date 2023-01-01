@@ -29,7 +29,7 @@ const Schema = (0, apollo_server_express_1.gql) `
   
   type Bulletin {
     location: String!
-    messages: [BulletinMsg!]
+    messages: [BulletinMsg]
   }
 
   type BulletinMsg {

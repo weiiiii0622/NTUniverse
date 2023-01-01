@@ -23,4 +23,27 @@ const BULLETIN_QUERY = gql`
   }
 `;
 
+const USER_QUERY = gql`
+  query user(
+    $location: String!
+  ){
+    bulletin(location: $location){
+        location
+        messages {
+            body
+            tags
+            author {
+                id
+                email
+                nick_name
+                description
+                first_name
+                last_name
+                picture
+            }
+        }
+    }
+  }
+`;
+
 export { BULLETIN_QUERY };

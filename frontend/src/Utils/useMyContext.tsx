@@ -173,8 +173,8 @@ const MyProvider = (props: any) => {
                     //console.log("prev:");
                     //console.log(prev);
                     let temp = _.cloneDeep(prev);
-                    //console.log(temp);
-                    if(temp === undefined){
+                    console.log(temp);
+                    if(temp.bulletin === undefined){
                         temp = {
                             bulletin:{
                                 messages:[]

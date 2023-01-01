@@ -150,6 +150,7 @@ const BulletinModal = () => {
                     setLocation("");
                     setBikeEnabled(true);
                     setCanSubmit(false);
+                    setLoad(false);
                     setBulletinModalOpen(false);
                 }}
                 width={"50vw"}

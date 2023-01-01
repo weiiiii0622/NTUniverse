@@ -92,7 +92,7 @@ const InteractiveBlock = (props: any) => {
     useEffect(() => {
         //console.log("Entered");
         
-        if(isActive && isEvent) {props.handleEvent(); console.log(isLogin)}
+        if(isActive && isEvent) {props.handleEvent();}
         
     }, [isEvent])
 
