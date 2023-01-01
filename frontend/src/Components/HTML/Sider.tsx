@@ -41,21 +41,24 @@ const MySider: React.FC = () => {
     token: { colorBgContainer },
   } = theme.useToken();
 
-  const { isLogin, setIsLogin, loginModalOpen, setLoginModalOpen, setLogoutModalOpen, setProfileModalOpen } = useMyContext();
+  const { isLogin, setIsLogin, loginModalOpen, setLoginModalOpen, setLogoutModalOpen, setProfileModalOpen, setBikeEnabled } = useMyContext();
 
   const handleLogin = () => {
-    console.log("Login");
+    //console.log("Login");
     setLoginModalOpen(true);
+    setBikeEnabled(false);
   }
 
   const handleLogout = () => {
-    console.log("Logout");
+    //console.log("Logout");
     setLogoutModalOpen(true);
+    setBikeEnabled(false);
   }
 
   const handleOpenProfile = () => {
-    console.log("Open Profile");
+    //console.log("Open Profile");
     setProfileModalOpen(true);
+    setBikeEnabled(false);
   }
 
   const items: MenuItem[] = [
@@ -96,7 +99,18 @@ const MySider: React.FC = () => {
         }}
       >
         <div style={{ height: 32, margin: 16, background: 'rgba(255, 255, 255, 0.2)' }} />
-        <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" items={items}/>
+        <Menu 
+          theme="dark" 
+          onKeyDown={(e) => {
+            if(e.code === "Enter"){
+              console.log("Entered Sider");
+              e.preventDefault();
+            }
+          }} 
+          defaultSelectedKeys={['1']} 
+          mode="inline" 
+          items={items}
+        />
       </Sider>
       {/* <Layout className="site-layout">
         <Header style={{ padding: 0, background: colorBgContainer }} />

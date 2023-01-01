@@ -87,7 +87,7 @@ const InteractiveBlock = (props: any) => {
     }
 
     const [isEvent, setIsEvent] = useState(false);
-    useKeyPress(['Enter'], (pressed) => (setIsEvent(pressed)))
+    useKeyPress(['Enter', 'e'], (pressed) => (setIsEvent(pressed)))
 
     useEffect(() => {
         //console.log("Entered");

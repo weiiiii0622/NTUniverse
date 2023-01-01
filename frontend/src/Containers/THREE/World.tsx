@@ -27,7 +27,7 @@ const DebugWorld: FC<any> = ({ debug = false, children }) => {
 
 function World() {
 
-	const { setBulletinModalOpen, isLogin, setIsLogin } = useMyContext();
+	const { setBikeEnabled, setBulletinModalOpen, isLogin, setIsLogin, setLocation } = useMyContext();
 
 	return (
 		<DebugWorld >
@@ -45,7 +45,22 @@ function World() {
 				}} />
 
                 {/* Pass in your EventHandler to handleEvent={ } */}
-			<InteractiveBlock handleEvent={() => { setBulletinModalOpen(true) }} position={[5, 0, 5]} />
+			<InteractiveBlock 
+				handleEvent={() => { 
+					setLocation("總圖");
+					setBikeEnabled(false);
+					setBulletinModalOpen(true); 
+				}} 
+				position={[5, 0, 5]} 
+			/>
+			<InteractiveBlock 
+				handleEvent={() => { 
+					setLocation("醉月湖");
+					setBikeEnabled(false);
+					setBulletinModalOpen(true); 
+				}} 
+				position={[5, 0, -5]} 
+			/>
 		</DebugWorld>
 	)
 }

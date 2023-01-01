@@ -1,9 +1,11 @@
 import { Schema, Types, model } from 'mongoose';
-//import UserModel from '../models/user';
+import _ from 'lodash';
+
 
 interface IMutation {
     createUser: (x: any, y: any, z: any) => { },
     updateUser: (x: any, y: any, z: any) => { },
+    createBulletinMsg: (x: any, y: any, z: any) => { },
     // chatRoomName: String,
     // users: Types.ObjectId[],
     // messages: Types.ObjectId[],
@@ -11,16 +13,30 @@ interface IMutation {
 
 const validateUser:any = async (UserModel: any, email: String, first_name: String, last_name: String, nick_name: String, picture: String, description: String) => {
     let usr = await UserModel.findOne({ email });
-    console.log(usr);
+    //console.log(usr);
     if(!usr){
         usr = await new UserModel({ email, first_name, last_name, picture, nick_name, description }).save();
-        console.log(`user ${email} created`);
+        //console.log(`user ${email} created`);
     }
     else{
-        console.log(`user ${email} found`);
+        //console.log(`user ${email} found`);
     }
     //console.log(usr);
     return usr;
+}
+
+const validateBulletin:any = async (BulletinModel: any, location: string) => {
+    let bulletin = await BulletinModel.findOne({ location });
+    //console.log(bulletin);
+    if(!bulletin){
+        bulletin = await new BulletinModel({ location }).save();
+        //console.log(`bulletin ${location} created`);
+    }
+    else{
+        //console.log(`bulletion ${location} found`);
+    }
+    //console.log(usr);
+    return bulletin.populate([{path: 'messages', populate: 'author' }]);
 }
   
 const Mutation:IMutation = {
@@ -42,6 +58,24 @@ const Mutation:IMutation = {
         await usr.save();
         return usr;
     },
+
+    createBulletinMsg: async (parent, { location ,author, body, tags }, { BulletinModel, BulletinMsgModel, pubsub }) => {
+
+        let bulletin = await validateBulletin(BulletinModel, location);
+        let newMsg = await new BulletinMsgModel({ author, body, tags }).save();
+        await newMsg.populate(["author"]);
+
+        //console.log(bulletin.messages[0].author.nick_name);
+        bulletin.messages.push(newMsg);
+        await bulletin.save();
+        //let msg = _.cloneDeep(newMsg.populate(['author']));
+        //console.log(newMsg);
+        pubsub.publish(`bulletin ${location}`, {
+            bulletin: newMsg,
+        });
+
+        return newMsg;
+    }
 
     // createMessage: async(parent, { name, to, body }, { ChatBoxModel, pubsub }) => {
     //     const chatName = makeName(name, to);

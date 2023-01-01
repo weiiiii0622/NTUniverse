@@ -12,7 +12,7 @@ import { useMyContext } from '../../Utils/useMyContext';
 
 
 const LoginModal = () => {
-    const { loginModalOpen, setLoginModalOpen, isLogin, setIsLogin, login, me, setMe } = useMyContext();
+    const { loginModalOpen, setLoginModalOpen, setBikeEnabled, isLogin, setIsLogin, login, me, setMe } = useMyContext();
     const [ loading, setLoading ] = useState(false);
 
     const clientId = '400363191853-gjef8qplkajcu781n791f6eonffkcfq3.apps.googleusercontent.com';
@@ -20,7 +20,7 @@ const LoginModal = () => {
     const onSuccess = async (res) => {
         //console.log('success:', res);
         const info = jwt_decode(res.credential);
-        console.log(info);
+        //console.log(info);
         setLoading(true);
         let user = await login({
             variables:{
@@ -31,14 +31,15 @@ const LoginModal = () => {
                 picture: info['picture'],
             }
         })
-        console.log(user);
+        //console.log(user);
         await handleLoading(user.data.createUser);
     };
 
 
-    const handleLoading =  async ( { first_name, last_name, nick_name, email, picture, description } ) => {
+    const handleLoading =  async ( { id, first_name, last_name, nick_name, email, picture, description } ) => {
         //setModalText('The modal will be closed after two seconds');
         setMe({
+            id,
             first_name,
             last_name,
             nick_name, 
@@ -51,6 +52,7 @@ const LoginModal = () => {
           setLoginModalOpen(false);
           setLoading(false);
           setIsLogin(true);
+          setBikeEnabled(true);
           message.success(`歡迎回來 ${nick_name}`);
         }, 1000);
     };
@@ -61,7 +63,7 @@ const LoginModal = () => {
                 title="Login"
                 centered
                 open={loginModalOpen}
-                onCancel={() => setLoginModalOpen(false)}
+                onCancel={() => { setBikeEnabled(true); setLoginModalOpen(false);}}
                 bodyStyle={{
                     display: 'flex',
                     justifyContent: 'center'

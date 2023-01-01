@@ -21,8 +21,9 @@ type ValidateStatus = Parameters<typeof Form.Item>[0]['validateStatus'];
 
 
 const ProfileModal = () => {
-    const { profileModalOpen, setProfileModalOpen, updateUser, me, setMe } = useMyContext();
+    const { profileModalOpen, setProfileModalOpen, setBikeEnabled,updateUser, me, setMe } = useMyContext();
     const [ loading, setLoading ] = useState(false);
+    const [ canSubmit, setCanSubmit ] = useState(true);
     const [ Nickname, setNickname ] = useState<{value: string; validateStatus?: ValidateStatus; errorMsg?: string | null;}>({value: me['nick_name']});
     const [form] = Form.useForm();
 
@@ -35,7 +36,7 @@ const ProfileModal = () => {
     }, [me])
 
     const normFile = (e: any) => {
-        console.log('Upload event:', e);
+        //console.log('Upload event:', e);
         if (Array.isArray(e)) {
           return e;
         }
@@ -52,7 +53,7 @@ const ProfileModal = () => {
                 description: form.getFieldValue('description'),
             }
         })
-        console.log(user);
+        //console.log(user);
         setMe({
             first_name: user.data.updateUser['first_name'],
             last_name: user.data.updateUser['last_name'],
@@ -63,9 +64,10 @@ const ProfileModal = () => {
         })
         setTimeout(() => {
             message.success('更新個人資料成功！');
-            console.log(me);
+            //console.log(me);
             setProfileModalOpen(false);
             setLoading(false);
+            setBikeEnabled(true);
         }, 1000);
     };
 
@@ -75,31 +77,37 @@ const ProfileModal = () => {
 
 
     const handleSave =  async () => {
-        console.log(form.getFieldValue('nick_name'));
+        //console.log(form.getFieldValue('nick_name'));
         form.submit()
     };
 
-const validateNickName = (value: string): {
-        validateStatus: ValidateStatus;
-        errorMsg: string | null;
-    } => {
-    if (value.length > 0) {
-        return {
-        validateStatus: 'success',
-        errorMsg: null,
-        };
-    }
-    return {
-        validateStatus: 'error',
-        errorMsg: '暱稱不可為空！',
+    const validateNickName = (value: string): {
+            validateStatus: ValidateStatus;
+            errorMsg: string | null;
+        } => {
+        if (value.length > 0 && value[0]!=' ') {
+            setCanSubmit(true);
+            return {
+            validateStatus: 'success',
+            errorMsg: null,
+            };
+        }
+        else{
+            setCanSubmit(false);
+            return {
+                validateStatus: 'error',
+                errorMsg: '暱稱不可為空！',
+            };
+        }
     };
-};
 
     const onNicknameChange = (e) => {
+        //console.log(e);
         setNickname({
             ...validateNickName(e.target.value),
             value: e.target.value
         })
+        //console.log(canSubmit);
     }
 
     return (
@@ -109,7 +117,7 @@ const validateNickName = (value: string): {
                 centered
                 open={profileModalOpen}
                 //onOk={handleOk}
-                onCancel={() => { form.setFieldsValue({nick_name: me['nick_name'],description: me['description']}); setProfileModalOpen(false)}}
+                onCancel={() => { form.setFieldsValue({nick_name: me['nick_name'],description: me['description']}); setProfileModalOpen(false); setBikeEnabled(true);}}
                 width={"50vw"}
                 bodyStyle={{
                     overflow: 'auto',
@@ -117,7 +125,7 @@ const validateNickName = (value: string): {
                     padding: 'inherit'
                 }}
                 footer={[
-                    <Button  key="submit" type="primary" loading={loading} onClick={handleSave}>
+                    <Button  disabled={canSubmit===false} key="submit" type="primary" loading={loading} onClick={handleSave}>
                       Save
                     </Button>,
                 ]}
