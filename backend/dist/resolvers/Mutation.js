@@ -12,13 +12,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = void 0;
 const validateUser = (UserModel, email, first_name, last_name, nick_name, picture, description) => __awaiter(void 0, void 0, void 0, function* () {
     let usr = yield UserModel.findOne({ email });
-    console.log(usr);
+    //console.log(usr);
     if (!usr) {
         usr = yield new UserModel({ email, first_name, last_name, picture, nick_name, description }).save();
-        console.log(`user ${email} created`);
+        //console.log(`user ${email} created`);
     }
     else {
-        console.log(`user ${email} found`);
+        //console.log(`user ${email} found`);
     }
     //console.log(usr);
     return usr;
@@ -28,10 +28,10 @@ const validateBulletin = (BulletinModel, location) => __awaiter(void 0, void 0, 
     //console.log(bulletin);
     if (!bulletin) {
         bulletin = yield new BulletinModel({ location }).save();
-        console.log(`bulletin ${location} created`);
+        //console.log(`bulletin ${location} created`);
     }
     else {
-        console.log(`bulletion ${location} found`);
+        //console.log(`bulletion ${location} found`);
     }
     //console.log(usr);
     return bulletin.populate([{ path: 'messages', populate: 'author' }]);
@@ -49,15 +49,18 @@ const Mutation = {
         yield usr.save();
         return usr;
     }),
-    createBulletinMsg: (parent, { location, author, body, time, tags }, { BulletinModel, BulletinMsgModel, pubsub }) => __awaiter(void 0, void 0, void 0, function* () {
+    createBulletinMsg: (parent, { location, author, body, tags }, { BulletinModel, BulletinMsgModel, pubsub }) => __awaiter(void 0, void 0, void 0, function* () {
         let bulletin = yield validateBulletin(BulletinModel, location);
-        let newMsg = yield new BulletinMsgModel({ author, body, time, tags }).save();
+        let newMsg = yield new BulletinMsgModel({ author, body, tags }).save();
+        yield newMsg.populate(["author"]);
         //console.log(bulletin.messages[0].author.nick_name);
         bulletin.messages.push(newMsg);
         yield bulletin.save();
-        // pubsub.publish(`Bulletin ${location}`, {
-        //     message: newMsg,
-        // });
+        //let msg = _.cloneDeep(newMsg.populate(['author']));
+        //console.log(newMsg);
+        pubsub.publish(`bulletin ${location}`, {
+            bulletin: newMsg,
+        });
         return newMsg;
     })
     // createMessage: async(parent, { name, to, body }, { ChatBoxModel, pubsub }) => {

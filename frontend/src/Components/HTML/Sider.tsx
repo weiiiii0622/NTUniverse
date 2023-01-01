@@ -44,19 +44,19 @@ const MySider: React.FC = () => {
   const { isLogin, setIsLogin, loginModalOpen, setLoginModalOpen, setLogoutModalOpen, setProfileModalOpen, setBikeEnabled } = useMyContext();
 
   const handleLogin = () => {
-    console.log("Login");
+    //console.log("Login");
     setLoginModalOpen(true);
     setBikeEnabled(false);
   }
 
   const handleLogout = () => {
-    console.log("Logout");
+    //console.log("Logout");
     setLogoutModalOpen(true);
     setBikeEnabled(false);
   }
 
   const handleOpenProfile = () => {
-    console.log("Open Profile");
+    //console.log("Open Profile");
     setProfileModalOpen(true);
     setBikeEnabled(false);
   }

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useQuery } from '@apollo/client';
 import { 
     Form,
     Input,
@@ -22,6 +23,8 @@ import {
     HeartOutlined
 } from '@ant-design/icons';
 import styled from 'styled-components';
+
+import { BULLETIN_QUERY } from '../../graphql';
 
 import MyTag from './components/Tag';
 import PlsLogin from './components/PleaseLogIn';
@@ -58,43 +61,43 @@ const StyledDivider = styled(Divider)`
 
 
 const BulletinModal = () => {
-    const { bulletinModalOpen, setBulletinModalOpen, setBikeEnabled, me, isLogin } = useMyContext();
+    const { bulletinModalOpen, setBulletinModalOpen, setBikeEnabled, me, isLogin, location, setLocation, bulletinMessages, leaveComment } = useMyContext();
     const [ pageInfo, setPageInfo ] = useState({page:0, size:4});
-    const [ loading, setLoading ] = useState(false);
+    const [ load, setLoad ] = useState(false);
     const [ canSubmit, setCanSubmit ] = useState(false);
 
-    const [ bulletinMessages, setBulletinMessages ] = useState<Object[]>([{usr:"wei", msg:"嗨嗨嗨嗨嗨嗨嗨嗨嗨嗨嗨嗨嗨嗨嗨嗨嗨嗨嗨嗨嗨嗨嗨嗨嗨嗨嗨嗨嗨嗨嗨嗨嗨嗨嗨嗨嗨嗨嗨嗨嗨嗨嗨嗨嗨嗨嗨嗨嗨嗨", tag:["做愛", "Hii", "HELLO"]}, {usr:"xia", msg:"Good", tag:["做愛", "Hii", "HELLO"]}, {usr:"kc", msg:"Good", tag:["做愛", "Hii", "HELLO"]}, {usr:"33", msg:"Good", tag:["做愛", "Hii", "HELLO"]}, {usr:"wchin", msg:"Good", tag:["做愛", "Hii", "HELLO"]}, {usr:"frog", msg:"Good", tag:["做愛", "Hii", "HELLO"]}]);
+    const [ tags, setTags] = useState<string[]>([]);
     const [ NewMsg, setNewMsg ] = useState<{value: string; validateStatus?: ValidateStatus; errorMsg?: string | null;}>({value: "", validateStatus: "", errorMsg: null});
-
-
 
     const [form] = Form.useForm();
 
     
-    useEffect(() => {
-        form.setFieldsValue({
-            nick_name: me['nick_name'],
-            description: me['description'],
-        });
-    }, [me])
+    // useEffect(() => {
+    //     form.setFieldsValue({
+    //         // nick_name: me['nick_name'],
+    //         // description: me['description'],
+    //     });
+    // }, [me])
 
     const onFinish = async () => {
-        setLoading(true);
-        // let user = await updateUser({
-        //     variables:{
-        //         email: me['email'],
-        //         nick_name: form.getFieldValue('nick_name'),
-        //         picture: me['picture'],
-        //         description: form.getFieldValue('description'),
-        //     }
-        // })
-        // console.log(user);
+        setLoad(true);
+        let newMsg = await leaveComment({
+            variables:{
+                location: location,
+                author: me['id'],
+                body: form.getFieldValue('body'),
+                tags: tags,
+            }
+        })
+        //console.log(newMsg);
 
         setTimeout(() => {
             form.resetFields();
+            setTags([]);
+            setLoad(false);
+            setCanSubmit(false);
             message.success('留言成功！');
-            setLoading(false);
-        }, 1000);
+        }, 10);
     };
 
     const onFinishFailed = (e) => {
@@ -103,7 +106,7 @@ const BulletinModal = () => {
 
 
     const handleSave =  async () => {
-        //console.log(form.getFieldValue('nick_name'));
+        //console.log(tags);
         form.submit()
     };
 
@@ -137,14 +140,16 @@ const BulletinModal = () => {
     return (
         <>
             <StyledModal
-                title="留言板 🪧"
+                title={`${location}的留言板 🪧`}
                 centered
                 open={bulletinModalOpen}
-                
                 //onOk={handleOk}
                 onCancel={() => {
                     form.resetFields();
+                    setTags([]);
+                    setLocation("");
                     setBikeEnabled(true);
+                    setCanSubmit(false);
                     setBulletinModalOpen(false);
                 }}
                 width={"50vw"}
@@ -160,7 +165,7 @@ const BulletinModal = () => {
                     
                 }}
                 footer={[
-                    <Button disabled={canSubmit===false} key="submit" type="primary" loading={loading} onClick={handleSave}>
+                    <Button disabled={canSubmit===false} key="submit" type="primary" loading={load} onClick={handleSave}>
                       Save
                     </Button>
                 ]}
@@ -192,7 +197,7 @@ const BulletinModal = () => {
                                     page: page-1,
                                     size: pageSize,
                                 })
-                                console.log(`BulletinPage: ${pageSize}`);
+                                //console.log(`BulletinPage: ${pageSize}`);
                             },
                             pageSize: 3,
                             position: 'top'
@@ -212,7 +217,7 @@ const BulletinModal = () => {
                                         <Row gutter={0} align='top' style={{alignItems: 'center',}}>
                                             <Col flex={1}>
                                                 <Avatar 
-                                                    src="https://joeschmoe.io/api/v1/random" 
+                                                    src={`${msg['author'].picture}`}
                                                     style={{
                                                         height: '2.7vh',
                                                         width: '2.7vh',
@@ -223,10 +228,10 @@ const BulletinModal = () => {
                                                 B{1+idx+pageInfo['page']*pageInfo['size']}- 
                                                 <a 
                                                     onClick={(e)=>{
-                                                        console.log(msg.usr)
+                                                        console.log(msg['author'].nick_name)
                                                     }}
                                                 >
-                                                    {msg.usr}
+                                                    {msg['author'].nick_name}
                                                 </a>
                                             </Col>
                                             <Col flex={1}>
@@ -251,14 +256,18 @@ const BulletinModal = () => {
 
                                     ]}
                                 >
-                                    {msg.msg}
+                                    {msg.body}
                                     <Divider style={{marginTop: "24px", marginBottom: "6px"}}/>
                                     {
-                                        msg.tag.map((tag, idx) => {
-                                            return (
-                                                <Tag color="#6c757d">#{tag}</Tag>
-                                            )
-                                        })
+                                        msg.tags.length>0 
+                                        ? 
+                                            msg.tags.map((tag, idx) => {
+                                                return (
+                                                    <Tag color="#6c757d">#{tag}</Tag>
+                                                )
+                                            })
+                                        :
+                                        null
                                     }
                                 </StyledCard>
 
@@ -285,12 +294,12 @@ const BulletinModal = () => {
                         wrapperCol={{span:10}} 
                         style={{marginBottom: '1vh',}}
                     >
-                        <MyTag />
+                        <MyTag tags={tags} setTags={setTags} />
                         {/* <Input placeholder={"輸入你想要的標籤"}/> */}
                     </Form.Item>
 
                     <Form.Item
-                        name="description"
+                        name="body"
                         label="想留的話"
                         style={{marginBottom: '1vh',}}
                         rules={[{ type: 'string', min: 1 }]}

@@ -3,8 +3,8 @@ import { PlusOutlined } from '@ant-design/icons';
 import type { InputRef } from 'antd';
 import { Input, Tag, Tooltip } from 'antd';
 
-const MyTag: React.FC = () => {
-  const [tags, setTags] = useState<string[]>([]);
+const MyTag: any = ({tags, setTags}: any) => {
+  
   const [inputVisible, setInputVisible] = useState(false);
   const [inputValue, setInputValue] = useState('');
   const [editInputIndex, setEditInputIndex] = useState(-1);
@@ -24,7 +24,7 @@ const MyTag: React.FC = () => {
 
   const handleClose = (removedTag: string) => {
     const newTags = tags.filter((tag) => tag !== removedTag);
-    console.log(newTags);
+    //console.log(newTags);
     setTags(newTags);
   };
 

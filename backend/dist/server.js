@@ -19,10 +19,13 @@ const ws_2 = require("ws");
 const schema_1 = __importDefault(require("./schema"));
 const Query_1 = __importDefault(require("./resolvers/Query"));
 const Mutation_1 = __importDefault(require("./resolvers/Mutation"));
-// import Subscription from './resolvers/Subscription';
+const Subscription_1 = __importDefault(require("./resolvers/Subscription"));
 const userModel_1 = __importDefault(require("./models/userModel"));
 const bulletinModel_1 = __importDefault(require("./models/bulletinModel"));
 const bulletinMsgModel_1 = __importDefault(require("./models/bulletinMsgModel"));
+// import { DateTimeResolver } from 'graphql-scalars';
+// import dateScalar from './resolvers/Date';
+const Bulletin_1 = __importDefault(require("./resolvers/Bulletin"));
 const BulletinMsg_1 = __importDefault(require("./resolvers/BulletinMsg"));
 const pubsub = (0, graphql_yoga_1.createPubSub)();
 const yoga = (0, graphql_yoga_1.createYoga)({
@@ -31,9 +34,10 @@ const yoga = (0, graphql_yoga_1.createYoga)({
         resolvers: ({
             Query: Query_1.default,
             Mutation: Mutation_1.default,
-            //   Subscription,
+            Subscription: Subscription_1.default,
             // Date: dateScalar,
             // DateTime: DateTimeResolver,
+            Bulletin: Bulletin_1.default,
             BulletinMsg: BulletinMsg_1.default,
         }),
     }),

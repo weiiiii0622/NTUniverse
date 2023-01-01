@@ -5,7 +5,6 @@ const mongoose_1 = require("mongoose");
 const BulletinMsgSchema = new mongoose_1.Schema({
     author: { type: mongoose_1.Schema.Types.ObjectId, ref: 'User' },
     body: String,
-    time: String,
     tags: [String],
 }, {
     timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' },

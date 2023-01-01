@@ -20,7 +20,7 @@ const LoginModal = () => {
     const onSuccess = async (res) => {
         //console.log('success:', res);
         const info = jwt_decode(res.credential);
-        console.log(info);
+        //console.log(info);
         setLoading(true);
         let user = await login({
             variables:{
@@ -31,7 +31,7 @@ const LoginModal = () => {
                 picture: info['picture'],
             }
         })
-        console.log(user);
+        //console.log(user);
         await handleLoading(user.data.createUser);
     };
 

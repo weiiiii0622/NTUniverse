@@ -36,7 +36,7 @@ const ProfileModal = () => {
     }, [me])
 
     const normFile = (e: any) => {
-        console.log('Upload event:', e);
+        //console.log('Upload event:', e);
         if (Array.isArray(e)) {
           return e;
         }
@@ -53,7 +53,7 @@ const ProfileModal = () => {
                 description: form.getFieldValue('description'),
             }
         })
-        console.log(user);
+        //console.log(user);
         setMe({
             first_name: user.data.updateUser['first_name'],
             last_name: user.data.updateUser['last_name'],
@@ -64,7 +64,7 @@ const ProfileModal = () => {
         })
         setTimeout(() => {
             message.success('更新個人資料成功！');
-            console.log(me);
+            //console.log(me);
             setProfileModalOpen(false);
             setLoading(false);
             setBikeEnabled(true);
@@ -77,7 +77,7 @@ const ProfileModal = () => {
 
 
     const handleSave =  async () => {
-        console.log(form.getFieldValue('nick_name'));
+        //console.log(form.getFieldValue('nick_name'));
         form.submit()
     };
 
@@ -102,12 +102,12 @@ const ProfileModal = () => {
     };
 
     const onNicknameChange = (e) => {
-        console.log(e);
+        //console.log(e);
         setNickname({
             ...validateNickName(e.target.value),
             value: e.target.value
         })
-        console.log(canSubmit);
+        //console.log(canSubmit);
     }
 
     return (

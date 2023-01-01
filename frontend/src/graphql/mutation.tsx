@@ -39,4 +39,23 @@ const UPDATE_USER_MUTATION = gql`
   }
 `;
 
-export {CREATE_USER_MUTATION, UPDATE_USER_MUTATION};
+const CREATE_BULLETINMSG_MUTATION = gql`
+  mutation createBulletinMsg(
+    $location: String!, 
+    $author: ID!, 
+    $body: String!,
+    $tags:[String]
+  ){
+    createBulletinMsg(location: $location, author: $author, body: $body, tags: $tags){
+      author {
+        id
+        nick_name
+      }
+      body
+      tags
+    }
+  }
+
+`;
+
+export {CREATE_USER_MUTATION, UPDATE_USER_MUTATION, CREATE_BULLETINMSG_MUTATION };

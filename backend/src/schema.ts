@@ -35,14 +35,12 @@ const Schema = gql`
   type BulletinMsg {
     author: User!
     body: String!
-    time: String!
     tags: [String]
   }
 
   input CreateBulletinMsgInput {
     author: ID!
     body: String!
-    time: String!
     tags: [String]
   }
 
@@ -57,12 +55,12 @@ const Schema = gql`
   type Mutation {
     createUser(email: String!, first_name: String!, nick_name: String!, last_name: String!, picture: String!): User!
     updateUser(email: String!, nick_name: String!, picture: String!, description: String!): User!
-    createBulletinMsg(location: String!, author: ID!, body: String!, time: String!, tags:[String]): BulletinMsg!
+    createBulletinMsg(location: String!, author: ID!, body: String!, tags:[String]): BulletinMsg!
   }
 
-  # type Subscription {
-
-  # }
+  type Subscription {
+    bulletin(location: String!): BulletinMsg!
+  }
 `;
 export default Schema;
 //export this Schema so we can use it in our project

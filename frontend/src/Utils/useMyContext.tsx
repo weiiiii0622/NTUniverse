@@ -1,9 +1,19 @@
 import { Triplet } from "@react-three/cannon";
 import { useState, useEffect, createContext, useContext, useRef } from "react";
-import { useMutation } from "@apollo/client";
-
-import { CREATE_USER_MUTATION, UPDATE_USER_MUTATION } from "../graphql";
+import { useQuery, useMutation } from "@apollo/client";
 import { SetStateType } from "./type";
+import _ from "lodash";
+
+import { 
+    BULLETIN_QUERY,
+
+    CREATE_USER_MUTATION,
+    UPDATE_USER_MUTATION,
+    CREATE_BULLETINMSG_MUTATION,
+
+    BULLETIN_SUBSCRIPTION,
+} from "../graphql";
+
 
 interface IContext {
     tutorialModalOpen: boolean,
@@ -20,9 +30,14 @@ interface IContext {
     setBulletinModalOpen(x: boolean): void,
     me: object,
     setMe(x: object): void,
+    location: string,
+    setLocation: SetStateType<string>,
+    bulletinMessages: any,
+    setBulletinMessages: any,
 
     login: any,
     updateUser: any,
+    leaveComment: any,
 
     bikePosition: Triplet,
     bikeEnabled: boolean,
@@ -44,16 +59,20 @@ const MyContext = createContext<IContext>({
     setBulletinModalOpen: (x) => { },
     me: {},
     setMe: (x) => { },
-
+    location: "",
+    setLocation: () => { },
+    bulletinMessages: [],
+    setBulletinMessages: () => { },
     login: () => { },
     updateUser: () => { },
+    leaveComment: () => { },
 
     bikePosition: [0, 0, 0],
     bikeEnabled: false,
     setBikeEnabled: () => { },
 });
 
-
+//const _ = require('lodash');
 
 const MyProvider = (props: any) => {
 
@@ -85,7 +104,7 @@ const MyProvider = (props: any) => {
      */
 
     // User info
-    const [me, setMe] = useState({ id:"" ,email: "", first_name: "", last_name: "", nick_name: "", picture: "", description: "" });
+    const [me, setMe] = useState({ id: "", email: "", first_name: "", last_name: "", nick_name: "", picture: "", description: "" });
 
     // Login - state
     const [isLogin, setIsLogin] = useState(false);
@@ -104,12 +123,77 @@ const MyProvider = (props: any) => {
     const [bikeEnabled, setBikeEnabled] = useState(true);
 
 
+    /**
+     * 
+     * Bulletin
+     * 
+     */
+    const [ location, setLocation ] = useState("");
+    const [ bulletinMessages, setBulletinMessages ] = useState<Object[]>([]);
+    const [ leaveComment ]  = useMutation(CREATE_BULLETINMSG_MUTATION);
+
+    const {data, loading, subscribeToMore} = useQuery(BULLETIN_QUERY, {
+        variables:{
+            location: location,
+        },
+        fetchPolicy: "cache-and-network",
+    })
+
+    useEffect(() => {
+        //console.log("Set Data!");
+        //console.log(data);
+        if(data!==undefined) setBulletinMessages([...data.bulletin.messages]);
+    }, [data])
+
+    useEffect(() => {
+        //console.log(`Bulletin changed to: ${location}`);
+    }, [location])
+
+    useEffect(() => {
+        let unsub;
+        try {
+            //console.log(`sub! ${location}`);
+            unsub = subscribeToMore({
+                document: BULLETIN_SUBSCRIPTION,
+                variables: { location: location },
+                updateQuery: (prev, { subscriptionData }) => {
+                    
+                    //console.log("subData:")
+                    //console.log(subscriptionData);
+                    if (!subscriptionData) return prev;
+                    const newMessage = subscriptionData.data.bulletin;
+                    //console.log("prev:");
+                    //console.log(prev);
+                    let temp = _.cloneDeep(prev);
+                    //console.log(temp);
+                    if(temp === undefined){
+                        temp = {
+                            bulletin:{
+                                messages:[]
+                            }
+                        }
+                    }
+                    return {
+                        bulletin:{
+                            __typename: "Bulletin",
+                            location: location,
+                            messages: [...temp.bulletin.messages, newMessage],
+                        }
+                    };
+                },
+            });
+        } catch (e) {
+            console.log(e);
+        }
+        return ()=>unsub();
+    }, [subscribeToMore, location]);
 
     return (
         <MyContext.Provider
             value={{
-                tutorialModalOpen, isLogin, loginModalOpen, logoutModalOpen, profileModalOpen, bulletinModalOpen, me,
-                setTutorialModalOpen, setIsLogin, setLoginModalOpen, setLogoutModalOpen, setProfileModalOpen, setBulletinModalOpen, login, updateUser, setMe,
+                tutorialModalOpen, isLogin, loginModalOpen, logoutModalOpen, profileModalOpen, bulletinModalOpen, me, location, bulletinMessages,
+                setTutorialModalOpen, setIsLogin, setLoginModalOpen, setLogoutModalOpen, setProfileModalOpen, setBulletinModalOpen, login, updateUser, leaveComment, setMe,
+                setLocation, setBulletinMessages,
                 bikeEnabled, setBikeEnabled,
             }}
             {...props}

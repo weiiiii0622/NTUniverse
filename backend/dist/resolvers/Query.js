@@ -20,8 +20,8 @@ const Query = {
     }),
     //Bulletin
     bulletin: (parent, { location }, { BulletinModel }) => __awaiter(void 0, void 0, void 0, function* () {
-        const bulletin = yield BulletinModel.find({ location });
-        console.log(bulletin);
+        const bulletin = yield BulletinModel.findOne({ location }).populate(["messages"]);
+        //console.log(bulletin);
         return bulletin;
     }),
     // BulletinMsg

@@ -10,8 +10,8 @@ const Query = {
 
   //Bulletin
   bulletin: async (parent: any, { location }: any, { BulletinModel }: any) => {
-    const bulletin = await BulletinModel.find({ location });
-    console.log(bulletin);
+    const bulletin = await BulletinModel.findOne({ location }).populate(["messages"]);
+    //console.log(bulletin);
     return bulletin;
   },
 

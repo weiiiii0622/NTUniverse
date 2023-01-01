@@ -1,7 +1,7 @@
 import httpServer from "./server";
 import mongoConnect from "./mongo";
 
-(async () => console.log('hello world!'))();
+//(async () => console.log('hello world!'))();
 
 mongoConnect();
 
