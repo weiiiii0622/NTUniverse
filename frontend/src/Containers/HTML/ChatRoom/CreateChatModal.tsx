@@ -1,26 +1,27 @@
 import { useEffect, useRef, useState } from "react";
-import { Button, Form, Input, Modal } from "antd";
+import { Button, Form, Input, Modal, Affix } from "antd";
 import { PlusOutlined } from '@ant-design/icons';
 
 interface ICreateChatModal {
   createOpen: boolean,
-  // onCreate(name: string): void,
   onOpen(): void,
   onCancel(): void,
+  onCreate(name: string): void,
 }
 
 const CreateChatModal = (props: ICreateChatModal) => {
 
-  const { createOpen, onOpen, onCancel } = props;
+  const { createOpen, onOpen, onCancel, onCreate } = props;
 
   const [form] = Form.useForm();
   const inputRef = useRef();
+  // const [container, setContainer] = useState<HTMLDivElement | null>(null);
 
   const submit = () => {
     form
       .validateFields()
       .then((values) => {
-        // onCreate(values.name);
+        onCreate(values.name);
         form.resetFields();
       })
       .catch((e) => {
@@ -31,6 +32,9 @@ const CreateChatModal = (props: ICreateChatModal) => {
   return (
     <>
       <Button icon={<PlusOutlined />} onClick={onOpen}>Create Chats</Button>
+      {/* <div style={{ position: 'sticky', top: 0 }}>
+      </div>
+       */}
       <Modal
         title="Create a new chat room"
         okText="Create"
