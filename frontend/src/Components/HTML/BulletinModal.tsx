@@ -193,7 +193,7 @@ const BulletinModal = () => {
                 }}
                 footer={[
                     <Button disabled={canSubmit===false} key="submit" type="primary" loading={load} onClick={handleSave}>
-                      Save
+                      發佈
                     </Button>
                 ]}
             >

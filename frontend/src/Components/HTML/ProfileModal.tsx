@@ -21,11 +21,11 @@ type ValidateStatus = Parameters<typeof Form.Item>[0]['validateStatus'];
 
 
 const ProfileModal = () => {
-    const { profileModalOpen, setProfileModalOpen, setBikeEnabled,updateUser, me, setMe } = useMyContext();
+    const { profileModalOpen, setProfileModalOpen, setBikeEnabled, updateUser, me, setMe } = useMyContext();
     const [ loading, setLoading ] = useState(false);
     const [ canSubmit, setCanSubmit ] = useState(true);
     const [ Nickname, setNickname ] = useState<{value: string; validateStatus?: ValidateStatus; errorMsg?: string | null;}>({value: me['nick_name']});
-    const [form] = Form.useForm();
+    const [ form ] = Form.useForm();
 
     
     useEffect(() => {
@@ -173,21 +173,9 @@ const ProfileModal = () => {
                     <Form.Item
                         name="description"
                         label="想說的話"
-                    >
-                        <Input.TextArea rows={4} autoSize={{ minRows: 4 }} showCount maxLength={500}  placeholder="你還沒留下任何訊息"/>
+                    >   
+                        <Input.TextArea disabled={false} rows={4} autoSize={{ minRows: 4 }} showCount maxLength={500}  placeholder="你還沒留下任何訊息"/>
                     </Form.Item>
-
-                    {/* <Form.Item
-                        name="upload"
-                        label="Upload"
-                        valuePropName="fileList"
-                        getValueFromEvent={normFile}
-                        
-                    >
-                        <Upload name="logo" action="/upload.do" listType="picture">
-                        <Button icon={<UploadOutlined />}>Click to upload</Button>
-                        </Upload>
-                    </Form.Item> */}
                 </Form>
             </>
                                     

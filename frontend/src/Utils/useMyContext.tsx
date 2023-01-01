@@ -109,6 +109,8 @@ const MyProvider = (props: any) => {
     // User info
     const [me, setMe] = useState({ id: "", email: "", first_name: "", last_name: "", nick_name: "", picture: "", description: "" });
 
+    // For Profile
+
     // Login - state
     const [isLogin, setIsLogin] = useState(false);
 
