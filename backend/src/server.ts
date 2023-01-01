@@ -30,13 +30,14 @@ const yoga = createYoga<any>({
   graphiql: {
     subscriptionsProtocol: 'WS',
   },
+  graphqlEndpoint: '/graphql',
 });
 
 const httpServer = createServer(yoga);
 
 const wsServer = new WebSocketServer({
   server: httpServer,
-  path: yoga.graphqlEndpoint,
+  path: '/subscriptions',
 })
 
 useServer(

@@ -41,11 +41,12 @@ const yoga = (0, graphql_yoga_1.createYoga)({
     graphiql: {
         subscriptionsProtocol: 'WS',
     },
+    graphqlEndpoint: '/graphql',
 });
 const httpServer = (0, node_http_1.createServer)(yoga);
 const wsServer = new ws_2.WebSocketServer({
     server: httpServer,
-    path: yoga.graphqlEndpoint,
+    path: '/subscriptions',
 });
 (0, ws_1.useServer)({
     execute: (args) => args.rootValue.execute(args),

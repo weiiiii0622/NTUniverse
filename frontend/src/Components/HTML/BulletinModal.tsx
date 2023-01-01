@@ -23,8 +23,8 @@ import {
 } from '@ant-design/icons';
 import styled from 'styled-components';
 
-import MyTag from './Tag';
-import PlsLogin from './PleaseLogIn';
+import MyTag from './components/Tag';
+import PlsLogin from './components/PleaseLogIn';
 import { useMyContext } from '../../Utils/useMyContext';
 
 type ValidateStatus = Parameters<typeof Form.Item>[0]['validateStatus'];
@@ -320,6 +320,3 @@ const BulletinModal = () => {
 }
 
 export default BulletinModal;
-
-
-
