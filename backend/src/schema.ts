@@ -42,6 +42,7 @@ const Schema = gql`
 
   type Query {
     user(id: ID!): User!
+    userAll: [User!]
     userByEmail(email: String!): User!
     bulletin(location: String!): Bulletin!
     bulletinMsg(author: ID!): [BulletinMsg!]

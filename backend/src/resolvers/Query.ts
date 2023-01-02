@@ -7,6 +7,10 @@ const Query = {
     const user = await UserModel.findOne({ email: email });
     return user;
   },
+  userAll: async (parent: any, { }: any, { UserModel }: any) => {
+    const user = await UserModel.find();
+    return user;
+  },
 
   //Bulletin
   bulletin: async (parent: any, { location }: any, { BulletinModel }: any) => {

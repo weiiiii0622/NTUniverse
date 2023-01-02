@@ -16,6 +16,20 @@ const USER_QUERY = gql`
   }
 `;
 
+const USERALL_QUERY = gql`
+  query{
+    userAll{
+      description
+      email
+      first_name
+      id
+      nick_name
+      last_name
+      picture  
+    }
+  } 
+`;
+
 const BULLETIN_QUERY = gql`
   query bulletin(
     $location: String!
@@ -43,4 +57,4 @@ const BULLETIN_QUERY = gql`
   }
 `;
 
-export { USER_QUERY, BULLETIN_QUERY };
+export { USER_QUERY, USERALL_QUERY, BULLETIN_QUERY };

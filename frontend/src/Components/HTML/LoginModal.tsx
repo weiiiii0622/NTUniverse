@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Modal, message } from 'antd';
 import {
-    LoadingOutlined
+    LoadingOutlined,
+    LoginOutlined
 } from '@ant-design/icons';
 import { GoogleLogin, googleLogout } from '@react-oauth/google';
 import jwt_decode from 'jwt-decode'
@@ -61,7 +62,7 @@ const LoginModal = () => {
     return (
         <>
             <Modal
-                title="Login"
+                title={<>登入 <LoginOutlined /></>}
                 centered
                 open={loginModalOpen}
                 onCancel={() => { setBikeEnabled(true); setLoginModalOpen(false);}}

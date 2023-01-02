@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Modal, message } from 'antd';
 import {
-    LoadingOutlined
+    LoadingOutlined,
+    LogoutOutlined
 } from '@ant-design/icons';
 import { GoogleLogin, googleLogout } from '@react-oauth/google';
 import jwt_decode from 'jwt-decode'
@@ -40,7 +41,7 @@ const LogoutModal = () => {
     return (
         <>
             <Modal
-                title="Logout"
+                title={<>登出 <LogoutOutlined /></>}
                 centered
                 open={logoutModalOpen}
                 //onOk={() => handleLogout(me['nick_name'])}

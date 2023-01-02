@@ -29,6 +29,8 @@ interface IContext {
     setProfileModalOpen(x: boolean): void,
     bulletinModalOpen: boolean,
     setBulletinModalOpen(x: boolean): void,
+    aboutModalOpen: boolean,
+    setAboutModalOpen(x: boolean): void,
     me: object,
     setMe(x: object): void,
     location: string,
@@ -61,6 +63,8 @@ const MyContext = createContext<IContext>({
     setProfileModalOpen: (x) => { },
     bulletinModalOpen: false,
     setBulletinModalOpen: (x) => { },
+    aboutModalOpen: false,
+    setAboutModalOpen: (x) => { },
     me: {},
     setMe: (x) => { },
     location: "",
@@ -93,7 +97,7 @@ const MyProvider = (props: any) => {
     const [tutorialModalOpen, setTutorialModalOpen] = useState(true);
 
     // ProfileModal
-    const [profileUser, setProfileUser] = useState("");
+    const [profileUser, setProfileUser] = useState("63b2c6e4efca665348698a8b");
     const [profileModalOpen, setProfileModalOpen] = useState(false);
 
     // LoginModal
@@ -104,6 +108,9 @@ const MyProvider = (props: any) => {
 
     // BulletinModal
     const [bulletinModalOpen, setBulletinModalOpen] = useState(false);
+
+    // AboutModal
+    const [aboutModalOpen, setAboutModalOpen] = useState(false);
 
     /**
      * 
@@ -219,8 +226,8 @@ const MyProvider = (props: any) => {
     return (
         <MyContext.Provider
             value={{
-                tutorialModalOpen, isLogin, loginModalOpen, logoutModalOpen, profileModalOpen, bulletinModalOpen, me, location, bulletinMessages, profileUser,
-                setTutorialModalOpen, setIsLogin, setLoginModalOpen, setLogoutModalOpen, setProfileModalOpen, setBulletinModalOpen, login, updateUser, leaveComment, likeComment, setMe,
+                tutorialModalOpen, isLogin, loginModalOpen, logoutModalOpen, profileModalOpen, bulletinModalOpen, aboutModalOpen, me, location, bulletinMessages, profileUser,
+                setTutorialModalOpen, setIsLogin, setLoginModalOpen, setLogoutModalOpen, setProfileModalOpen, setBulletinModalOpen, setAboutModalOpen, login, updateUser, leaveComment, likeComment, setMe,
                 setProfileUser,
                 setLocation, setBulletinMessages,
                 bikeEnabled, setBikeEnabled,
