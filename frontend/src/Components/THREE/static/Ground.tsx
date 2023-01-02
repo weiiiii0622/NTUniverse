@@ -51,9 +51,9 @@ export default function Ground(props: any) {
                     castShadow
                 // rotation={[-Math.PI / 2, 0, 0] as Triplet}
                 >
-                    <circleGeometry
+                    {/* <circleGeometry
                         args={[1000, 1000]}
-                    />
+                    /> */}
                     <meshStandardMaterial
                         // displacementScale={1}
                         envMapIntensity={envmapIntensity} />
