@@ -94,7 +94,7 @@ const MyProvider = (props: any) => {
      */
 
     // TutorialModal
-    const [tutorialModalOpen, setTutorialModalOpen] = useState(true);
+    const [tutorialModalOpen, setTutorialModalOpen] = useState(false);
 
     // ProfileModal
     const [profileUser, setProfileUser] = useState("63b2c6e4efca665348698a8b");

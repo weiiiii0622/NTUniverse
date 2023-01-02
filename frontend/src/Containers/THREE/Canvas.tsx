@@ -1,17 +1,15 @@
 import { Physics, Triplet } from "@react-three/cannon";
-import { AdaptiveDpr, AdaptiveEvents, Environment } from "@react-three/drei";
+import { AdaptiveDpr, AdaptiveEvents } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import { useControls } from "leva";
 import { Perf } from "r3f-perf";
-import { createContext, useState } from "react";
-import Bike from "../../Components/THREE/Bike";
-import Camera from "../../Components/THREE/scene/Camera";
+import { createContext, useState, useEffect } from "react";
 import Lights from "../../Components/THREE/scene/Lights";
 import AppOrbitControls from "../../Components/THREE/scene/OrbitControls";
 import AppSky from "../../Components/THREE/static/Sky";
 import { SetStateType } from "../../Utils/type";
-import TestCam from "./TestCam";
-import TestContainer from "./TestContainer";
+import { useMyContext } from "../../Utils/useMyContext";
+import SFu from "./Demo";
 import World from "./World";
 
 interface IContext {
@@ -72,19 +70,23 @@ export default function AppCanvas() {
 	 * Bike
 	 */
 	const [bikePosition, setBikePosition] = useState<Triplet>([0, 0, 0]);
-	const [bikeControlling, setBikeControlling] = useState<boolean>(false);
-	const [helpers, setHelpers] = useState<boolean>(true);
+	const [bikeControlling, setBikeControlling] = useState<boolean>(true);
+	const [helpers, setHelpers] = useState<boolean>(false);
 	// const [enableControls, setEnableControls] = useState<boolean>(true);
 
 	const { enableControls } = useControls({
-		enableControls: false,
+		enableControls: true,
 	});
-
+	const { enableBike } = useControls({ enableBike: true, });
+	const { setBikeEnabled } = useMyContext();
+	useEffect(() => {
+		setBikeEnabled(enableBike);
+	}, [enableBike]);
 
 	return (
 		<Canvas
 			style={{ position: 'unset' }}
-		// shadows
+			shadows
 		>
 			<Perf position="bottom-right" />
 
@@ -106,9 +108,9 @@ export default function AppCanvas() {
 			{/* <color args={['#A2B4C2']} attach='background' /> */}
 			{/* </Environment> */}
 
-			<Environment background>
+			{/* <Environment background>
 				<color args={['#0b1f2c']} attach='background' />
-			</Environment>
+			</Environment> */}
 
 			<ThreeContext.Provider value={{
 				bikePosition,
@@ -120,9 +122,9 @@ export default function AppCanvas() {
 				enableControls,
 				setEnableControls: () => { },
 			}}>
+				<SFu />
 				<Physics>
 					<World />
-					{/* <TestContainer /> */}
 				</Physics>
 				{/* <Camera track={track} /> */}
 				{/* <TestCam /> */}
