@@ -33,20 +33,16 @@ const Schema = (0, apollo_server_express_1.gql) `
   }
 
   type BulletinMsg {
+    id: ID!
     author: User!
     body: String!
     tags: [String]
+    likers: [User]
   }
-
-  input CreateBulletinMsgInput {
-    author: ID!
-    body: String!
-    tags: [String]
-  }
-
 
   type Query {
-    user(name: String!): User!
+    user(id: ID!): User!
+    userAll: [User!]
     userByEmail(email: String!): User!
     bulletin(location: String!): Bulletin!
     bulletinMsg(author: ID!): [BulletinMsg!]
@@ -56,10 +52,22 @@ const Schema = (0, apollo_server_express_1.gql) `
     createUser(email: String!, first_name: String!, nick_name: String!, last_name: String!, picture: String!): User!
     updateUser(email: String!, nick_name: String!, picture: String!, description: String!): User!
     createBulletinMsg(location: String!, author: ID!, body: String!, tags:[String]): BulletinMsg!
+    updateBulletinMsg(location: String!, id: ID!, email: String!, isLiked: Boolean!): BulletinMsg!
   }
 
   type Subscription {
-    bulletin(location: String!): BulletinMsg!
+    bulletin(location: String!): BulletinMsgSubscriptionPayload!
+  }
+
+  type BulletinMsgSubscriptionPayload {
+    type: MutationType!
+    data: BulletinMsg!
+  }
+
+  enum MutationType {
+    CREATED
+    UPDATED
+    DELETED
   }
 `;
 exports.default = Schema;

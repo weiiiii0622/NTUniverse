@@ -10,6 +10,7 @@ import {
     CREATE_USER_MUTATION,
     UPDATE_USER_MUTATION,
     CREATE_BULLETINMSG_MUTATION,
+    UPDATE_BULLETINMSG_MUTATION,
 
     BULLETIN_SUBSCRIPTION,
 } from "../graphql";
@@ -28,16 +29,21 @@ interface IContext {
     setProfileModalOpen(x: boolean): void,
     bulletinModalOpen: boolean,
     setBulletinModalOpen(x: boolean): void,
+    aboutModalOpen: boolean,
+    setAboutModalOpen(x: boolean): void,
     me: object,
     setMe(x: object): void,
     location: string,
     setLocation: SetStateType<string>,
     bulletinMessages: any,
     setBulletinMessages: any,
+    profileUser: any,
+    setProfileUser: SetStateType<string>,
 
     login: any,
     updateUser: any,
     leaveComment: any,
+    likeComment: any,
 
     bikePosition: Triplet,
     bikeEnabled: boolean,
@@ -60,15 +66,20 @@ const MyContext = createContext<IContext>({
     setProfileModalOpen: (x) => { },
     bulletinModalOpen: false,
     setBulletinModalOpen: (x) => { },
+    aboutModalOpen: false,
+    setAboutModalOpen: (x) => { },
     me: {},
     setMe: (x) => { },
     location: "",
     setLocation: () => { },
     bulletinMessages: [],
     setBulletinMessages: () => { },
+    profileUser: "",
+    setProfileUser: () => { },
     login: () => { },
     updateUser: () => { },
     leaveComment: () => { },
+    likeComment: () => { },
 
     bikePosition: [0, 0, 0],
     bikeEnabled: false,
@@ -92,6 +103,7 @@ const MyProvider = (props: any) => {
     const [tutorialModalOpen, setTutorialModalOpen] = useState(false);
 
     // ProfileModal
+    const [profileUser, setProfileUser] = useState("63b2c6e4efca665348698a8b");
     const [profileModalOpen, setProfileModalOpen] = useState(false);
 
     // LoginModal
@@ -103,6 +115,9 @@ const MyProvider = (props: any) => {
     // BulletinModal
     const [bulletinModalOpen, setBulletinModalOpen] = useState(false);
 
+    // AboutModal
+    const [aboutModalOpen, setAboutModalOpen] = useState(false);
+
     /**
      * 
      * User
@@ -112,12 +127,14 @@ const MyProvider = (props: any) => {
     // User info
     const [me, setMe] = useState({ id: "", email: "", first_name: "", last_name: "", nick_name: "", picture: "", description: "" });
 
+    // For Profile
+
     // Login - state
     const [isLogin, setIsLogin] = useState(false);
 
     // Login - query/create User
-    const [login] = useMutation(CREATE_USER_MUTATION);
-    const [updateUser] = useMutation(UPDATE_USER_MUTATION);
+    const [ login ] = useMutation(CREATE_USER_MUTATION);
+    const [ updateUser ] = useMutation(UPDATE_USER_MUTATION);
 
     // Add Other component......
 
@@ -139,6 +156,8 @@ const MyProvider = (props: any) => {
     const [ location, setLocation ] = useState("");
     const [ bulletinMessages, setBulletinMessages ] = useState<Object[]>([]);
     const [ leaveComment ]  = useMutation(CREATE_BULLETINMSG_MUTATION);
+    const [ likeComment ]  = useMutation(UPDATE_BULLETINMSG_MUTATION);
+
 
     const {data, loading, subscribeToMore} = useQuery(BULLETIN_QUERY, {
         variables:{
@@ -160,7 +179,7 @@ const MyProvider = (props: any) => {
     useEffect(() => {
         let unsub;
         try {
-            //console.log(`sub! ${location}`);
+            console.log(`sub! ${location}`);
             unsub = subscribeToMore({
                 document: BULLETIN_SUBSCRIPTION,
                 variables: { location: location },
@@ -169,11 +188,12 @@ const MyProvider = (props: any) => {
                     //console.log("subData:")
                     //console.log(subscriptionData);
                     if (!subscriptionData) return prev;
-                    const newMessage = subscriptionData.data.bulletin;
+                    var newMessage = subscriptionData.data.bulletin.data;
+                    const type = subscriptionData.data.bulletin.type;
                     //console.log("prev:");
                     //console.log(prev);
                     let temp = _.cloneDeep(prev);
-                    console.log(temp);
+                    //console.log(temp);
                     if(temp.bulletin === undefined){
                         temp = {
                             bulletin:{
@@ -181,13 +201,28 @@ const MyProvider = (props: any) => {
                             }
                         }
                     }
-                    return {
-                        bulletin:{
-                            __typename: "Bulletin",
-                            location: location,
-                            messages: [...temp.bulletin.messages, newMessage],
-                        }
-                    };
+                    if(type === "CREATED"){
+                        return {
+                            bulletin:{
+                                __typename: "Bulletin",
+                                location: location,
+                                messages: [...temp.bulletin.messages, newMessage],
+                            }
+                        };
+                    }
+                    else if(type === "UPDATED"){
+                        let newMsgs = temp.bulletin.messages;
+                        let idx = newMsgs.findIndex((msg) => {return msg.id === newMessage.id});
+                        //console.log(idx);
+                        newMsgs[idx] = newMessage;
+                        return {
+                            bulletin:{
+                                __typename: "Bulletin",
+                                location: location,
+                                messages: [...newMsgs],
+                            }
+                        };
+                    }
                 },
             });
         } catch (e) {
@@ -199,8 +234,9 @@ const MyProvider = (props: any) => {
     return (
         <MyContext.Provider
             value={{
-                tutorialModalOpen, isLogin, loginModalOpen, logoutModalOpen, profileModalOpen, bulletinModalOpen, me, location, bulletinMessages,
-                setTutorialModalOpen, setIsLogin, setLoginModalOpen, setLogoutModalOpen, setProfileModalOpen, setBulletinModalOpen, login, updateUser, leaveComment, setMe,
+                tutorialModalOpen, isLogin, loginModalOpen, logoutModalOpen, profileModalOpen, bulletinModalOpen, aboutModalOpen, me, location, bulletinMessages, profileUser,
+                setTutorialModalOpen, setIsLogin, setLoginModalOpen, setLogoutModalOpen, setProfileModalOpen, setBulletinModalOpen, setAboutModalOpen, login, updateUser, leaveComment, likeComment, setMe,
+                setProfileUser,
                 setLocation, setBulletinMessages,
                 bikeEnabled, setBikeEnabled,
                 chatRoomModalOpen, setChatRoomModalOpen,

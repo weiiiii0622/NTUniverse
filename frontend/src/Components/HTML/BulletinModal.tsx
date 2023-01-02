@@ -20,7 +20,8 @@ import {
     LoadingOutlined,
     PlusOutlined,
     UploadOutlined,
-    HeartOutlined
+    HeartOutlined,
+    HeartFilled,
 } from '@ant-design/icons';
 import styled from 'styled-components';
 
@@ -61,7 +62,7 @@ const StyledDivider = styled(Divider)`
 
 
 const BulletinModal = () => {
-    const { bulletinModalOpen, setBulletinModalOpen, setBikeEnabled, me, isLogin, location, setLocation, bulletinMessages, leaveComment } = useMyContext();
+    const { bulletinModalOpen, setBulletinModalOpen, setBikeEnabled, me, isLogin, location, setLocation, bulletinMessages, leaveComment, likeComment, setProfileModalOpen, setProfileUser } = useMyContext();
     const [ pageInfo, setPageInfo ] = useState({page:0, size:4});
     const [ load, setLoad ] = useState(false);
     const [ canSubmit, setCanSubmit ] = useState(false);
@@ -114,27 +115,54 @@ const BulletinModal = () => {
         validateStatus: ValidateStatus;
         errorMsg: string | null;
     } => {
-    if (value.length > 0 && value[0]!=' ') {
-        setCanSubmit(true);
-        return {
-        validateStatus: 'success',
-        errorMsg: null,
-        };
-    }
-    else{
-        setCanSubmit(false);
-        return {
-            validateStatus: 'error',
-            errorMsg: '留言不可為空！',
-        };
-    }
-};
+        if (value.length > 0 && value[0]!=' ') {
+            setCanSubmit(true);
+            return {
+            validateStatus: 'success',
+            errorMsg: null,
+            };
+        }
+        else{
+            setCanSubmit(false);
+            return {
+                validateStatus: 'error',
+                errorMsg: '留言不可為空！',
+            };
+        }
+    };
 
     const onNewMsgChange = (e) => {
         setNewMsg({
             ...validateNewMsg(e.target.value),
             value: e.target.value
         })
+    }
+
+    const checkIsLiked = (idx) => {
+        // console.log(`idx: ${idx}`);
+        // console.log(bulletinMessages[idx].likers.findIndex((liker:any) => {return liker.id===me['id']}));
+        if(bulletinMessages[idx].likers.findIndex((liker:any) => {return liker.id===me['id']}) === -1){
+            return false;
+        }
+        else{
+            return true;
+        }
+    }
+
+    const handleIsLiked = async (idx, isLiked) => {
+        let newMsg = await likeComment({
+            variables:{
+                location: location,
+                id: bulletinMessages[idx].id,
+                email: me['email'],
+                isLiked: isLiked,
+            }
+        })
+        //console.log(newMsg);
+
+        setTimeout(() => {
+            if(isLiked) message.success('按讚成功！');
+        }, 10);
     }
 
     return (
@@ -154,6 +182,7 @@ const BulletinModal = () => {
                     setBulletinModalOpen(false);
                 }}
                 width={"50vw"}
+                zIndex={0}
                 style={{
                     backgroundColor: 'black',
                 }}
@@ -167,7 +196,7 @@ const BulletinModal = () => {
                 }}
                 footer={[
                     <Button disabled={canSubmit===false} key="submit" type="primary" loading={load} onClick={handleSave}>
-                      Save
+                      發佈
                     </Button>
                 ]}
             >
@@ -229,14 +258,34 @@ const BulletinModal = () => {
                                                 B{1+idx+pageInfo['page']*pageInfo['size']}- 
                                                 <a 
                                                     onClick={(e)=>{
-                                                        console.log(msg['author'].nick_name)
+                                                        console.log(msg['author'].nick_name);
+                                                        setProfileUser(msg['author'].id);
+                                                        setProfileModalOpen(true);
                                                     }}
                                                 >
                                                     {msg['author'].nick_name}
                                                 </a>
                                             </Col>
+                                            <Col flex={0}>
+                                                {msg['likers'].length}
+                                            </Col>
                                             <Col flex={1}>
-                                                <Button style={{borderColor: 'transparent', backgroundColor: 'transparent'}} icon={<HeartOutlined />} />
+                                                {
+                                                    checkIsLiked(idx+pageInfo['page']*pageInfo['size'])
+                                                    ?
+                                                    <Button 
+                                                        style={{borderColor: 'transparent', backgroundColor: 'transparent'}} 
+                                                        icon={<HeartFilled style={{color: "red",}}/>} 
+                                                        onClick={() => handleIsLiked(idx+pageInfo['page']*pageInfo['size'], false)}
+                                                    />
+                                                    :
+                                                    <Button 
+                                                        style={{borderColor: 'transparent', backgroundColor: 'transparent'}} 
+                                                        icon={<HeartOutlined />} 
+                                                        onClick={() => handleIsLiked(idx+pageInfo['page']*pageInfo['size'], true)}
+                                                    />
+
+                                                }
                                             </Col>
                                         </Row>
 
@@ -250,7 +299,7 @@ const BulletinModal = () => {
                                         backgroundColor: '#e9ecef',
                                     }}
                                     bodyStyle={{
-                                        backgroundColor: '#ced4da'
+                                        backgroundColor: '#d4d8dc'
                                     }}
                                     
                                     actions={[

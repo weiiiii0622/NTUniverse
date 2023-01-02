@@ -6,6 +6,7 @@ interface IMutation {
     createUser: (x: any, y: any, z: any) => { },
     updateUser: (x: any, y: any, z: any) => { },
     createBulletinMsg: (x: any, y: any, z: any) => { },
+    updateBulletinMsg: (x: any, y: any, z: any) => { },
     // chatRoomName: String,
     // users: Types.ObjectId[],
     // messages: Types.ObjectId[],
@@ -63,32 +64,51 @@ const Mutation:IMutation = {
 
         let bulletin = await validateBulletin(BulletinModel, location);
         let newMsg = await new BulletinMsgModel({ author, body, tags }).save();
-        await newMsg.populate(["author"]);
+        await newMsg.populate(["author", "likers"]);
 
         //console.log(bulletin.messages[0].author.nick_name);
         bulletin.messages.push(newMsg);
         await bulletin.save();
         //let msg = _.cloneDeep(newMsg.populate(['author']));
-        //console.log(newMsg);
+        console.log(newMsg);
         pubsub.publish(`bulletin ${location}`, {
-            bulletin: newMsg,
+            bulletin: {
+                type: "CREATED",
+                data: newMsg,
+            }
         });
 
         return newMsg;
-    }
+    },
 
-    // createMessage: async(parent, { name, to, body }, { ChatBoxModel, pubsub }) => {
-    //     const chatName = makeName(name, to);
-    //     const chatBox = await validateBox(ChatBoxModel, chatName);
-    //     const newMsg = { sender: name, body: body };
-    //     chatBox.messages.push(newMsg);
-    //     await chatBox.save();
-    //     //console.log(`msg ${body} published`);
-    //     pubsub.publish(`chatBox ${chatName}`, {
-    //     message: newMsg,
-    //     });
-    //     return newMsg;
-    // },
+    updateBulletinMsg: async (parent, { location, id, email, isLiked }, {  UserModel, BulletinMsgModel, pubsub }) => {
+
+        let usr = await UserModel.findOne({ email });
+        let msg = await BulletinMsgModel.findOne({ _id: id });
+
+        //console.log(bulletin.messages[0].author.nick_name);
+        await msg.populate(["author", "likers"]);
+        if(isLiked){
+            msg.likers.push(usr);
+        }
+        else{
+            //console.log(msg.likers);
+            //console.log(usr);
+            msg.likers = msg.likers.filter((liker: any) => {return liker.id!==usr.id});
+        }
+        await msg.save();
+        
+        //let msg = _.cloneDeep(newMsg.populate(['author']));
+        //console.log(newMsg);
+        pubsub.publish(`bulletin ${location}`, {
+            bulletin: {
+                type: "UPDATED",
+                data: msg,
+            }
+        });
+
+        return msg;
+    }
 };
 
 export { Mutation as default };

@@ -52,28 +52,43 @@ const Mutation = {
     createBulletinMsg: (parent, { location, author, body, tags }, { BulletinModel, BulletinMsgModel, pubsub }) => __awaiter(void 0, void 0, void 0, function* () {
         let bulletin = yield validateBulletin(BulletinModel, location);
         let newMsg = yield new BulletinMsgModel({ author, body, tags }).save();
-        yield newMsg.populate(["author"]);
+        yield newMsg.populate(["author", "likers"]);
         //console.log(bulletin.messages[0].author.nick_name);
         bulletin.messages.push(newMsg);
         yield bulletin.save();
         //let msg = _.cloneDeep(newMsg.populate(['author']));
-        //console.log(newMsg);
+        console.log(newMsg);
         pubsub.publish(`bulletin ${location}`, {
-            bulletin: newMsg,
+            bulletin: {
+                type: "CREATED",
+                data: newMsg,
+            }
         });
         return newMsg;
+    }),
+    updateBulletinMsg: (parent, { location, id, email, isLiked }, { UserModel, BulletinMsgModel, pubsub }) => __awaiter(void 0, void 0, void 0, function* () {
+        let usr = yield UserModel.findOne({ email });
+        let msg = yield BulletinMsgModel.findOne({ _id: id });
+        //console.log(bulletin.messages[0].author.nick_name);
+        yield msg.populate(["author", "likers"]);
+        if (isLiked) {
+            msg.likers.push(usr);
+        }
+        else {
+            //console.log(msg.likers);
+            //console.log(usr);
+            msg.likers = msg.likers.filter((liker) => { return liker.id !== usr.id; });
+        }
+        yield msg.save();
+        //let msg = _.cloneDeep(newMsg.populate(['author']));
+        //console.log(newMsg);
+        pubsub.publish(`bulletin ${location}`, {
+            bulletin: {
+                type: "UPDATED",
+                data: msg,
+            }
+        });
+        return msg;
     })
-    // createMessage: async(parent, { name, to, body }, { ChatBoxModel, pubsub }) => {
-    //     const chatName = makeName(name, to);
-    //     const chatBox = await validateBox(ChatBoxModel, chatName);
-    //     const newMsg = { sender: name, body: body };
-    //     chatBox.messages.push(newMsg);
-    //     await chatBox.save();
-    //     //console.log(`msg ${body} published`);
-    //     pubsub.publish(`chatBox ${chatName}`, {
-    //     message: newMsg,
-    //     });
-    //     return newMsg;
-    // },
 };
 exports.default = Mutation;

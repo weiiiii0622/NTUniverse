@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Modal, message } from 'antd';
 import {
-    LoadingOutlined
+    LoadingOutlined,
+    LoginOutlined
 } from '@ant-design/icons';
 import { GoogleLogin, googleLogout } from '@react-oauth/google';
 import jwt_decode from 'jwt-decode'
@@ -12,7 +13,7 @@ import { useMyContext } from '../../Utils/useMyContext';
 
 
 const LoginModal = () => {
-    const { loginModalOpen, setLoginModalOpen, setBikeEnabled, isLogin, setIsLogin, login, me, setMe } = useMyContext();
+    const { loginModalOpen, setLoginModalOpen, setBikeEnabled, isLogin, setIsLogin, login, me, setMe, setProfileUser } = useMyContext();
     const [ loading, setLoading ] = useState(false);
 
     const clientId = '400363191853-gjef8qplkajcu781n791f6eonffkcfq3.apps.googleusercontent.com';
@@ -47,6 +48,7 @@ const LoginModal = () => {
             picture, 
             description
         })
+        setProfileUser(id);
         setLoading(true);
         setTimeout(() => {
           setLoginModalOpen(false);
@@ -60,7 +62,7 @@ const LoginModal = () => {
     return (
         <>
             <Modal
-                title="Login"
+                title={<>登入 <LoginOutlined /></>}
                 centered
                 open={loginModalOpen}
                 onCancel={() => { setBikeEnabled(true); setLoginModalOpen(false);}}
