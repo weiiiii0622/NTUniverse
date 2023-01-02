@@ -11,6 +11,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "countapi-js": "^1.0.2",
     "fbx2gltf": "^0.9.7-p1"
   }
 }

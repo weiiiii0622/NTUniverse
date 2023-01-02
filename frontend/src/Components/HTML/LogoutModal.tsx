@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Modal, message } from 'antd';
 import {
-    LoadingOutlined
+    LoadingOutlined,
+    LogoutOutlined
 } from '@ant-design/icons';
 import { GoogleLogin, googleLogout } from '@react-oauth/google';
 import jwt_decode from 'jwt-decode'
@@ -12,13 +13,14 @@ import { useMyContext } from '../../Utils/useMyContext';
 
 
 const LogoutModal = () => {
-    const { logoutModalOpen, setLogoutModalOpen, isLogin, setIsLogin, me, setMe } = useMyContext();
+    const { logoutModalOpen, setLogoutModalOpen, setBikeEnabled,isLogin, setIsLogin, me, setMe } = useMyContext();
     const [ loading, setLoading ] = useState(false);
 
 
     const handleLogout =  async ( nick_name: string ) => {
         //setModalText('The modal will be closed after two seconds');
         setMe({
+            id: "",
             first_name: "",
             last_name: "",
             nick_name: "", 
@@ -31,6 +33,7 @@ const LogoutModal = () => {
           setLogoutModalOpen(false);
           setLoading(false);
           setIsLogin(false);
+          setBikeEnabled(true);
           message.success(`下次再見！ ${nick_name}`);
         }, 500);
     };
@@ -38,17 +41,17 @@ const LogoutModal = () => {
     return (
         <>
             <Modal
-                title="Logout"
+                title={<>登出 <LogoutOutlined /></>}
                 centered
                 open={logoutModalOpen}
                 //onOk={() => handleLogout(me['nick_name'])}
-                onCancel={() => setLogoutModalOpen(false)}
+                onCancel={() => {setBikeEnabled(true);setLogoutModalOpen(false)}}
                 bodyStyle={{
                     display: 'flex',
                     justifyContent: 'center'
                 }}
                 footer={[
-                    <Button key="back" onClick={() => setLogoutModalOpen(false)}>
+                    <Button key="back" onClick={() => {setBikeEnabled(true); setLogoutModalOpen(false)}}>
                         返回
                     </Button>,
                     <Button key="submit" type="primary" loading={loading} onClick={() => handleLogout(me['nick_name'])}>

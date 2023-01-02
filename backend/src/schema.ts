@@ -2,7 +2,8 @@ import { gql } from 'apollo-server-express';
 
 
 const Schema = gql`
-  scalar Date
+  scalar DateTime
+
 
   type User {
     id: ID!
@@ -23,35 +24,51 @@ const Schema = gql`
   type Message {
     chatRoomName: String!
     sender: User!
-    time: Date!
+    time: DateTime!
   }
   
-  type Board {
-    location: String! #先用 string 到時候再改
-    bulletins: Bulletin!
+  type Bulletin {
+    location: String!
+    messages: [BulletinMsg]
   }
 
-  type Bulletin {
-    announcer: User!
-    title: String!
-    text: String!
-    time: Date!
-    tags: [String!]
+  type BulletinMsg {
+    id: ID!
+    author: User!
+    body: String!
+    tags: [String]
+    likers: [User]
   }
 
   type Query {
-    user(name: String!): User!
+    user(id: ID!): User!
+    userAll: [User!]
     userByEmail(email: String!): User!
+    bulletin(location: String!): Bulletin!
+    bulletinMsg(author: ID!): [BulletinMsg!]
   }
 
   type Mutation {
     createUser(email: String!, first_name: String!, nick_name: String!, last_name: String!, picture: String!): User!
-    updateUser(email: String!, nick_name: String! ,picture: String!, description: String!): User!
+    updateUser(email: String!, nick_name: String!, picture: String!, description: String!): User!
+    createBulletinMsg(location: String!, author: ID!, body: String!, tags:[String]): BulletinMsg!
+    updateBulletinMsg(location: String!, id: ID!, email: String!, isLiked: Boolean!): BulletinMsg!
   }
 
-  # type Subscription {
+  type Subscription {
+    bulletin(location: String!): BulletinMsgSubscriptionPayload!
+  }
 
-  # }
+  type BulletinMsgSubscriptionPayload {
+    type: MutationType!
+    data: BulletinMsg!
+  }
+
+  enum MutationType {
+    CREATED
+    UPDATED
+    DELETED
+  }
 `;
 export default Schema;
 //export this Schema so we can use it in our project

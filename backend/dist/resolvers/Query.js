@@ -10,13 +10,29 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const Query = {
-    user: (parent, { name }, { UserModel }) => __awaiter(void 0, void 0, void 0, function* () {
-        const user = yield UserModel.findOne({ name: name });
+    user: (parent, { id }, { UserModel }) => __awaiter(void 0, void 0, void 0, function* () {
+        const user = yield UserModel.findOne({ _id: id });
         return user;
     }),
     userByEmail: (parent, { email }, { UserModel }) => __awaiter(void 0, void 0, void 0, function* () {
         const user = yield UserModel.findOne({ email: email });
         return user;
-    })
+    }),
+    userAll: (parent, {}, { UserModel }) => __awaiter(void 0, void 0, void 0, function* () {
+        const user = yield UserModel.find();
+        return user;
+    }),
+    //Bulletin
+    bulletin: (parent, { location }, { BulletinModel }) => __awaiter(void 0, void 0, void 0, function* () {
+        const bulletin = yield BulletinModel.findOne({ location }).populate(["messages", { path: 'messages', populate: 'likers' }]);
+        //console.log(bulletin);
+        return bulletin;
+    }),
+    // BulletinMsg
+    bulletinMsg: (parent, { author }, { BulletinMsgModel }) => __awaiter(void 0, void 0, void 0, function* () {
+        const msg = yield BulletinMsgModel.find({ author: author });
+        //console.log(msg);
+        return msg;
+    }),
 };
 exports.default = Query;

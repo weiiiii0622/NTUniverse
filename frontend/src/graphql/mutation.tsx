@@ -9,6 +9,7 @@ const CREATE_USER_MUTATION = gql`
     $picture: String!,
   ){
     createUser(email: $email, first_name: $first_name, last_name: $last_name, nick_name: $nick_name, picture: $picture){
+			id,
 			email,
 			first_name,
 			last_name,
@@ -27,7 +28,8 @@ const UPDATE_USER_MUTATION = gql`
     $description: String!,
   ){
     updateUser(email: $email, nick_name: $nick_name, picture: $picture, description: $description){
-      email,
+      id,
+			email,
       first_name,
       last_name,
       nick_name,
@@ -37,4 +39,43 @@ const UPDATE_USER_MUTATION = gql`
   }
 `;
 
-export {CREATE_USER_MUTATION, UPDATE_USER_MUTATION};
+const CREATE_BULLETINMSG_MUTATION = gql`
+  mutation createBulletinMsg(
+    $location: String!, 
+    $author: ID!, 
+    $body: String!,
+    $tags:[String]
+  ){
+    createBulletinMsg(location: $location, author: $author, body: $body, tags: $tags){
+      author {
+        id
+        nick_name
+      }
+      id
+      body
+      tags
+    }
+  }
+`;
+
+const UPDATE_BULLETINMSG_MUTATION = gql`
+  mutation createBulletinMsg(
+    $location: String!,
+    $id: ID!,
+    $email: String!,
+    $isLiked: Boolean!
+  ){
+    updateBulletinMsg(location: $location, id: $id, email: $email, isLiked: $isLiked) {
+      body
+      id
+      tags
+      likers {
+        id
+        nick_name
+      }
+    }
+  }
+
+`;
+
+export {CREATE_USER_MUTATION, UPDATE_USER_MUTATION, CREATE_BULLETINMSG_MUTATION, UPDATE_BULLETINMSG_MUTATION };

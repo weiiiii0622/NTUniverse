@@ -3,6 +3,7 @@ import Bike from "../../Components/THREE/Bike";
 import Ground from "../../Components/THREE/static/Ground";
 import { FC } from "react";
 import { useMyContext } from "../../Utils/useMyContext";
+import InteractiveBlock from "../../Components/THREE/interaction/InteractiveBlock";
 
 const DebugWorld: FC<any> = ({ debug = false, children }) => {
 
@@ -22,6 +23,8 @@ const DebugWorld: FC<any> = ({ debug = false, children }) => {
 
 function World() {
 
+	const { setBikeEnabled, setBulletinModalOpen, isLogin, setIsLogin, setLocation } = useMyContext();
+
 	return (
 		<DebugWorld >
 			<Ground />
@@ -38,7 +41,22 @@ function World() {
 				}} />
 
                 {/* Pass in your EventHandler to handleEvent={ } */}
-			{/* <InteractiveBlock handleEvent={() => { setBulletinModalOpen(true) }} position={[5, 0, 5]} /> */}
+			<InteractiveBlock
+				handleEvent={() => {
+					setLocation("總圖");
+					setBikeEnabled(false);
+					setBulletinModalOpen(true);
+				}}
+				position={[5, 0, 5]}
+			/>
+			<InteractiveBlock
+				handleEvent={() => {
+					setLocation("醉月湖");
+					setBikeEnabled(false);
+					setBulletinModalOpen(true);
+				}}
+				position={[5, 0, -5]}
+			/>
 		</DebugWorld>
 	)
 }
