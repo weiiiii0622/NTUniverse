@@ -63,7 +63,7 @@ const MySider: React.FC = () => {
   }
 
   const handleOpenAbout = () => {
-    console.log("Open About");
+    //console.log("Open About");
     setAboutModalOpen(true);
     setBikeEnabled(false);
   }

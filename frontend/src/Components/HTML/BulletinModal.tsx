@@ -299,7 +299,7 @@ const BulletinModal = () => {
                                         backgroundColor: '#e9ecef',
                                     }}
                                     bodyStyle={{
-                                        backgroundColor: '#ced4da'
+                                        backgroundColor: '#d4d8dc'
                                     }}
                                     
                                     actions={[

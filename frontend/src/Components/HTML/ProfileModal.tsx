@@ -8,7 +8,8 @@ import {
     Row,
     Col,
     Image,
-    message 
+    message ,
+    Layout
 } from 'antd';
 import {
     LoadingOutlined,
@@ -158,6 +159,7 @@ const ProfileModal = () => {
                     <Button disabled={canSubmit===false || isMe===false} key="submit" type="primary" loading={isLoading} onClick={handleSave}>
                       Save
                     </Button>,
+                    
                 ]}
             >
             <>
@@ -237,6 +239,7 @@ const ProfileModal = () => {
 
 
                 </Form>
+                
             </>
                                     
             </Modal>
