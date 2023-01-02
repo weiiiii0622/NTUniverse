@@ -19,7 +19,8 @@ export default function AppSky() {
             mieCoefficient={0.005}
             mieDirectionalG={0.8}
             azimuth={0.25}
-            inclination={inclination}
+            // inclination={inclination}
+            sunPosition={[38, 36, -35]}
         />
     )
 }
