@@ -1,6 +1,6 @@
 const Query = {
-  user: async (parent: any, { name }: any, { UserModel }: any) => {
-    const user = await UserModel.findOne({ nick_name: name });
+  user: async (parent: any, { id }: any, { UserModel }: any) => {
+    const user = await UserModel.findOne({ _id: id });
     return user;
   },
   userByEmail:async (parent: any, { email }: any, { UserModel }: any) => {

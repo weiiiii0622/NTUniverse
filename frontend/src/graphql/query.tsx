@@ -1,5 +1,21 @@
 import { gql } from '@apollo/client';
 
+const USER_QUERY = gql`
+  query user(
+    $id: ID!
+  ){
+    user(id: $id){
+      description
+      email
+      first_name
+      id
+      nick_name
+      last_name
+      picture  
+    }
+  }
+`;
+
 const BULLETIN_QUERY = gql`
   query bulletin(
     $location: String!
@@ -27,4 +43,4 @@ const BULLETIN_QUERY = gql`
   }
 `;
 
-export { BULLETIN_QUERY };
+export { USER_QUERY, BULLETIN_QUERY };

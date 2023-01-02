@@ -10,8 +10,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const Query = {
-    user: (parent, { name }, { UserModel }) => __awaiter(void 0, void 0, void 0, function* () {
-        const user = yield UserModel.findOne({ nick_name: name });
+    user: (parent, { id }, { UserModel }) => __awaiter(void 0, void 0, void 0, function* () {
+        const user = yield UserModel.findOne({ _id: id });
         return user;
     }),
     userByEmail: (parent, { email }, { UserModel }) => __awaiter(void 0, void 0, void 0, function* () {

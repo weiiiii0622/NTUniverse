@@ -35,6 +35,8 @@ interface IContext {
     setLocation: SetStateType<string>,
     bulletinMessages: any,
     setBulletinMessages: any,
+    profileUser: any,
+    setProfileUser: SetStateType<string>,
 
     login: any,
     updateUser: any,
@@ -65,6 +67,8 @@ const MyContext = createContext<IContext>({
     setLocation: () => { },
     bulletinMessages: [],
     setBulletinMessages: () => { },
+    profileUser: "",
+    setProfileUser: () => { },
     login: () => { },
     updateUser: () => { },
     leaveComment: () => { },
@@ -89,6 +93,7 @@ const MyProvider = (props: any) => {
     const [tutorialModalOpen, setTutorialModalOpen] = useState(true);
 
     // ProfileModal
+    const [profileUser, setProfileUser] = useState("");
     const [profileModalOpen, setProfileModalOpen] = useState(false);
 
     // LoginModal
@@ -147,8 +152,8 @@ const MyProvider = (props: any) => {
     })
 
     useEffect(() => {
-        console.log("Set Data!");
-        console.log(data);
+        //console.log("Set Data!");
+        //console.log(data);
         if(data!==undefined) setBulletinMessages([...data.bulletin.messages]);
     }, [data])
 
@@ -165,8 +170,8 @@ const MyProvider = (props: any) => {
                 variables: { location: location },
                 updateQuery: (prev, { subscriptionData }) => {
                     
-                    console.log("subData:")
-                    console.log(subscriptionData);
+                    //console.log("subData:")
+                    //console.log(subscriptionData);
                     if (!subscriptionData) return prev;
                     var newMessage = subscriptionData.data.bulletin.data;
                     const type = subscriptionData.data.bulletin.type;
@@ -193,7 +198,7 @@ const MyProvider = (props: any) => {
                     else if(type === "UPDATED"){
                         let newMsgs = temp.bulletin.messages;
                         let idx = newMsgs.findIndex((msg) => {return msg.id === newMessage.id});
-                        console.log(idx);
+                        //console.log(idx);
                         newMsgs[idx] = newMessage;
                         return {
                             bulletin:{
@@ -214,8 +219,9 @@ const MyProvider = (props: any) => {
     return (
         <MyContext.Provider
             value={{
-                tutorialModalOpen, isLogin, loginModalOpen, logoutModalOpen, profileModalOpen, bulletinModalOpen, me, location, bulletinMessages,
+                tutorialModalOpen, isLogin, loginModalOpen, logoutModalOpen, profileModalOpen, bulletinModalOpen, me, location, bulletinMessages, profileUser,
                 setTutorialModalOpen, setIsLogin, setLoginModalOpen, setLogoutModalOpen, setProfileModalOpen, setBulletinModalOpen, login, updateUser, leaveComment, likeComment, setMe,
+                setProfileUser,
                 setLocation, setBulletinMessages,
                 bikeEnabled, setBikeEnabled,
             }}

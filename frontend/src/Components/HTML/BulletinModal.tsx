@@ -62,7 +62,7 @@ const StyledDivider = styled(Divider)`
 
 
 const BulletinModal = () => {
-    const { bulletinModalOpen, setBulletinModalOpen, setBikeEnabled, me, isLogin, location, setLocation, bulletinMessages, leaveComment, likeComment } = useMyContext();
+    const { bulletinModalOpen, setBulletinModalOpen, setBikeEnabled, me, isLogin, location, setLocation, bulletinMessages, leaveComment, likeComment, setProfileModalOpen, setProfileUser } = useMyContext();
     const [ pageInfo, setPageInfo ] = useState({page:0, size:4});
     const [ load, setLoad ] = useState(false);
     const [ canSubmit, setCanSubmit ] = useState(false);
@@ -139,6 +139,8 @@ const BulletinModal = () => {
     }
 
     const checkIsLiked = (idx) => {
+        // console.log(`idx: ${idx}`);
+        // console.log(bulletinMessages[idx].likers.findIndex((liker:any) => {return liker.id===me['id']}));
         if(bulletinMessages[idx].likers.findIndex((liker:any) => {return liker.id===me['id']}) === -1){
             return false;
         }
@@ -156,7 +158,7 @@ const BulletinModal = () => {
                 isLiked: isLiked,
             }
         })
-        console.log(newMsg);
+        //console.log(newMsg);
 
         setTimeout(() => {
             if(isLiked) message.success('按讚成功！');
@@ -180,6 +182,7 @@ const BulletinModal = () => {
                     setBulletinModalOpen(false);
                 }}
                 width={"50vw"}
+                zIndex={0}
                 style={{
                     backgroundColor: 'black',
                 }}
@@ -255,7 +258,9 @@ const BulletinModal = () => {
                                                 B{1+idx+pageInfo['page']*pageInfo['size']}- 
                                                 <a 
                                                     onClick={(e)=>{
-                                                        console.log(msg['author'].nick_name)
+                                                        console.log(msg['author'].nick_name);
+                                                        setProfileUser(msg['author'].id);
+                                                        setProfileModalOpen(true);
                                                     }}
                                                 >
                                                     {msg['author'].nick_name}
@@ -266,18 +271,18 @@ const BulletinModal = () => {
                                             </Col>
                                             <Col flex={1}>
                                                 {
-                                                    checkIsLiked(idx)
+                                                    checkIsLiked(idx+pageInfo['page']*pageInfo['size'])
                                                     ?
                                                     <Button 
                                                         style={{borderColor: 'transparent', backgroundColor: 'transparent'}} 
                                                         icon={<HeartFilled style={{color: "red",}}/>} 
-                                                        onClick={() => handleIsLiked(idx, false)}
+                                                        onClick={() => handleIsLiked(idx+pageInfo['page']*pageInfo['size'], false)}
                                                     />
                                                     :
                                                     <Button 
                                                         style={{borderColor: 'transparent', backgroundColor: 'transparent'}} 
                                                         icon={<HeartOutlined />} 
-                                                        onClick={() => handleIsLiked(idx, true)}
+                                                        onClick={() => handleIsLiked(idx+pageInfo['page']*pageInfo['size'], true)}
                                                     />
 
                                                 }

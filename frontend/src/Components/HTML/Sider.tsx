@@ -41,7 +41,7 @@ const MySider: React.FC = () => {
     token: { colorBgContainer },
   } = theme.useToken();
 
-  const { isLogin, setIsLogin, loginModalOpen, setLoginModalOpen, setLogoutModalOpen, setProfileModalOpen, setBikeEnabled } = useMyContext();
+  const { isLogin, setIsLogin, loginModalOpen, setLoginModalOpen, setLogoutModalOpen, setProfileModalOpen, setBikeEnabled, me, setProfileUser } = useMyContext();
 
   const handleLogin = () => {
     //console.log("Login");
@@ -57,6 +57,7 @@ const MySider: React.FC = () => {
 
   const handleOpenProfile = () => {
     //console.log("Open Profile");
+    setProfileUser(me['id']);
     setProfileModalOpen(true);
     setBikeEnabled(false);
   }

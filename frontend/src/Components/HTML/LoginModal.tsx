@@ -12,7 +12,7 @@ import { useMyContext } from '../../Utils/useMyContext';
 
 
 const LoginModal = () => {
-    const { loginModalOpen, setLoginModalOpen, setBikeEnabled, isLogin, setIsLogin, login, me, setMe } = useMyContext();
+    const { loginModalOpen, setLoginModalOpen, setBikeEnabled, isLogin, setIsLogin, login, me, setMe, setProfileUser } = useMyContext();
     const [ loading, setLoading ] = useState(false);
 
     const clientId = '400363191853-gjef8qplkajcu781n791f6eonffkcfq3.apps.googleusercontent.com';
@@ -47,6 +47,7 @@ const LoginModal = () => {
             picture, 
             description
         })
+        setProfileUser(id);
         setLoading(true);
         setTimeout(() => {
           setLoginModalOpen(false);
