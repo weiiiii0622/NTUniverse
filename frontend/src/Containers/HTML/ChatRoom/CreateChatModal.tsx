@@ -27,6 +27,7 @@ const CreateChatModal = (props: ICreateChatModal) => {
       .catch((e) => {
         console.error(e);
       })
+      onCancel();
   }
 
   return (

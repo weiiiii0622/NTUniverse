@@ -1,5 +1,6 @@
 import { Avatar, Drawer, List, Layout } from "antd";
 import { useState } from "react";
+import { useMyContext } from "../../../Utils/useMyContext";
 
 import CreateChatModal from './CreateChatModal';
 import SecondLevelModal from './SecondLevelModal';
@@ -11,7 +12,7 @@ interface IFirstLevelProps {
   chatRoomModalOpen: boolean,
   onOpen(): void,
   onClose(): void,
-  // onCreate: void,
+  handleCreate(name: String): void,
 }
 
 // test data
@@ -31,15 +32,11 @@ const data = [
 ];
 
 const FirstLevelModal = (props: IFirstLevelProps) => {
-  const { chatRoomModalOpen, onOpen, onClose } = props;
+  const { chatRoomModalOpen, onOpen, onClose, handleCreate } = props;
+  const { setBikeEnabled } = useMyContext();
   const [createOpen, setCreateOpen] = useState(false);
   const [secondOpen, setSecondOpen] = useState(false);
-//   const {
-//     modalOpen,
-//     setModalOpen,
-//     handleCreate,
-//     handleEdit,
-// } = useModal({ me, friend, setFriend, chatBoxes, setChatBoxes, scrollToBottom });
+
 
 
   return (
@@ -56,6 +53,7 @@ const FirstLevelModal = (props: IFirstLevelProps) => {
           createOpen={createOpen}
           onOpen={() => setCreateOpen(true)}
           onCancel={() => setCreateOpen(false)}
+          onCreate={handleCreate}
         />
         <List
           itemLayout="horizontal"
@@ -79,6 +77,7 @@ const FirstLevelModal = (props: IFirstLevelProps) => {
           }}
           showSecondLevel={() => {
             onClose();
+            setBikeEnabled(false);
             setSecondOpen(true);
           }}
         />

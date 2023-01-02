@@ -4,7 +4,7 @@ import LoginModal from "../../Components/HTML/LoginModal";
 import LogoutModal from "../../Components/HTML/LogoutModal";
 import ProfileModal from "../../Components/HTML/ProfileModal";
 import BulletinModal from "../../Components/HTML/BulletinModal";
-import ChatRoomModal from "../../Components/HTML/ChatRoom/ChatRoomModal";
+import ChatRoomModal from "../../Containers/HTML/ChatRoom/ChatRoomModal";
 import AboutModal from "../../Components/HTML/AboutModal";
 
 const AppHtmlElements = () => {
