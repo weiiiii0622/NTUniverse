@@ -61,6 +61,9 @@ export default function useHandleControls({
 		const { forward, backward, left, right, brake, reset } = controls.current
 		backIndex.forEach(i =>
 			api.applyEngineForce(forward || backward ? force * (forward && !backward ? -1 : 1) : 0, i))
+
+		frontIndex.forEach(i =>
+			api.applyEngineForce(forward || backward ? force * (forward && !backward ? -1 : 1) : 0, i))
 		frontIndex.forEach(i =>
 			api.setSteeringValue(left || right ? steer * (left && !right ? 1 : -1) : 0, i));
 
