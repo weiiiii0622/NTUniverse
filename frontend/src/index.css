@@ -96,6 +96,12 @@
   font-weight: 900;
 }
 
+@font-face {
+  font-family: 'burnfont-italic';
+  src: url(./fonts/burnfont-1.2-italic.otf) format(opentype);
+  font-weight: 900;
+}
+
 
 html,
 body {

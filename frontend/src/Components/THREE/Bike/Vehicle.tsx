@@ -142,7 +142,7 @@ const Vehicle = forwardRef((props: VehicleProps, vehicle: RefObject<Mesh>) => {
 						key={'wheel' + i}
 						ref={ref}
 						{...wheelProps}
-						display={i == 3 ? 'back' : i == 1 ? 'pedal' : 'none'}
+						display={i == 3 ? 'back' : i == 2 ? 'pedal' : 'none'}
 					/>
 				))
 			}

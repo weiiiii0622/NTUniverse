@@ -40,11 +40,30 @@ function Platform({ position }: PlatformProps) {
 	return (
 		<>
 			<mesh ref={ref as any}>
-				<boxGeometry />
-				<meshBasicMaterial />
 			</mesh>
 		</>
 	)
+}
+
+function Stairs(
+	// { position }: { position: Triplet }
+) {
+	const [ref, api] = useCompoundBody(() => ({
+		type: "Static",
+		shapes: [
+			{
+				type: 'Box',
+				position: [3.7, -0, 11.6],
+				rotation: [0, 0, Math.PI / 7],
+				args: [2, 1, 2.7],
+			}
+		],
+		scale: [1, 1, 0.5],
+	}))
+
+	return <>
+		<mesh ref={ref as any} />
+	</>
 }
 
 function World() {
@@ -64,6 +83,7 @@ function World() {
 		}
 	});
 
+
 	return (
 		<DebugWorld debug >
 			<Bike objectProps={{
@@ -71,8 +91,20 @@ function World() {
 				rotation: [0, 0, 0],
 			}} />
 			<Ground />
-			<mesh position={[-center.y, 0.5, center.x]}>
-				<boxGeometry args={[16.9, 0.5, 16.9]} />
+			<mesh
+				position={[-center.y, 0.4, center.x]}
+				rotation={[-Math.PI / 2, 0, 0]}
+				scale={[1, 1, 0.5]}
+			>
+				<cylinderGeometry args={[1, 1, 2.7, 3]} />
+				<meshBasicMaterial />
+			</mesh>
+			<mesh
+				position={[3.4, 0, 11.6]}
+				rotation={[-Math.PI / 2, 0, 0]}
+				scale={[1, 1, 0.5]}
+			>
+				<cylinderGeometry args={[1, 1, 2.7, 3]} />
 				<meshBasicMaterial />
 			</mesh>
 			<Platform position={[12.3, 0.5, 11.9]} />
@@ -80,6 +112,7 @@ function World() {
 			<Platform position={[-12, 0.5, -12]} />
 			<Platform position={[12, 0.5, -12]} />
 
+			<Stairs />
 
 			{/* <Tree1 position={[-5, 0.0, -5]} /> */}
 			{/* <RingElement ringPosition={[-5, 0.1, -5]} ringArgs={[4.5, 7, 32]} /> */}
