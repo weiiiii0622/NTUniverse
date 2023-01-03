@@ -94,7 +94,7 @@ export default function AppCanvas() {
 		<>
 			{/* <Loader /> */}
 			<Canvas
-				style={{ position: 'absolute' }}
+				style={{ position: 'unset' }}
 				shadows
 			>
 				{/* <Suspense fallback={<Loader />}> */}

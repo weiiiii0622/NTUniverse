@@ -51,7 +51,7 @@ const TeleportTransition = () => {
         <animated.div 
             style={{
                 mixBlendMode: 'multiply',
-                display: 'block',
+                display: ' none',
                 position: 'absolute',
                 backgroundColor: 'transparent',
                 width: '100%',

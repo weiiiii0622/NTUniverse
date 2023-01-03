@@ -49,7 +49,7 @@ function Platform({ position }: PlatformProps) {
 
 function World() {
 
-	const { setBikeEnabled, setBulletinModalOpen, isLogin, setIsLogin, setLocation } = useMyContext()
+	const { bikeTpPosition, setBikeTpPosition, isChangingScene, setIsChangeScene, setBikeEnabled, setBulletinModalOpen, isLogin, setIsLogin, setLocation } = useMyContext()
 
 	const { width, center, height } = useControls({
 		width: 5,
@@ -67,7 +67,7 @@ function World() {
 	return (
 		<DebugWorld debug >
 			<Bike objectProps={{
-				position: [0, 5, 0],
+				position: bikeTpPosition,
 				rotation: [0, 0, 0],
 			}} />
 			<Ground />
@@ -92,34 +92,34 @@ function World() {
 				}} /> 
 
                 {/* Pass in your EventHandler to handleEvent={ } */}
-			{/* <InteractiveBlock
+			<InteractiveBlock
 				handleEvent={() => {
-					setIsChangeScene(true);
-					setBikeEnabled(false);
-					setTimeout(() => {
-						setBikeTpPosition([5, 0 ,-5]);
-						setBikeEnabled(true);
-					}, 1000);
-					// setLocation("總圖");
+					// setIsChangeScene(true);
 					// setBikeEnabled(false);
-					// setBulletinModalOpen(true);
+					// setTimeout(() => {
+					// 	setBikeTpPosition([0, 0, -15]);
+					// 	setBikeEnabled(true);
+					// }, 1000);
+					setLocation("總圖");
+					setBikeEnabled(false);
+					setBulletinModalOpen(true);
 				}}
-				position={[5, 0, 5]}
+				position={[0, 0, 15]}
 			/>
 			<InteractiveBlock
 				handleEvent={() => {
 					setIsChangeScene(true);
 					setBikeEnabled(false);
 					setTimeout(() => {
-						setBikeTpPosition([5, 0 ,5]);
+						setBikeTpPosition([0, 0 ,15]);
 						setBikeEnabled(true);
 					}, 1000);
 					// setLocation("醉月湖");
 					// setBikeEnabled(false);
 					// setBulletinModalOpen(true);
 				}}
-				position={[5, 0, -5]}
-			/> */}
+				position={[0, 0, -15]}
+			/>
 
 		</DebugWorld >
 	)
