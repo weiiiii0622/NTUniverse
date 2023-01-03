@@ -66,6 +66,8 @@ function Stairs(
 	</>
 }
 
+
+
 function World() {
 
 	const { setFinish,bikeTpPosition, setBikeTpPosition, isChangingScene, setIsChangeScene, setBikeEnabled, setBulletinModalOpen, isLogin, setIsLogin, setLocation } = useMyContext()
@@ -83,6 +85,20 @@ function World() {
 		}
 	});
 
+	const handleTP = ({ scene, pos }) => {
+		setIsChangeScene({scene: scene});
+		setBikeEnabled(false);
+		setTimeout(() => {
+			setBikeTpPosition(pos);
+			setBikeEnabled(true);
+		}, 2000);
+	}
+
+	const handleOpenBulletin = ({ location }) => {
+		setLocation(location);
+		setBikeEnabled(false);
+		setBulletinModalOpen(true);	
+	}
 
 	return (
 		<DebugWorld debug >
@@ -124,38 +140,32 @@ function World() {
 					position: [5, 0, -5],
 				}} /> 
 
-                {/* Pass in your EventHandler to handleEvent={ } */}
+            {/* Pass in your EventHandler to handleEvent={ } */}
 			<InteractiveBlock
 				handleEvent={() => {
-					//setChangeScene("操你媽")
-					setIsChangeScene({scene: '操你媽'});
-					setBikeEnabled(false);
-					setTimeout(() => {
-						setBikeTpPosition([0, 0, -15]);
-						setBikeEnabled(true);
-						//setFinish(true);
-					}, 2000);
-					// setLocation("總圖");
-					// setBikeEnabled(false);
-					// setBulletinModalOpen(true);
+					handleTP({
+						scene: '操你媽',
+						pos: [0, 0, -15]
+					})
 				}}
 				position={[0, 0, 15]}
 			/>
 			<InteractiveBlock
 				handleEvent={() => {
-					//setChangeScene("垃圾幹")
-					setIsChangeScene({scene: '幹你老師'});
-					setBikeEnabled(false);
-					setTimeout(() => {
-						setBikeTpPosition([0, 0 ,15]);
-						setBikeEnabled(true);
-						//setFinish(true);
-					}, 2000);
-					// setLocation("醉月湖");
-					// setBikeEnabled(false);
-					// setBulletinModalOpen(true);
+					handleTP({
+						scene: '幹你老師',
+						pos: [0, 0, 15]
+					})
 				}}
 				position={[0, 0, -15]}
+			/>
+			<InteractiveBlock
+				handleEvent={() => {
+					handleOpenBulletin({
+						location: "小福廣場",
+					})
+				}}
+				position={[15, 0, 0]}
 			/>
 
 		</DebugWorld >
