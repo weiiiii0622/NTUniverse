@@ -68,7 +68,7 @@ function Stairs(
 
 function World() {
 
-	const { bikeTpPosition, setBikeTpPosition, isChangingScene, setIsChangeScene, setBikeEnabled, setBulletinModalOpen, isLogin, setIsLogin, setLocation } = useMyContext()
+	const { setFinish,bikeTpPosition, setBikeTpPosition, isChangingScene, setIsChangeScene, setBikeEnabled, setBulletinModalOpen, isLogin, setIsLogin, setLocation } = useMyContext()
 
 	const { width, center, height } = useControls({
 		width: 5,
@@ -127,26 +127,30 @@ function World() {
                 {/* Pass in your EventHandler to handleEvent={ } */}
 			<InteractiveBlock
 				handleEvent={() => {
-					// setIsChangeScene(true);
-					// setBikeEnabled(false);
-					// setTimeout(() => {
-					// 	setBikeTpPosition([0, 0, -15]);
-					// 	setBikeEnabled(true);
-					// }, 1000);
-					setLocation("總圖");
+					//setChangeScene("操你媽")
+					setIsChangeScene({scene: '操你媽'});
 					setBikeEnabled(false);
-					setBulletinModalOpen(true);
+					setTimeout(() => {
+						setBikeTpPosition([0, 0, -15]);
+						setBikeEnabled(true);
+						//setFinish(true);
+					}, 2000);
+					// setLocation("總圖");
+					// setBikeEnabled(false);
+					// setBulletinModalOpen(true);
 				}}
 				position={[0, 0, 15]}
 			/>
 			<InteractiveBlock
 				handleEvent={() => {
-					setIsChangeScene(true);
+					//setChangeScene("垃圾幹")
+					setIsChangeScene({scene: '幹你老師'});
 					setBikeEnabled(false);
 					setTimeout(() => {
 						setBikeTpPosition([0, 0 ,15]);
 						setBikeEnabled(true);
-					}, 1000);
+						//setFinish(true);
+					}, 2000);
 					// setLocation("醉月湖");
 					// setBikeEnabled(false);
 					// setBulletinModalOpen(true);

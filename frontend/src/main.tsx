@@ -40,7 +40,7 @@ const client = new ApolloClient({
 });
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
-  <React.StrictMode>
+  //<React.StrictMode>
     <ApolloProvider client={client}>
       <GoogleOAuthProvider clientId="400363191853-gjef8qplkajcu781n791f6eonffkcfq3.apps.googleusercontent.com">
 
@@ -50,7 +50,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
 
       </GoogleOAuthProvider>
     </ApolloProvider>
-  </React.StrictMode>,
+  //</React.StrictMode>,
 )
 
 
