@@ -14,7 +14,10 @@ const CreateChatModal = (props: ICreateChatModal) => {
   const { createOpen, onOpen, onCancel, onCreate } = props;
 
   const [form] = Form.useForm();
-  const inputRef = useRef();
+  const [form2] = Form.useForm();
+	const [users, setUsers] = useState([me]);
+	const [username, setUsername] = useState('');
+
   // const [container, setContainer] = useState<HTMLDivElement | null>(null);
 
   const submit = () => {
@@ -23,23 +26,23 @@ const CreateChatModal = (props: ICreateChatModal) => {
       .then((values) => {
         onCreate(values.name);
         form.resetFields();
+        onCancel();
       })
       .catch((e) => {
         console.error(e);
       })
-      onCancel();
   }
 
   return (
     <>
-      <Button icon={<PlusOutlined />} onClick={onOpen}>Create Chats</Button>
+      <Button icon={<PlusOutlined />} onClick={onOpen}>建立聊天室</Button>
       {/* <div style={{ position: 'sticky', top: 0 }}>
       </div>
        */}
       <Modal
-        title="Create a new chat room"
-        okText="Create"
-        cancelText="Cancel"
+        title="建立聊天室"
+        okText="建立"
+        cancelText="取消"
         open={createOpen}
         onOk={() => submit()}
         onCancel={onCancel}
@@ -60,6 +63,31 @@ const CreateChatModal = (props: ICreateChatModal) => {
             />
           </Form.Item>
         </Form>
+
+        <Form form={form2} layout="vertical" name="form_in_modal">
+				<Form.Item
+					name="username"
+					label="User"
+				>
+					<Input.Search
+						enterButton={<Button type="primary">add</Button>}
+						placeholder="User name"
+						value={username}
+						onChange={e => setUsername(e.target.value)}
+						onSearch={value => {
+							if (users.find(user => user === value)) {
+								setStatus({ type: 'error', msg: 'User already in chat room.' })
+							} else {
+								setUsers([...users, value]);
+							}
+							form.resetFields(['username']);
+						}}
+					/>
+				</Form.Item>
+			</Form>
+			{
+				users.map(user => <Tag color="blue" key={user}>{user}</Tag>)
+			}
       </Modal>
     </>
   )

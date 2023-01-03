@@ -4,7 +4,7 @@ import { useQuery, useMutation } from "@apollo/client";
 import { SetStateType } from "./type";
 import _ from "lodash";
 
-import { 
+import {
     BULLETIN_QUERY,
 
     CREATE_USER_MUTATION,
@@ -47,13 +47,13 @@ interface IContext {
 
     bikePosition: Triplet,
     bikeEnabled: boolean,
-    bikeTpPosition: Triplet, 
+    bikeTpPosition: Triplet,
     setBikeTpPosition: SetStateType<Triplet>,
-    isChangingScene: boolean, 
+    isChangingScene: boolean,
     setIsChangeScene: SetStateType<boolean>,
-    isLoading: boolean, 
+    isLoading: boolean,
     setIsLoading: SetStateType<boolean>,
-    
+
     setBikeEnabled: SetStateType<boolean>,
 
     chatRoomModalOpen: boolean,
@@ -138,6 +138,9 @@ const MyProvider = (props: any) => {
     // AboutModal
     const [aboutModalOpen, setAboutModalOpen] = useState(false);
 
+    // ChatRoomModal
+    const [chatRoomModalOpen, setChatRoomModalOpen] = useState(false);
+
     /**
      * 
      * User
@@ -153,8 +156,8 @@ const MyProvider = (props: any) => {
     const [isLogin, setIsLogin] = useState(false);
 
     // Login - query/create User
-    const [ login ] = useMutation(CREATE_USER_MUTATION);
-    const [ updateUser ] = useMutation(UPDATE_USER_MUTATION);
+    const [login] = useMutation(CREATE_USER_MUTATION);
+    const [updateUser] = useMutation(UPDATE_USER_MUTATION);
 
     // Add Other component......
 
@@ -171,25 +174,22 @@ const MyProvider = (props: any) => {
      * Change Scene - TP
      * 
      */
-    const [bikeTpPosition, setBikeTpPosition] = useState<Triplet>([0, 0 ,0]);
+    const [bikeTpPosition, setBikeTpPosition] = useState<Triplet>([0, 0, 0]);
     const [isChangingScene, setIsChangeScene] = useState(false);
-
-    // ChatRoomModal
-    const [chatRoomModalOpen, setChatRoomModalOpen] = useState(false);
 
     /**
      * 
      * Bulletin
      * 
      */
-    const [ location, setLocation ] = useState("");
-    const [ bulletinMessages, setBulletinMessages ] = useState<Object[]>([]);
-    const [ leaveComment ]  = useMutation(CREATE_BULLETINMSG_MUTATION);
-    const [ likeComment ]  = useMutation(UPDATE_BULLETINMSG_MUTATION);
+    const [location, setLocation] = useState("");
+    const [bulletinMessages, setBulletinMessages] = useState<Object[]>([]);
+    const [leaveComment] = useMutation(CREATE_BULLETINMSG_MUTATION);
+    const [likeComment] = useMutation(UPDATE_BULLETINMSG_MUTATION);
 
 
-    const {data, loading, subscribeToMore} = useQuery(BULLETIN_QUERY, {
-        variables:{
+    const { data, loading, subscribeToMore } = useQuery(BULLETIN_QUERY, {
+        variables: {
             location: location,
         },
         fetchPolicy: "cache-and-network",
@@ -198,7 +198,7 @@ const MyProvider = (props: any) => {
     useEffect(() => {
         //console.log("Set Data!");
         //console.log(data);
-        if(data!==undefined) setBulletinMessages([...data.bulletin.messages]);
+        if (data !== undefined) setBulletinMessages([...data.bulletin.messages]);
     }, [data])
 
     useEffect(() => {
@@ -213,7 +213,7 @@ const MyProvider = (props: any) => {
                 document: BULLETIN_SUBSCRIPTION,
                 variables: { location: location },
                 updateQuery: (prev, { subscriptionData }) => {
-                    
+
                     //console.log("subData:")
                     //console.log(subscriptionData);
                     if (!subscriptionData) return prev;
@@ -223,29 +223,29 @@ const MyProvider = (props: any) => {
                     //console.log(prev);
                     let temp = _.cloneDeep(prev);
                     //console.log(temp);
-                    if(temp.bulletin === undefined){
+                    if (temp.bulletin === undefined) {
                         temp = {
-                            bulletin:{
-                                messages:[]
+                            bulletin: {
+                                messages: []
                             }
                         }
                     }
-                    if(type === "CREATED"){
+                    if (type === "CREATED") {
                         return {
-                            bulletin:{
+                            bulletin: {
                                 __typename: "Bulletin",
                                 location: location,
                                 messages: [...temp.bulletin.messages, newMessage],
                             }
                         };
                     }
-                    else if(type === "UPDATED"){
+                    else if (type === "UPDATED") {
                         let newMsgs = temp.bulletin.messages;
-                        let idx = newMsgs.findIndex((msg) => {return msg.id === newMessage.id});
+                        let idx = newMsgs.findIndex((msg) => { return msg.id === newMessage.id });
                         //console.log(idx);
                         newMsgs[idx] = newMessage;
                         return {
-                            bulletin:{
+                            bulletin: {
                                 __typename: "Bulletin",
                                 location: location,
                                 messages: [...newMsgs],
@@ -257,7 +257,7 @@ const MyProvider = (props: any) => {
         } catch (e) {
             console.log(e);
         }
-        return ()=>unsub();
+        return () => unsub();
     }, [subscribeToMore, location]);
 
     return (

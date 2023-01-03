@@ -3,18 +3,15 @@ import { LeftOutlined } from '@ant-design/icons';
 
 interface ISecondLevelModal {
   secondOpen: boolean,
-  showSecondLevel(): void,
+  showSecond(x: number): void,
   onForward(): void,
 }
 
 const SecondLevelModal = (props: ISecondLevelModal) => {
-  const { secondOpen, showSecondLevel, onForward } = props;
+  const { secondOpen, onForward } = props;
 
   return (
     <>
-      <Button type="primary" onClick={showSecondLevel}>
-        Two-level drawer
-      </Button>
       <Drawer
         title="Two-level Drawer"
         mask={false}

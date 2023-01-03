@@ -10,6 +10,7 @@ interface IMutation {
     // chatRoomName: String,
     // users: Types.ObjectId[],
     // messages: Types.ObjectId[],
+    createChatRoom: (x: any, y: any, z: any) => { },
 }
 
 const validateUser:any = async (UserModel: any, email: String, first_name: String, last_name: String, nick_name: String, picture: String, description: String) => {
@@ -108,7 +109,13 @@ const Mutation:IMutation = {
         });
 
         return msg;
-    }
+    },
+
+    createChatRoom: async (parent, { chatRoomName, creatorEmail }, {  ChatRoomModel }) => {
+        const chatRoom = await new ChatRoomModel({ chatRoomName, users: [creatorEmail] }).save();
+        console.log('new room: ' + chatRoomName);
+        return chatRoom;
+    },
 };
 
 export { Mutation as default };

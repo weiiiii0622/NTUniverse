@@ -21,7 +21,7 @@ const useChatRoom = (props: IProps) => {
       name: chatRoomName,
       // set later by query
       messages: [],
-      lastMsg: '',
+      lastMsg: 'Chat with your friends!',
       unread: 0,
     })
   };

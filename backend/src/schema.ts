@@ -16,15 +16,16 @@ const Schema = gql`
   }
 
   type ChatRoom {
+    id: ID!
     chatRoomName: String!
-    users: [User!]!
-    messages: [Message!]
+    users: [String!]!
+    messages: [Message]!
   }
 
   type Message {
-    chatRoomName: String!
-    sender: User!
-    time: DateTime!
+    sender: String!,
+    content: String!,
+    readBy: [String]!,
   }
   
   type Bulletin {
@@ -53,6 +54,7 @@ const Schema = gql`
     updateUser(email: String!, nick_name: String!, picture: String!, description: String!): User!
     createBulletinMsg(location: String!, author: ID!, body: String!, tags:[String]): BulletinMsg!
     updateBulletinMsg(location: String!, id: ID!, email: String!, isLiked: Boolean!): BulletinMsg!
+    createChatRoom(chatRoomName: String!, creatorEmail: String!): ChatRoom!
   }
 
   type Subscription {

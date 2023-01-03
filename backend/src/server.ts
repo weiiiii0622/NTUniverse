@@ -12,11 +12,13 @@ import Subscription from './resolvers/Subscription';
 import UserModel from './models/userModel';
 import BulletinModel from './models/bulletinModel';
 import BulletinMsgModel from './models/bulletinMsgModel';
+import ChatRoomModel from './models/chatRoomModel';
 
 // import { DateTimeResolver } from 'graphql-scalars';
 // import dateScalar from './resolvers/Date';
 import Bulletin from './resolvers/Bulletin';
 import BulletinMsg from './resolvers/BulletinMsg';
+import ChatRoom from './resolvers/ChatRoom';
 
 const pubsub = createPubSub();
 
@@ -31,12 +33,14 @@ const yoga = createYoga<any>({
       // DateTime: DateTimeResolver,
       Bulletin,
       BulletinMsg,
+      ChatRoom,
     }),
   }),
   context: <any>({
     UserModel,
     BulletinModel,
     BulletinMsgModel,
+    ChatRoomModel,
     pubsub,
   }),
   //  graphqlEndpoint: '/',   // uncomment this to send the app to: 4000/

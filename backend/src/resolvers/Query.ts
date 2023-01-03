@@ -25,6 +25,12 @@ const Query = {
     //console.log(msg);
     return msg;
   },
+
+  // ChatRoom
+  // chatRoom: async (parent: any, { chatRoomName }: any, { ChatRoomModel }: any) => {
+  //   const chatRoom = ChatRoomModel.find
+  // }
+
 };
 
 export default Query;

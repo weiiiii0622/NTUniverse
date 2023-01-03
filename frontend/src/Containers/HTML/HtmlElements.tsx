@@ -32,9 +32,10 @@ const AppHtmlElements = () => {
             } */}
             <MySider />
             
+            <ChatRoomModal />
+            
             <TeleportTransition />
             
-            <ChatRoomModal />
         </>
     )
 }
