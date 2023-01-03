@@ -11,8 +11,8 @@ import { SetStateType } from "../../Utils/type";
 import { useMyContext } from "../../Utils/useMyContext";
 import SFu from "./Demo";
 import World from "./World";
-//import Loader from "./Loader";
-import { Loader } from "@react-three/drei";
+import Loader from "./Loader";
+//import { Loader } from "@react-three/drei";
 
 interface IContext {
 	/**
@@ -89,12 +89,12 @@ export default function AppCanvas() {
 
 	return (
 		<>
-		<Loader />
+		{/* <Loader /> */}
 		<Canvas
 			style={{ position: 'unset' }}
 			shadows
 		>
-			<Suspense fallback={null}>
+			<Suspense fallback={<Loader /> }>
 			<>
 				<Perf position="bottom-right" />
 
