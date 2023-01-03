@@ -39,11 +39,24 @@ export default function useHandleControls({
 	 * Motion:
 	 * - control the vehicle based on "controls"
 	 */
-	const { bikeEnabled } = useMyContext();
+	const { bikeEnabled, bikeTpPosition } = useMyContext();
+
+	useEffect(() => {
+		chassis!.current.api.position.set(...objectProps.position)
+		if (objectProps.rotation)
+			chassis!.current.api.rotation.set(...objectProps.rotation)
+		else
+			chassis!.current.api.rotation.set(0, 0, 0)
+		chassis!.current.api.velocity.set(0, 0, 0)
+		chassis!.current.api.angularVelocity.set(0, 0, 0)
+	}, [bikeTpPosition])
 
 	useFrame(() => {
-		if (!bikeEnabled)
+		if (!bikeEnabled) {
+			chassis.current.api.velocity.set(0, 0, 0);
+			chassis.current.api.angularVelocity.set(0, 0, 0);
 			return;
+		}
 
 		const { forward, backward, left, right, brake, reset } = controls.current
 		backIndex.forEach(i =>

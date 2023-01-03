@@ -47,6 +47,11 @@ interface IContext {
 
     bikePosition: Triplet,
     bikeEnabled: boolean,
+    bikeTpPosition: Triplet, 
+    setBikeTpPosition: SetStateType<Triplet>,
+    isChangingScene: boolean, 
+    setIsChangeScene: SetStateType<boolean>,
+    
     setBikeEnabled: SetStateType<boolean>,
 
     chatRoomModalOpen: boolean,
@@ -83,6 +88,10 @@ const MyContext = createContext<IContext>({
 
     bikePosition: [0, 0, 0],
     bikeEnabled: false,
+    bikeTpPosition: [0, 0, 0],
+    isChangingScene: false,
+    setIsChangeScene: () => { },
+    setBikeTpPosition: () => { },
     setBikeEnabled: () => { },
 
     chatRoomModalOpen: false,
@@ -144,6 +153,15 @@ const MyProvider = (props: any) => {
      */
 
     const [bikeEnabled, setBikeEnabled] = useState(true);
+
+
+    /**
+     * 
+     * Change Scene - TP
+     * 
+     */
+    const [bikeTpPosition, setBikeTpPosition] = useState<Triplet>([0, 0 ,0]);
+    const [isChangingScene, setIsChangeScene] = useState(false);
 
     // ChatRoomModal
     const [chatRoomModalOpen, setChatRoomModalOpen] = useState(false);
@@ -239,6 +257,8 @@ const MyProvider = (props: any) => {
                 setProfileUser,
                 setLocation, setBulletinMessages,
                 bikeEnabled, setBikeEnabled,
+                bikeTpPosition, setBikeTpPosition,
+                isChangingScene, setIsChangeScene,
                 chatRoomModalOpen, setChatRoomModalOpen,
             }}
             {...props}

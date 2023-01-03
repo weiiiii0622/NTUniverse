@@ -6,6 +6,7 @@ import ProfileModal from "../../Components/HTML/ProfileModal";
 import BulletinModal from "../../Components/HTML/BulletinModal";
 import ChatRoomModal from "../../Containers/HTML/ChatRoom/ChatRoomModal";
 import AboutModal from "../../Components/HTML/AboutModal";
+import TeleportTransition from "../../Components/HTML/TeleportTransition";
 
 const AppHtmlElements = () => {
 
@@ -17,6 +18,7 @@ const AppHtmlElements = () => {
             <TutorialModal />
             <BulletinModal />
             <AboutModal />
+            <TeleportTransition />
             <MySider />
             <ChatRoomModal />
         </>
