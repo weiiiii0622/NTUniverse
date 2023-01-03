@@ -95,10 +95,10 @@ export default function AppCanvas() {
 		<>
 			{/* <Loader /> */}
 			<Canvas
-				// style={{ position: 'unset' }}
+				style={{ position: 'unset' }}
 				shadows
 			>
-				<Suspense fallback={<Loader />}>
+				{/* <Suspense fallback={<Loader />}> */}
 					<>
 						<Perf position="bottom-right" />
 
@@ -130,7 +130,7 @@ export default function AppCanvas() {
 						<AdaptiveDpr pixelated />
 						<AdaptiveEvents />
 					</>
-				</Suspense>
+				{/* </Suspense> */}
 			</Canvas >
 		</>
 	)

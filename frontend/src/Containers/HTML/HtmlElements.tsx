@@ -6,19 +6,33 @@ import ProfileModal from "../../Components/HTML/ProfileModal";
 import BulletinModal from "../../Components/HTML/BulletinModal";
 import AboutModal from "../../Components/HTML/AboutModal";
 import TeleportTransition from "../../Components/HTML/TeleportTransition";
+import LoadingCover from "../../Components/HTML/LoadingCover";
+import { useMyContext } from "../../Utils/useMyContext";
 
 const AppHtmlElements = () => {
+    const { isLoading } = useMyContext();
 
     return(
         <>
+            
             <LoginModal />
             <LogoutModal />
             <ProfileModal />
             <TutorialModal />
             <BulletinModal />
             <AboutModal />
-            <TeleportTransition />
+            
+            {/* {
+                isLoading
+                ?
+                <LoadingCover />
+                :
+                null
+            } */}
             <MySider />
+            
+            <TeleportTransition />
+            
         </>
     )
 }
