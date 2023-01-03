@@ -14,6 +14,8 @@ import { group } from "console";
 import { useSpring, animated, config } from "@react-spring/three";
 import { Tooltip } from "antd";
 
+import { MainLibPosition } from "./MainLib/MainLib";
+
 const DebugWorld: FC<any> = ({ debug = false, children }) => {
 
 	return (
@@ -120,7 +122,7 @@ function QuestionMark({
 
 function World() {
 
-	const { setFinish,bikeTpPosition, setBikeTpPosition, isChangingScene, setIsChangeScene, setBikeEnabled, setBulletinModalOpen, isLogin, setIsLogin, setLocation } = useMyContext()
+	const { setFinish, bikeTpPosition, setBikeTpPosition, isChangingScene, setIsChangeScene, setBikeEnabled, setBulletinModalOpen, isLogin, setIsLogin, setLocation } = useMyContext()
 
 	const { width, center, height } = useControls({
 		width: 5,
@@ -150,9 +152,9 @@ function World() {
 	});
 
 	return (
-		<DebugWorld  >
+		<DebugWorld debug >
 			<Bike objectProps={{
-				position: bikeTpPosition,
+				position: [0, 0, 0],
 				rotation: [0, 0, 0],
 			}} />
 
@@ -168,7 +170,7 @@ function World() {
 			<InteractiveBlock
 				handleEvent={() => {
 					//setChangeScene("操你媽")
-					setIsChangeScene({scene: '操你媽'});
+					setIsChangeScene({ scene: '操你媽' });
 					setBikeEnabled(false);
 					setTimeout(() => {
 						setBikeTpPosition([0, 0, -15]);
@@ -184,10 +186,10 @@ function World() {
 			<InteractiveBlock
 				handleEvent={() => {
 					//setChangeScene("垃圾幹")
-					setIsChangeScene({scene: '幹你老師'});
+					setIsChangeScene({ scene: '總圖' });
 					setBikeEnabled(false);
 					setTimeout(() => {
-						setBikeTpPosition([0, 0, 15]);
+						setBikeTpPosition([30, 0, 30]);
 						setBikeEnabled(true);
 						//setFinish(true);
 					}, 2000);
@@ -195,7 +197,7 @@ function World() {
 					// setBikeEnabled(false);
 					// setBulletinModalOpen(true);
 				}}
-				position={[0, 0, -15]}
+				position={[0, 0, 0]}
 			/>
 
 		</DebugWorld >

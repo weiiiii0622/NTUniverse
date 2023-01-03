@@ -8,6 +8,7 @@ import { Camera, invalidate, useFrame, useThree } from "@react-three/fiber";
 import { PerspectiveCamera } from "@react-three/drei";
 import { useControls } from "leva";
 import { IControls } from "./hooks/useControls";
+import { useMyContext } from "../../../Utils/useMyContext";
 
 interface BikeMeshProps {
 	args: Triplet,
@@ -28,6 +29,7 @@ const BikeMesh = React.forwardRef<any, BikeMeshProps>(
 			position,
 			rotation,
 			allowSleep: false,
+			// type: 'Static',
 			//onCollide: (e: any) => console.log('bonk', e),
 			collisionResponse: true,
 		}), ref);
@@ -38,6 +40,15 @@ const BikeMesh = React.forwardRef<any, BikeMeshProps>(
 			position: [0, delta + -args[1] / 2, 0] as Triplet,
 			// rotation: [0, Math.PI, 0] as Triplet,
 		};
+
+
+		const { bikeTpPosition } = useMyContext();
+		useEffect(() => {
+			//@ts-ignore
+			ref!.current?.api.position.set(...bikeTpPosition);
+			console.log('tp success');
+			console.log(bikeTpPosition);
+		}, [bikeTpPosition]);
 
 
 		const { scale, rotation: steerRotation } = useSpring({
