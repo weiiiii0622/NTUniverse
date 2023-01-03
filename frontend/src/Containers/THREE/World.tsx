@@ -134,6 +134,22 @@ function Ceil() {
 function World() {
 
 	const { setFinish, bikeTpPosition, setBikeTpPosition, isChangingScene, setIsChangeScene, setBikeEnabled, setBulletinModalOpen, isLogin, setIsLogin, setLocation } = useMyContext()
+	
+	const handleTP = ({ scene, pos }) => {
+		setIsChangeScene({ scene: scene });
+		setBikeEnabled(false);
+		setTimeout(() => {
+			setBikeTpPosition(pos);
+			setBikeEnabled(true);
+		}, 2000);
+	}
+
+	const handleOpenBulletin = ({ location }) => {
+		setLocation(location);
+		setBikeEnabled(false);
+		setBulletinModalOpen(true);
+	}
+
 
 	const { width, center, height } = useControls({
 		width: 5,
@@ -161,20 +177,6 @@ function World() {
 			step: 0.5,
 		}
 	});
-	const handleTP = ({ scene, pos }) => {
-		setIsChangeScene({ scene: scene });
-		setBikeEnabled(false);
-		setTimeout(() => {
-			setBikeTpPosition(pos);
-			setBikeEnabled(true);
-		}, 2000);
-	}
-
-	const handleOpenBulletin = ({ location }) => {
-		setLocation(location);
-		setBikeEnabled(false);
-		setBulletinModalOpen(true);
-	}
 
 	// const {show}
 
