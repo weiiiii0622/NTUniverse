@@ -70,10 +70,10 @@ const AboutModal = () => {
     //     console.log(result);
     // });
 
-    useEffect(() => {
-        console.log("USERALL data")
-        console.log(data);
-    }, [data])
+    //useEffect(() => {
+        //console.log("USERALL data")
+        //console.log(data);
+    //}, [data])
 
     const onFinish = async () => {
         // setIsLoading(true);
@@ -278,7 +278,7 @@ const AboutModal = () => {
                                     </Col>
                                     <Col flex={2} style={{fontStyle:'italic', marginTop: '2px'}}>
                                             <Statistic valueStyle={{ fontSize: '18px', marginBottom: '5px'}} title={<><BankOutlined/> -  Education</>} prefix={<></>} value={`NTU EE / CSIE`} />
-                                            <Statistic valueStyle={{ fontSize: '18px', marginBottom: '5px'}} title={<><CustomerServiceOutlined/> -  Hobby</>} prefix={<></>} value={`吃飯、睡覺 (但很久沒睡飽了QQ)`} />
+                                            <Statistic valueStyle={{ fontSize: '18px', marginBottom: '5px'}} title={<><CustomerServiceOutlined/> -  Hobby</>} prefix={<></>} value={`睡覺 (但很久沒睡飽了QQ)`} />
                                             <Statistic valueStyle={{ fontSize: '18px', marginBottom: '5px'}} title={<><IdcardOutlined/> -  Contact</>} prefix={<><InstagramOutlined/></>} value={`@wei._chin`} />
                                     </Col>
                                 </Row>

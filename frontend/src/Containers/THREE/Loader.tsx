@@ -8,17 +8,20 @@ const Loader = () => {
 	const { active, progress, errors, item, loaded, total} = useProgress();
     useEffect(() => {
         if(active === false){
-            //setIsLoading(false);
+            setTimeout(() => {
+                setIsLoading(false);
+            }, 1000);
         }
     }, [progress])
 	return (
 		<Html 
             center 
             style={{
-                height: '100vh',
+                display: 'none',
+                //height: '100vh',
                 //width: '100vw',
-                position: 'absolute',
-                backgroundColor: 'black',
+                //position: 'absolute',
+                //backgroundColor: 'black',
             }}
         >
 			{/* {progress} % loaded */}

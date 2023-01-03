@@ -28,7 +28,7 @@ const BikeMesh = React.forwardRef<any, BikeMeshProps>(
 			position,
 			rotation,
 			allowSleep: false,
-			onCollide: (e: any) => console.log('bonk', e),
+			//onCollide: (e: any) => console.log('bonk', e),
 			collisionResponse: true,
 		}), ref);
 
