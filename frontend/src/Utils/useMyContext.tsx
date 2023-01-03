@@ -49,10 +49,12 @@ interface IContext {
     bikeEnabled: boolean,
     bikeTpPosition: Triplet,
     setBikeTpPosition: SetStateType<Triplet>,
-    isChangingScene: boolean,
-    setIsChangeScene: SetStateType<boolean>,
+    isChangingScene: any,
+    setIsChangeScene: SetStateType<any>,
     isLoading: boolean,
-    setIsLoading: SetStateType<boolean>,
+    setIsLoading: SetStateType<any>,
+    finish: boolean, 
+    setFinish: SetStateType<any>,
 
     setBikeEnabled: SetStateType<boolean>,
 
@@ -91,9 +93,11 @@ const MyContext = createContext<IContext>({
     bikePosition: [0, 0, 0],
     bikeEnabled: false,
     bikeTpPosition: [0, 0, 0],
-    isChangingScene: false,
+    isChangingScene: {},
     isLoading: true,
     setIsLoading: () => { },
+    finish: true,
+    setFinish: () => { },
     setIsChangeScene: () => { },
     setBikeTpPosition: () => { },
     setBikeEnabled: () => { },
@@ -175,7 +179,8 @@ const MyProvider = (props: any) => {
      * 
      */
     const [bikeTpPosition, setBikeTpPosition] = useState<Triplet>([0, 0, 0]);
-    const [isChangingScene, setIsChangeScene] = useState(false);
+    const [isChangingScene, setIsChangeScene] = useState({cmd:"", scene:""});
+    const [finish, setFinish] = useState(true);
 
     /**
      * 
@@ -271,6 +276,7 @@ const MyProvider = (props: any) => {
                 bikeTpPosition, setBikeTpPosition,
                 isChangingScene, setIsChangeScene,
                 isLoading, setIsLoading,
+                finish, setFinish,
                 chatRoomModalOpen, setChatRoomModalOpen,
             }}
             {...props}

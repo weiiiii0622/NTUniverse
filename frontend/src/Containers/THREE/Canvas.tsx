@@ -1,5 +1,5 @@
 import { Physics, Triplet } from "@react-three/cannon";
-import { AdaptiveDpr, AdaptiveEvents, Environment } from "@react-three/drei";
+import { AdaptiveDpr, AdaptiveEvents, Environment, Html } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import { useControls } from "leva";
 import { Perf } from "r3f-perf";
@@ -13,6 +13,7 @@ import { useMyContext } from "../../Utils/useMyContext";
 import SFu from "./Demo";
 import World from "./World";
 import Loader from "./Loader";
+import { Test } from "../../App";
 //import { Loader } from "@react-three/drei";
 
 interface IContext {
@@ -97,7 +98,7 @@ export default function AppCanvas() {
 				style={{ position: 'unset' }}
 				shadows
 			>
-				{/* <Suspense fallback={<Loader />}> */}
+				<Suspense fallback={<Loader />}>
 					<>
 						<Perf position="bottom-right" />
 
@@ -129,7 +130,7 @@ export default function AppCanvas() {
 						<AdaptiveDpr pixelated />
 						<AdaptiveEvents />
 					</>
-				{/* </Suspense> */}
+				</Suspense>
 			</Canvas >
 		</>
 	)
