@@ -174,7 +174,7 @@ const MyProvider = (props: any) => {
      * Change Scene - TP
      * 
      */
-    const [bikeTpPosition, setBikeTpPosition] = useState<Triplet>([300, 0 ,300]);
+    const [bikeTpPosition, setBikeTpPosition] = useState<Triplet>([0, 0, 0]);
     const [isChangingScene, setIsChangeScene] = useState({cmd:"", scene:""});
     const [finish, setFinish] = useState(true);
 
