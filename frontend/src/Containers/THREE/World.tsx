@@ -188,6 +188,16 @@ function World() {
 				rotation={[0, Math.PI / 4, 0]}
 			/>
 
+			{/* <Tree1 position={[-5, 0.0, -5]} /> */}
+			{/* <RingElement ringPosition={[-5, 0.1, -5]} ringArgs={[4.5, 7, 32]} /> */}
+			{/* <Bench position={[-5, 0, 5]} rotation={[0, Math.PI / 2, 0]} castShadow /> */}
+
+			{/* <TestContainer /> */}
+
+			{/* <Palm objectProps={{
+				 	position: [5, 0, -5],
+				 }}   */}
+
 			{/* Pass in your EventHandler to handleEvent={ } */}
 			<InteractiveBlock
 				handleEvent={() => {
@@ -207,17 +217,6 @@ function World() {
 				}}
 				position={[0, 0, -15]}
 			/>
-			{/* <Tree1 position={[-5, 0.0, -5]} /> */}
-			{/* <RingElement ringPosition={[-5, 0.1, -5]} ringArgs={[4.5, 7, 32]} /> */}
-			{/* <Bench position={[-5, 0, 5]} rotation={[0, Math.PI / 2, 0]} castShadow /> */}
-
-			{/* <TestContainer /> */}
-
-			{/* <Palm objectProps={{
-				 	position: [5, 0, -5],
-				 }}   */}
-
-			{/* Pass in your EventHandler to handleEvent={ } */}
 			<InteractiveBlock
 				handleEvent={() => {
 					handleTP({
