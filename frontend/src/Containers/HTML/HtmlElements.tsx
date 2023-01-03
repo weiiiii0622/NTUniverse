@@ -21,7 +21,7 @@ const AppHtmlElements = () => {
             <TutorialModal />
             <BulletinModal />
             <AboutModal />
-            
+            <LoadingCover />
             {/* {
                 isLoading
                 ?
