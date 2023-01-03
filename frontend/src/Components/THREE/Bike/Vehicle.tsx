@@ -12,7 +12,7 @@ import { ThreeContext } from '../../../Containers/THREE/Canvas'
 import useHandleControls from './hooks/useHandleControls'
 import useSound from './hooks/useSound'
 import { Camera } from '@react-three/fiber'
-import { PerspectiveCamera } from '@react-three/drei'
+import { PerspectiveCamera, Trail } from '@react-three/drei'
 
 
 /**
@@ -128,26 +128,28 @@ const Vehicle = forwardRef((props: VehicleProps, vehicle: RefObject<Mesh>) => {
 	}, [chassis]);
 
 	return (
-		//@ts-ignore
-		<group ref={vehicle}>
-			<BikeMesh
-				ref={chassis}
-				controls={controls}
-				position={justifyPosition(objectProps.position)}
-				rotation={objectProps.rotation}
-				arcadeDirection={arcadeDirection}
-				{...defaultChassisProps} />
-			{
-				wheelRefs.map((ref, i) => (
-					<Wheel
-						key={'wheel' + i}
-						ref={ref}
-						{...wheelProps}
-						display={i == 4 ? 'back' : i == 2 ? 'pedal' : 'none'}
-					/>
-				))
-			}
-			{/* <FrontWheel
+		<>
+
+			{/*@ts-ignore*/}
+			<group ref={vehicle}>
+				<BikeMesh
+					ref={chassis}
+					controls={controls}
+					position={justifyPosition(objectProps.position)}
+					rotation={objectProps.rotation}
+					arcadeDirection={arcadeDirection}
+					{...defaultChassisProps} />
+				{
+					wheelRefs.map((ref, i) => (
+						<Wheel
+							key={'wheel' + i}
+							ref={ref}
+							{...wheelProps}
+							display={i == 4 ? 'back' : i == 2 ? 'pedal' : 'none'}
+						/>
+					))
+				}
+				{/* <FrontWheel
 				objectProps={{
 					position: frontPosition,
 					rotation: frontRotation,
@@ -156,7 +158,10 @@ const Vehicle = forwardRef((props: VehicleProps, vehicle: RefObject<Mesh>) => {
 				arcadeDirection={arcadeDirection}
 				angularVelocity={angularVelocity}
 			/> */}
-		</group >
+			</group >
+			<Trail target={chassis} />
+
+		</>
 	)
 });
 
