@@ -120,17 +120,6 @@ function QuestionMark({
 	)
 }
 
-function Ceil() {
-	const [ref,] = usePlane(() => ({
-		type: 'Static',
-		args: [10, 10],
-		rotation: [-Math.PI / 2, 0, 0],
-		position: [0, 5, 0],
-	}));
-
-	return <mesh ref={ref} />
-}
-
 function World() {
 
 	const { setFinish, bikeTpPosition, setBikeTpPosition, isChangingScene, setIsChangeScene, setBikeEnabled, setBulletinModalOpen, isLogin, setIsLogin, setLocation } = useMyContext()
@@ -179,7 +168,7 @@ function World() {
 	// const {show}
 
 	return (
-		<DebugWorld debug >
+		<DebugWorld debug>
 			<Bike objectProps={{
 				position: bikeTpPosition,
 				rotation: [0, 0, 0],
