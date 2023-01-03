@@ -13,7 +13,7 @@ import { IControls } from "./useControls";
  * Dynamics
  */
 const steer = 0.75;
-const force = 1100;
+const force = 1500;
 const maxBrake = 0;   // non-fixable
 
 
@@ -42,7 +42,7 @@ export default function useHandleControls({
 	const { bikeEnabled, bikeTpPosition } = useMyContext();
 
 	useEffect(() => {
-		chassis!.current.api.position.set(...objectProps.position)
+		chassis!.current.api.position.set(20, 10, 30);
 		if (objectProps.rotation)
 			chassis!.current.api.rotation.set(...objectProps.rotation)
 		else
@@ -50,6 +50,7 @@ export default function useHandleControls({
 		chassis!.current.api.velocity.set(0, 0, 0)
 		chassis!.current.api.angularVelocity.set(0, 0, 0)
 	}, [bikeTpPosition])
+
 
 	useFrame(() => {
 		if (!bikeEnabled) {
@@ -62,8 +63,6 @@ export default function useHandleControls({
 		backIndex.forEach(i =>
 			api.applyEngineForce(forward || backward ? force * (forward && !backward ? -1 : 1) : 0, i))
 
-		frontIndex.forEach(i =>
-			api.applyEngineForce(forward || backward ? force * (forward && !backward ? -1 : 1) : 0, i))
 		frontIndex.forEach(i =>
 			api.setSteeringValue(left || right ? steer * (left && !right ? 1 : -1) : 0, i));
 

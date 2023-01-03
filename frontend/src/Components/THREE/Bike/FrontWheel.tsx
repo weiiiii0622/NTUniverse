@@ -22,7 +22,6 @@ export default function FrontWheel({ objectProps, arcadeDirection, angularVeloci
 		mass: 1,
 		type: "Kinematic",
 		// material: 'wheel',
-		collisionFilterGroup: 2,
 		collisionResponse: false,
 		shapes: [{
 			type: 'Cylinder',
@@ -75,7 +74,7 @@ export default function FrontWheel({ objectProps, arcadeDirection, angularVeloci
 				rotation={steerRotation as any}
 			>
 				{/* @ts-ignore */}
-				<group ref={ref}>
+				<group ref={ref} name="Front wheel">
 					<ModelFBX filePath="./resources/models/bike/frontWheel.fbx"
 						objectProps={{ ...defaultObjectProps, }} />
 				</group>
