@@ -42,7 +42,7 @@ export default function useHandleControls({
 	const { bikeEnabled, bikeTpPosition } = useMyContext();
 
 	useEffect(() => {
-		chassis!.current.api.position.set(20, 10, 30);
+		chassis!.current.api.position.set(...objectProps.position);
 		if (objectProps.rotation)
 			chassis!.current.api.rotation.set(...objectProps.rotation)
 		else

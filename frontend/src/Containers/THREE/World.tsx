@@ -168,7 +168,7 @@ function World() {
 	return (
 		<DebugWorld debug >
 			<Bike objectProps={{
-				position: [0, 0, 0],
+				position: bikeTpPosition,
 				rotation: [0, 0, 0],
 			}} />
 
