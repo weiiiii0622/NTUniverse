@@ -112,7 +112,7 @@ export default function AppCanvas() {
 				enableControls,
 				setEnableControls: () => { },
 			}}>
-				{show && <SFu />}
+				{!show && <SFu />}
 				<Physics>
 					<World />
 				</Physics>
