@@ -65,6 +65,7 @@ export default function TestContainer() {
 
     return (
         <>
+            {/* @ts-ignore */}
             <animated.mesh  {...spring1} onClick={() => { api1.start({ position: [1, 1, 1] }); }}>
                 <boxGeometry />
                 <meshBasicMaterial />

@@ -4,6 +4,7 @@ import { V } from "@use-gesture/core/dist/declarations/src/utils/maths";
 import { useContext, useEffect, useRef } from "react";
 
 import * as THREE from 'three';
+import useBikeContext from "../../../Containers/hooks/useBikeContext";
 import { ThreeContext } from "../../../Containers/THREE/Canvas";
 import { useMyContext } from "../../../Utils/useMyContext";
 
@@ -13,7 +14,7 @@ export default function AppOrbitControls({ enabled }) {
 
     const ref = useRef<any>();
 
-    const { bikePosition } = useContext(ThreeContext);
+    const { bikePosition } = useBikeContext();
 
     useEffect(() => {
         if (enabled && ref.current) {

@@ -3,6 +3,7 @@ import { useFrame } from "@react-three/fiber";
 import { Ref, RefObject, useContext, useEffect, useState } from "react";
 import { Object3D } from "three";
 import { ObjectProps } from "..";
+import useBikeContext from "../../../../Containers/hooks/useBikeContext";
 import { ThreeContext } from "../../../../Containers/THREE/Canvas";
 import { SetStateType } from "../../../../Utils/type";
 import { useMyContext } from "../../../../Utils/useMyContext";
@@ -39,7 +40,8 @@ export default function useHandleControls({
 	 * Motion:
 	 * - control the vehicle based on "controls"
 	 */
-	const { bikeEnabled, bikeTpPosition } = useMyContext();
+	const { bikeEnabled } = useBikeContext();
+	const { bikeTpPosition } = useMyContext();
 
 	useEffect(() => {
 		chassis!.current.api.position.set(...objectProps.position);

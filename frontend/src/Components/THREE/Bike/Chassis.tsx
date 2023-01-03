@@ -1,33 +1,32 @@
-import { Triplet, useBox, useCompoundBody, useHingeConstraint, useLockConstraint, usePointToPointConstraint } from "@react-three/cannon";
-import React, { RefObject, useEffect, useRef } from "react";
-import { Euler, FrontSide, Mesh, Vector3 } from "three";
+import { Triplet, useBox, useCompoundBody } from "@react-three/cannon";
+import React, { RefObject, useContext, useEffect } from "react";
+import { Mesh } from "three";
 import ModelFBX from "../models/ModelFBX";
 import { useSpring, animated, config } from '@react-spring/three';
 import { ArcadeDirection } from "./Vehicle";
-import { Camera, invalidate, useFrame, useThree } from "@react-three/fiber";
+import { useThree } from "@react-three/fiber";
 import { PerspectiveCamera } from "@react-three/drei";
-import { useControls } from "leva";
 import { IControls } from "./hooks/useControls";
-import { useMyContext } from "../../../Utils/useMyContext";
-import { type } from "os";
-
+import { ThreeContext } from "../../../Containers/THREE/Canvas";
 
 
 type BikeCameraType = 'default';
+
+const bikeCamPositions: Record<BikeCameraType, Triplet> = {
+	default: [-10, 13, -13]
+}
+
+
 interface BikeCameraProps {
 	type?: BikeCameraType,
 };
 
 function BikeCamera({ type = 'default' }: BikeCameraProps) {
 
-	const positionSet: Record<BikeCameraType, Triplet> = {
-		default: [-10, 13, -13]
-	}
-
 	return (
 		<>
 			<PerspectiveCamera
-				position={positionSet[type]}
+				position={bikeCamPositions[type]}
 				name="My camera"
 				makeDefault
 			/>
@@ -54,11 +53,21 @@ const BikeMesh = React.forwardRef<any, BikeMeshProps>(
 			position,
 			rotation,
 			allowSleep: false,
-			// type: 'Static',
-			//onCollide: (e: any) => console.log('bonk', e),
 			collisionResponse: true,
 		}), chassis);
 
+		const { enableControls } = useContext(ThreeContext);
+		const { camera } = useThree();
+		// useEffect(() => {
+		// 	if (!enableControls) {
+		// 		camera.position.set(
+		// 			chassis.current.position[0] + bikeCamPositions['default'][0],
+		// 			chassis.current.position[1] + bikeCamPositions['default'][1],
+		// 			chassis.current.position[2] + bikeCamPositions['default'][2],
+		// 		);
+		// 		camera.lookAt(chassis.current.position);
+		// 	}
+		// }, [enableControls]);
 
 
 		const { rotation: steerRotation } = useSpring({
@@ -84,7 +93,6 @@ const BikeMesh = React.forwardRef<any, BikeMeshProps>(
 			}],
 		}));
 
-		const { camera } = useThree();
 		useEffect(() => {
 			camera.lookAt(chassis.current.position);
 		}, [api, camera]);

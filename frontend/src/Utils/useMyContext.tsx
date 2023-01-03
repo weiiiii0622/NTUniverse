@@ -4,7 +4,7 @@ import { useQuery, useMutation } from "@apollo/client";
 import { SetStateType } from "./type";
 import _ from "lodash";
 
-import { 
+import {
     BULLETIN_QUERY,
 
     CREATE_USER_MUTATION,
@@ -13,7 +13,7 @@ import {
     UPDATE_BULLETINMSG_MUTATION,
 
     BULLETIN_SUBSCRIPTION,
-} from "../graphql";
+} from "./graphql";
 
 
 interface IContext {
@@ -47,17 +47,17 @@ interface IContext {
 
     bikePosition: Triplet,
     bikeEnabled: boolean,
-    bikeTpPosition: Triplet, 
+    bikeTpPosition: Triplet,
     setBikeTpPosition: SetStateType<Triplet>,
-    isChangingScene: any, 
+    isChangingScene: any,
     setIsChangeScene: SetStateType<any>,
-    isLoading: boolean, 
+    isLoading: boolean,
     setIsLoading: SetStateType<any>,
-    finish: boolean, 
+    finish: boolean,
     setFinish: SetStateType<any>,
-    loadFinished:boolean,
+    loadFinished: boolean,
     setLoadFinished: SetStateType<boolean>,
-    
+
     setBikeEnabled: SetStateType<boolean>,
 }
 
@@ -95,7 +95,7 @@ const MyContext = createContext<IContext>({
     isChangingScene: {},
     isLoading: true,
     setIsLoading: () => { },
-    loadFinished:false,
+    loadFinished: false,
     setLoadFinished: () => { },
     finish: true,
     setFinish: () => { },
@@ -156,17 +156,11 @@ const MyProvider = (props: any) => {
     const [isLogin, setIsLogin] = useState(false);
 
     // Login - query/create User
-    const [ login ] = useMutation(CREATE_USER_MUTATION);
-    const [ updateUser ] = useMutation(UPDATE_USER_MUTATION);
+    const [login] = useMutation(CREATE_USER_MUTATION);
+    const [updateUser] = useMutation(UPDATE_USER_MUTATION);
 
     // Add Other component......
 
-
-    /**
-     * Bike
-     */
-
-    const [bikeEnabled, setBikeEnabled] = useState(true);
 
 
     /**
@@ -175,7 +169,7 @@ const MyProvider = (props: any) => {
      * 
      */
     const [bikeTpPosition, setBikeTpPosition] = useState<Triplet>([0, 0, 0]);
-    const [isChangingScene, setIsChangeScene] = useState({cmd:"", scene:""});
+    const [isChangingScene, setIsChangeScene] = useState({ cmd: "", scene: "" });
     const [finish, setFinish] = useState(true);
 
 
@@ -184,23 +178,23 @@ const MyProvider = (props: any) => {
      * Bulletin
      * 
      */
-    const [ location, setLocation ] = useState("");
-    const [ bulletinMessages, setBulletinMessages ] = useState<Object[]>([]);
-    const [ leaveComment ]  = useMutation(CREATE_BULLETINMSG_MUTATION);
-    const [ likeComment ]  = useMutation(UPDATE_BULLETINMSG_MUTATION);
+    const [location, setLocation] = useState("");
+    const [bulletinMessages, setBulletinMessages] = useState<Object[]>([]);
+    const [leaveComment] = useMutation(CREATE_BULLETINMSG_MUTATION);
+    const [likeComment] = useMutation(UPDATE_BULLETINMSG_MUTATION);
 
 
-    const {data, loading, subscribeToMore} = useQuery(BULLETIN_QUERY, {
-        variables:{
+    const { data, loading, subscribeToMore } = useQuery(BULLETIN_QUERY, {
+        variables: {
             location: location,
         },
-        fetchPolicy: "cache-and-network",   
+        fetchPolicy: "cache-and-network",
     })
 
     useEffect(() => {
         //console.log("Set Data!");
         //console.log(data);
-        if(data!==undefined) setBulletinMessages([...data.bulletin.messages]);
+        if (data !== undefined) setBulletinMessages([...data.bulletin.messages]);
     }, [data])
 
     useEffect(() => {
@@ -215,7 +209,7 @@ const MyProvider = (props: any) => {
                 document: BULLETIN_SUBSCRIPTION,
                 variables: { location: location },
                 updateQuery: (prev, { subscriptionData }) => {
-                    
+
                     //console.log("subData:")
                     //console.log(subscriptionData);
                     if (!subscriptionData) return prev;
@@ -225,29 +219,29 @@ const MyProvider = (props: any) => {
                     //console.log(prev);
                     let temp = _.cloneDeep(prev);
                     //console.log(temp);
-                    if(temp.bulletin === undefined){
+                    if (temp.bulletin === undefined) {
                         temp = {
-                            bulletin:{
-                                messages:[]
+                            bulletin: {
+                                messages: []
                             }
                         }
                     }
-                    if(type === "CREATED"){
+                    if (type === "CREATED") {
                         return {
-                            bulletin:{
+                            bulletin: {
                                 __typename: "Bulletin",
                                 location: location,
                                 messages: [...temp.bulletin.messages, newMessage],
                             }
                         };
                     }
-                    else if(type === "UPDATED"){
+                    else if (type === "UPDATED") {
                         let newMsgs = temp.bulletin.messages;
-                        let idx = newMsgs.findIndex((msg) => {return msg.id === newMessage.id});
+                        let idx = newMsgs.findIndex((msg) => { return msg.id === newMessage.id });
                         //console.log(idx);
                         newMsgs[idx] = newMessage;
                         return {
-                            bulletin:{
+                            bulletin: {
                                 __typename: "Bulletin",
                                 location: location,
                                 messages: [...newMsgs],
@@ -259,7 +253,7 @@ const MyProvider = (props: any) => {
         } catch (e) {
             console.log(e);
         }
-        return ()=>unsub();
+        return () => unsub();
     }, [subscribeToMore, location]);
 
     return (
@@ -269,7 +263,6 @@ const MyProvider = (props: any) => {
                 setTutorialModalOpen, setIsLogin, setLoginModalOpen, setLogoutModalOpen, setProfileModalOpen, setBulletinModalOpen, setAboutModalOpen, login, updateUser, leaveComment, likeComment, setMe,
                 setProfileUser,
                 setLocation, setBulletinMessages,
-                bikeEnabled, setBikeEnabled,
                 bikeTpPosition, setBikeTpPosition,
                 isChangingScene, setIsChangeScene,
                 isLoading, setIsLoading,

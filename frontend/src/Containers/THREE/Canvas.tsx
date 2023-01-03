@@ -13,6 +13,7 @@ import MainLib from "./MainLib/MainLib";
 import World from "./World";
 import Loader from "./Loader";
 import SFu from "./SFu";
+import useBikeContext from "../hooks/useBikeContext";
 // import { } from 'three/examples/fonts/helvetiker_regular.typeface.json';
 //import { Loader } from "@react-three/drei";
 
@@ -20,8 +21,7 @@ interface IContext {
 	/**
 	 * Bike
 	 */
-	bikePosition: Triplet,
-	setBikePosition: SetStateType<Triplet>,
+
 	bikeControlling: boolean,
 	setBikeControlling: SetStateType<Boolean>,
 
@@ -42,8 +42,7 @@ const ThreeContext = createContext<IContext>({
 	/**
 	 * Bike
 	 */
-	bikePosition: [0, 0, 0],
-	setBikePosition: (r) => { },
+
 	bikeControlling: false,
 	setBikeControlling: (x) => { },
 
@@ -75,21 +74,17 @@ export default function AppCanvas() {
 	/**
 	 * Bike
 	 */
-	const [bikePosition, setBikePosition] = useState<Triplet>([0, 0, 0]);
 	const [bikeControlling, setBikeControlling] = useState<boolean>(true);
 	const [helpers, setHelpers] = useState<boolean>(true);
-	// const [enableControls, setEnableControls] = useState<boolean>(true);
 
-	const { enableControls } = useControls({
+	const { enableControls } = useControls('General', {
 		enableControls: true,
 	});
-	const { enableBike } = useControls({ enableBike: true, });
-	const { setBikeEnabled } = useMyContext();
+	const { enableBike } = useControls('General', { enableBike: true, });
+	const { setBikeEnabled } = useBikeContext();
 	useEffect(() => {
 		setBikeEnabled(enableBike);
 	}, [enableBike]);
-
-	const { show } = useControls({ show: true });
 
 	return (
 		<>
@@ -113,8 +108,6 @@ export default function AppCanvas() {
 
 
 						<ThreeContext.Provider value={{
-							bikePosition,
-							setBikePosition,
 							bikeControlling,
 							setBikeControlling,
 							helpers,

@@ -1,20 +1,27 @@
-import { Debug, Triplet, useBox, useCompoundBody, usePlane, useSphere } from "@react-three/cannon";
-import Bike, { ObjectProps } from "../../Components/THREE/Bike";
-import Ground from "../../Components/THREE/static/Ground";
-import { FC, useState } from "react";
+import { Debug, usePlane } from "@react-three/cannon";
+import Bike from "../../Components/THREE/Bike";
+import { FC } from "react";
 import { useMyContext } from "../../Utils/useMyContext";
 import InteractiveBlock from "../../Components/THREE/interaction/InteractiveBlock";
-import TestContainer from "./TestContainer";
-import { type } from "os";
 import { useControls } from "leva";
-import SFuCollisionBox from "./SFu/physics/SFuCollisionBox";
-import { Center, Html, Text } from "@react-three/drei";
-import { Euler } from "three";
-import { group } from "console";
-import { useSpring, animated, config } from "@react-spring/three";
-import { Tooltip } from "antd";
-
 import { MainLibPosition } from "./MainLib/MainLib";
+import useBikeContext from "../hooks/useBikeContext";
+
+
+function GroundPhysic() {
+
+	const [ref, api] = usePlane(() => ({
+		type: "Static",
+		material: 'ground',
+		position: [0, 0, 0],
+		args: [1000, 1000],
+		rotation: [-Math.PI / 2, 0, 0],
+	}))
+
+	return (
+		<mesh ref={ref as any} name="ground physics" />
+	)
+}
 
 const DebugWorld: FC<any> = ({ debug = false, children }) => {
 	return (
@@ -25,10 +32,14 @@ const DebugWorld: FC<any> = ({ debug = false, children }) => {
 	)
 }
 
-
 function World() {
 
-	const { setFinish, bikeTpPosition, setBikeTpPosition, isChangingScene, setIsChangeScene, setBikeEnabled, setBulletinModalOpen, isLogin, setIsLogin, setLocation } = useMyContext()
+	const { bikeTpPosition, setBikeTpPosition, setIsChangeScene, setBulletinModalOpen, } = useMyContext()
+	const { setBikeEnabled, setLocation } = useBikeContext();
+
+	const { debug } = useControls('General', {
+		debug: true,
+	});
 
 	const handleTP = ({ scene, pos }) => {
 		setIsChangeScene({ scene: scene });
@@ -45,44 +56,14 @@ function World() {
 		setBulletinModalOpen(true);
 	}
 
-
-	const { width, center, height } = useControls({
-		width: 5,
-		height: 10,
-		center: {
-			value: {
-				x: 0,
-				y: 0,
-				// z: 0,
-			},
-			step: 0.5
-		}
-	});
-
-	const { pos, y } = useControls('question', {
-		pos: {
-			value: {
-				x: 5.5,
-				z: 5.1,
-			},
-			step: 0.5,
-		},
-		y: {
-			value: 7.5,
-			step: 0.5,
-		}
-	});
-
-	// const {show}
-
 	return (
-		<DebugWorld debug >
+		<DebugWorld debug={debug} >
 			<Bike objectProps={{
 				position: bikeTpPosition,
 				rotation: [0, 0, 0],
 			}} />
 
-			<Ground />
+			<GroundPhysic />
 
 			{/* Pass in your EventHandler to handleEvent={ } */}
 			<InteractiveBlock
@@ -104,7 +85,7 @@ function World() {
 				position={[0, 0, 15]}
 			/>
 
-			 <InteractiveBlock
+			<InteractiveBlock
 				handleEvent={() => {
 					handleOpenBulletin({
 						location: "小福廣場",
