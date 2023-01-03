@@ -39,7 +39,7 @@ export default function MainLib() {
             <group position={MainLibPosition} name="main lib. scene">
                 <mesh>
                     <cylinderGeometry args={[10, 10, 0.5, 64]} />
-                    <meshStandardMaterial color={'lime'} />
+                    <meshStandardMaterial color={'lime'} opacity={1}/>
                 </mesh>
                 <Text3D
                     // size={10}

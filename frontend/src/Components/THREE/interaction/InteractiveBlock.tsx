@@ -57,8 +57,13 @@ const InteractiveBlock = (props: any) => {
     })
 
     const handleOverLap = ({ position }) => {
-        const dis_x = Math.abs(bikePosition[0]+bikeTpPosition[0]-position[0]);
-        const dis_z = Math.abs(bikePosition[2]+bikeTpPosition[2]-position[2]);
+        console.log(bikePosition);
+        console.log(position);
+        //console.log(`dis_x: ${position[0]}`);
+        //console.log(`dis_z: ${bikePosition[0]}`);
+
+        const dis_x = Math.abs(bikePosition[0]-position[0]);
+        const dis_z = Math.abs(bikePosition[2]-position[2]);
 
         const dist =  Math.sqrt( dis_x*dis_x + dis_z*dis_z );
         console.log(`${dist} / ${args[0]}`);
@@ -90,7 +95,6 @@ const InteractiveBlock = (props: any) => {
     useKeyPress(['Enter', 'e'], (pressed) => (setIsEvent(pressed)))
 
     useEffect(() => {
-        //console.log("Entered");
         
         if(isActive && isEvent) {props.handleEvent();}
         

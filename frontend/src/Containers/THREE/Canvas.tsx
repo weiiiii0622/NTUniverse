@@ -42,7 +42,7 @@ const ThreeContext = createContext<IContext>({
 	/**
 	 * Bike
 	 */
-	bikePosition: [0, 0, 1],
+	bikePosition: [0, 0, 0],
 	setBikePosition: (r) => { },
 	bikeControlling: false,
 	setBikeControlling: (x) => { },
@@ -111,7 +111,6 @@ export default function AppCanvas() {
 
 						<AppSky />
 
-						<MainLib />
 
 						{enableControls && <AppOrbitControls enabled={true}/>}
 						<ThreeContext.Provider value={{
@@ -125,6 +124,7 @@ export default function AppCanvas() {
 							setEnableControls: () => { },
 						}}>
 							<Physics>
+								<MainLib />
 								{show && <SFu />}
 								<World />
 							</Physics>

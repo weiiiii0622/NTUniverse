@@ -202,15 +202,6 @@ function World() {
 			<InteractiveBlock
 				handleEvent={() => {
 					handleTP({
-						scene: '總圖',
-						pos: MainLibPosition
-					})
-				}}
-				position={[0, 0, 0]}
-			/>
-			<InteractiveBlock
-				handleEvent={() => {
-					handleTP({
 						scene: '幹你老師',
 						pos: [0, 0, 15]
 					})
@@ -227,13 +218,22 @@ function World() {
 				position={[0, 0, 15]}
 			/>
 
-			<InteractiveBlock
+			 <InteractiveBlock
 				handleEvent={() => {
 					handleOpenBulletin({
 						location: "小福廣場",
 					})
 				}}
 				position={[15, 0, 0]}
+			/>
+			<InteractiveBlock
+				handleEvent={() => {
+					handleTP({
+						scene: '總圖',
+						pos: MainLibPosition
+					})
+				}}
+				position={[0, 0, 25]}
 			/>
 
 		</DebugWorld >
