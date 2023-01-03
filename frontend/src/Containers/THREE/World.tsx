@@ -188,6 +188,7 @@ function World() {
 						pos: MainLibPosition
 					})
 				}}
+				position={[0, 0, 0]}
 			/>
 			<InteractiveBlock
 				handleEvent={() => {
@@ -196,6 +197,7 @@ function World() {
 						pos: [0, 0, 15]
 					})
 				}}
+				position={[0, 0, -15]}
 			/>
 			{/* <Tree1 position={[-5, 0.0, -5]} /> */}
 			{/* <RingElement ringPosition={[-5, 0.1, -5]} ringArgs={[4.5, 7, 32]} /> */}
