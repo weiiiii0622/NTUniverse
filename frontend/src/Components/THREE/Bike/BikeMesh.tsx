@@ -77,7 +77,6 @@ const BikeMesh = React.forwardRef<any, BikeMeshProps>(
 		useEffect(() => {
 			return api.rotation.subscribe((r: Triplet) => {
 				rSub.current = r;
-				invalidate();
 			});
 		}, [api]);
 
@@ -94,30 +93,22 @@ const BikeMesh = React.forwardRef<any, BikeMeshProps>(
 			}],
 		}));
 
-
+		const cam = useRef();
 		const { camera } = useThree();
 		useEffect(() => {
-			api.velocity.subscribe(r => {
-				frontWheelApi.angularVelocity.set(
-					Math.sqrt(r[0] * r[0] + r[1] * r[1] + r[2] * r[2]), 0, 0
-				);
+			console.log(camera);
+			return api.position.subscribe(r => {
 				camera.lookAt(...r);
 			})
 		}, [api]);
 
-		// useFrame(({ camera }) => {
-		// 	camera.lookAt(...bikeP)
-		// });
-
-		// const {three, }
-		// useEffect(() => {
-
-		// }, []);
-
-		return <>
-			{/* @ts-ignore */}
-			<mesh ref={ref} api={api}></mesh>
-		</>
+		useEffect(() => {
+			return api.velocity.subscribe(v => {
+				frontWheelApi.angularVelocity.set(
+					Math.sqrt(v[0] * v[0] + v[1] * v[1] + v[2] * v[2]) / 0.66, 0, 0
+				);
+			})
+		}, [api]);
 
 		return (
 			//@ts-ignore
@@ -156,8 +147,9 @@ const BikeMesh = React.forwardRef<any, BikeMeshProps>(
 				</animated.mesh>
 
 				{/* <PerspectiveCamera
+					ref={cam}
 					makeDefault
-					position={[-10, 13, -13]}
+					position={[3, 5, 0]}
 				// rotation={[0, 0, Math.PI / 2]}
 				// rotation={[Crotation.x, Crotation.y, Crotation.z]}
 				/> */}

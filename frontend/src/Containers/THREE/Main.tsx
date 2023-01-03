@@ -1,12 +1,13 @@
 //@ts-nocheck
 
 import { useGLTF, useTexture } from "@react-three/drei"
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import SignE from "./signs/SignE";
 import SignN from "./signs/SignN";
 import SignS from "./signs/SignS";
 import SignW from "./signs/SignW";
 import { modelBase, textureBase } from "./Demo";
+import { Debug, useTrimesh } from "@react-three/cannon";
 
 
 /**
@@ -42,7 +43,6 @@ export default function Main() {
     const { nodes: others } = useGLTF(modelBase + '/main-others.glb');
     const othersMaterial = useTexture(textureBase + '/main-others.jpg',
         (txtr: Texture) => { txtr.flipY = false });
-
 
     return (
         <>
