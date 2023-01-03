@@ -40,8 +40,8 @@ const wheelProps = {
 	args: [radius, radius, 0.35, 16] as CylinderArgs,
 }
 
-const numOfWheels = 5;  // [F, M, B, B, B]
-const frontIndex = [0];
+const numOfWheels = 6;  // [F, M, B, B, B]
+const frontIndex = [0, 1];
 const backIndex = [2, 3, 4];
 
 /**
