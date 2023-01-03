@@ -13,7 +13,6 @@ function Platform({ position }: PlatformProps) {
         args: [16.9, 0.5, 16.9],
         position: position,
         mass: 1000,
-        onCollide: () => console.log('ji')
     }));
 
     return (
