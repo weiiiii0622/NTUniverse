@@ -37,8 +37,8 @@ const totalVolume = 0;  // should be a context state in the future
 export default function useSound({ speed }: IProps) {
 
     useEffect(() => {
-        // sound1.play();
-        // sound2.play();
+        sound1.play();
+        sound2.play();  
 
         window.addEventListener('keypress', lingLing);
 

@@ -5,6 +5,7 @@ import ShedArea from './areas/shed/ShedArea';
 import HouseArea from './areas/house/HouseArea';
 import Markets from './areas/Markets';
 import { useControls } from 'leva';
+import ModelFBX from '../../Components/THREE/models/ModelFBX';
 
 const modelBase = './resources/SFu/models';
 const textureBase = './resources/SFu/textures';
@@ -19,6 +20,7 @@ export default function SFu() {
 			<ShedArea />
 			<TruckArea />
 			<Markets />
+			
 		</group >
 	)
 }

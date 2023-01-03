@@ -22,9 +22,9 @@ export default function Bike({ objectProps, trail = false }: BikeProps) {
 
     const ref = useRef<Mesh>(null!);
 
-    useContactMaterial('ground', 'wheel', {
-        friction: 1e10,
-    });
+    // useContactMaterial('ground', 'wheel', {
+    //     friction: 1e10,
+    // });
 
     return (
         <>

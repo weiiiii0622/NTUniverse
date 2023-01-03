@@ -1,13 +1,7 @@
-import { Center, Decal, Float, Html, Sparkles, Stage, Text, Text3D, Trail, useTexture } from "@react-three/drei";
-import { useEffect, useMemo, useRef } from "react";
-import ModelFBX from "../../Components/THREE/models/ModelFBX";
-import HtmlBtn from "../../Components/THREE/testing/HtmlBtn";
-import Map from "../../Components/THREE/testing/Map";
-import { QuestionCircleTwoTone } from '@ant-design/icons';
-import { Material, RepeatWrapping, Texture } from "three";
+import { Center, Sparkles, Text3D } from "@react-three/drei";
+import { useMemo } from "react";
 import { useControls } from "leva";
-import { animated, config, easings, useSpring } from "@react-spring/three";
-import { Modal, Tour, TourProps } from "antd";
+import { animated, easings, useSpring, useChain } from "@react-spring/three";
 import { EffectComposer } from "@react-three/postprocessing";
 import { Bloom } from "@react-three/postprocessing";
 
@@ -20,13 +14,6 @@ export default function TestContainer() {
     const { repeat } = useControls({
         repeat: 5,
     })
-
-    const texture = useTexture('./！.png', (texture: Texture) => {
-        texture.repeat.set(repeat, repeat);
-        texture.offset.set(0, 0);
-        texture.wrapS = RepeatWrapping;
-        texture.wrapT = RepeatWrapping;
-    });
 
     const spring = useSpring({
         from: {
@@ -61,29 +48,28 @@ export default function TestContainer() {
     const C = animated(Center);
     console.log(C);
 
-    const ref = useRef<HTMLButtonElement>(null!);
-
-    useEffect(() => {
-        ref.current?.click();
-    }, [ref])
-
-    const steps: TourProps['steps'] = [
-        {
-            title: '1234',
-            target: () => ref.current,
+    const [spring1, api1] = useSpring(() => ({
+        from: {
+            position: [0, 0, 0],
         },
-    ];
+        // to: {
+        // position: [1, 1, 1],
+        // },
+        // : true,
+    }));
+    const [spring2, api2] = useSpring(() => ({
+        from: { position: [1, 1, 1], }
+    }));
+
+    // useChain([api1, api2]);
 
     return (
         <>
-            <Html transform>
-                <button ref={ref} onClick={() => console.log('123')}>
-                    1234
-                </button>
-            </Html>
-            <Html>
-                <Tour open={true} steps={steps} />
-           </Html>
+            <animated.mesh  {...spring1} onClick={() => { api1.start({ position: [1, 1, 1] }); }}>
+                <boxGeometry />
+                <meshBasicMaterial />
+            </animated.mesh>
+
             <EffectComposer>
                 <Bloom
                     mipmapBlur
@@ -118,8 +104,6 @@ export default function TestContainer() {
             </C>
             {/* </Float> */}
 
-            <Html>
-            </Html>
 
             <Sparkles
                 scale={3.5}
@@ -131,9 +115,6 @@ export default function TestContainer() {
                 opacity={0.3}
             />
 
-            <mesh scale={0.01}>
-                <ModelFBX filePath="./sign1.fbx" />
-            </mesh>
         </>
     )
 }

@@ -1,9 +1,10 @@
 import { Physics, Triplet } from "@react-three/cannon";
-import { AdaptiveDpr, AdaptiveEvents } from "@react-three/drei";
+import { AdaptiveDpr, AdaptiveEvents, Environment } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import { useControls } from "leva";
 import { Perf } from "r3f-perf";
 import { createContext, useState, useEffect } from "react";
+import Camera from "../../Components/THREE/scene/Camera";
 import Lights from "../../Components/THREE/scene/Lights";
 import AppOrbitControls from "../../Components/THREE/scene/OrbitControls";
 import AppSky from "../../Components/THREE/static/Sky";
@@ -71,7 +72,7 @@ export default function AppCanvas() {
 	 */
 	const [bikePosition, setBikePosition] = useState<Triplet>([0, 0, 0]);
 	const [bikeControlling, setBikeControlling] = useState<boolean>(true);
-	const [helpers, setHelpers] = useState<boolean>(false);
+	const [helpers, setHelpers] = useState<boolean>(true);
 	// const [enableControls, setEnableControls] = useState<boolean>(true);
 
 	const { enableControls } = useControls({
@@ -82,6 +83,8 @@ export default function AppCanvas() {
 	useEffect(() => {
 		setBikeEnabled(enableBike);
 	}, [enableBike]);
+
+	const { show } = useControls({ show: true });
 
 	return (
 		<Canvas
@@ -98,19 +101,6 @@ export default function AppCanvas() {
 			</>}
 
 			<AppSky />
-			{/* <Environment */}
-			{/* files={'./env.hdr'}
-			// background
-			> */}
-			{/* <color args={['#F8EEDC']} attach='background' /> */}
-			{/* <color args={['#1dc5a9']} attach='background' /> */}
-			{/* <color args={['#ff0000']} attach='background' /> */}
-			{/* <color args={['#A2B4C2']} attach='background' /> */}
-			{/* </Environment> */}
-
-			{/* <Environment background>
-				<color args={['#0b1f2c']} attach='background' />
-			</Environment> */}
 
 			<ThreeContext.Provider value={{
 				bikePosition,
@@ -122,13 +112,13 @@ export default function AppCanvas() {
 				enableControls,
 				setEnableControls: () => { },
 			}}>
-				<SFu />
+				{show && <SFu />}
 				<Physics>
 					<World />
 				</Physics>
-				{/* <Camera track={track} /> */}
+				{/* <Camera track={true} /> */}
 				{/* <TestCam /> */}
-				<AppOrbitControls enabled={enableControls} />
+				<AppOrbitControls enabled={true} />
 
 			</ThreeContext.Provider>
 			<AdaptiveDpr pixelated />

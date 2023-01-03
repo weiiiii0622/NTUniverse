@@ -42,8 +42,11 @@ export default function useHandleControls({
 	const { bikeEnabled } = useMyContext();
 
 	useFrame(() => {
-		if (!bikeEnabled)
+		if (!bikeEnabled) {
+			chassis.current.api.velocity.set(0, 0, 0);
+			chassis.current.api.angularVelocity.set(0, 0, 0);
 			return;
+		}
 
 		const { forward, backward, left, right, brake, reset } = controls.current
 		backIndex.forEach(i =>
