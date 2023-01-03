@@ -6,7 +6,8 @@ import {
     message, 
     Card,
     Row,
-    Col 
+    Col,
+    Progress 
 } from 'antd';
 import {
     LoadingOutlined,
@@ -20,15 +21,46 @@ import { useMyContext } from '../../Utils/useMyContext';
 
 const LoadingCover = () => {
 
-    const { isChangingScene, setIsChangeScene, isLoading } = useMyContext();
-    const [loadFinished, setLoadFinished] = useState(false);
+    const { isChangingScene, setIsChangeScene, isLoading, loadFinished, setLoadFinished } = useMyContext();
+    const [showButton, setShowButton] = useState<boolean>(false);
+    const [percent, setPercent] = useState<number>(0);
+
+    const increase = () => {
+      setPercent((prevPercent) => {
+        const newPercent = prevPercent + 10;
+        if (newPercent > 100) {
+          return 100;
+        }
+        return newPercent;
+      });
+    };
+  
+    const decline = () => {
+      setPercent((prevPercent) => {
+        const newPercent = prevPercent - 10;
+        if (newPercent < 0) {
+          return 0;
+        }
+        return newPercent;
+      });
+    };
 
     useEffect(() => {
         console.log(`isLoading: ${isLoading}`);
         if(isLoading===false){
-            return null;
+            for(var i=1; i<=10; i++){
+                setTimeout(() => {
+                    increase();
+                }, 200*i);
+            }
         }
     }, [isLoading])
+
+    useEffect(() => {
+        if(percent === 100){
+            setShowButton(true);
+        }
+    }, [percent])
   
     return (
         <animated.div 
@@ -36,7 +68,7 @@ const LoadingCover = () => {
                 
                 //display: 'flex',
                 position: 'absolute',
-                backgroundColor: 'brown',
+                backgroundColor: '#CDCDCD',
                 width: '100%',
                 height: '100%',
                 zIndex: '100',
@@ -45,45 +77,61 @@ const LoadingCover = () => {
                 //backgroundImage: `url(/pics/loading_cover.PNG)`
             }}
         >
-            <Row justify={'center'}>
-                <Card 
-                    hoverable={true}
-                    style={{ 
-                        height: '6vw',
-                        width: '20vw',
-                        display: 'flex',
-                        justifyContent: 'center', 
-                        
-                    }}
-                    bodyStyle={{
-                        padding: 0,
-                        display: 'flex',
-                        alignItems: 'center',
-                    }}
-                >
-                    進入
-                </Card>
+            <Row 
+                justify={'center'}
+                align={'middle'}
+                style={{
+                    height: '80vh'
+                }}
+            >
+                <>
+                    <Progress 
+                        type="circle" 
+                        percent={percent} 
+                        style={{ 
+                            //marginRight: 8 
+                        }} 
+                    />
+                </>
             </Row>
-            <Row ></Row>
-            <Row justify={'center'}>
 
-                <Card 
-                    hoverable={true}
-                    style={{ 
-                        height: '6vw',
-                        width: '20vw',
-                        display: 'flex',
-                        justifyContent: 'center', 
-                        
-                    }}
-                    bodyStyle={{
-                        padding: 0,
-                        display: 'flex',
-                        alignItems: 'center',
-                    }}
-                >
-                    進入
-                </Card>
+            <Row 
+                justify={'center'}
+                align={'middle'}
+                style={{
+                    height: '20vh'
+                }}
+            >
+                {
+                    showButton
+                    ?
+                        <Card 
+                            hoverable={true}
+                            style={{ 
+                                height: '6vw',
+                                width: '20vw',
+                                display: 'flex',
+                                justifyContent: 'center', 
+                                //backgroundColor: 'transparent',
+                                borderWidth: 5
+                            }}
+                            bodyStyle={{
+                                padding: 0,
+                                display: 'flex',
+                                alignItems: 'center',
+                            }}
+                            onClick={()=>{
+                                setIsChangeScene({scene: '小福廣場'});
+                                setTimeout(() => {
+                                    setLoadFinished(true);
+                                }, 2000);
+                            }}
+                        >
+                            進入
+                        </Card>
+                    :
+                    null
+                }
             </Row>
             
             {/* <Button 

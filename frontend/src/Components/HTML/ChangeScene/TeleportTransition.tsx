@@ -19,11 +19,11 @@ const TeleportTransition = ({ scene }) => {
     let started = false;
 
      useEffect(() => {
-      console.log(isChangingScene);
-      console.log(`finish: ${finish}`);
+      //console.log(isChangingScene);
+      //console.log(`finish: ${finish}`);
       if(!finish && !started){
         started = true;
-        console.log("Start Change Scene!")
+        //console.log("Start Change Scene!")
         apiBack.start();
         apiText.start();
         apiTop.start();
@@ -55,7 +55,7 @@ const TeleportTransition = ({ scene }) => {
       },
       delay: 150,
       onRest: () => {
-        console.log("BackEnded")
+        //console.log("BackEnded")
       }
     });
   
@@ -85,7 +85,7 @@ const TeleportTransition = ({ scene }) => {
       },
       delay: 150,
       onRest: () => {
-        console.log("TextEnded")
+        //console.log("TextEnded")
         started = false;
       }
     });
@@ -116,7 +116,7 @@ const TeleportTransition = ({ scene }) => {
       },
       delay: 150,
       onRest: () => {
-        console.log("TopEnded")
+        //console.log("TopEnded")
       }
     });
   
@@ -147,7 +147,7 @@ const TeleportTransition = ({ scene }) => {
       },
       delay: 150,
       onRest: () => {
-        console.log("BotEnded")
+        //console.log("BotEnded")
         setFinish(true);
       }
     });

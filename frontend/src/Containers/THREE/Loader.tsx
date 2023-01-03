@@ -8,7 +8,9 @@ const Loader = () => {
 	const { active, progress, errors, item, loaded, total} = useProgress();
     useEffect(() => {
         if(active === false){
-            setIsLoading(false);
+            setTimeout(() => {
+                setIsLoading(false);
+            }, 1000);
         }
     }, [progress])
 	return (
@@ -22,7 +24,7 @@ const Loader = () => {
                 //backgroundColor: 'black',
             }}
         >
-			{progress} % loaded
+			{/* {progress} % loaded */}
 		</Html>
 	)
 }
