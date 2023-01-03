@@ -8,7 +8,7 @@ import Markets from './areas/Markets';
 const modelBase = './resources/SFu/models';
 const textureBase = './resources/SFu/textures';
 
-export default function SFu() {
+export default function Scene() {
 
 	return (
 		<group position={[0, -2.05, 0]}>
@@ -18,7 +18,6 @@ export default function SFu() {
 			<ShedArea />
 			<TruckArea />
 			<Markets />
-			
 		</group >
 	)
 }

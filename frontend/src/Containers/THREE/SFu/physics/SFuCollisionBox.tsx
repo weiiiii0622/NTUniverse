@@ -10,7 +10,7 @@ interface PlatformProps {
 function Platform({ position }: PlatformProps) {
     const [ref, api] = useBox(() => ({
         type: "Static",
-        args: [16.9, 0.5, 16.9],
+        args: [16, 0.5, 16],
         position: position,
         mass: 1000,
     }));

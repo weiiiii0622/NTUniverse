@@ -1,5 +1,5 @@
 import { Physics, Triplet } from "@react-three/cannon";
-import { AdaptiveDpr, AdaptiveEvents, OrbitControls, Text3D } from "@react-three/drei";
+import { AdaptiveDpr, AdaptiveEvents, ContactShadows, OrbitControls, softShadows, Text3D } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import { useControls } from "leva";
 import { Perf } from "r3f-perf";
@@ -10,9 +10,9 @@ import AppSky from "../../Components/THREE/static/Sky";
 import { SetStateType } from "../../Utils/type";
 import { useMyContext } from "../../Utils/useMyContext";
 import MainLib from "./MainLib/MainLib";
-import SFu from "./SFu/Demo";
 import World from "./World";
 import Loader from "./Loader";
+import SFu from "./SFu";
 // import { } from 'three/examples/fonts/helvetiker_regular.typeface.json';
 //import { Loader } from "@react-three/drei";
 
@@ -60,13 +60,13 @@ const ThreeContext = createContext<IContext>({
 	setEnableControls: (e) => { },
 });
 
-// softShadows({
-//     frustum: 3.75,
-//     size: 0.005,
-//     near: 9.5,
-//     samples: 20,
-//     rings: 11
-// });
+softShadows({
+	frustum: 3.75,
+	size: 0.005,
+	near: 9.5,
+	samples: 20,
+	rings: 11
+});
 
 
 
@@ -81,7 +81,7 @@ export default function AppCanvas() {
 	// const [enableControls, setEnableControls] = useState<boolean>(true);
 
 	const { enableControls } = useControls({
-		enableControls: false,
+		enableControls: true,
 	});
 	const { enableBike } = useControls({ enableBike: true, });
 	const { setBikeEnabled } = useMyContext();
@@ -111,9 +111,7 @@ export default function AppCanvas() {
 
 						<AppSky />
 
-						<MainLib />
 
-						{enableControls && <AppOrbitControls enabled={true}/>}
 						<ThreeContext.Provider value={{
 							bikePosition,
 							setBikePosition,
@@ -124,8 +122,12 @@ export default function AppCanvas() {
 							enableControls,
 							setEnableControls: () => { },
 						}}>
+							<AppOrbitControls enabled={enableControls} />
+
+							<MainLib />
+
 							<Physics>
-								{show && <SFu />}
+								<SFu />
 								<World />
 							</Physics>
 

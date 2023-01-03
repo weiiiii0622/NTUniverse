@@ -7,7 +7,7 @@ import InteractiveBlock from "../../Components/THREE/interaction/InteractiveBloc
 import TestContainer from "./TestContainer";
 import { type } from "os";
 import { useControls } from "leva";
-import SFuCollisionBox from "./SFu/SFuCollisionBox";
+import SFuCollisionBox from "./SFu/physics/SFuCollisionBox";
 import { Center, Html, Text } from "@react-three/drei";
 import { Euler } from "three";
 import { group } from "console";
@@ -17,113 +17,19 @@ import { Tooltip } from "antd";
 import { MainLibPosition } from "./MainLib/MainLib";
 
 const DebugWorld: FC<any> = ({ debug = false, children }) => {
-
 	return (
-		<>
-			{debug
-				? <Debug>
-					{children}
-				</Debug>
-				: <>
-					{children}
-				</>
-			}
-		</>
+		<>{debug
+			? <Debug> {children} </Debug>
+			: <> {children} </>
+		}</>
 	)
 }
 
-interface QuestionMarkProps {
-	rotation?: Triplet,
-	autoRotate?: boolean,
-	position: Triplet,
-	color?: string,
-};
-function QuestionMark({
-	rotation,
-	position,
-	autoRotate,
-	color = '#ca9560',
-}: QuestionMarkProps) {
-
-	const { angle } = useSpring({
-		from: {
-			angle: [0, 0, 0],
-		},
-		to: {
-			angle: [0, Math.PI * 2, 0],
-		},
-		config: {
-			tension: 120,
-			friction: 14,
-			mass: 2,
-		},
-		loop: true,
-		delay: 100,
-	});
-
-	return (
-		<group {...{ rotation, position }}>
-			<Center>
-				<Html
-					center
-					style={{
-						color: 'transparent',
-						fontSize: 10,
-						textAlign: 'center',
-						display: 'flex',
-						alignItems: 'center',
-						justifyContent: 'center',
-					}}>
-					<Tooltip title="test content">
-						<div>bufferText</div>
-					</Tooltip>
-				</Html>
-			</Center>
-
-
-			<animated.mesh rotation={angle as any}>
-				<mesh
-					scale={0.1}
-					rotation={[-Math.PI / 2, 0, 0]}
-				>
-					<mesh receiveShadow>
-						<cylinderGeometry args={[2, 2, 0.5, 32]} />
-						<meshStandardMaterial
-							color={color}
-						/>
-					</mesh>
-					<Text
-						font="./fonts/burnfont-1.2.otf"
-						fontSize={2}
-						color="#ffefc5"
-						position={[0, 0.265, 0]}
-						textAlign='center'
-						rotation={[Math.PI / 2, Math.PI, 0]}
-						castShadow
-					>
-						？
-					</Text>
-					<Text
-						font="./fonts/burnfont-1.2.otf"
-						fontSize={2}
-						color="#ffefc5"
-						position={[0, -0.265, 0]}
-						textAlign='center'
-						rotation={new Euler(Math.PI / 2, 0, 0, 'YXZ')}
-						castShadow
-					>
-						？
-					</Text>
-				</mesh>
-			</animated.mesh>
-		</group>
-	)
-}
 
 function World() {
 
 	const { setFinish, bikeTpPosition, setBikeTpPosition, isChangingScene, setIsChangeScene, setBikeEnabled, setBulletinModalOpen, isLogin, setIsLogin, setLocation } = useMyContext()
-	
+
 	const handleTP = ({ scene, pos }) => {
 		setIsChangeScene({ scene: scene });
 		setBikeEnabled(false);
@@ -170,33 +76,13 @@ function World() {
 	// const {show}
 
 	return (
-		<DebugWorld debug>
+		<DebugWorld debug >
 			<Bike objectProps={{
 				position: bikeTpPosition,
 				rotation: [0, 0, 0],
 			}} />
-			{/* <Bike objectProps={{
-				position: [10, 0, 10],
-				rotation: [0, 0, 0],
-			}} /> */}
 
-			<SFuCollisionBox />
 			<Ground />
-
-			<QuestionMark
-				position={[pos.x, y, pos.z]}
-				rotation={[0, Math.PI / 4, 0]}
-			/>
-
-			{/* <Tree1 position={[-5, 0.0, -5]} /> */}
-			{/* <RingElement ringPosition={[-5, 0.1, -5]} ringArgs={[4.5, 7, 32]} /> */}
-			{/* <Bench position={[-5, 0, 5]} rotation={[0, Math.PI / 2, 0]} castShadow /> */}
-
-			{/* <TestContainer /> */}
-
-			{/* <Palm objectProps={{
-				 	position: [5, 0, -5],
-				 }}   */}
 
 			{/* Pass in your EventHandler to handleEvent={ } */}
 			<InteractiveBlock
@@ -242,4 +128,3 @@ function World() {
 
 export default World;
 
-export { QuestionMark }; 

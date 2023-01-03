@@ -3,7 +3,7 @@ import { forwardRef, RefObject, useContext, useEffect, useRef, useState } from '
 import { CylinderArgs, Triplet, useRaycastVehicle, WheelInfoOptions } from '@react-three/cannon'
 import { useControls } from './hooks/useControls'
 import Wheel from './Wheel+Pedals'
-import BikeMesh from './BikeMesh'
+import BikeMesh from './Chassis'
 import useWheels from './hooks/useWheels'
 import { Mesh, Vector3 } from 'three'
 import { BikeProps } from '.'
@@ -11,7 +11,7 @@ import FrontWheel from './FrontWheel'
 import { ThreeContext } from '../../../Containers/THREE/Canvas'
 import useHandleControls from './hooks/useHandleControls'
 import useSound from './hooks/useSound'
-import { Camera } from '@react-three/fiber'
+import { Camera, useFrame } from '@react-three/fiber'
 import { PerspectiveCamera, Trail } from '@react-three/drei'
 
 
@@ -122,8 +122,6 @@ const Vehicle = forwardRef((props: VehicleProps, vehicle: RefObject<Mesh>) => {
 	useEffect(() => {
 		return chassis!.current?.api.position.subscribe((r: Triplet) => {
 			setBikePosition(() => r);
-			// console.log(r);
-			// console.log(bikePosition);
 		});
 	}, [chassis]);
 

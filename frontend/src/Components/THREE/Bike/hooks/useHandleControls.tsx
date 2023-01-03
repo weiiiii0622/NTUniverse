@@ -12,7 +12,7 @@ import { IControls } from "./useControls";
 /**
  * Dynamics
  */
-const steer = 0.75;
+const steer = 0.5;
 const force = 1500;
 const maxBrake = 0;   // non-fixable
 
@@ -51,13 +51,16 @@ export default function useHandleControls({
 		chassis!.current.api.angularVelocity.set(0, 0, 0)
 	}, [bikeTpPosition])
 
-
+	const { setBikeControlling } = useContext(ThreeContext);
 	useFrame(() => {
 		if (!bikeEnabled) {
 			chassis.current.api.velocity.set(0, 0, 0);
 			chassis.current.api.angularVelocity.set(0, 0, 0);
 			return;
 		}
+
+		const controlling = Object.values(controls.current).some(x => x);
+		setBikeControlling(controlling);
 
 		const { forward, backward, left, right, brake, reset } = controls.current
 		backIndex.forEach(i =>
@@ -88,13 +91,4 @@ export default function useHandleControls({
 			chassis!.current.api.angularVelocity.set(0, 0, 0)
 		}
 	})
-
-	/**
-	 * Camera
-	 */
-	// const { setBikeControlling } = useContext(ThreeContext);
-	// useFrame(() => {
-	// 	const controlling = Object.values(controls.current).some(x => x);
-	// 	setBikeControlling(controlling);
-	// });
 }

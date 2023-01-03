@@ -9,20 +9,45 @@ import { PerspectiveCamera } from "@react-three/drei";
 import { useControls } from "leva";
 import { IControls } from "./hooks/useControls";
 import { useMyContext } from "../../../Utils/useMyContext";
+import { type } from "os";
+
+
+
+type BikeCameraType = 'default';
+interface BikeCameraProps {
+	type?: BikeCameraType,
+};
+
+function BikeCamera({ type = 'default' }: BikeCameraProps) {
+
+	const positionSet: Record<BikeCameraType, Triplet> = {
+		default: [-10, 13, -13]
+	}
+
+	return (
+		<>
+			<PerspectiveCamera
+				position={positionSet[type]}
+				name="My camera"
+				makeDefault
+			/>
+		</>
+	)
+}
+
 
 interface BikeMeshProps {
 	args: Triplet,
 	mass: number,
 	position?: Triplet,
 	rotation?: Triplet,
-	// left?: boolean,
-	// right?: boolean,
+
 	controls: RefObject<IControls>,
 	arcadeDirection: ArcadeDirection,
 }
 
 const BikeMesh = React.forwardRef<any, BikeMeshProps>(
-	({ args, mass, position, rotation, arcadeDirection, controls }, ref: RefObject<Mesh>) => {
+	({ args, mass, position, rotation, arcadeDirection, controls }, chassis: RefObject<Mesh>) => {
 		const [, api] = useBox(() => ({
 			mass,
 			args,
@@ -32,18 +57,11 @@ const BikeMesh = React.forwardRef<any, BikeMeshProps>(
 			// type: 'Static',
 			//onCollide: (e: any) => console.log('bonk', e),
 			collisionResponse: true,
-		}), ref);
-
-		const delta = -0.125;
-		const defaultObjectProps = {
-			scale: 0.02,
-			position: [0, delta + -args[1] / 2, 0] as Triplet,
-			// rotation: [0, Math.PI, 0] as Triplet,
-		};
+		}), chassis);
 
 
-		const { scale, rotation: steerRotation } = useSpring({
-			scale: 1,
+
+		const { rotation: steerRotation } = useSpring({
 			rotation: [
 				Math.PI * -0.09,
 				Math.PI / 4 * (arcadeDirection === 'left' ? 1
@@ -53,37 +71,6 @@ const BikeMesh = React.forwardRef<any, BikeMeshProps>(
 			],
 			config: config.wobbly,
 		})
-
-		const { x, y, z, Crotation } = useControls({
-			x: {
-				value: 5,
-				step: .5,
-			},
-			y: {
-				value: 5,
-				step: .5,
-			},
-			z: {
-				value: 5,
-				step: .5,
-			},
-			Crotation: {
-				value: {
-					x: 0,
-					y: 0,
-					z: 0,
-				},
-				step: 0.01,
-			}
-		});
-
-		const rSub = useRef<Triplet>([0, 0, 0]);
-		useEffect(() => {
-			return api.rotation.subscribe((r: Triplet) => {
-				rSub.current = r;
-			});
-		}, [api]);
-
 
 		const [frontWheel, frontWheelApi] = useCompoundBody(() => ({
 			mass: 1,
@@ -97,14 +84,9 @@ const BikeMesh = React.forwardRef<any, BikeMeshProps>(
 			}],
 		}));
 
-		const cam = useRef();
 		const { camera } = useThree();
 		useEffect(() => {
-			// console.log(camera);
-			// return api.position.subscribe(r => {
-			// 	camera.lookAt(...r);
-			// })
-			camera.lookAt(ref.current.position);
+			camera.lookAt(chassis.current.position);
 		}, [api, camera]);
 
 		useEffect(() => {
@@ -118,10 +100,13 @@ const BikeMesh = React.forwardRef<any, BikeMeshProps>(
 
 		return (
 			//@ts-ignore
-			<mesh ref={ref} api={api} name="Chassis">
+			<mesh ref={chassis} api={api} name="Chassis">
 
 				<ModelFBX filePath="./resources/models/bike/body.fbx"
-					objectProps={defaultObjectProps}
+					objectProps={{
+						scale: 0.02,
+						position: [0, -0.125 + -args[1] / 2, 0] as Triplet,
+					}}
 				/>
 				<animated.group
 					position={[0, 0.48, 1.02,]}
@@ -132,7 +117,6 @@ const BikeMesh = React.forwardRef<any, BikeMeshProps>(
 						objectProps={{
 							scale: 0.02,
 							position: [0, 0, 0],
-							// rotation: new Euler(0, Math.PI / 2, 0, "ZYX"),
 						}} />
 				</animated.group>
 
@@ -152,14 +136,7 @@ const BikeMesh = React.forwardRef<any, BikeMeshProps>(
 					</animated.group>
 				</animated.mesh>
 
-				<PerspectiveCamera
-					name="My camera"
-					ref={cam}
-					makeDefault
-					position={[-10, 13, -13]}
-				// rotation={[0, 0, Math.PI / 2]}
-				// rotation={[Crotation.x, Crotation.y, Crotation.z]}
-				/>
+				<BikeCamera />
 			</mesh>
 		)
 	});
