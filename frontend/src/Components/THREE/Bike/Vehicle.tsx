@@ -42,7 +42,7 @@ const wheelProps = {
 
 const numOfWheels = 6;  // [F, M, B, B, B]
 const frontIndex = [0, 1];
-const backIndex = [2, 3, 4];
+const backIndex = [3, 5];
 
 /**
  * Justify
@@ -132,6 +132,7 @@ const Vehicle = forwardRef((props: VehicleProps, vehicle: RefObject<Mesh>) => {
 		<group ref={vehicle}>
 			<BikeMesh
 				ref={chassis}
+				controls={controls}
 				position={justifyPosition(objectProps.position)}
 				rotation={objectProps.rotation}
 				arcadeDirection={arcadeDirection}
@@ -142,7 +143,7 @@ const Vehicle = forwardRef((props: VehicleProps, vehicle: RefObject<Mesh>) => {
 						key={'wheel' + i}
 						ref={ref}
 						{...wheelProps}
-						display={i == 3 ? 'back' : i == 2 ? 'pedal' : 'none'}
+						display={i == 4 ? 'back' : i == 2 ? 'pedal' : 'none'}
 					/>
 				))
 			}

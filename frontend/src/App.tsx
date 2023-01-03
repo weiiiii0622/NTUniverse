@@ -154,9 +154,9 @@ function App() {
 
 	return (
 		<>
-			<Test />
-			{/* <AppHtmlElements />
-			<AppCanvas /> */}
+			{/* <Test /> */}
+			<AppHtmlElements />
+			<AppCanvas />
 		</>
 	)
 }

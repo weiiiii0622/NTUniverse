@@ -7,6 +7,7 @@ import { ArcadeDirection } from "./Vehicle";
 import { Camera, invalidate, useFrame, useThree } from "@react-three/fiber";
 import { PerspectiveCamera } from "@react-three/drei";
 import { useControls } from "leva";
+import { IControls } from "./hooks/useControls";
 
 interface BikeMeshProps {
 	args: Triplet,
@@ -15,11 +16,12 @@ interface BikeMeshProps {
 	rotation?: Triplet,
 	// left?: boolean,
 	// right?: boolean,
+	controls: RefObject<IControls>,
 	arcadeDirection: ArcadeDirection,
 }
 
 const BikeMesh = React.forwardRef<any, BikeMeshProps>(
-	({ args, mass, position, rotation, arcadeDirection }, ref: RefObject<Mesh>) => {
+	({ args, mass, position, rotation, arcadeDirection, controls }, ref: RefObject<Mesh>) => {
 		const [, api] = useBox(() => ({
 			mass,
 			args,
@@ -104,15 +106,16 @@ const BikeMesh = React.forwardRef<any, BikeMeshProps>(
 
 		useEffect(() => {
 			return api.velocity.subscribe(v => {
+				const sign = controls.current.forward ? -1 : 1;
 				frontWheelApi.angularVelocity.set(
-					Math.sqrt(v[0] * v[0] + v[1] * v[1] + v[2] * v[2]) / 0.66, 0, 0
+					Math.sqrt(v[0] * v[0] + v[1] * v[1] + v[2] * v[2]) * sign / 0.66, 0, 0
 				);
 			})
 		}, [api]);
 
 		return (
 			//@ts-ignore
-			<mesh ref={ref} api={api}>
+			<mesh ref={ref} api={api} name="Chassis">
 
 				<ModelFBX filePath="./resources/models/bike/body.fbx"
 					objectProps={defaultObjectProps}

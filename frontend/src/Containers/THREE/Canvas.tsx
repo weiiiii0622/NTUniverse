@@ -1,19 +1,18 @@
 import { Physics, Triplet } from "@react-three/cannon";
-import { AdaptiveDpr, AdaptiveEvents, Environment, Html } from "@react-three/drei";
+import { AdaptiveDpr, AdaptiveEvents, Text3D } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import { useControls } from "leva";
 import { Perf } from "r3f-perf";
-import { createContext, useState, useEffect, Suspense } from "react";
-import Camera from "../../Components/THREE/scene/Camera";
+import { createContext, useState, useEffect } from "react";
 import Lights from "../../Components/THREE/scene/Lights";
 import AppOrbitControls from "../../Components/THREE/scene/OrbitControls";
 import AppSky from "../../Components/THREE/static/Sky";
 import { SetStateType } from "../../Utils/type";
 import { useMyContext } from "../../Utils/useMyContext";
-import SFu from "./Demo";
+import MainLib from "./MainLib/MainLib";
+import SFu from "./SFu/Demo";
 import World from "./World";
-import Loader from "./Loader";
-import { Test } from "../../App";
+// import { } from 'three/examples/fonts/helvetiker_regular.typeface.json';
 //import { Loader } from "@react-three/drei";
 
 interface IContext {
@@ -99,37 +98,41 @@ export default function AppCanvas() {
 				shadows
 			>
 				{/* <Suspense fallback={<Loader />}> */}
-					<>
-						<Perf position="bottom-right" />
+				<>
+					<Perf position="bottom-right" />
 
-						{/* <Shadow /> */}
-						<Lights />
-						{helpers && <>
-							<axesHelper args={[10]} />
-							<gridHelper />
-						</>}
+					{/* <Shadow /> */}
+					<Lights />
+					{helpers && <>
+						<axesHelper args={[10]} />
+						<gridHelper />
+					</>}
 
-						<AppSky />
-						<AppOrbitControls enabled={true}/>
-						<ThreeContext.Provider value={{
-							bikePosition,
-							setBikePosition,
-							bikeControlling,
-							setBikeControlling,
-							helpers,
-							setHelpers,
-							enableControls,
-							setEnableControls: () => { },
-						}}>
-							<Physics>
+					<AppSky />
+
+
+					<MainLib />
+
+					<AppOrbitControls enabled={true} />
+					<ThreeContext.Provider value={{
+						bikePosition,
+						setBikePosition,
+						bikeControlling,
+						setBikeControlling,
+						helpers,
+						setHelpers,
+						enableControls,
+						setEnableControls: () => { },
+					}}>
+						<Physics>
 							{show && <SFu />}
-								<World />
-							</Physics>
+							<World />
+						</Physics>
 
-						</ThreeContext.Provider>
-						<AdaptiveDpr pixelated />
-						<AdaptiveEvents />
-					</>
+					</ThreeContext.Provider>
+					<AdaptiveDpr pixelated />
+					<AdaptiveEvents />
+				</>
 				{/* </Suspense> */}
 			</Canvas >
 		</>
