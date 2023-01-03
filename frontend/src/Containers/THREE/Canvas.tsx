@@ -96,17 +96,13 @@ export default function AppCanvas() {
 				<Suspense fallback={<Loader />}>
 					<>
 						<Perf position="bottom-right" />
-
 						{/* <Shadow /> */}
 						<Lights />
 						{helpers && <>
 							<axesHelper args={[10]} />
 							<gridHelper />
 						</>}
-
 						<AppSky />
-
-
 						<ThreeContext.Provider value={{
 							bikeControlling,
 							setBikeControlling,
@@ -124,8 +120,7 @@ export default function AppCanvas() {
 						</ThreeContext.Provider>
 						<AdaptiveDpr pixelated />
 						<AdaptiveEvents />
-					</>
-				</Suspense>
+					</></Suspense>
 			</Canvas >
 		</>
 	)
