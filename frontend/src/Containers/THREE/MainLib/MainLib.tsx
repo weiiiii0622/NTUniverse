@@ -1,9 +1,10 @@
 import { Triplet } from "@react-three/cannon";
 import { OrbitControls, PerspectiveCamera, Sky, Text3D } from "@react-three/drei";
 import { useFrame, useThree } from "@react-three/fiber";
+import InteractiveBlock from "../../../Components/THREE/interaction/InteractiveBlock";
 import AppSky from "../../../Components/THREE/static/Sky";
 
-const MainLibPosition: Triplet = [30, 0, 30];
+const MainLibPosition: Triplet = [300, 0, 300];
 
 export default function MainLib() {
 

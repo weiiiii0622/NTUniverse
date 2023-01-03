@@ -1,4 +1,4 @@
-import { Debug, Triplet, useBox, useCompoundBody, useSphere } from "@react-three/cannon";
+import { Debug, Triplet, useBox, useCompoundBody, usePlane, useSphere } from "@react-three/cannon";
 import Bike, { ObjectProps } from "../../Components/THREE/Bike";
 import Ground from "../../Components/THREE/static/Ground";
 import { FC, useState } from "react";
@@ -120,6 +120,17 @@ function QuestionMark({
 	)
 }
 
+function Ceil() {
+	const [ref,] = usePlane(() => ({
+		type: 'Static',
+		args: [10, 10],
+		rotation: [-Math.PI / 2, 0, 0],
+		position: [0, 5, 0],
+	}));
+
+	return <mesh ref={ref} />
+}
+
 function World() {
 
 	const { setFinish, bikeTpPosition, setBikeTpPosition, isChangingScene, setIsChangeScene, setBikeEnabled, setBulletinModalOpen, isLogin, setIsLogin, setLocation } = useMyContext()
@@ -165,12 +176,18 @@ function World() {
 		setBulletinModalOpen(true);
 	}
 
+	// const {show}
+
 	return (
 		<DebugWorld debug >
 			<Bike objectProps={{
 				position: bikeTpPosition,
 				rotation: [0, 0, 0],
 			}} />
+			{/* <Bike objectProps={{
+				position: [10, 0, 10],
+				rotation: [0, 0, 0],
+			}} /> */}
 
 			<SFuCollisionBox />
 			<Ground />

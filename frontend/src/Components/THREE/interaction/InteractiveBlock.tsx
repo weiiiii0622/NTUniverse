@@ -3,7 +3,7 @@ import {
     useGLTF,
 
 } from '@react-three/drei'
-import { Object3DProps, useFrame } from '@react-three/fiber'
+import { Object3DProps, TorusGeometryProps, useFrame } from '@react-three/fiber'
 import { Group, Vector3 } from 'three'
 import { useSpring, animated, useSpringRef, config } from '@react-spring/three'
 import { Button, Modal } from 'antd';
