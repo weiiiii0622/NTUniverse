@@ -51,6 +51,8 @@ interface IContext {
     setBikeTpPosition: SetStateType<Triplet>,
     isChangingScene: boolean, 
     setIsChangeScene: SetStateType<boolean>,
+    isLoading: boolean, 
+    setIsLoading: SetStateType<boolean>,
     
     setBikeEnabled: SetStateType<boolean>,
 }
@@ -87,6 +89,8 @@ const MyContext = createContext<IContext>({
     bikeEnabled: false,
     bikeTpPosition: [0, 0, 0],
     isChangingScene: false,
+    isLoading: true,
+    setIsLoading: () => { },
     setIsChangeScene: () => { },
     setBikeTpPosition: () => { },
     setBikeEnabled: () => { },
@@ -95,6 +99,13 @@ const MyContext = createContext<IContext>({
 //const _ = require('lodash');
 
 const MyProvider = (props: any) => {
+
+    /**
+     * 
+     * Loader
+     * 
+     */
+    const [isLoading, setIsLoading] = useState(true);
 
     /**
      * 
@@ -251,6 +262,7 @@ const MyProvider = (props: any) => {
                 bikeEnabled, setBikeEnabled,
                 bikeTpPosition, setBikeTpPosition,
                 isChangingScene, setIsChangeScene,
+                isLoading, setIsLoading,
             }}
             {...props}
         />
