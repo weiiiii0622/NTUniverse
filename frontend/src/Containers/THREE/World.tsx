@@ -28,10 +28,12 @@ function GroundPhysic() {
 
 const DebugWorld: FC<any> = ({ debug = false, children }) => {
 	return (
-		<>{debug
-			? <Debug> {children} </Debug>
-			: <> {children} </>
-		}</>
+		<>
+			{debug
+				? <Debug>{children}</Debug>
+				: <>{children}</>
+			}
+		</>
 	)
 }
 
@@ -54,22 +56,14 @@ function World() {
 
 	return (
 		<DebugWorld debug={debug} >
-
 			<Bike objectProps={{
 				position: bikeTpPosition,
 				rotation: [0, 0, 0],
 			}} />
 			<GroundPhysic />
-
 			<MainLib />
 			<SFu />
 
-			<Html style={{
-				position: 'absolute',
-			}}>
-				Hi I am abs
-			</Html>
-			{/* Pass in your EventHandler to handleEvent={ } */}
 			<InteractiveBlock
 				handleEvent={() => {
 					handleTP({
@@ -106,7 +100,6 @@ function World() {
 				}}
 				position={[0, 0, 25]}
 			/>
-
 		</DebugWorld >
 	)
 }
