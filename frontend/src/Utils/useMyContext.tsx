@@ -55,6 +55,8 @@ interface IContext {
     setIsLoading: SetStateType<any>,
     finish: boolean, 
     setFinish: SetStateType<any>,
+    loadFinished:boolean,
+    setLoadFinished: SetStateType<boolean>,
 
     setBikeEnabled: SetStateType<boolean>,
 
@@ -96,6 +98,8 @@ const MyContext = createContext<IContext>({
     isChangingScene: {},
     isLoading: true,
     setIsLoading: () => { },
+    loadFinished:false,
+    setLoadFinished: () => { },
     finish: true,
     setFinish: () => { },
     setIsChangeScene: () => { },
@@ -116,6 +120,7 @@ const MyProvider = (props: any) => {
      * 
      */
     const [isLoading, setIsLoading] = useState(true);
+    const [loadFinished, setLoadFinished] = useState(false);
 
     /**
      * 
@@ -277,6 +282,7 @@ const MyProvider = (props: any) => {
                 isChangingScene, setIsChangeScene,
                 isLoading, setIsLoading,
                 finish, setFinish,
+                loadFinished, setLoadFinished,
                 chatRoomModalOpen, setChatRoomModalOpen,
             }}
             {...props}
