@@ -42,7 +42,7 @@ const ThreeContext = createContext<IContext>({
 	/**
 	 * Bike
 	 */
-	bikePosition: [0, 0, 1],
+	bikePosition: [0, 0, 0],
 	setBikePosition: (r) => { },
 	bikeControlling: false,
 	setBikeControlling: (x) => { },
