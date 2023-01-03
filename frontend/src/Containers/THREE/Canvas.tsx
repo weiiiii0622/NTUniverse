@@ -1,5 +1,5 @@
 import { Physics, Triplet } from "@react-three/cannon";
-import { AdaptiveDpr, AdaptiveEvents, Text3D } from "@react-three/drei";
+import { AdaptiveDpr, AdaptiveEvents, OrbitControls, Text3D } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import { useControls } from "leva";
 import { Perf } from "r3f-perf";
@@ -81,7 +81,7 @@ export default function AppCanvas() {
 	// const [enableControls, setEnableControls] = useState<boolean>(true);
 
 	const { enableControls } = useControls({
-		enableControls: true,
+		enableControls: false,
 	});
 	const { enableBike } = useControls({ enableBike: true, });
 	const { setBikeEnabled } = useMyContext();
@@ -111,10 +111,9 @@ export default function AppCanvas() {
 
 						<AppSky />
 
-
 						<MainLib />
 
-						<AppOrbitControls enabled={true} />
+						{enableControls && <AppOrbitControls enabled={true}/>}
 						<ThreeContext.Provider value={{
 							bikePosition,
 							setBikePosition,

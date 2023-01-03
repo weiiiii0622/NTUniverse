@@ -13,7 +13,6 @@ function Platform({ position }: PlatformProps) {
         args: [16.9, 0.5, 16.9],
         position: position,
         mass: 1000,
-        onCollide: () => console.log('ji')
     }));
 
     return (
@@ -63,9 +62,9 @@ function Wall({ position, rotation }: { position: Triplet, rotation: Triplet }) 
         send(Math.floor(Math.random() * suicideMsgs.length));
     }
 
-    const [ref, api] = usePlane(() => ({
+    const [ref, api] = useBox(() => ({
         type: "Static",
-        args: [40, 10],
+        args: [40, 10, 1],
         position,
         rotation,
         onCollide: handleCollide,

@@ -1,4 +1,4 @@
-import { Debug, Triplet, useBox, useCompoundBody, useSphere } from "@react-three/cannon";
+import { Debug, Triplet, useBox, useCompoundBody, usePlane, useSphere } from "@react-three/cannon";
 import Bike, { ObjectProps } from "../../Components/THREE/Bike";
 import Ground from "../../Components/THREE/static/Ground";
 import { FC, useState } from "react";
@@ -123,6 +123,22 @@ function QuestionMark({
 function World() {
 
 	const { setFinish, bikeTpPosition, setBikeTpPosition, isChangingScene, setIsChangeScene, setBikeEnabled, setBulletinModalOpen, isLogin, setIsLogin, setLocation } = useMyContext()
+	
+	const handleTP = ({ scene, pos }) => {
+		setIsChangeScene({ scene: scene });
+		setBikeEnabled(false);
+		setTimeout(() => {
+			setBikeTpPosition(pos);
+			setBikeEnabled(true);
+		}, 2000);
+	}
+
+	const handleOpenBulletin = ({ location }) => {
+		setLocation(location);
+		setBikeEnabled(false);
+		setBulletinModalOpen(true);
+	}
+
 
 	const { width, center, height } = useControls({
 		width: 5,
@@ -150,27 +166,19 @@ function World() {
 			step: 0.5,
 		}
 	});
-	const handleTP = ({ scene, pos }) => {
-		setIsChangeScene({ scene: scene });
-		setBikeEnabled(false);
-		setTimeout(() => {
-			setBikeTpPosition(pos);
-			setBikeEnabled(true);
-		}, 2000);
-	}
 
-	const handleOpenBulletin = ({ location }) => {
-		setLocation(location);
-		setBikeEnabled(false);
-		setBulletinModalOpen(true);
-	}
+	// const {show}
 
 	return (
-		<DebugWorld debug >
+		<DebugWorld debug>
 			<Bike objectProps={{
 				position: bikeTpPosition,
 				rotation: [0, 0, 0],
 			}} />
+			{/* <Bike objectProps={{
+				position: [10, 0, 10],
+				rotation: [0, 0, 0],
+			}} /> */}
 
 			<SFuCollisionBox />
 			<Ground />
@@ -179,6 +187,16 @@ function World() {
 				position={[pos.x, y, pos.z]}
 				rotation={[0, Math.PI / 4, 0]}
 			/>
+
+			{/* <Tree1 position={[-5, 0.0, -5]} /> */}
+			{/* <RingElement ringPosition={[-5, 0.1, -5]} ringArgs={[4.5, 7, 32]} /> */}
+			{/* <Bench position={[-5, 0, 5]} rotation={[0, Math.PI / 2, 0]} castShadow /> */}
+
+			{/* <TestContainer /> */}
+
+			{/* <Palm objectProps={{
+				 	position: [5, 0, -5],
+				 }}   */}
 
 			{/* Pass in your EventHandler to handleEvent={ } */}
 			<InteractiveBlock
@@ -199,17 +217,6 @@ function World() {
 				}}
 				position={[0, 0, -15]}
 			/>
-			{/* <Tree1 position={[-5, 0.0, -5]} /> */}
-			{/* <RingElement ringPosition={[-5, 0.1, -5]} ringArgs={[4.5, 7, 32]} /> */}
-			{/* <Bench position={[-5, 0, 5]} rotation={[0, Math.PI / 2, 0]} castShadow /> */}
-
-			{/* <TestContainer /> */}
-
-			{/* <Palm objectProps={{
-				 	position: [5, 0, -5],
-				 }}   */}
-
-			{/* Pass in your EventHandler to handleEvent={ } */}
 			<InteractiveBlock
 				handleEvent={() => {
 					handleTP({

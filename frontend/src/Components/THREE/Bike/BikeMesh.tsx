@@ -42,15 +42,6 @@ const BikeMesh = React.forwardRef<any, BikeMeshProps>(
 		};
 
 
-		const { bikeTpPosition } = useMyContext();
-		useEffect(() => {
-			//@ts-ignore
-			ref!.current?.api.position.set(...bikeTpPosition);
-			console.log('tp success');
-			console.log(bikeTpPosition);
-		}, [bikeTpPosition]);
-
-
 		const { scale, rotation: steerRotation } = useSpring({
 			scale: 1,
 			rotation: [
@@ -109,11 +100,12 @@ const BikeMesh = React.forwardRef<any, BikeMeshProps>(
 		const cam = useRef();
 		const { camera } = useThree();
 		useEffect(() => {
-			console.log(camera);
-			return api.position.subscribe(r => {
-				camera.lookAt(...r);
-			})
-		}, [api]);
+			// console.log(camera);
+			// return api.position.subscribe(r => {
+			// 	camera.lookAt(...r);
+			// })
+			camera.lookAt(ref.current.position);
+		}, [api, camera]);
 
 		useEffect(() => {
 			return api.velocity.subscribe(v => {
@@ -160,13 +152,14 @@ const BikeMesh = React.forwardRef<any, BikeMeshProps>(
 					</animated.group>
 				</animated.mesh>
 
-				{/* <PerspectiveCamera
+				<PerspectiveCamera
+					name="My camera"
 					ref={cam}
 					makeDefault
-					position={[3, 5, 0]}
+					position={[-10, 13, -13]}
 				// rotation={[0, 0, Math.PI / 2]}
 				// rotation={[Crotation.x, Crotation.y, Crotation.z]}
-				/> */}
+				/>
 			</mesh>
 		)
 	});

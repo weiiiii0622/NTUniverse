@@ -3,7 +3,7 @@ import {
     useGLTF,
 
 } from '@react-three/drei'
-import { Object3DProps, useFrame } from '@react-three/fiber'
+import { Object3DProps, TorusGeometryProps, useFrame } from '@react-three/fiber'
 import { Group, Vector3 } from 'three'
 import { useSpring, animated, useSpringRef, config } from '@react-spring/three'
 import { Button, Modal } from 'antd';
@@ -20,7 +20,7 @@ const InteractiveBlock = (props: any) => {
     const args = [4, 0.2, 3, 4, Math.PI*2];
 
     const ref = useRef(null!);
-    const { isLogin } = useMyContext();
+    const { bikeTpPosition } = useMyContext();
     const { bikePosition } = useContext(ThreeContext);
     const [isActive, setIsActive] = useState(false);
 
@@ -57,11 +57,11 @@ const InteractiveBlock = (props: any) => {
     })
 
     const handleOverLap = ({ position }) => {
-        const dis_x = Math.abs(bikePosition[0]-position[0]);
-        const dis_z = Math.abs(bikePosition[2]-position[2]);
+        const dis_x = Math.abs(bikePosition[0]+bikeTpPosition[0]-position[0]);
+        const dis_z = Math.abs(bikePosition[2]+bikeTpPosition[2]-position[2]);
 
         const dist =  Math.sqrt( dis_x*dis_x + dis_z*dis_z );
-        //console.log(`${dist} / ${args[0]}`);
+        console.log(`${dist} / ${args[0]}`);
         if(dist <= delta * args[0]){
             api.start();
             setIsActive(true);
