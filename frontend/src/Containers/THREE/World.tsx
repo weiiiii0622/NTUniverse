@@ -4,8 +4,11 @@ import { FC } from "react";
 import { useMyContext } from "../../Utils/useMyContext";
 import InteractiveBlock from "../../Components/THREE/interaction/InteractiveBlock";
 import { useControls } from "leva";
-import { MainLibPosition } from "./MainLib/MainLib";
+import MainLib, { MainLibPosition } from "./MainLib/MainLib";
 import useBikeContext from "../hooks/useBikeContext";
+import SFu from "./SFu";
+import useTeleport from "../hooks/useTeleport";
+import { Billboard, Box, Html, ScreenSpace, Text } from "@react-three/drei";
 
 
 function GroundPhysic() {
@@ -34,21 +37,14 @@ const DebugWorld: FC<any> = ({ debug = false, children }) => {
 
 function World() {
 
-	const { bikeTpPosition, setBikeTpPosition, setIsChangeScene, setBulletinModalOpen, } = useMyContext()
+	const { setBulletinModalOpen, bikeTpPosition } = useMyContext()
 	const { setBikeEnabled, setLocation } = useBikeContext();
 
 	const { debug } = useControls('General', {
 		debug: true,
 	});
 
-	const handleTP = ({ scene, pos }) => {
-		setIsChangeScene({ scene: scene });
-		setBikeEnabled(false);
-		setTimeout(() => {
-			setBikeTpPosition(pos);
-			setBikeEnabled(true);
-		}, 2000);
-	}
+	const { handleTP } = useTeleport();
 
 	const handleOpenBulletin = ({ location }) => {
 		setLocation(location);
@@ -58,13 +54,21 @@ function World() {
 
 	return (
 		<DebugWorld debug={debug} >
+
 			<Bike objectProps={{
 				position: bikeTpPosition,
 				rotation: [0, 0, 0],
 			}} />
-
 			<GroundPhysic />
 
+			<MainLib />
+			<SFu />
+
+			<Html style={{
+				position: 'absolute',
+			}}>
+				Hi I am abs
+			</Html>
 			{/* Pass in your EventHandler to handleEvent={ } */}
 			<InteractiveBlock
 				handleEvent={() => {

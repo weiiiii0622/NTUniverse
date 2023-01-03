@@ -117,10 +117,7 @@ export default function AppCanvas() {
 						}}>
 							<AppOrbitControls enabled={enableControls} />
 
-							<MainLib />
-
 							<Physics>
-								<SFu />
 								<World />
 							</Physics>
 

@@ -8,13 +8,18 @@ import { Group, Vector3 } from 'three'
 import { useSpring, animated, useSpringRef, config } from '@react-spring/three'
 import { Button, Modal } from 'antd';
 import { useMyContext } from '../../../Utils/useMyContext'
-import { Debug, usePlane } from "@react-three/cannon"
+import { Debug, Triplet, usePlane } from "@react-three/cannon"
 
 import { ThreeContext } from '../../../Containers/THREE/Canvas'
 import useBikeContext from '../../../Containers/hooks/useBikeContext'
 
 
-const InteractiveBlock = (props: any) => {
+interface IProps {
+    position: Triplet,
+    handleEvent: () => any,
+};
+
+const InteractiveBlock = ({ position, handleEvent }: IProps) => {
 
     const DEBUG = 0;
     const delta = 0.8;
@@ -39,13 +44,13 @@ const InteractiveBlock = (props: any) => {
         loop: true,
 
         onRest: () => {
-            ref.current.position.z = props.position[1];
+            ref.current.position.z = position[1];
         },
         from: {
-            y: props.position[1],
+            y: position[1],
         },
         to: {
-            y: props.position[1] - 1.5,
+            y: position[1] - 1.5,
         },
 
     });
@@ -54,10 +59,10 @@ const InteractiveBlock = (props: any) => {
     useFrame(() => {
         //console.log(`${props.position} / ${bikePosition}`);
         //if(DEBUG) console.log(`id: ${props.id} isActive: ${isActive}`);
-        handleOverLap(props);
+        handleOverLap();
     })
 
-    const handleOverLap = ({ position }) => {
+    const handleOverLap = () => {
         // console.log(bikePosition);
         // console.log(position);
         //console.log(`dis_x: ${position[0]}`);
@@ -96,14 +101,12 @@ const InteractiveBlock = (props: any) => {
     useKeyPress(['Enter', 'e'], (pressed) => (setIsEvent(pressed)))
 
     useEffect(() => {
-
-        if (isActive && isEvent) { props.handleEvent(); }
-
+        if (isActive && isEvent) { handleEvent(); }
     }, [isEvent])
 
     return (
         //<Debug>
-        <group position={props.position} rotation={[Math.PI / 2, 0, Math.PI / 4]} dispose={null}>
+        <group position={position} rotation={[Math.PI / 2, 0, Math.PI / 4]} dispose={null}>
             <animated.mesh
                 // @ts-ignore
                 ref={ref}
