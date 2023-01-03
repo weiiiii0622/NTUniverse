@@ -150,6 +150,20 @@ function World() {
 			step: 0.5,
 		}
 	});
+	const handleTP = ({ scene, pos }) => {
+		setIsChangeScene({ scene: scene });
+		setBikeEnabled(false);
+		setTimeout(() => {
+			setBikeTpPosition(pos);
+			setBikeEnabled(true);
+		}, 2000);
+	}
+
+	const handleOpenBulletin = ({ location }) => {
+		setLocation(location);
+		setBikeEnabled(false);
+		setBulletinModalOpen(true);
+	}
 
 	return (
 		<DebugWorld debug >
@@ -169,35 +183,48 @@ function World() {
 			{/* Pass in your EventHandler to handleEvent={ } */}
 			<InteractiveBlock
 				handleEvent={() => {
-					//setChangeScene("操你媽")
-					setIsChangeScene({ scene: '操你媽' });
-					setBikeEnabled(false);
-					setTimeout(() => {
-						setBikeTpPosition([0, 0, -15]);
-						setBikeEnabled(true);
-						//setFinish(true);
-					}, 2000);
-					// setLocation("總圖");
-					// setBikeEnabled(false);
-					// setBulletinModalOpen(true);
+					handleTP({
+						scene: '總圖',
+						pos: MainLibPosition
+					})
 				}}
-				position={[0, 0, 15]}
 			/>
 			<InteractiveBlock
 				handleEvent={() => {
-					//setChangeScene("垃圾幹")
-					setIsChangeScene({ scene: '總圖' });
-					setBikeEnabled(false);
-					setTimeout(() => {
-						setBikeTpPosition([30, 0, 30]);
-						setBikeEnabled(true);
-						//setFinish(true);
-					}, 2000);
-					// setLocation("醉月湖");
-					// setBikeEnabled(false);
-					// setBulletinModalOpen(true);
+					handleTP({
+						scene: '幹你老師',
+						pos: [0, 0, 15]
+					})
 				}}
-				position={[0, 0, 0]}
+			/>
+			{/* <Tree1 position={[-5, 0.0, -5]} /> */}
+			{/* <RingElement ringPosition={[-5, 0.1, -5]} ringArgs={[4.5, 7, 32]} /> */}
+			{/* <Bench position={[-5, 0, 5]} rotation={[0, Math.PI / 2, 0]} castShadow /> */}
+
+			{/* <TestContainer /> */}
+
+			{/* <Palm objectProps={{
+				 	position: [5, 0, -5],
+				 }}   */}
+
+			{/* Pass in your EventHandler to handleEvent={ } */}
+			<InteractiveBlock
+				handleEvent={() => {
+					handleTP({
+						scene: '操你媽',
+						pos: [0, 0, -15]
+					})
+				}}
+				position={[0, 0, 15]}
+			/>
+
+			<InteractiveBlock
+				handleEvent={() => {
+					handleOpenBulletin({
+						location: "小福廣場",
+					})
+				}}
+				position={[15, 0, 0]}
 			/>
 
 		</DebugWorld >
