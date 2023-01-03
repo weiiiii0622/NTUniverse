@@ -14,7 +14,7 @@ const wheelInfo = {
     chassisConnectionPointLocal: [1, 0, 1],
     useCustomSlidingRotationalSpeed: true,
     customSlidingRotationalSpeed: -30,
-    frictionSlip: 10,
+    frictionSlip: 1e5,
 }
 
 interface IWheelPosition {
@@ -39,11 +39,11 @@ export default function useWheels(props: IProps): [Ref<Mesh>[], WheelInfoOptions
     const wheelRefs = Array.from({ length: numOfWheels }, (_, __) => useRef<Mesh>());
 
     const wheelInfosUtils = [
-        { isFrontWheel: true, chassisConnectionPointLocal: [width / 2, height, front] },
-        { isFrontWheel: true, chassisConnectionPointLocal: [-width / 2, height, front] },
+        { isFrontWheel: true, chassisConnectionPointLocal: [width / 2, height - 0.001, front] },
+        { isFrontWheel: true, chassisConnectionPointLocal: [-width / 2, height - 0.001, front] },
 
         // Pedals
-        { isFrontWheel: false, chassisConnectionPointLocal: [0, height, -0.15] },
+        { isFrontWheel: false, chassisConnectionPointLocal: [0, height - 0.001, -0.15] },
         { isFrontWheel: false, chassisConnectionPointLocal: [width / 2, height, back] },
         { isFrontWheel: false, chassisConnectionPointLocal: [0, height, back] },
         { isFrontWheel: false, chassisConnectionPointLocal: [-width / 2, height, back] },

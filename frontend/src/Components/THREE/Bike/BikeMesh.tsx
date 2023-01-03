@@ -7,6 +7,8 @@ import { ArcadeDirection } from "./Vehicle";
 import { Camera, invalidate, useFrame, useThree } from "@react-three/fiber";
 import { PerspectiveCamera } from "@react-three/drei";
 import { useControls } from "leva";
+import { IControls } from "./hooks/useControls";
+import { useMyContext } from "../../../Utils/useMyContext";
 
 interface BikeMeshProps {
 	args: Triplet,
@@ -15,17 +17,19 @@ interface BikeMeshProps {
 	rotation?: Triplet,
 	// left?: boolean,
 	// right?: boolean,
+	controls: RefObject<IControls>,
 	arcadeDirection: ArcadeDirection,
 }
 
 const BikeMesh = React.forwardRef<any, BikeMeshProps>(
-	({ args, mass, position, rotation, arcadeDirection }, ref: RefObject<Mesh>) => {
+	({ args, mass, position, rotation, arcadeDirection, controls }, ref: RefObject<Mesh>) => {
 		const [, api] = useBox(() => ({
 			mass,
 			args,
 			position,
 			rotation,
 			allowSleep: false,
+			// type: 'Static',
 			//onCollide: (e: any) => console.log('bonk', e),
 			collisionResponse: true,
 		}), ref);
@@ -36,6 +40,15 @@ const BikeMesh = React.forwardRef<any, BikeMeshProps>(
 			position: [0, delta + -args[1] / 2, 0] as Triplet,
 			// rotation: [0, Math.PI, 0] as Triplet,
 		};
+
+
+		const { bikeTpPosition } = useMyContext();
+		useEffect(() => {
+			//@ts-ignore
+			ref!.current?.api.position.set(...bikeTpPosition);
+			console.log('tp success');
+			console.log(bikeTpPosition);
+		}, [bikeTpPosition]);
 
 
 		const { scale, rotation: steerRotation } = useSpring({
@@ -104,15 +117,16 @@ const BikeMesh = React.forwardRef<any, BikeMeshProps>(
 
 		useEffect(() => {
 			return api.velocity.subscribe(v => {
+				const sign = controls.current.forward ? -1 : 1;
 				frontWheelApi.angularVelocity.set(
-					Math.sqrt(v[0] * v[0] + v[1] * v[1] + v[2] * v[2]) / 0.66, 0, 0
+					Math.sqrt(v[0] * v[0] + v[1] * v[1] + v[2] * v[2]) * sign / 0.66, 0, 0
 				);
 			})
 		}, [api]);
 
 		return (
 			//@ts-ignore
-			<mesh ref={ref} api={api}>
+			<mesh ref={ref} api={api} name="Chassis">
 
 				<ModelFBX filePath="./resources/models/bike/body.fbx"
 					objectProps={defaultObjectProps}

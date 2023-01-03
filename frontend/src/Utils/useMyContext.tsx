@@ -202,7 +202,7 @@ const MyProvider = (props: any) => {
         variables: {
             location: location,
         },
-        fetchPolicy: "cache-and-network",
+        fetchPolicy: "cache-and-network",   
     })
 
     useEffect(() => {

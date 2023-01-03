@@ -89,7 +89,7 @@ const Mutation = {
             }
         });
         return msg;
-    }),
+    })
     createChatRoom: (parent, { chatRoomName, creatorEmail }, { ChatRoomModel }) => __awaiter(void 0, void 0, void 0, function* () {
         const chatRoom = yield new ChatRoomModel({ chatRoomName, users: [creatorEmail] }).save();
         console.log('new room: ' + chatRoomName);

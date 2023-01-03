@@ -1,19 +1,19 @@
 import { Physics, Triplet } from "@react-three/cannon";
-import { AdaptiveDpr, AdaptiveEvents, Environment, Html } from "@react-three/drei";
+import { AdaptiveDpr, AdaptiveEvents, Text3D } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import { useControls } from "leva";
 import { Perf } from "r3f-perf";
 import { createContext, useState, useEffect, Suspense } from "react";
-import Camera from "../../Components/THREE/scene/Camera";
 import Lights from "../../Components/THREE/scene/Lights";
 import AppOrbitControls from "../../Components/THREE/scene/OrbitControls";
 import AppSky from "../../Components/THREE/static/Sky";
 import { SetStateType } from "../../Utils/type";
 import { useMyContext } from "../../Utils/useMyContext";
-import SFu from "./Demo";
+import MainLib from "./MainLib/MainLib";
+import SFu from "./SFu/Demo";
 import World from "./World";
 import Loader from "./Loader";
-import { Test } from "../../App";
+// import { } from 'three/examples/fonts/helvetiker_regular.typeface.json';
 //import { Loader } from "@react-three/drei";
 
 interface IContext {
@@ -110,7 +110,11 @@ export default function AppCanvas() {
 						</>}
 
 						<AppSky />
-						<AppOrbitControls enabled={true}/>
+
+
+						<MainLib />
+
+						<AppOrbitControls enabled={true} />
 						<ThreeContext.Provider value={{
 							bikePosition,
 							setBikePosition,
@@ -122,7 +126,7 @@ export default function AppCanvas() {
 							setEnableControls: () => { },
 						}}>
 							<Physics>
-							{show && <SFu />}
+								{show && <SFu />}
 								<World />
 							</Physics>
 

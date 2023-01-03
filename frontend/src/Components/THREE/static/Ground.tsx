@@ -28,22 +28,8 @@ export default function Ground(props: any) {
         },
     });
 
-    // const textures = useTexture({
-    //     map: './textures/color.jpg',
-    //     displacementMap: './textures/disp.png',
-    //     normalMap: './textures/normal.png',
-    //     roughnessMap: './textures/rough.jpg',
-    // }, (results: Texture[]) => {
-    //     results.forEach(texture => {
-    //         texture.repeat.set(repeat, repeat);
-    //         texture.offset.set(0, 0);
-    //         texture.wrapS = RepeatWrapping;
-    //         texture.wrapT = RepeatWrapping;
-    //     })
-    // });
-
     return (
-        <group ref={ref as RefObject<Group>}>
+        <group ref={ref as RefObject<Group>} name="Ground">
             <mesh
                 position={[0, 0, -0.03]}>
                 <mesh
