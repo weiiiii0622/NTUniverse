@@ -29,7 +29,6 @@ import {
     IdcardOutlined,
     InstagramOutlined
 } from '@ant-design/icons';
-import countapi from 'countapi-js';
 
 import { useMyContext } from '../../Utils/useMyContext';
 import { USERALL_QUERY } from '../../Utils/graphql';
@@ -65,10 +64,6 @@ const AboutModal = () => {
     const { loading, error, data, refetch } = useQuery(USERALL_QUERY, {
 
     })
-
-    // countapi.visits('locatlhost').then((result) => {
-    //     console.log(result);
-    // });
 
     //useEffect(() => {
     //console.log("USERALL data")
