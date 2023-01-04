@@ -38,7 +38,7 @@ const data = [
 ];
 
 const FirstLevelModal = (props: IFirstLevelProps) => {
-  const { showSecond, chatRooms, activeRoom, setActiveRoom, setChatRooms } = useChatRoomContext();
+  const { showSecond, chatRooms, activeRoom, setActiveRoom, modalClose } = useChatRoomContext();
   const { isLogin, chatRoomModalOpen, setChatRoomModalOpen } = useMyContext();
 
   return (
@@ -47,7 +47,7 @@ const FirstLevelModal = (props: IFirstLevelProps) => {
         title={<h3 style={{ margin: '5px' }}>聊天室</h3>}
         placement="right"
         mask={false}
-        onClose={() => setChatRoomModalOpen(false)}
+        onClose={modalClose}
         open={chatRoomModalOpen}
         bodyStyle={{ paddingTop: '5px' }}
       >

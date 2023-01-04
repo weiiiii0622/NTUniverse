@@ -85,7 +85,6 @@ const ChatRoomProvider = (props: any) => {
     setSecondOpen(false);
     setBikeEnabled(true);
     console.log('chat close!');
-    
   }
 
   const showFirst = () => {
