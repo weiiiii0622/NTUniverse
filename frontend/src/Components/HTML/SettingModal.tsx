@@ -23,30 +23,19 @@ import { useMyContext } from '../../Utils/useMyContext';
 import { USERALL_QUERY } from '../../Utils/graphql';
 import styled from 'styled-components';
 import useBikeContext from '../../Containers/hooks/useBikeContext';
+import { SetStateType } from '../../Utils/type';
 
-interface IconSliderProps {
-    max: number;
-    min: number;
+interface MySliderProps {
+    max: number,
+    min: number,
+    title: string,
+    emojiLeft: string,
+    emojiRight: string,
+    val: number,
+    setVal: SetStateType<number>,
 }
 
-const StyledCard = styled(Card)`
-  .ant-card-head-title {
-    padding: 0;
-    padding-top: 4px;
-  }
-  .ant-card-body {
-    padding-top: 16px;
-    padding-bottom: 8px;
-  }
-`;
-
-const StyledRow = styled(Row)`
-  .ant-row {
-    color: grey;
-  }
-`;
-
-const MySlider = ({ max, min, title, emojiLeft, emojiRight, val, setVal}) => {
+const MySlider = ({ max, min, title, emojiLeft, emojiRight, val, setVal}:MySliderProps) => {
     
     return (
       <div className="icon-wrapper">
@@ -68,32 +57,6 @@ const MySlider = ({ max, min, title, emojiLeft, emojiRight, val, setVal}) => {
       </div>
     );
 };
-
-const VolumeSlider = (props) => {
-    const { max, min } = props;
-    const [bikeSpeedValue, setBikeSpeedValue] = useState(0);
-    
-    return (
-      <div className="icon-wrapper">
-        <Row
-            style={{
-                height: '5vh',
-                fontWeight: 900,
-                backgroundColor: '#e9ecef'
-            }}
-        >
-            #車速
-        </Row>
-        <Row gutter={10}>
-            <Col span={2} style={{fontSize: '2em', marginLeft: '0'}}> 🐢</Col> 
-            <Col style={{display: 'flex', alignItems: 'center'}} span={20}><Slider {...props} style={{width: '100%'}} onChange={setBikeSpeedValue} value={bikeSpeedValue} /></Col>
-            <Col span={2} style={{fontSize: '2em'}}> 🏎️ </Col>
-
-        </Row>
-      </div>
-    );
-};
-
 
 const SettingModal = () => {
     const { settingModalOpen, setSettingModalOpen } = useMyContext();
@@ -123,7 +86,6 @@ const SettingModal = () => {
                     //   Save
                     // </Button>,
                     <Layout.Footer  style={{ textAlign: 'center' }}>NTUniverse © 2022</Layout.Footer>
-
                 ]}
             >
 
