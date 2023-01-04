@@ -25,9 +25,9 @@ const LoadingCover = () => {
     const [showButton, setShowButton] = useState<boolean>(false);
     const [percent, setPercent] = useState<number>(0);
 
-    const increase = () => {
+    const increase = (val) => {
       setPercent((prevPercent) => {
-        const newPercent = prevPercent + 10;
+        const newPercent = prevPercent + val;;
         if (newPercent > 100) {
           return 100;
         }
@@ -47,12 +47,27 @@ const LoadingCover = () => {
 
     useEffect(() => {
         //console.log(`isLoading: ${isLoading}`);
-        if(isLoading===false){
-            for(var i=1; i<=10; i++){
-                setTimeout(() => {
-                    increase();
-                }, 200*i);
-            }
+        if(isLoading===true){
+            setTimeout(() => {
+                for(var i=1; i<=10; i++){
+                    if(i!=10){
+                        setTimeout(() => {
+                            increase(10);
+                        }, 200*i);
+                    }
+                    else{
+                        setTimeout(() => {
+                            increase(9);
+                        }, 200*i);
+                    }
+                    //increase(99);
+                }
+            }, 1000)
+        }
+        else{
+            setTimeout(() => {
+                increase(1);
+            }, 3000*1);
         }
     }, [isLoading])
 
