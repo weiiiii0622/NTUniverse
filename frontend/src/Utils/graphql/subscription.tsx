@@ -31,6 +31,7 @@ const NEWMESSAGE_SUBSCRIPTION = gql`
   subscription newMessage($chatRoomName: String!){
     newMessage(chatRoomName: $chatRoomName) {
       sender
+      senderNick
       content
     }
   }
