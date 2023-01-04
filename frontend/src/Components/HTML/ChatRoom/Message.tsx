@@ -22,7 +22,7 @@ const StyledMessage = styled.div<{ isMe: boolean }>`
     }
 `;
 
-const StyledName = styled.p<{ isMe: boolean }>`
+const StyledName = styled.div<{ isMe: boolean }>`
   margin: 0;
   padding-left: 30px;
   display: flex;

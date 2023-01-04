@@ -36,35 +36,12 @@ const useQueryChat = (props: useQueryChatProps) => {
         document: NEWMESSAGE_SUBSCRIPTION,
         variables: { chatRoomName: chatRoomName },
         updateQuery: (prev, { subscriptionData }) => {
-
-          // console.log("subData:")
-          // console.log(subscriptionData);
-          console.log('prev:');
-          console.log(prev);
-
-          console.log('subs');
-          console.log(subscriptionData);
-          
-          
-
-          if (!subscriptionData) return prev;
-          var newMessage = subscriptionData.data.newMessage;
+          if(!subscriptionData) return prev;
 
           let temp = _.cloneDeep(prev);
-          temp.chatRoom.messages = newMessage;
-
-
-          // let tempRooms = _.cloneDeep(chatRooms);
-          // tempRooms.find(e => e.name === chatRoomName).lastMsg = newMessage[newMessage.length - 1];
-          // setChatRooms(tempRooms);
-
-          console.log('temp');
-          console.log(temp.chatRoom.messages);
-
-          // console.log('last');
-          // console.log(tempRooms);
-          
-
+          const newMsg = subscriptionData.data.newMessage;
+          temp.chatRoom.messages.push(newMsg);
+        
           return temp;
         },
       });

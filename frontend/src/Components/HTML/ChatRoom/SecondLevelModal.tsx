@@ -1,10 +1,11 @@
+import { useEffect, useRef, useState } from "react";
 import { Drawer, Input } from "antd";
 import { LeftOutlined } from '@ant-design/icons';
+import { v4 as uuidv4 } from 'uuid';
 import Message from './Message';
 import { useChatRoomContext } from "../../../Utils/ChatRoom/useChatRoomContext";
 import styled from "styled-components";
 import useQueryChat from "../../../Containers/HTML/ChatRoom/hooks/useQueryChat";
-import { useEffect, useRef, useState } from "react";
 import { useMyContext } from "../../../Utils/useMyContext";
 import PlsLogin from "../components/PleaseLogIn";
 
@@ -13,11 +14,11 @@ interface ISecondLevelModal {
 }
 
 const MsgWrapper = styled.div`
-  height: 90%;
+  height: 92%;
   display: flex;
   justify-content: flex-start;
   flex-direction: column;
-  margin: 0px 5px;
+  margin: 0px 5px 3px;
   gap: 2px;
   overflow: scroll;
   `;
@@ -64,23 +65,23 @@ const SecondLevelModal = () => {
     msgFooterRef!.current?.scrollIntoView({ behavior: 'smooth', block: "start" });
   }
 
-  useEffect(() => scrollToBottom());
-  useEffect(() => scrollToBottom(), [data]);
-
+  useEffect(() => scrollToBottom(), [secondOpen]);
+  useEffect(() => scrollToBottom(), [messages]);
 
   return (
     <>
       <Drawer
         title={chatRoom?.name}
-        mask={false}
+        mask={true}
         closeIcon={<LeftOutlined />}
         onClose={showFirst}
         open={secondOpen}
+        bodyStyle={{ paddingBottom: '12px' }}
       >
         {isLogin ?
           <>
             <MsgWrapper>
-              {messages?.map(msg => <Message sender={msg.sender} content={msg.content} senderNick={msg.senderNick} />)}
+              {messages?.map(msg => <Message sender={msg.sender} content={msg.content} senderNick={msg.senderNick} key={uuidv4()} />)}
               <FootRef key={chatRoom.name + '-footer'} ref={msgFooterRef} />
             </MsgWrapper>
 

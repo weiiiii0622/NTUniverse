@@ -35,7 +35,7 @@ const FirstLevelModal = (props: IFirstLevelProps) => {
       <Drawer
         title={<h3 style={{ margin: '5px' }}>聊天室</h3>}
         placement="right"
-        mask={false}
+        mask={true}
         onClose={modalClose}
         open={chatRoomModalOpen}
         bodyStyle={{ paddingTop: '5px' }}
