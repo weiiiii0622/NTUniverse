@@ -63,17 +63,17 @@ const InteractiveBlock = ({ position, handleEvent }: IProps) => {
     })
 
     const handleOverLap = () => {
-        // console.log(bikePosition);
-        // console.log(position);
+        //console.log(bikePosition);
+        //console.log(position);
         //console.log(`dis_x: ${position[0]}`);
         //console.log(`dis_z: ${bikePosition[0]}`);
 
         const dis_x = Math.abs(bikePosition[0] - position[0]);
         const dis_z = Math.abs(bikePosition[2] - position[2]);
 
-        const dist = Math.sqrt(dis_x * dis_x + dis_z * dis_z);
-        // console.log(`${dist} / ${args[0]}`);
-        if (dist <= delta * args[0]) {
+        const dist =  Math.sqrt( dis_x*dis_x + dis_z*dis_z );
+        //console.log(`${dist} / ${args[0]}`);
+        if(dist <= delta * args[0]){
             api.start();
             setIsActive(true);
         }
