@@ -18,12 +18,12 @@ import { GoogleOAuthProvider } from '@react-oauth/google';
 const HTTP_ROOT =
   process.env.NODE_ENV === "production"
     ? "/graphql"
-    : "http://localhost:4000/graphql";
+    : "http://localhost:4001/graphql";
 
 const WS_ROOT =
   process.env.NODE_ENV === "production"
     ? "/subscriptions"
-    : "http://localhost:4000/subscriptions";
+    : "ws://localhost:4001/subscriptions";
 
 const httpLink = new HttpLink({
   uri: HTTP_ROOT
