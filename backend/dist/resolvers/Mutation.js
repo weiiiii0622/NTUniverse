@@ -105,7 +105,6 @@ const Mutation = {
         const newMsgs = [...oldMsgs, {
                 sender,
                 content,
-                readBy: [sender],
             }];
         const newChatRoom = yield ChatRoomModel.updateOne({ chatRoomName: chatRoomName }, { $set: { 'messages': newMsgs } });
         pubsub.publish(`chatRoom ${chatRoomName}`, {

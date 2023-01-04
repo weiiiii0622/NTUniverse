@@ -25,7 +25,6 @@ const Schema = gql`
   type Message {
     sender: String!,
     content: String!,
-    readBy: [String]!,
   }
   
   type Bulletin {

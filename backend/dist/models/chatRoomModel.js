@@ -14,16 +14,7 @@ const ChatRoomSchema = new mongoose_1.Schema({
     messages: [{ type: {
                 sender: String,
                 content: String,
-                readBy: [String],
             } }],
 });
 const ChatRoomModel = (0, mongoose_1.model)('ChatRoom', ChatRoomSchema);
-// /*  MessageModel */
-// const MessageSchema = new Schema<IMessage>({
-//   chatRoomName: String,
-//   sender: { type: Schema.Types.ObjectId, ref: 'User' },
-//   content: String,
-//   readBy: [{ type: Schema.Types.ObjectId, ref: 'User' }],
-// });
-// const MessageModel = model<IMessage>('Message', MessageSchema);
 exports.default = ChatRoomModel;
