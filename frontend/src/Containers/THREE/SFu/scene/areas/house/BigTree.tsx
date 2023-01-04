@@ -4,6 +4,7 @@ import { useSpring, useSpringRef, animated } from "@react-spring/three";
 import { useGLTF, useTexture } from "@react-three/drei";
 import { useState } from "react";
 import { Texture } from "three";
+import { useMyContext } from "../../../../../../Utils/useMyContext";
 import { modelBase, textureBase } from "../../Demo";
 
 export default function BigTree() {
@@ -11,6 +12,7 @@ export default function BigTree() {
 	const bigTreeMaterial = useTexture(textureBase + '/bigTree.jpg',
 		(txtr: Texture) => { txtr.flipY = false });
 
+	const { setTutorialModalOpen } = useMyContext();
 
 	/**
 	* Scale
@@ -63,7 +65,6 @@ export default function BigTree() {
 	return <>
 		<mesh position={bigTree.bigTree.position}>
 			<animated.mesh
-				position={[0, 0, 0]}
 				rotation={rotation as any}
 				scale={scale}>
 
@@ -72,11 +73,10 @@ export default function BigTree() {
 					geometry={bigTree.bigTree.geometry}
 					scale={bigTree.bigTree.scale}
 					rotation={bigTree.bigTree.rotation}
-					position={[0, 0, 0]}
 
 					onPointerEnter={handleTreeEnter}
 					onPointerLeave={handleTreeLeave}
-				// onClick={setTutorialModalOpen}
+					onClick={setTutorialModalOpen}
 				>
 					<meshBasicMaterial map={bigTreeMaterial} />
 				</mesh>

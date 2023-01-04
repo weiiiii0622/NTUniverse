@@ -5,10 +5,7 @@ import useLocation, { TLocation } from "./useLocation";
 
 export default function useTeleport() {
     const {
-        bikeTpPosition,
-        setBikeTpPosition,
         setIsChangeScene,
-        setBulletinModalOpen,
     } = useMyContext();
 
     const { setBikeEnabled } = useBikeContext();
@@ -17,8 +14,6 @@ export default function useTeleport() {
 
         setIsChangeScene({ scene: locationInfos[location].name });
         setBikeEnabled(false);
-
-        console.log(location);
 
         setTimeout(() => {
             setLocation(() => location);

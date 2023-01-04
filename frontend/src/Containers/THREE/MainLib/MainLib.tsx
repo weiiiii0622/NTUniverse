@@ -13,7 +13,7 @@ interface IProps {
 };
 export default function MainLib({ position }: IProps) {
 
-    const { setIsChangeScene, setBikeEnabled, setBikeTpPosition, setLocation, setBulletinModalOpen } = useMyContext();
+    const { setIsChangeScene, setBikeEnabled, setLocation, setBulletinModalOpen } = useMyContext();
 
     const { handleTP } = useTeleport();
 

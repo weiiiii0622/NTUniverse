@@ -40,7 +40,7 @@ const DebugWorld: FC<any> = ({ debug = false, children }) => {
 
 function World() {
 
-	const { setBulletinModalOpen, bikeTpPosition } = useMyContext()
+	const { setBulletinModalOpen } = useMyContext()
 	const { setBikeEnabled } = useBikeContext();
 	const { location, setLocation, locationInfos } = useLocation();
 
