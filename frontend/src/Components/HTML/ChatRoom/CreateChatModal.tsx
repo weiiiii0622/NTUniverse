@@ -17,9 +17,6 @@ const CreateChatModal = (props: ICreateChatModal) => {
   const { handleCreate, createOpen, setCreateOpen } = useChatRoomContext();
 
   const [form] = Form.useForm();
-  const [form2] = Form.useForm();
-  const [users, setUsers] = useState([myEmail]);
-  const [username, setUsername] = useState('');
 
   // const [container, setContainer] = useState<HTMLDivElement | null>(null);
 
@@ -31,7 +28,7 @@ const CreateChatModal = (props: ICreateChatModal) => {
 
         handleCreate({
           name: values.name,
-          lastMsg: 'Chat with your friends!',
+          // lastMsg: 'Chat with your friends!',
         });
         form.resetFields();
         setCreateOpen(false);

@@ -39,9 +39,13 @@ const useQueryChat = (props: useQueryChatProps) => {
 
           // console.log("subData:")
           // console.log(subscriptionData);
-          // console.log('prev:');
+          console.log('prev:');
+          console.log(prev);
 
-          // console.log(prev);
+          console.log('subs');
+          console.log(subscriptionData);
+          
+          
 
           if (!subscriptionData) return prev;
           var newMessage = subscriptionData.data.newMessage;
@@ -50,12 +54,12 @@ const useQueryChat = (props: useQueryChatProps) => {
           temp.chatRoom.messages = newMessage;
 
 
-          let tempRooms = _.cloneDeep(chatRooms);
-          tempRooms.find(e => e.name === chatRoomName).lastMsg = newMessage[newMessage.length - 1];
-          setChatRooms(tempRooms);
+          // let tempRooms = _.cloneDeep(chatRooms);
+          // tempRooms.find(e => e.name === chatRoomName).lastMsg = newMessage[newMessage.length - 1];
+          // setChatRooms(tempRooms);
 
-          // console.log('data');
-          // console.log(temp);
+          console.log('temp');
+          console.log(temp.chatRoom.messages);
 
           // console.log('last');
           // console.log(tempRooms);

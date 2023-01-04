@@ -109,7 +109,7 @@ const Mutation: IMutation = {
         return msg;
     },
 
-    createChatRoom: async (parent, { chatRoomName, users }, { ChatRoomModel }) => {
+    createChatRoom: async (parent, { chatRoomName }, { ChatRoomModel }) => {
         let chatRoom = await ChatRoomModel.findOne({ chatRoomName: chatRoomName });
         if(!chatRoom)
             chatRoom = await new ChatRoomModel({ chatRoomName, messages: [] }).save();
@@ -117,20 +117,26 @@ const Mutation: IMutation = {
         return chatRoom;
     },
 
-    createMessage: async (parent, { chatRoomName, sender, content }, { ChatRoomModel, pubsub }) => {
+    createMessage: async (parent, { chatRoomName, sender, senderNick, content }, { ChatRoomModel, pubsub }) => {
         const chatRoom = await ChatRoomModel.findOne({ chatRoomName: chatRoomName });
         if(!chatRoom) throw new Error('Chat Room does not exist!');
         
+        let ret = _.cloneDeep(chatRoom);
         const oldMsgs = chatRoom.messages;
         const newMsgs = [...oldMsgs, {
             sender,
+            senderNick,
             content,
         }]
+        ret.messages = newMsgs
         const newChatRoom = await ChatRoomModel.updateOne({ chatRoomName: chatRoomName }, { $set: { 'messages': newMsgs } });
+        // console.log(newMsgs);
         
         pubsub.publish(`chatRoom ${chatRoomName}`, {
-            newMessage: newMsgs,
+            newMessage: ret,
         });
+        // console.log(ret);
+        
 
         return newMsgs;
     }

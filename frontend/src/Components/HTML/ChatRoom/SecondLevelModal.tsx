@@ -80,7 +80,7 @@ const SecondLevelModal = () => {
         {isLogin ?
           <>
             <MsgWrapper>
-              {messages?.map(msg => <Message sender={msg.sender} content={msg.content} />)}
+              {messages?.map(msg => <Message sender={msg.sender} content={msg.content} senderNick={msg.senderNick} />)}
               <FootRef key={chatRoom.name + '-footer'} ref={msgFooterRef} />
             </MsgWrapper>
 
@@ -93,6 +93,7 @@ const SecondLevelModal = () => {
                 handleNewMsg({
                   chatRoomName: chatRoom.name,
                   sender: me['email'],
+                  senderNick: me['nick_name'],
                   content: val,
                 });
                 setBody('');
