@@ -45,10 +45,10 @@ interface IContext {
     leaveComment: any,
     likeComment: any,
 
-    bikePosition: Triplet,
-    bikeEnabled: boolean,
-    bikeTpPosition: Triplet,
-    setBikeTpPosition: SetStateType<Triplet>,
+    // bikePosition: Triplet,
+    // bikeEnabled: boolean,
+    // bikeTpPosition: Triplet,
+    // setBikeTpPosition: SetStateType<Triplet>,
     isChangingScene: any,
     setIsChangeScene: SetStateType<any>,
     isLoading: boolean,
@@ -89,9 +89,9 @@ const MyContext = createContext<IContext>({
     leaveComment: () => { },
     likeComment: () => { },
 
-    bikePosition: [0, 0, 0],
-    bikeEnabled: false,
-    bikeTpPosition: [0, 0, 0],
+    // bikePosition: [0, 0, 0],
+    // bikeEnabled: false,
+    // bikeTpPosition: [0, 0, 0],
     isChangingScene: {},
     isLoading: true,
     setIsLoading: () => { },
@@ -100,7 +100,7 @@ const MyContext = createContext<IContext>({
     finish: true,
     setFinish: () => { },
     setIsChangeScene: () => { },
-    setBikeTpPosition: () => { },
+    // setBikeTpPosition: () => { },
     setBikeEnabled: () => { },
 });
 

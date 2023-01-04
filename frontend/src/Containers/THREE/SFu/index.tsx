@@ -4,15 +4,27 @@ import SFuCollisionBox from "./physics/SFuCollisionBox";
 import Scene from "./scene/Demo";
 import HintCircle from "./interactions/HintCircle";
 import { useControls } from "leva";
+import useTeleport from "../../hooks/useTeleport";
+import { Triplet } from "@react-three/cannon";
 
-export default function SFu() {
+interface IProps {
+    position: Triplet,
+};
 
-    const { x, y } = useControls({ x: { value: 0, step: 0.5 }, y: { value: 0, step: 0.5 } })
+export default function SFu({ position }: IProps) {
+
+    const { x, y } = useControls("SFu", {
+        x: { value: 0.5, step: 0.5 },
+        y: { value: 27, step: 0.5 }
+    });
+
+    const { handleTP } = useTeleport();
 
     return (
-        <>
-            <Scene />
+        <group position={position}>
             <SFuCollisionBox />
+
+            {/* <Scene />*/}
 
             <QuestionMark
                 position={[5.5, 7.5, 5.1]}
@@ -20,9 +32,10 @@ export default function SFu() {
                 autoRotate
             />
             <HintCircle
-                position={[x, 0, y]}
-                handleEvent={() => console.log('event~!')}
+                position={[0.5, 0, -27]}
+                // position={[0, 0, 0]}
+                handleEvent={() => handleTP({ location: 'MainLib' })}
             />
-        </>
+        </group>
     )
 }

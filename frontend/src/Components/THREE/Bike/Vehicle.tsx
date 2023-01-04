@@ -10,6 +10,7 @@ import { BikeProps } from '.'
 import useHandleControls from './hooks/useHandleControls'
 import { Trail } from '@react-three/drei'
 import useBikeContext from '../../../Containers/hooks/useBikeContext'
+import useLocation from '../../../Containers/hooks/useLocation'
 
 
 /**
@@ -61,6 +62,14 @@ const Vehicle = forwardRef((props: VehicleProps, vehicle: RefObject<Mesh>) => {
 	const [wheelRefs, wheelInfos] = useWheels(
 		{ numOfWheels, wheelPosition }) as [any[], WheelInfoOptions[]];
 
+	const { location } = useLocation();
+	useEffect(() => {
+		chassis!.current.api.position.set(...justifyPosition(objectProps.position));
+		chassis!.current.api.rotation.set(...objectProps.rotation)
+		chassis!.current.api.velocity.set(0, 0, 0)
+		chassis!.current.api.angularVelocity.set(0, 0, 0)
+	}, [location]);
+
 	/**
 	 * Physics
 	 * - build the whole vehicle w/ chassis, wheelRef & infos
@@ -89,24 +98,13 @@ const Vehicle = forwardRef((props: VehicleProps, vehicle: RefObject<Mesh>) => {
 	})
 
 	/**
-	 * Front Wheel
+	 * Sound
 	 */
-	const [frontPosition, setFrontPosition] = useState<Triplet>([0, 0, 0]);
-	const [frontRotation, setFrontRotation] = useState<Triplet>([0, 0, 0]);
-	const [angularVelocity, setAngularVelocity] = useState<number>(0);
 	const [speed, setSpeed] = useState<number>(0);
-	const delta: Triplet = [0, wheelPosition.height - 0.24, wheelPosition.front];
-	useEffect(() => {
-		return chassis!.current?.api.position.subscribe((r: Triplet) => setFrontPosition(r));
-	}, [chassis]);
-	useEffect(() => {
-		return chassis!.current?.api.rotation.subscribe((r: Triplet) => setFrontRotation(r));
-	}, [chassis]);
 	useEffect(() => {
 		return chassis!.current?.api.velocity.subscribe((v: Triplet) => {
 			const norm = v.reduce((prev, cur) => (prev + cur * cur), 0)
 			setSpeed(norm);
-			setAngularVelocity(Math.sqrt(norm) / radius);
 		});
 	}, [chassis]);
 	// useSound({ speed });
@@ -115,7 +113,7 @@ const Vehicle = forwardRef((props: VehicleProps, vehicle: RefObject<Mesh>) => {
 	/**
 	 * Get Position
 	 */
-	const { setBikePosition, bikePosition } = useBikeContext();
+	const { setBikePosition } = useBikeContext();
 	useEffect(() => {
 		return chassis!.current?.api.position.subscribe((r: Triplet) => {
 			setBikePosition(() => r);
@@ -123,40 +121,26 @@ const Vehicle = forwardRef((props: VehicleProps, vehicle: RefObject<Mesh>) => {
 	}, [chassis]);
 
 	return (
-		<>
-
-			{/*@ts-ignore*/}
-			<group ref={vehicle}>
-				<BikeMesh
-					ref={chassis}
-					controls={controls}
-					position={justifyPosition(objectProps.position)}
-					rotation={objectProps.rotation}
-					arcadeDirection={arcadeDirection}
-					{...defaultChassisProps} />
-				{
-					wheelRefs.map((ref, i) => (
-						<Wheel
-							key={'wheel' + i}
-							ref={ref}
-							{...wheelProps}
-							display={i == 4 ? 'back' : i == 2 ? 'pedal' : 'none'}
-						/>
-					))
-				}
-				{/* <FrontWheel
-				objectProps={{
-					position: frontPosition,
-					rotation: frontRotation,
-				}}
-				delta={delta}
+		// @ts-ignore
+		< group ref={vehicle} >
+			<BikeMesh
+				ref={chassis}
+				controls={controls}
+				position={justifyPosition(objectProps.position)}
+				rotation={objectProps.rotation}
 				arcadeDirection={arcadeDirection}
-				angularVelocity={angularVelocity}
-			/> */}
-			</group >
-			<Trail target={chassis} />
-
-		</>
+				{...defaultChassisProps} />
+			{
+				wheelRefs.map((ref, i) => (
+					<Wheel
+						key={'wheel' + i}
+						ref={ref}
+						{...wheelProps}
+						display={i == 4 ? 'back' : i == 2 ? 'pedal' : 'none'}
+					/>
+				))
+			}
+		</group >
 	)
 });
 

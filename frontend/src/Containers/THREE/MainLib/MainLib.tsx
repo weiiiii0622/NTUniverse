@@ -8,9 +8,12 @@ import useTeleport from "../../hooks/useTeleport";
 
 const MainLibPosition: Triplet = [300, 0, 300];
 
-export default function MainLib() {
+interface IProps {
+    position: Triplet,
+};
+export default function MainLib({ position }: IProps) {
 
-    const { setIsChangeScene, setBikeEnabled, setBikeTpPosition, setLocation, setBulletinModalOpen } = useMyContext();
+    const { setIsChangeScene, setBikeEnabled, setLocation, setBulletinModalOpen } = useMyContext();
 
     const { handleTP } = useTeleport();
 
@@ -30,13 +33,11 @@ export default function MainLib() {
 
             {/* <AppSky /> */}
 
-            <group position={MainLibPosition} name="main lib. scene">
+            <group position={position} name="main lib. scene">
                 <mesh>
                     <cylinderGeometry args={[10, 10, 0.5, 64]} />
                     <meshStandardMaterial color={'lime'} opacity={1} />
                 </mesh>
-                
-
             </group>
             <InteractiveBlock
                 handleEvent={() => {
