@@ -71,7 +71,7 @@ const InteractiveBlock = ({ position, handleEvent }: IProps) => {
         const dis_z = Math.abs(bikePosition[2] - position[2]);
 
         const dist =  Math.sqrt( dis_x*dis_x + dis_z*dis_z );
-        //console.log(`${dist} / ${args[0]}`);
+        //// console.log(`${dist} / ${args[0]}`);
         if(dist <= delta * args[0]){
             api.start();
             setIsActive(true);

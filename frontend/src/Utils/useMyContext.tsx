@@ -59,6 +59,9 @@ interface IContext {
     setLoadFinished: SetStateType<boolean>,
 
     setBikeEnabled: SetStateType<boolean>,
+
+    chatRoomModalOpen: boolean,
+    setChatRoomModalOpen(x: boolean): void,
 }
 
 const MyContext = createContext<IContext>({
@@ -102,6 +105,9 @@ const MyContext = createContext<IContext>({
     setIsChangeScene: () => { },
     // setBikeTpPosition: () => { },
     setBikeEnabled: () => { },
+
+    chatRoomModalOpen: false,
+    setChatRoomModalOpen: (x) => { },
 });
 
 //const _ = require('lodash');
@@ -141,6 +147,9 @@ const MyProvider = (props: any) => {
     // AboutModal
     const [aboutModalOpen, setAboutModalOpen] = useState(false);
 
+    // ChatRoomModal
+    const [chatRoomModalOpen, setChatRoomModalOpen] = useState(false);
+
     /**
      * 
      * User
@@ -171,7 +180,6 @@ const MyProvider = (props: any) => {
     const [bikeTpPosition, setBikeTpPosition] = useState<Triplet>([0, 0, 0]);
     const [isChangingScene, setIsChangeScene] = useState({ cmd: "", scene: "" });
     const [finish, setFinish] = useState(true);
-
 
     /**
      * 
@@ -268,6 +276,7 @@ const MyProvider = (props: any) => {
                 isLoading, setIsLoading,
                 finish, setFinish,
                 loadFinished, setLoadFinished,
+                chatRoomModalOpen, setChatRoomModalOpen,
             }}
             {...props}
         />

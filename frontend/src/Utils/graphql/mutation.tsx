@@ -78,4 +78,27 @@ const UPDATE_BULLETINMSG_MUTATION = gql`
 
 `;
 
-export {CREATE_USER_MUTATION, UPDATE_USER_MUTATION, CREATE_BULLETINMSG_MUTATION, UPDATE_BULLETINMSG_MUTATION };
+const CREATE_CHATROOM_MUTATION = gql`
+  mutation createChatBox(
+    $chatRoomName: String!, 
+  ){
+    createChatRoom(chatRoomName: $chatRoomName) {
+      id
+    }
+  }
+`;
+
+const CREATE_MRSSAGE_MUTATION = gql`
+  mutation createMessage(
+    $chatRoomName: String!,
+    $sender: String!,
+    $content: String!,
+  ){
+  createMessage(chatRoomName: $chatRoomName, sender: $sender, content: $content){
+    sender
+    content
+  }
+}
+`;
+
+export { CREATE_USER_MUTATION, UPDATE_USER_MUTATION, CREATE_BULLETINMSG_MUTATION, UPDATE_BULLETINMSG_MUTATION, CREATE_CHATROOM_MUTATION, CREATE_MRSSAGE_MUTATION };
