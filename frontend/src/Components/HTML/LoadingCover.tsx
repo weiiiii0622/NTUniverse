@@ -97,7 +97,7 @@ const LoadingCover = () => {
 	const videoRef = useRef<HTMLVideoElement>(null!);
 
 	useEffect(() => {
-		console.log(percent)
+		//console.log(percent)
 	}, [percent]);
 
 	const handleStart = () => {
