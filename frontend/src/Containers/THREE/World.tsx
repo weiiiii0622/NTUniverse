@@ -9,6 +9,7 @@ import useBikeContext from "../hooks/useBikeContext";
 import SFu from "./SFu";
 import useTeleport from "../hooks/useTeleport";
 import { Billboard, Box, Html, ScreenSpace, Text } from "@react-three/drei";
+import useLocation from "../hooks/useLocation";
 
 
 function GroundPhysic() {
@@ -40,10 +41,11 @@ const DebugWorld: FC<any> = ({ debug = false, children }) => {
 function World() {
 
 	const { setBulletinModalOpen, bikeTpPosition } = useMyContext()
-	const { setBikeEnabled, setLocation } = useBikeContext();
+	const { setBikeEnabled } = useBikeContext();
+	const { setLocation } = useLocation();
 
 	const { debug } = useControls('General', {
-		debug: true,
+		debug: false,
 	});
 
 	const { handleTP } = useTeleport();
@@ -91,7 +93,7 @@ function World() {
 				}}
 				position={[15, 0, 0]}
 			/> */}
-			<InteractiveBlock
+			{/* <InteractiveBlock
 				handleEvent={() => {
 					handleTP({
 						location: 'MainLib',
@@ -99,7 +101,7 @@ function World() {
 					})
 				}}
 				position={[0, 0, 25]}
-			/>
+			/> */}
 		</DebugWorld >
 	)
 }

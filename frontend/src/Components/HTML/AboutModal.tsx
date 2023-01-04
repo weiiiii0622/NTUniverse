@@ -29,7 +29,6 @@ import {
     IdcardOutlined,
     InstagramOutlined
 } from '@ant-design/icons';
-import countapi from 'countapi-js';
 
 import { useMyContext } from '../../Utils/useMyContext';
 import { USERALL_QUERY } from '../../Utils/graphql';
