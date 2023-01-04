@@ -63,7 +63,7 @@ const StyledDivider = styled(Divider)`
 
 
 const BulletinModal = () => {
-    const { bulletinModalOpen, setBulletinModalOpen, me, isLogin, location, setLocation, bulletinMessages, leaveComment, likeComment, setProfileModalOpen, setProfileUser } = useMyContext();
+    const { bulletinModalOpen, setBulletinModalOpen, me, isLogin, bulletinLocation, setBulletinLocation, bulletinMessages, leaveComment, likeComment, setProfileModalOpen, setProfileUser } = useMyContext();
     const { setBikeEnabled } = useBikeContext();
     const [pageInfo, setPageInfo] = useState({ page: 0, size: 4 });
     const [load, setLoad] = useState(false);
@@ -86,7 +86,7 @@ const BulletinModal = () => {
         setLoad(true);
         let newMsg = await leaveComment({
             variables: {
-                location: location,
+                location: bulletinLocation,
                 author: me['id'],
                 body: form.getFieldValue('body'),
                 tags: tags,
@@ -154,7 +154,7 @@ const BulletinModal = () => {
     const handleIsLiked = async (idx, isLiked) => {
         let newMsg = await likeComment({
             variables: {
-                location: location,
+                location: bulletinLocation,
                 id: bulletinMessages[idx].id,
                 email: me['email'],
                 isLiked: isLiked,
@@ -170,14 +170,14 @@ const BulletinModal = () => {
     return (
         <>
             <StyledModal
-                title={`${location}的留言板 🪧`}
+                title={`${bulletinLocation}的留言板 🪧`}
                 centered
                 open={bulletinModalOpen}
                 //onOk={handleOk}
                 onCancel={() => {
                     form.resetFields();
                     setTags([]);
-                    setLocation("");
+                    setBulletinLocation("");
                     setBikeEnabled(true);
                     setCanSubmit(false);
                     setLoad(false);
