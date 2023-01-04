@@ -27,21 +27,26 @@ const Query = {
   },
 
   // ChatRoom
-  worldChannel: async (parent: any, args: any, { ChatRoomModel }: any) => {
-    let worldChannel = await ChatRoomModel.findOne({ chatRoomName: 'World Channel' });
-    if (!worldChannel) {
-      worldChannel = await new ChatRoomModel({
-        chatRoomName: 'World Channel',
-        messages: {
-          sender: 'NTUniverse',
-          content: 'Welcome to NTUniverse',
-          readBy: ['NTUniverse'],
-        }
-      }).save();
+  chatRoom: async (parent: any, args: any, { ChatRoomModel }: any) => {
+    const { chatRoomName } = args;
+    let data;
+    let chatRoom = await ChatRoomModel.findOne({ chatRoomName: chatRoomName });
+    if (!chatRoom) {
+      if (chatRoomName === 'World Channel') {
+        data = {
+          chatRoomName: 'World Channel',
+          messages: {
+            sender: 'NTUniverse',
+            content: 'Welcome to NTUniverse',
+            readBy: ['NTUniverse'],
+          }
+        };
+        chatRoom = await new ChatRoomModel(data).save();
+      } else {
+        throw new Error('Chat Room does not exist');  
+      }
     }
-    console.log();
-    
-    return worldChannel;
+    return chatRoom;
   }
 };
 

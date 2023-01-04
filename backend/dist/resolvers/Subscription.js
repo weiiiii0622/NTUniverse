@@ -8,9 +8,9 @@ const Subscription = {
             return pubsub.subscribe(`bulletin ${location}`);
         }
     },
-    chatRoom: {
+    newMessage: {
         subscribe: (parent, { chatRoomName }, { pubsub }) => {
-            console.log(`bulletin ${location} subscribed`);
+            console.log(`chatRoom ${chatRoomName} subscribed`);
             return pubsub.subscribe(`chatRoom ${chatRoomName}`);
         },
     }

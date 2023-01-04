@@ -57,17 +57,18 @@ const BULLETIN_QUERY = gql`
   }
 `;
 
-const WORLDCHANNEL_QUERY = gql`
-  query{
-    worldChannel {
+const CHATROOM_QUERY = gql`
+  query chatRoom ($chatRoomName: String!){
+    chatRoom(chatRoomName: $chatRoomName) {
       id
       messages {
         sender
         readBy
         content
       }
+      readBy
     }
   } 
 `;
 
-export { USER_QUERY, USERALL_QUERY, BULLETIN_QUERY };
+export { USER_QUERY, USERALL_QUERY, BULLETIN_QUERY, CHATROOM_QUERY };

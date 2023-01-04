@@ -1,8 +1,8 @@
 import { useState, useEffect, createContext, useContext } from "react";
 import { IChatRoom, IMessage } from "./IChatRoom";
 import _ from "lodash";
-import { useMutation } from "@apollo/client";
-import { CREATE_CHATROOM_MUTATION } from "../../graphql/mutation";
+import { useMutation, useQuery } from "@apollo/client";
+import { CHATROOM_QUERY, CREATE_CHATROOM_MUTATION } from "../graphql/index";
 import { message } from "antd";
 import { useMyContext } from "../useMyContext";
 
@@ -56,7 +56,7 @@ const ChatRoomProvider = (props: any) => {
   // const [friend, setFriend] = useState<string>('');
   // const [box, setBox] = useState<string>("");
   const { me, chatRoomModalOpen, setChatRoomModalOpen, setBikeEnabled } = useMyContext();
-  
+
   // Modal
   const [secondOpen, setSecondOpen] = useState(false);
   const [createOpen, setCreateOpen] = useState(false);
@@ -66,11 +66,6 @@ const ChatRoomProvider = (props: any) => {
     console.log(chatRooms);
   }, [chatRooms]);
   const [activeRoom, setActiveRoom] = useState(0);
-
-  // about messages
-  // const [body, setBody] = useState<string>('');
-  // const { loading: chatLoading, error, data: chatData } = useQueryChat({ nick_name, friend, box });
-  // const { sendMessage, clearMessages } = useMessages({ nick_name, friend, box });
 
   const scrollToBottom = () => { }
 
@@ -104,6 +99,11 @@ const ChatRoomProvider = (props: any) => {
     })
   };
 
+  /**
+   * 
+   * graphql
+   * 
+   */
   const [createChatBoxMutation] = useMutation(CREATE_CHATROOM_MUTATION);
 
   const handleCreate = (newChatroom: any) => {
@@ -125,11 +125,10 @@ const ChatRoomProvider = (props: any) => {
         users: newChatroom.users,
       }
     })
-
     message.success({ content: 'Chat room created.', duration: 0.75 });
-
   }
 
+  
 
   return (
     <ChatRoomContext.Provider

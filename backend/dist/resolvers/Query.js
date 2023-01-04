@@ -35,20 +35,27 @@ const Query = {
         return msg;
     }),
     // ChatRoom
-    worldChannel: (parent, args, { ChatRoomModel }) => __awaiter(void 0, void 0, void 0, function* () {
-        let worldChannel = yield ChatRoomModel.findOne({ chatRoomName: 'World Channel' });
-        if (!worldChannel) {
-            worldChannel = yield new ChatRoomModel({
-                chatRoomName: 'World Channel',
-                messages: {
-                    sender: 'NTUniverse',
-                    content: 'Welcome to NTUniverse',
-                    readBy: ['NTUniverse'],
-                }
-            }).save();
+    chatRoom: (parent, args, { ChatRoomModel }) => __awaiter(void 0, void 0, void 0, function* () {
+        const { chatRoomName } = args;
+        let data;
+        let chatRoom = yield ChatRoomModel.findOne({ chatRoomName: chatRoomName });
+        if (!chatRoom) {
+            if (chatRoomName === 'World Channel') {
+                data = {
+                    chatRoomName: 'World Channel',
+                    messages: {
+                        sender: 'NTUniverse',
+                        content: 'Welcome to NTUniverse',
+                        readBy: ['NTUniverse'],
+                    }
+                };
+                chatRoom = yield new ChatRoomModel(data).save();
+            }
+            else {
+                throw new Error('Chat Room does not exist');
+            }
         }
-        console.log();
-        return worldChannel;
+        return chatRoom;
     })
 };
 exports.default = Query;

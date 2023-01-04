@@ -93,7 +93,7 @@ const CREATE_MRSSAGE_MUTATION = gql`
   mutation createMessage(
     $chatRoomName: String!,
     $sender: String!,
-    content: String!,
+    $content: String!,
   ){
   createMessage(chatRoomName: $chatRoomName, sender: $sender, content: $content){
     sender
@@ -103,4 +103,4 @@ const CREATE_MRSSAGE_MUTATION = gql`
 }
 `;
 
-export { CREATE_USER_MUTATION, UPDATE_USER_MUTATION, CREATE_BULLETINMSG_MUTATION, UPDATE_BULLETINMSG_MUTATION, CREATE_CHATROOM_MUTATION };
+export { CREATE_USER_MUTATION, UPDATE_USER_MUTATION, CREATE_BULLETINMSG_MUTATION, UPDATE_BULLETINMSG_MUTATION, CREATE_CHATROOM_MUTATION, CREATE_MRSSAGE_MUTATION };

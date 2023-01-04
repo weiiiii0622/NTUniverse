@@ -8,6 +8,7 @@ import { GoogleLogin, googleLogout } from '@react-oauth/google';
 import jwt_decode from 'jwt-decode'
 
 import { useMyContext } from '../../Utils/useMyContext';
+import useQueryChat from '../../Containers/HTML/ChatRoom/hooks/useQueryChat';
 
 
 
@@ -56,6 +57,9 @@ const LoginModal = () => {
           setLoading(false);
           setIsLogin(true);
           setBikeEnabled(true);
+          useQueryChat({ chatRoomName: 'World Channel'})
+          console.log('099999');
+          
           message.success(`歡迎回來 ${nick_name}`);
         }, 1000);
     };

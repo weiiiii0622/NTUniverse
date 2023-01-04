@@ -47,7 +47,7 @@ const Schema = (0, apollo_server_express_1.gql) `
     userByEmail(email: String!): User!
     bulletin(location: String!): Bulletin!
     bulletinMsg(author: ID!): [BulletinMsg!]
-    worldChannel: ChatRoom!
+    chatRoom(chatRoomName: String!): ChatRoom!
   }
 
   type Mutation {
@@ -61,7 +61,7 @@ const Schema = (0, apollo_server_express_1.gql) `
 
   type Subscription {
     bulletin(location: String!): BulletinMsgSubscriptionPayload!
-    chatRoom(chatRoomName: String!): ChatRoom!
+    newMessage(chatRoomName: String!): [Message]!
   }
 
   type BulletinMsgSubscriptionPayload {

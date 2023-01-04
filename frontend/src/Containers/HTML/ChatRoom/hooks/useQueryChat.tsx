@@ -1,62 +1,157 @@
 import { useQuery } from '@apollo/client';
 import React from 'react';
-import { ChatBoxSchema, CHATBOX_QUERY, MESSAGE_SUBSCRIPTION } from '../../graphql';
+import { CHATROOM_QUERY, NEWMESSAGE_SUBSCRIPTION } from '../../../../Utils/graphql';
 import { useEffect, useState } from "react"
 import _ from 'lodash';
 
 
 interface useQueryChatProps {
-  nick_name: string,
-  friend: string,
-  box: string;
+  chatRoomName: String,
 }
 
 
 const useQueryChat = (props: useQueryChatProps) => {
+  const { chatRoomName } = props;
 
-  const { nick_name, friend, box } = props;
+  console.log('useQueryChat');
+  
 
-  const { loading, error, data, subscribeToMore } = useQuery(
-    CHATBOX_QUERY, {
+  const { data, loading, subscribeToMore } = useQuery(CHATROOM_QUERY, {
     variables: {
-      name: box,
+      chatRoomName: chatRoomName,
     },
     fetchPolicy: "cache-and-network",
-  });
+  })
 
   useEffect(() => {
+    let unsub;
     try {
-      return subscribeToMore({
-        document: MESSAGE_SUBSCRIPTION,
-        variables: { from: nick_name, to: friend },
-        updateQuery: (prev: { chatBox: ChatBoxSchema }, { subscriptionData }) => {
-          if (!subscriptionData)
-            return prev;
+      console.log(`chatroom sub! ${chatRoomName}`);
+      unsub = subscribeToMore({
+        document: NEWMESSAGE_SUBSCRIPTION,
+        variables: { chatRoomName: chatRoomName },
+        updateQuery: (prev, { subscriptionData }) => {
 
-          console.log(subscriptionData.data.message.message);
-          const mutationType = subscriptionData.data.message.mutation;
-          const newData = _.cloneDeep(prev);
-
-          switch (mutationType) {
-            case "CREATE": {
-              const newMessage = subscriptionData.data.message.message;
-              newData.chatBox.messages.push(newMessage);
-              break;
-            }
-            case "CLEAR": {
-              newData.chatBox.messages = [];
-              break;
-            }
-          }
-          return newData;
-        }
-      })
+          console.log("subData:")
+          console.log(subscriptionData);
+          return prev;
+          
+          // if (!subscriptionData) return prev;
+          // var newMessage = subscriptionData.data.bulletin.data;
+          // const type = subscriptionData.data.bulletin.type;
+          // //console.log("prev:");
+          // //console.log(prev);
+          // let temp = _.cloneDeep(prev);
+          // //console.log(temp);
+          // if (temp.bulletin === undefined) {
+          //   temp = {
+          //     bulletin: {
+          //       messages: []
+          //     }
+          //   }
+          // }
+          // if (type === "CREATED") {
+          //   return {
+          //     bulletin: {
+          //       __typename: "Bulletin",
+          //       location: location,
+          //       messages: [...temp.bulletin.messages, newMessage],
+          //     }
+          //   };
+          // }
+          // else if (type === "UPDATED") {
+          //   let newMsgs = temp.bulletin.messages;
+          //   let idx = newMsgs.findIndex((msg) => { return msg.id === newMessage.id });
+          //   //console.log(idx);
+          //   newMsgs[idx] = newMessage;
+          //   return {
+          //     bulletin: {
+          //       __typename: "Bulletin",
+          //       location: location,
+          //       messages: [...newMsgs],
+          //     }
+          //   };
+          // }
+        },
+      });
     } catch (e) {
-      console.error(e);
+      console.log(e);
     }
-  }, [box, subscribeToMore]);
+    return () => unsub();
+  }, [subscribeToMore, chatRoomName]);
 
-  return { loading, error, data };
+  // const { nick_name, friend, box } = props;
+
+  // const { loading, error, data, subscribeToMore } = useQuery(
+  //   CHATBOX_QUERY, {
+  //   variables: {
+  //     name: box,
+  //   },
+  //   fetchPolicy: "cache-and-network",
+  // });
+
+  // useEffect(() => {
+  //   const { data, loading, subscribeToMore } = useQuery(CHATROOM_QUERY, {
+  //     variables: {
+  //       chatRoomName: location,
+  //     },
+  //     fetchPolicy: "cache-and-network",
+  //   })
+
+  //   useEffect(() => {
+  //     let unsub;
+  //     try {
+  //       console.log(`sub! ${location}`);
+  //       unsub = subscribeToMore({
+  //         document: BULLETIN_SUBSCRIPTION,
+  //         variables: { location: location },
+  //         updateQuery: (prev, { subscriptionData }) => {
+
+  //           //console.log("subData:")
+  //           //console.log(subscriptionData);
+  //           if (!subscriptionData) return prev;
+  //           var newMessage = subscriptionData.data.bulletin.data;
+  //           const type = subscriptionData.data.bulletin.type;
+  //           //console.log("prev:");
+  //           //console.log(prev);
+  //           let temp = _.cloneDeep(prev);
+  //           //console.log(temp);
+  //           if (temp.bulletin === undefined) {
+  //             temp = {
+  //               bulletin: {
+  //                 messages: []
+  //               }
+  //             }
+  //           }
+  //           if (type === "CREATED") {
+  //             return {
+  //               bulletin: {
+  //                 __typename: "Bulletin",
+  //                 location: location,
+  //                 messages: [...temp.bulletin.messages, newMessage],
+  //               }
+  //             };
+  //           }
+  //           else if (type === "UPDATED") {
+  //             let newMsgs = temp.bulletin.messages;
+  //             let idx = newMsgs.findIndex((msg) => { return msg.id === newMessage.id });
+  //             //console.log(idx);
+  //             newMsgs[idx] = newMessage;
+  //             return {
+  //               bulletin: {
+  //                 __typename: "Bulletin",
+  //                 location: location,
+  //                 messages: [...newMsgs],
+  //               }
+  //             };
+  //           }
+  //         },
+  //       });
+  //     } catch (e) {
+  //       console.log(e);
+  //     }
+  //     return () => unsub();
+  //   }, [subscribeToMore, location]);
 }
 
 export default useQueryChat;

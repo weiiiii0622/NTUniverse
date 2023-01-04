@@ -27,4 +27,14 @@ const BULLETIN_SUBSCRIPTION = gql`
   }
 `;
 
-export { BULLETIN_SUBSCRIPTION };
+const NEWMESSAGE_SUBSCRIPTION = gql`
+  subscription newMessage($chatRoomName: String!){
+    chatRoom(chatRoomName: $chatRoomName) {
+        sender
+        content
+        readBy
+    }
+  }
+`;
+
+export { BULLETIN_SUBSCRIPTION, NEWMESSAGE_SUBSCRIPTION };
