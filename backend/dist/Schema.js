@@ -16,15 +16,16 @@ const Schema = (0, apollo_server_express_1.gql) `
   }
 
   type ChatRoom {
+    id: ID!
     chatRoomName: String!
-    users: [User!]!
-    messages: [Message!]
+    users: [String!]!
+    messages: [Message]!
   }
 
   type Message {
-    chatRoomName: String!
-    sender: User!
-    time: DateTime!
+    sender: String!,
+    content: String!,
+    readBy: [String]!,
   }
   
   type Bulletin {
@@ -46,6 +47,7 @@ const Schema = (0, apollo_server_express_1.gql) `
     userByEmail(email: String!): User!
     bulletin(location: String!): Bulletin!
     bulletinMsg(author: ID!): [BulletinMsg!]
+    chatRoom(chatRoomName: String!): ChatRoom!
   }
 
   type Mutation {
@@ -53,10 +55,13 @@ const Schema = (0, apollo_server_express_1.gql) `
     updateUser(email: String!, nick_name: String!, picture: String!, description: String!): User!
     createBulletinMsg(location: String!, author: ID!, body: String!, tags:[String]): BulletinMsg!
     updateBulletinMsg(location: String!, id: ID!, email: String!, isLiked: Boolean!): BulletinMsg!
+    createChatRoom(chatRoomName: String!): ChatRoom!
+    createMessage(chatRoomName: String!, sender: String!, content: String!): [Message]!
   }
 
   type Subscription {
     bulletin(location: String!): BulletinMsgSubscriptionPayload!
+    newMessage(chatRoomName: String!): [Message]!
   }
 
   type BulletinMsgSubscriptionPayload {

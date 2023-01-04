@@ -9,6 +9,7 @@ import jwt_decode from 'jwt-decode'
 
 import { useMyContext } from '../../Utils/useMyContext';
 import useBikeContext from '../../Containers/hooks/useBikeContext';
+import useQueryChat from '../../Containers/HTML/ChatRoom/hooks/useQueryChat';
 
 
 

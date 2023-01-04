@@ -23,10 +23,12 @@ const Subscription_1 = __importDefault(require("./resolvers/Subscription"));
 const userModel_1 = __importDefault(require("./models/userModel"));
 const bulletinModel_1 = __importDefault(require("./models/bulletinModel"));
 const bulletinMsgModel_1 = __importDefault(require("./models/bulletinMsgModel"));
+const chatRoomModel_1 = __importDefault(require("./models/chatRoomModel"));
 // import { DateTimeResolver } from 'graphql-scalars';
 // import dateScalar from './resolvers/Date';
 const Bulletin_1 = __importDefault(require("./resolvers/Bulletin"));
 const BulletinMsg_1 = __importDefault(require("./resolvers/BulletinMsg"));
+const ChatRoom_1 = __importDefault(require("./resolvers/ChatRoom"));
 const pubsub = (0, graphql_yoga_1.createPubSub)();
 const yoga = (0, graphql_yoga_1.createYoga)({
     schema: (0, graphql_yoga_1.createSchema)({
@@ -39,12 +41,14 @@ const yoga = (0, graphql_yoga_1.createYoga)({
             // DateTime: DateTimeResolver,
             Bulletin: Bulletin_1.default,
             BulletinMsg: BulletinMsg_1.default,
+            ChatRoom: ChatRoom_1.default,
         }),
     }),
     context: ({
         UserModel: userModel_1.default,
         BulletinModel: bulletinModel_1.default,
         BulletinMsgModel: bulletinMsgModel_1.default,
+        ChatRoomModel: chatRoomModel_1.default,
         pubsub,
     }),
     //  graphqlEndpoint: '/',   // uncomment this to send the app to: 4000/

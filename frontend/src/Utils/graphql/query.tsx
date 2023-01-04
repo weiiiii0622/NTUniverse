@@ -57,4 +57,18 @@ const BULLETIN_QUERY = gql`
   }
 `;
 
-export { USER_QUERY, USERALL_QUERY, BULLETIN_QUERY };
+const CHATROOM_QUERY = gql`
+  query chatRoom ($chatRoomName: String!){
+    chatRoom(chatRoomName: $chatRoomName) {
+      id
+      chatRoomName
+      users
+      messages {
+        sender
+        content
+      }
+    }
+  } 
+`;
+
+export { USER_QUERY, USERALL_QUERY, BULLETIN_QUERY, CHATROOM_QUERY };
