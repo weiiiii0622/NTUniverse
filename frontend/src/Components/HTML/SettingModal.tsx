@@ -2,13 +2,10 @@ import './../../index.css'
 import React, { useState, useEffect } from 'react';
 import { useQuery } from '@apollo/client';
 import {
-    Form,
-    Input,
     Button,
     Modal,
     Row,
     Col,
-    Image,
     Statistic,
     message,
     Card,
@@ -17,6 +14,12 @@ import {
 } from 'antd';
 import {
     SettingOutlined,
+    UpSquareOutlined,
+    DownSquareOutlined,
+    LeftSquareOutlined,
+    RightSquareOutlined,
+    EnterOutlined,
+    BulbOutlined
 } from '@ant-design/icons';
 
 import { useMyContext } from '../../Utils/useMyContext';
@@ -136,6 +139,101 @@ const SettingModal = () => {
                                     val={volumeValue}
                                     setVal={setVolumeValue}
                                 />
+                            </Card>
+                        </Col>
+                    </Row>
+                    <Row gutter={5} style={{ marginBottom: '5px' }}>
+                        <Col span={24}>
+                            <Card
+                                title={<>操作指南 <BulbOutlined/></>}
+                                hoverable={true}
+                                bordered={false}
+                                style={{
+                                    height: '100%',
+                                    backgroundColor: '#e9ecef'
+                                }}
+                            >
+                                <Row gutter={5} style={{ marginBottom: '5px' }}>
+                                    <Col span={17}>
+                                        <Card
+                                            hoverable={true}
+                                            bordered={false}
+                                            style={{
+                                                height: '100%',
+                                            }}
+                                        >
+                                            <Statistic
+                                                title="操控汽車"
+                                                value={"W S A D / "}
+                                                suffix={<><LeftSquareOutlined/><UpSquareOutlined/><DownSquareOutlined/><RightSquareOutlined/></>}
+                                                //prefix={<TeamOutlined />}
+                                            />
+
+                                        </Card>
+                                    </Col>
+                                    <Col span={7}>
+                                        <Card
+                                            hoverable={true}
+                                            bordered={false}
+                                            style={{
+                                                height: '100%',
+                                            }}
+                                        >
+                                            <Statistic
+                                                title="回到起點"
+                                                value={"R"}
+                                                //prefix={<TeamOutlined />}
+                                            />
+                                        </Card>
+                                    </Col>
+                                </Row>
+                                <Row gutter={5} style={{ marginBottom: '5px' }}>
+                                    <Col span={6}>
+                                        <Card
+                                            hoverable={true}
+                                            bordered={false}
+                                            style={{
+                                                height: '100%',
+                                            }}
+                                        >
+                                            <Statistic
+                                                title="喇叭"
+                                                value={"L"}
+                                                //prefix={<TeamOutlined />}
+                                            />
+                                        </Card>
+                                    </Col>
+                                    <Col span={11}>
+                                        <Card
+                                            hoverable={true}
+                                            bordered={false}
+                                            style={{
+                                                height: '100%',
+                                            }}
+                                        >
+                                            <Statistic
+                                                title="與地圖互動"
+                                                value={"E / Enter"}
+                                                suffix={<EnterOutlined />}
+                                            />
+                                        </Card>
+                                    </Col>
+                                    <Col span={7}>
+                                        <Card
+                                            hoverable={true}
+                                            bordered={false}
+                                            style={{
+                                                height: '100%',
+                                            }}
+                                        >
+                                            <Statistic
+                                                title="切換視角"
+                                                value={"Y"}
+                                                //prefix={<TeamOutlined />}
+                                            />
+                                        </Card>
+                                    </Col>
+                                </Row>    
                             </Card>
                         </Col>
                     </Row>
