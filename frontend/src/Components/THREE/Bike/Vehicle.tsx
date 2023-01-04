@@ -66,7 +66,7 @@ const Vehicle = forwardRef((props: VehicleProps, vehicle: RefObject<Mesh>) => {
 	const { location } = useLocation();
 	useEffect(() => {
 
-		console.log(objectProps);
+		//console.log(objectProps);
 
 		chassis!.current.api.position.set(...justifyPosition(objectProps.position));
 		chassis!.current.api.rotation.set(...objectProps.rotation)
