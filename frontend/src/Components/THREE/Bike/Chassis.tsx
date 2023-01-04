@@ -1,38 +1,18 @@
-import { Triplet, useBox, useCompoundBody } from "@react-three/cannon";
-import React, { RefObject, useContext, useEffect } from "react";
-import { Mesh } from "three";
+import { Quad, Triplet, useBox, useCompoundBody } from "@react-three/cannon";
+import React, { RefObject, useContext, useEffect, useState } from "react";
+import { Mesh, Quaternion, Vector3 } from "three";
 import ModelFBX from "../models/ModelFBX";
 import { useSpring, animated, config } from '@react-spring/three';
 import { ArcadeDirection } from "./Vehicle";
-import { useThree } from "@react-three/fiber";
+import { Euler, useThree } from "@react-three/fiber";
 import { PerspectiveCamera } from "@react-three/drei";
 import { IControls } from "./hooks/useControls";
 import { ThreeContext } from "../../../Containers/THREE/Canvas";
-
-
-type BikeCameraType = 'default';
-
-const bikeCamPositions: Record<BikeCameraType, Triplet> = {
-	default: [-10, 13, -13]
-}
-
-
-interface BikeCameraProps {
-	type?: BikeCameraType,
-};
-
-function BikeCamera({ type = 'default' }: BikeCameraProps) {
-
-	return (
-		<>
-			<PerspectiveCamera
-				position={bikeCamPositions[type]}
-				name="My camera"
-				makeDefault
-			/>
-		</>
-	)
-}
+import { useControls } from "leva";
+import { SetStateType } from "../../../Utils/type";
+import AppOrbitControls from "../scene/OrbitControls";
+import useBikeContext, { BikeCameraType } from "../../../Containers/hooks/useBikeContext";
+import BikeCamera from "./BikeCamera";
 
 
 interface BikeMeshProps {
@@ -94,15 +74,18 @@ const BikeMesh = React.forwardRef<any, BikeMeshProps>(
 		}));
 
 		useEffect(() => {
-			camera.lookAt(chassis.current.position);
-		}, [api, camera]);
-
-		useEffect(() => {
 			return api.velocity.subscribe(v => {
 				const sign = controls.current.forward ? -1 : 1;
 				frontWheelApi.angularVelocity.set(
 					Math.sqrt(v[0] * v[0] + v[1] * v[1] + v[2] * v[2]) * sign / 0.66, 0, 0
 				);
+			})
+		}, [api]);
+
+		const [bikeRotation, setBikeRotation] = useState<Quad>([0, 0, 0, 0]);
+		useEffect(() => {
+			return api.quaternion.subscribe(q => {
+				setBikeRotation(q);
 			})
 		}, [api]);
 
@@ -144,7 +127,7 @@ const BikeMesh = React.forwardRef<any, BikeMeshProps>(
 					</animated.group>
 				</animated.mesh>
 
-				<BikeCamera />
+				<BikeCamera {...{ bikeRotation }} />
 			</mesh>
 		)
 	});
