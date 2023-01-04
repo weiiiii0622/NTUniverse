@@ -58,6 +58,7 @@ const FirstLevelModal = (props: IFirstLevelProps) => {
             <CreateChatModal />
             <div style={{
               position: 'absolute',
+              paddingTop: '10px',
               bottom: 0,
               height: '86%',
               width: '330px',
@@ -69,8 +70,13 @@ const FirstLevelModal = (props: IFirstLevelProps) => {
                 // loading={true}
                 renderItem={(item, idx) => (
                   <Card
-                    style={{}}
+                    style={{
+                      marginTop: '2px',
+                      // borderColor: 'grey',
+                      // borderBlockWidth: '0.5px'
+                    }}
                     hoverable={true}
+                    bordered={true}
                   >
                     <List.Item
                       style={{
@@ -86,6 +92,7 @@ const FirstLevelModal = (props: IFirstLevelProps) => {
                           display: 'flex',
                           justifyContent: 'center',
                           alignContent: 'center',
+                          marginBottom: '0',
                         }}
                         avatar={
                           <div style={{ position: 'relative', top: '16px' }}>
@@ -95,7 +102,7 @@ const FirstLevelModal = (props: IFirstLevelProps) => {
                           </div>
                         }
                         title={
-                          <h3 style={{ display: 'inline' }}>{item.name}</h3>
+                          <h3 style={{}}>{item.name}</h3>
                         }
                       // description={item.lastMsg}
                       />

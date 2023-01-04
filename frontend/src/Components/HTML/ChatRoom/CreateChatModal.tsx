@@ -43,7 +43,9 @@ const CreateChatModal = (props: ICreateChatModal) => {
 
   return (
     <>
-      <Button icon={<PlusOutlined />} onClick={() => setCreateOpen(true)}>建立聊天室</Button>
+      <div>
+        <Button style={{marginBottom: '5px'}} icon={<PlusOutlined />} onClick={() => setCreateOpen(true)}>建立聊天室</Button>
+      </div>
       {/* <div style={{ position: 'sticky', top: 0 }}>
       </div>
        */}
