@@ -46,9 +46,9 @@ const Message = (props: IMessage) => {
   const isMe = sender === myEmail;
   return (
     <>
-      <StyledName isMe={isMe}>
+      {/* <StyledName isMe={isMe}>
         <p>{sender}</p>
-      </StyledName>
+      </StyledName> */}
       <StyledMessage isMe={isMe}>
         {!isMe && <SmileTwoTone style={{ fontSize: '20px' }} />} <div>{content}</div>
       </StyledMessage>
