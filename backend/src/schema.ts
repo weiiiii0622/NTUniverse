@@ -18,12 +18,12 @@ const Schema = gql`
   type ChatRoom {
     id: ID!
     chatRoomName: String!
-    users: [String!]!
     messages: [Message]!
   }
 
   type Message {
     sender: String!,
+    senderNick: String!,
     content: String!,
   }
   
@@ -55,12 +55,12 @@ const Schema = gql`
     createBulletinMsg(location: String!, author: ID!, body: String!, tags:[String]): BulletinMsg!
     updateBulletinMsg(location: String!, id: ID!, email: String!, isLiked: Boolean!): BulletinMsg!
     createChatRoom(chatRoomName: String!): ChatRoom!
-    createMessage(chatRoomName: String!, sender: String!, content: String!): [Message]!
+    createMessage(chatRoomName: String!, sender: String!, senderNick: String, content: String!): Message!
   }
 
   type Subscription {
     bulletin(location: String!): BulletinMsgSubscriptionPayload!
-    newMessage(chatRoomName: String!): [Message]!
+    newMessage(chatRoomName: String!): Message!
   }
 
   type BulletinMsgSubscriptionPayload {

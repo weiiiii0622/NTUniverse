@@ -25,7 +25,6 @@ const TutorialModal: React.FC = () => {
           <p>登入帳戶來獲得完整體驗</p>
         </>
       )
-      //   target: () => ref1.current,
     },
     {
       title: null,
@@ -36,7 +35,6 @@ const TutorialModal: React.FC = () => {
           <p>利用 WSAD 來控制腳踏車</p>
         </>
       )
-      //   target: () => ref1.current,
     },
     {
       title: null,
@@ -46,8 +44,7 @@ const TutorialModal: React.FC = () => {
           <h2>聊天室</h2>
           <p>與朋友加入同一個聊天室盡情暢談</p>
         </>
-      )
-      //   target: () => ref3.current,
+      ),
     },
     {
       title: null,

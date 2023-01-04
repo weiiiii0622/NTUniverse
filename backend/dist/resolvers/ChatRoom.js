@@ -7,9 +7,6 @@ const ChatRoom = {
     chatRoomName: (parent, args, { ChatRoomModal }, info) => {
         return parent.chatRoomName;
     },
-    users: (parent, args, { ChatRoomModal }, info) => {
-        return parent.users;
-    },
     messages: (parent, args, { ChatRoomModal }, info) => {
         return parent.messages;
     }
