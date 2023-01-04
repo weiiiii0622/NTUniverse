@@ -1,6 +1,7 @@
 import { useFrame } from "@react-three/fiber";
 import { Howl } from "howler";
 import { useEffect } from 'react';
+import useBikeContext from "../../../../Containers/hooks/useBikeContext";
 
 interface IProps {
     speed: number,
@@ -32,13 +33,19 @@ const lingLing = (e: KeyboardEvent) => {
 const minSpeed = 15;
 const maxSpeed = 30;
 
-const totalVolume = 0;  // should be a context state in the future
+const totalVolume = 1;  // should be a context state in the future
 
 export default function useSound({ speed }: IProps) {
 
+    const { bikeEnabled } = useBikeContext();
+
     useEffect(() => {
+
+        if (!bikeEnabled)
+            return;
+
         sound1.play();
-        sound2.play();  
+        sound2.play();
 
         window.addEventListener('keypress', lingLing);
 
@@ -47,7 +54,7 @@ export default function useSound({ speed }: IProps) {
             sound2.stop();
             window.removeEventListener('keypress', lingLing);
         }
-    }, []);
+    }, [bikeEnabled]);
 
     useFrame(() => {
         if (isFinite(Math.sqrt(Math.sqrt(speed / minSpeed))))
