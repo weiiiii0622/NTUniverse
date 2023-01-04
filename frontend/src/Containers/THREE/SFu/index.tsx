@@ -24,7 +24,7 @@ export default function SFu({ position }: IProps) {
         <group position={position}>
             <SFuCollisionBox />
 
-            {/* <Scene />*/}
+            <Scene />
 
             <QuestionMark
                 position={[5.5, 7.5, 5.1]}
