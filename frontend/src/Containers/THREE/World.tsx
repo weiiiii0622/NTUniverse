@@ -7,7 +7,7 @@ import { useControls } from "leva";
 import MainLib, { MainLibPosition } from "./MainLib/MainLib";
 import useBikeContext from "../hooks/useBikeContext";
 import SFu from "./SFu";
-import useTeleport from "../hooks/useTeleport";
+import useTeleport from "../../Utils/useEvent";
 import { Billboard, Box, Html, ScreenSpace, Text } from "@react-three/drei";
 import useLocation from "../hooks/useLocation";
 
@@ -62,12 +62,6 @@ function World() {
 		debug: false,
 	});
 
-	const handleOpenBulletin = ({ location }) => {
-		setLocation(location);
-		setBikeEnabled(false);
-		setBulletinModalOpen(true);
-	}
-
 	return (
 		<DebugWorld debug={debug} >
 			<Bike objectProps={{
@@ -78,42 +72,6 @@ function World() {
 
 			{displayScene()}
 
-			{/* <InteractiveBlock
-				handleEvent={() => {
-					handleTP({
-						scene: '幹你老師',
-						pos: [0, 0, 15]
-					})
-				}}
-				position={[0, 0, -15]}
-			/>
-			<InteractiveBlock
-				handleEvent={() => {
-					handleTP({
-						scene: '操你媽',
-						pos: [0, 0, -15]
-					})
-				}}
-				position={[0, 0, 15]}
-			/>
-
-			<InteractiveBlock
-				handleEvent={() => {
-					handleOpenBulletin({
-						location: "小福廣場",
-					})
-				}}
-				position={[15, 0, 0]}
-			/> */}
-			{/* <InteractiveBlock
-				handleEvent={() => {
-					handleTP({
-						location: 'MainLib',
-						// pos: MainLibPosition
-					})
-				}}
-				position={[0, 0, 25]}
-			/> */}
 		</DebugWorld >
 	)
 }
