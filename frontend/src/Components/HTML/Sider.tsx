@@ -97,15 +97,15 @@ const MySider: React.FC = () => {
 			collapsed={collapsed}
 			onCollapse={(value) => setCollapsed(value)}
 			theme='light'
-		// style={{
-		//   overflow: 'auto',
-		//   height: '100vh',
-		//   position: 'absolute',
-		//   left: 0,
-		//   top: 0,
-		//   bottom: 0,
-		//   zIndex: '50',
-		// }}
+			style={{
+				overflow: 'auto',
+				height: '100vh',
+				position: 'absolute',
+				left: 0,
+				top: 0,
+				bottom: 0,
+				zIndex: '50',
+			}}
 		>
 			<div style={{ margin: 16 }} >
 				<img src='./logo.svg' alt='NTUniverse' style={{

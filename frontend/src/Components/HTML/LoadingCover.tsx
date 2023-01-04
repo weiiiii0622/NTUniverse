@@ -1,24 +1,25 @@
-import { useState, useEffect } from 'react';
-import { animated } from '@react-spring/web'
+import { useState, useEffect, useRef } from 'react';
+import { animated, config, useSpring } from '@react-spring/web'
 import {
 	Card,
 	Row,
-	Progress
+	Progress,
+	Layout,
+	theme,
+	Drawer
 } from 'antd';
 
 import { useMyContext } from '../../Utils/useMyContext';
+import styled from 'styled-components';
+import Column from 'antd/es/table/Column';
+import Sider from 'antd/es/layout/Sider';
+import './LoadingCover.css';
+import FancyBtn from './components/FancyBtn';
 
+const usePercent = () => {
 
-const LoadingCover = () => {
+	const { isLoading } = useMyContext();
 
-	const {
-		isChangingScene,
-		setIsChangeScene,
-		isLoading,
-		loadFinished,
-		setLoadFinished
-	} = useMyContext();
-	const [showButton, setShowButton] = useState<boolean>(false);
 	const [percent, setPercent] = useState<number>(0);
 
 	const increase = (val) => {
@@ -26,16 +27,6 @@ const LoadingCover = () => {
 			const newPercent = prevPercent + val;;
 			if (newPercent > 100) {
 				return 100;
-			}
-			return newPercent;
-		});
-	};
-
-	const decline = () => {
-		setPercent((prevPercent) => {
-			const newPercent = prevPercent - 10;
-			if (newPercent < 0) {
-				return 0;
 			}
 			return newPercent;
 		});
@@ -67,97 +58,143 @@ const LoadingCover = () => {
 		}
 	}, [isLoading])
 
+	return { percent };
+}
+
+
+
+const LoadingCover = () => {
+
+	const {
+		setIsChangeScene,
+		setLoadFinished,
+		setTutorialModalOpen
+	} = useMyContext();
+	const [showButton, setShowButton] = useState<boolean>(false);
+
+	const { percent } = usePercent();
 	useEffect(() => {
 		if (percent === 100) {
 			setShowButton(true);
 		}
 	}, [percent])
 
+
+	const [videoLoaded, setVideoLoaded] = useState(false);
+	const [drawerOpen, setDrawerOpen] = useState(false);
+	const { opacity, x, height } = useSpring({
+		opacity: videoLoaded ? 1 : 0,
+		x: videoLoaded ? 530 : 0,
+		height: videoLoaded ? '120%' : '40%',
+		width: videoLoaded ? '25%' : '30%',
+		config: {
+			mass: 5,
+			tension: 150,
+			damping: 5,
+		}
+	});
+	const videoRate = 1;
+	const videoRef = useRef<HTMLVideoElement>(null!);
+
+	useEffect(() => {
+		//console.log(percent)
+	}, [percent]);
+
+	const handleStart = () => {
+		setIsChangeScene({ scene: '小福廣場' });
+		setTimeout(() => {
+			setDrawerOpen(false);
+		}, 500)
+		setTimeout(() => {
+			setLoadFinished(true);
+		}, 2000)
+		setTimeout(() => {
+			setTutorialModalOpen(true);
+		}, 3300)
+	};
+
 	return (
 		<div
 			style={{
-
-				//display: 'flex',
 				position: 'absolute',
-				backgroundColor: '#CDCDCD',
+				background: "linear-gradient(to top, rgba(234, 210, 170, 1) 0%, rgba(207, 166, 149, 1) 100%)",
+				// backgroundColor: 'black',
 				width: '100%',
 				height: '100%',
 				zIndex: '100',
-				// justifyContent: 'center',
-				// alignItems: 'center',
-				//backgroundImage: `url(/pics/loading_cover.PNG)`
+				overflow: 'hidden',
 			}}
 		>
-			<Row
-				justify={'center'}
-				align={'middle'}
-				style={{
-					height: '80vh'
-				}}
-			>
-				<>
-					<Progress
-						type="circle"
-						percent={percent}
-						style={{
-							//marginRight: 8 
-						}}
-					/>
-				</>
-			</Row>
 
-			<Row
-				justify={'center'}
-				align={'middle'}
-				style={{
-					height: '20vh'
+			<animated.video src='/videos/overlook.mkv' autoPlay loop muted
+				onCanPlay={(e) => {
+					if (videoLoaded)
+						return;
+					setVideoLoaded(true);
+					setDrawerOpen(true);
+					videoRef.current.playbackRate = videoRate;
 				}}
+				ref={videoRef}
+				style={{
+					position: 'absolute',
+					opacity,
+					left: '-10%',
+					top: '5%',
+					height: '100%',
+				}}
+			/>
+			<Drawer
+				bodyStyle={{
+					backgroundColor: '#fffbef',
+					color: "#DB9D7F",
+					// color: 'white',
+					gap: 15
+				}}
+				placement='right'
+				open={drawerOpen}
+				mask={false}
+				closable={false}
 			>
-				{
-					showButton
-						?
-						<Card
-							hoverable={true}
-							style={{
-								height: '6vw',
-								width: '20vw',
-								display: 'flex',
-								justifyContent: 'center',
-								//backgroundColor: 'transparent',
-								borderWidth: 5
-							}}
-							bodyStyle={{
-								padding: 0,
-								display: 'flex',
-								alignItems: 'center',
-							}}
-							onClick={() => {
-								setIsChangeScene({ scene: '小福廣場' });
-								setTimeout(() => {
-									setLoadFinished(true);
-								}, 2000);
-							}}
-						>
-							進入
-						</Card>
-						:
-						null
-				}
-			</Row>
-
-			{/* <Button 
-                //type="dashed" 
-                type="default" 
-                style={{
-                    width: '20vw',
-                    height: '6vh',
-                    backgroundColor: 'transparent',
-                    color: 'white',
-                }}
-            >
-                進入
-            </Button> */}
-		</div>)
+				<div style={{ height: "28.75%" }} />
+				<div style={{
+					display: 'flex',
+					flexDirection: 'column',
+					alignItems: 'center',
+					fontFamily: 'bauhaus',
+					justifyContent: 'center',
+					// height: '50%',
+					gap: 20,
+				}}>
+					<img src="/logo.svg" width={'30%'} />
+					<div style={{
+						fontSize: '2em',
+						letterSpacing: 3,
+						marginBottom: 10
+					}}>NTUniverse</div>
+					<Row
+						style={{ height: '100%' }}
+						justify={'center'}
+						align={'middle'}>
+						{percent < 100
+							? <Progress
+								className='progress'
+								type="circle"
+								percent={percent}
+								style={{
+									color: 'red', cursor: 'wait'
+								}}
+								size={'small'}
+								strokeWidth={4.5}
+								strokeColor={{ '0%': '#DBCE85', '100%': '#DBCE85' }}
+							/>
+							: <FancyBtn onClick={handleStart} />
+						}
+					</Row>
+				</div>
+				<div style={{ height: "20%" }} />
+			</Drawer>
+		</div>
+	)
 }
 
 export default LoadingCover;
