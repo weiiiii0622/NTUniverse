@@ -17,7 +17,7 @@ import { GoogleOAuthProvider } from '@react-oauth/google';
 
 const HTTP_ROOT =
   process.env.NODE_ENV === "production"
-    ? "/graphql"
+    ? "http://ntuniverse-production.up.railway.app/graphql"
     : "http://localhost:4001/graphql";
 
 const WS_ROOT =
