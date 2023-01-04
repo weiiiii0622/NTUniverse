@@ -56,8 +56,8 @@ const wsServer = new WebSocketServer({
 
 useServer(
   {
-    execute: (args) => args.rootValue.execute(args),
-    subscribe: (args) => args.rootValue.subscribe(args),
+    execute: (args: any) => args.rootValue.execute(args),
+    subscribe: (args: any) => args.rootValue.subscribe(args),
     onSubscribe: async (ctx, msg) => {
       const { schema, execute, subscribe, contextFactory, parse, validate } =
         yoga.getEnveloped({
