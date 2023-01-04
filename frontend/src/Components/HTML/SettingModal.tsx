@@ -38,26 +38,26 @@ interface MySliderProps {
     setVal: SetStateType<number>,
 }
 
-const MySlider = ({ max, min, title, emojiLeft, emojiRight, val, setVal}:MySliderProps) => {
-    
-    return (
-      <div className="icon-wrapper">
-        <Row
-            style={{
-                height: '5vh',
-                fontWeight: 900,
-                backgroundColor: '#e9ecef'
-            }}
-        >
-            #{title}
-        </Row>
-        <Row gutter={10}>
-            <Col span={2} style={{fontSize: '2em', marginLeft: '0'}}> {emojiLeft}</Col> 
-            <Col style={{display: 'flex', alignItems: 'center'}} span={20}><Slider max={max} min={min} style={{width: '100%'}} onChange={setVal} value={val} /></Col>
-            <Col span={2} style={{fontSize: '2em'}}> {emojiRight} </Col>
+const MySlider = ({ max, min, title, emojiLeft, emojiRight, val, setVal }: MySliderProps) => {
 
-        </Row>
-      </div>
+    return (
+        <div className="icon-wrapper">
+            <Row
+                style={{
+                    height: '5vh',
+                    fontWeight: 900,
+                    backgroundColor: '#e9ecef'
+                }}
+            >
+                #{title}
+            </Row>
+            <Row gutter={10}>
+                <Col span={2} style={{ fontSize: '2em', marginLeft: '0' }} onClick={() => setVal(0)}> {emojiLeft}</Col>
+                <Col style={{ display: 'flex', alignItems: 'center' }} span={20}><Slider max={max} min={min} style={{ width: '100%' }} onChange={setVal} value={val} /></Col>
+                <Col span={2} style={{ fontSize: '2em' }} onClick={() => setVal(100)}> {emojiRight}  </Col>
+
+            </Row>
+        </div>
     );
 };
 
@@ -88,11 +88,11 @@ const SettingModal = () => {
                     // <Button key="submit" type="primary" loading={isLoading} onClick={()=>{}}>
                     //   Save
                     // </Button>,
-                    <Layout.Footer  style={{ textAlign: 'center' }}>NTUniverse © 2022</Layout.Footer>
+                    <Layout.Footer style={{ textAlign: 'center' }}>NTUniverse © 2022</Layout.Footer>
                 ]}
             >
 
-                <>  
+                <>
                     {/* 速度 */}
                     <Row gutter={5} style={{ marginBottom: '5px' }}>
                         <Col span={24}>
@@ -104,10 +104,10 @@ const SettingModal = () => {
                                     backgroundColor: '#e9ecef'
 
                                 }}
-                            >   
-                                
-                                <MySlider 
-                                    max={100} 
+                            >
+
+                                <MySlider
+                                    max={100}
                                     min={0}
                                     title={"速度"}
                                     emojiLeft={"🐢"}
@@ -129,9 +129,9 @@ const SettingModal = () => {
                                     backgroundColor: '#e9ecef'
 
                                 }}
-                            >   
-                                <MySlider 
-                                    max={100} 
+                            >
+                                <MySlider
+                                    max={100}
                                     min={0}
                                     title={"音量"}
                                     emojiLeft={"🔈"}
@@ -145,7 +145,7 @@ const SettingModal = () => {
                     <Row gutter={5} style={{ marginBottom: '5px' }}>
                         <Col span={24}>
                             <Card
-                                title={<>操作指南 <BulbOutlined/></>}
+                                title={<>操作指南 <BulbOutlined /></>}
                                 hoverable={true}
                                 bordered={false}
                                 style={{
@@ -165,8 +165,8 @@ const SettingModal = () => {
                                             <Statistic
                                                 title="操控汽車"
                                                 value={"W S A D / "}
-                                                suffix={<><LeftSquareOutlined/><UpSquareOutlined/><DownSquareOutlined/><RightSquareOutlined/></>}
-                                                //prefix={<TeamOutlined />}
+                                                suffix={<><LeftSquareOutlined /><UpSquareOutlined /><DownSquareOutlined /><RightSquareOutlined /></>}
+                                            //prefix={<TeamOutlined />}
                                             />
 
                                         </Card>
@@ -182,7 +182,7 @@ const SettingModal = () => {
                                             <Statistic
                                                 title="回到起點"
                                                 value={"R"}
-                                                //prefix={<TeamOutlined />}
+                                            //prefix={<TeamOutlined />}
                                             />
                                         </Card>
                                     </Col>
@@ -199,7 +199,7 @@ const SettingModal = () => {
                                             <Statistic
                                                 title="喇叭"
                                                 value={"L"}
-                                                //prefix={<TeamOutlined />}
+                                            //prefix={<TeamOutlined />}
                                             />
                                         </Card>
                                     </Col>
@@ -229,11 +229,11 @@ const SettingModal = () => {
                                             <Statistic
                                                 title="切換視角"
                                                 value={"Y"}
-                                                //prefix={<TeamOutlined />}
+                                            //prefix={<TeamOutlined />}
                                             />
                                         </Card>
                                     </Col>
-                                </Row>    
+                                </Row>
                             </Card>
                         </Col>
                     </Row>

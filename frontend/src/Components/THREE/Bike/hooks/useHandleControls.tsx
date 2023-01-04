@@ -48,7 +48,7 @@ export default function useHandleControls({
 			chassis.current.api.velocity.set(0, 0, 0);
 			chassis.current.api.angularVelocity.set(0, 0, 0);
 			setArcadeDirection('front');
-			setCameraType('default');
+			// setCameraType('default');
 			return;
 		}
 
