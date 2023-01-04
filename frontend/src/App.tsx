@@ -4,6 +4,7 @@ import AppCanvas from './Containers/THREE/Canvas';
 import { animated, useSpring, config } from "@react-spring/web";
 import { useTrail } from '@react-spring/three';
 import { BikeProvider } from './Containers/hooks/useBikeContext';
+import { LocationProvider } from './Containers/hooks/useLocation';
 
 
 
@@ -11,10 +12,12 @@ function App() {
 
 	return (
 		<>
-			<BikeProvider>
-				<AppHtmlElements />
-				<AppCanvas />
-			</BikeProvider>
+			<LocationProvider>
+				<BikeProvider>
+					<AppHtmlElements />
+					<AppCanvas />
+				</BikeProvider>
+			</LocationProvider>
 		</>
 	)
 }
