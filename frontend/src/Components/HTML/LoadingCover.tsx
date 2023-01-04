@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useSpring, animated, useSpringRef } from '@react-spring/web'
-import { 
-    Button, 
-    Modal, 
-    message, 
+import {
+    Button,
+    Modal,
+    message,
     Card,
     Row,
     Col,
-    Progress 
+    Progress
 } from 'antd';
 import {
     LoadingOutlined,
@@ -21,51 +21,57 @@ import { useMyContext } from '../../Utils/useMyContext';
 
 const LoadingCover = () => {
 
-    const { isChangingScene, setIsChangeScene, isLoading, loadFinished, setLoadFinished } = useMyContext();
+    const {
+        isChangingScene,
+        setIsChangeScene,
+        isLoading,
+        loadFinished,
+        setLoadFinished
+    } = useMyContext();
     const [showButton, setShowButton] = useState<boolean>(false);
     const [percent, setPercent] = useState<number>(0);
 
     const increase = () => {
-      setPercent((prevPercent) => {
-        const newPercent = prevPercent + 10;
-        if (newPercent > 100) {
-          return 100;
-        }
-        return newPercent;
-      });
+        setPercent((prevPercent) => {
+            const newPercent = prevPercent + 10;
+            if (newPercent > 100) {
+                return 100;
+            }
+            return newPercent;
+        });
     };
-  
+
     const decline = () => {
-      setPercent((prevPercent) => {
-        const newPercent = prevPercent - 10;
-        if (newPercent < 0) {
-          return 0;
-        }
-        return newPercent;
-      });
+        setPercent((prevPercent) => {
+            const newPercent = prevPercent - 10;
+            if (newPercent < 0) {
+                return 0;
+            }
+            return newPercent;
+        });
     };
 
     useEffect(() => {
         //console.log(`isLoading: ${isLoading}`);
-        if(isLoading===false){
-            for(var i=1; i<=10; i++){
+        if (isLoading === false) {
+            for (var i = 1; i <= 10; i++) {
                 setTimeout(() => {
                     increase();
-                }, 200*i);
+                }, 200 * i);
             }
         }
     }, [isLoading])
 
     useEffect(() => {
-        if(percent === 100){
+        if (percent === 100) {
             setShowButton(true);
         }
     }, [percent])
-  
+
     return (
-        <animated.div 
+        <animated.div
             style={{
-                
+
                 //display: 'flex',
                 position: 'absolute',
                 backgroundColor: '#CDCDCD',
@@ -77,7 +83,7 @@ const LoadingCover = () => {
                 //backgroundImage: `url(/pics/loading_cover.PNG)`
             }}
         >
-            <Row 
+            <Row
                 justify={'center'}
                 align={'middle'}
                 style={{
@@ -85,17 +91,17 @@ const LoadingCover = () => {
                 }}
             >
                 <>
-                    <Progress 
-                        type="circle" 
-                        percent={percent} 
-                        style={{ 
+                    <Progress
+                        type="circle"
+                        percent={percent}
+                        style={{
                             //marginRight: 8 
-                        }} 
+                        }}
                     />
                 </>
             </Row>
 
-            <Row 
+            <Row
                 justify={'center'}
                 align={'middle'}
                 style={{
@@ -104,14 +110,14 @@ const LoadingCover = () => {
             >
                 {
                     showButton
-                    ?
-                        <Card 
+                        ?
+                        <Card
                             hoverable={true}
-                            style={{ 
+                            style={{
                                 height: '6vw',
                                 width: '20vw',
                                 display: 'flex',
-                                justifyContent: 'center', 
+                                justifyContent: 'center',
                                 //backgroundColor: 'transparent',
                                 borderWidth: 5
                             }}
@@ -120,8 +126,8 @@ const LoadingCover = () => {
                                 display: 'flex',
                                 alignItems: 'center',
                             }}
-                            onClick={()=>{
-                                setIsChangeScene({scene: '小福廣場'});
+                            onClick={() => {
+                                setIsChangeScene({ scene: '小福廣場' });
                                 setTimeout(() => {
                                     setLoadFinished(true);
                                 }, 2000);
@@ -129,11 +135,11 @@ const LoadingCover = () => {
                         >
                             進入
                         </Card>
-                    :
-                    null
+                        :
+                        null
                 }
             </Row>
-            
+
             {/* <Button 
                 //type="dashed" 
                 type="default" 
@@ -147,7 +153,7 @@ const LoadingCover = () => {
                 進入
             </Button> */}
         </animated.div>)
-  }
+}
 
 export default LoadingCover;
 
