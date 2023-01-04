@@ -1,8 +1,11 @@
 import { Triplet } from "@react-three/cannon";
+import { type } from "os";
 import { useContext } from "react";
-import { createContext, useState } from "react";
+import { createContext, useState, useEffect } from "react";
 import { SetStateType } from "../../Utils/type";
 
+type BikeCameraType = 'default' | 'tutorial' | 'free' | 'first';
+export type { BikeCameraType };
 
 interface IContext {
 
@@ -18,6 +21,10 @@ interface IContext {
     setBikeMaxSpeed: SetStateType<boolean>,
     bikeMaxVolume: number,
     setBikeMaxVolume: SetStateType<number>,
+
+    prevCameraType: BikeCameraType,
+    cameraType: BikeCameraType,
+    setCameraType: (type: BikeCameraType) => any,
 }
 
 const BikeContext = createContext<IContext>({
@@ -30,6 +37,9 @@ const BikeContext = createContext<IContext>({
     setBikeMaxSpeed: () => { },
     bikeMaxVolume: 0,
     setBikeMaxVolume: () => { },
+    prevCameraType: 'default',
+    cameraType: 'default',
+    setCameraType: (type) => { },
 });
 
 export function BikeProvider(props: any) {
@@ -38,6 +48,15 @@ export function BikeProvider(props: any) {
     const [bikeEnabled, setBikeEnabled] = useState(false);
     const [bikeMaxSpeed, setBikeMaxSpeed] = useState(0);
     const [bikeMaxVolume, setBikeMaxVolume] = useState(0);
+    const [cameraType, setCameraType] = useState<BikeCameraType>('default');
+    const [prevCameraType, setPrevCameraType] = useState<BikeCameraType>('default');
+
+    const handleCameraTypeChange = (newType: BikeCameraType) => {
+        setCameraType(prevType => {
+            setPrevCameraType(prevType);
+            return newType;
+        });
+    }
 
     return <BikeContext.Provider
         value={{
@@ -45,6 +64,8 @@ export function BikeProvider(props: any) {
             bikeEnabled, setBikeEnabled,
             bikeMaxSpeed, setBikeMaxSpeed,
             bikeMaxVolume, setBikeMaxVolume,
+            cameraType, setCameraType: handleCameraTypeChange,
+            prevCameraType,
         }}
         {...props}
     />

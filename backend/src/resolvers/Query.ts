@@ -37,7 +37,7 @@ const Query = {
           chatRoomName: '世界頻道',
           messages: {
             sender: 'NTUniverse',
-            content: 'Welcome to NTUniverse',
+            content: '歡迎來到 NTUniverse',
             // readBy: ['NTUniverse'],
           }
         };

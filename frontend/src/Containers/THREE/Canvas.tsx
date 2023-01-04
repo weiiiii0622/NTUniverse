@@ -91,7 +91,7 @@ export default function AppCanvas() {
 
 	return (
 		<>
-			<Leva hidden/>
+			<Leva/>
 			{/* <Loader /> */}
 			<Canvas
 				style={{ position: 'unset', margin: 0 }}
@@ -119,7 +119,6 @@ export default function AppCanvas() {
 							enableControls,
 							setEnableControls: () => { },
 						}}>
-							<AppOrbitControls enabled={enableControls} />
 
 							<Physics>
 								<World />
