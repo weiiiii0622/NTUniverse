@@ -12,37 +12,30 @@ import { useMyContext } from "../../Utils/useMyContext";
 import { useEffect } from "react";
 
 const AppHtmlElements = () => {
-    const { isLoading, isChangingScene, setIsChangeScene, finish, setFinish, loadFinished, setLoadFinished } = useMyContext();
+    const { isChangingScene, finish, setFinish, loadFinished } = useMyContext();
     useEffect(() => {
-        if(isChangingScene['scene']!=="") setFinish(false);
-        //console.log("OUT isChanging:")
-        //console.log(isChangingScene);
+        if (isChangingScene['scene'] !== "") setFinish(false);
     }, [isChangingScene])
 
-    return(
+    return (
         <>
-            
+
             <LoginModal />
             <LogoutModal />
             <ProfileModal />
             <TutorialModal />
             <BulletinModal />
             <AboutModal />
-            {/* <LoadingCover /> */}
-            {
-                loadFinished
+            {loadFinished
                 ?
                 null
-                :
-                <LoadingCover />
+                : <LoadingCover />
             }
             <MySider />
-            {/* <TeleportTransition scene={"Hi"}/> */}
-            {!finish ? <TeleportTransition scene={"HI"}/>: null}
+            {/* {!finish ? <TeleportTransition scene={"HI"} /> : null} */}
+            {/* <TeleportTransition scene={"HI"} /> */}
             
             <ChatRoomModal />
-            
-            
         </>
     )
 }

@@ -26,7 +26,7 @@ const BikeContext = createContext<IContext>({
 export function BikeProvider(props: any) {
 
     const [bikePosition, setBikePosition] = useState<Triplet>([0, 0, 0]);
-    const [bikeEnabled, setBikeEnabled] = useState(true);
+    const [bikeEnabled, setBikeEnabled] = useState(false);
 
 
     return <BikeContext.Provider

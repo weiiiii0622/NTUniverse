@@ -17,6 +17,10 @@ import { MyProvider } from './Utils/useMyContext'
 
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { ChatRoomProvider } from './Utils/ChatRoom/useChatRoomContext';
+import { ConfigProvider } from 'antd';
+import { LocationProvider } from './Containers/hooks/useLocation';
+import { BikeProvider } from './Containers/hooks/useBikeContext';
+import AppConfigProvider from './Utils/ConfigProvider';
 
 const HTTP_ROOT =
   process.env.NODE_ENV === "production"
@@ -25,8 +29,8 @@ const HTTP_ROOT =
 
 const WS_ROOT =
   process.env.NODE_ENV === "production"
-  //? "ws://localhost:4001/subscriptions"
-    ?`wss://ntuniverse-production.up.railway.app/subscriptions`
+    //? "ws://localhost:4001/subscriptions"
+    ? `wss://ntuniverse-production.up.railway.app/subscriptions`
     : "ws://localhost:4001/subscriptions";
 
 const httpLink = new HttpLink({
@@ -57,13 +61,17 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   //<React.StrictMode>
   <ApolloProvider client={client}>
     <GoogleOAuthProvider clientId="400363191853-gjef8qplkajcu781n791f6eonffkcfq3.apps.googleusercontent.com">
-
-      <MyProvider>
-        <ChatRoomProvider>
-          <App />
-        </ChatRoomProvider>
-      </MyProvider>
-
+      <AppConfigProvider>
+        <LocationProvider>
+          <BikeProvider>
+            <MyProvider>
+              <ChatRoomProvider>
+                <App />
+              </ChatRoomProvider>
+            </MyProvider>
+          </BikeProvider>
+        </LocationProvider>
+      </AppConfigProvider>
     </GoogleOAuthProvider>
   </ApolloProvider>
   //</React.StrictMode>,

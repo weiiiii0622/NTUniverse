@@ -1,142 +1,131 @@
 import React, { useState } from 'react';
 import {
-  DesktopOutlined,
-  FileOutlined,
-  PieChartOutlined,
-  TeamOutlined,
-  UserOutlined,
-  LoginOutlined,
-  LogoutOutlined,
-  InfoCircleOutlined,
-  SettingOutlined,
+	DesktopOutlined,
+	FileOutlined,
+	PieChartOutlined,
+	TeamOutlined,
+	UserOutlined,
+	LoginOutlined,
+	LogoutOutlined,
+	InfoCircleOutlined,
+	SettingOutlined,
 } from '@ant-design/icons';
-import type { MenuProps } from 'antd';
+import { Button, Divider, MenuProps } from 'antd';
 import { Breadcrumb, Layout, Menu, theme } from 'antd';
 
 import { useMyContext } from '../../Utils/useMyContext';
 import useBikeContext from '../../Containers/hooks/useBikeContext';
+import AppCanvas from '../../Containers/THREE/Canvas';
 
 const { Header, Content, Footer, Sider } = Layout;
 
 type MenuItem = Required<MenuProps>['items'][number];
 
 function getItem(
-  label: React.ReactNode,
-  key: React.Key,
-  icon?: React.ReactNode,
-  onClick?: () => void,
-  children?: MenuItem[],
+	label: React.ReactNode,
+	key: React.Key,
+	icon?: React.ReactNode,
+	onClick?: () => void,
+	children?: MenuItem[],
 ): MenuItem {
-  return {
-    key,
-    icon,
-    children,
-    label,
-    onClick,
-  } as MenuItem;
+	return {
+		key,
+		icon,
+		children,
+		label,
+		onClick,
+	} as MenuItem;
 }
 
 const MySider: React.FC = () => {
-  const [collapsed, setCollapsed] = useState(true);
-  const {
-    token: { colorBgContainer },
-  } = theme.useToken();
+	const [collapsed, setCollapsed] = useState(true);
+	const {
+		token: { colorBgContainer },
+	} = theme.useToken();
 
-  const { isLogin, setIsLogin, loginModalOpen, setLoginModalOpen, setLogoutModalOpen, setProfileModalOpen, setAboutModalOpen, me, setProfileUser } = useMyContext();
-  const { setBikeEnabled } = useBikeContext();
+	const { isLogin, setIsLogin, loginModalOpen, setLoginModalOpen, setLogoutModalOpen, setProfileModalOpen, setAboutModalOpen, me, setProfileUser } = useMyContext();
+	const { setBikeEnabled } = useBikeContext();
 
-  const handleLogin = () => {
-    //console.log("Login");
-    setLoginModalOpen(true);
-    setBikeEnabled(false);
-  }
+	const handleLogin = () => {
+		//console.log("Login");
+		setLoginModalOpen(true);
+		setBikeEnabled(false);
+	}
 
-  const handleLogout = () => {
-    //console.log("Logout");
-    setLogoutModalOpen(true);
-    setBikeEnabled(false);
-  }
+	const handleLogout = () => {
+		//console.log("Logout");
+		setLogoutModalOpen(true);
+		setBikeEnabled(false);
+	}
 
-  const handleOpenProfile = () => {
-    //console.log("Open Profile");
-    setProfileUser(me['id']);
-    setProfileModalOpen(true);
-    setBikeEnabled(false);
-  }
+	const handleOpenProfile = () => {
+		//console.log("Open Profile");
+		setProfileUser(me['id']);
+		setProfileModalOpen(true);
+		setBikeEnabled(false);
+	}
 
-  const handleOpenAbout = () => {
-    //console.log("Open About");
-    setAboutModalOpen(true);
-    setBikeEnabled(false);
-  }
+	const handleOpenAbout = () => {
+		//console.log("Open About");
+		setAboutModalOpen(true);
+		setBikeEnabled(false);
+	}
 
-  const items: MenuItem[] = [
-    // 登入/登出
-    isLogin ? getItem('登出', '1', <LoginOutlined />, handleLogout) : getItem('登入', '1', <LogoutOutlined />, handleLogin),
+	const items: MenuItem[] = [
+		// 登入/登出
+		isLogin ? getItem('登出', '1', <LoginOutlined />, handleLogout) : getItem('登入', '1', <LogoutOutlined />, handleLogin),
 
-    // 關於
-    getItem('關於', '2', <InfoCircleOutlined />, handleOpenAbout),
 
-    // 個人資料
-    isLogin ? getItem('個人資料', '3', <UserOutlined />, handleOpenProfile) : null,
+		// 個人資料
+		isLogin ? getItem('個人資料', '2', <UserOutlined />, handleOpenProfile) : null,
 
-    // 設定
-    isLogin ? getItem('設定', '4', <SettingOutlined />, null) : null,
-    //getItem('Option 2', '2', <DesktopOutlined />),
-    // getItem('User', 'sub1', <UserOutlined />, null,[
-    //   getItem('Tom', '3'),
-    //   getItem('Bill', '4'),
-    //   getItem('Alex', '5'),
-    // ]),
-    // getItem('Team', 'sub2', <TeamOutlined />, [getItem('Team 1', '6'), getItem('Team 2', '8')]),
-    // getItem('Files', '9', <FileOutlined />),
-  ];
+		// 設定
+		getItem('設定', '3', <SettingOutlined />, null),
 
-  return (
-    <Layout>
-      <Sider
-        collapsible
-        collapsed={collapsed}
-        onCollapse={(value) => setCollapsed(value)}
-        style={{
-          overflow: 'auto',
-          height: '100vh',
-          position: 'absolute',
-          left: 0,
-          top: 0,
-          bottom: 0,
-          zIndex: '50',
-        }}
-      >
-        <div style={{ height: 32, margin: 16, background: 'rgba(255, 255, 255, 0.2)' }} />
-        <Menu
-          theme="dark"
-          onKeyDown={(e) => {
-            if (e.code === "Enter") {
-              //console.log("Entered Sider");
-              e.preventDefault();
-            }
-          }}
-          defaultSelectedKeys={['1']}
-          mode="inline"
-          items={items}
-        />
-      </Sider>
-      {/* <Layout className="site-layout">
-        <Header style={{ padding: 0, background: colorBgContainer }} />
-        <Content style={{ margin: '0 16px' }}>
-          <Breadcrumb style={{ margin: '16px 0' }}>
-            <Breadcrumb.Item>User</Breadcrumb.Item>
-            <Breadcrumb.Item>Bill</Breadcrumb.Item>
-          </Breadcrumb>
-          <div style={{ padding: 24, minHeight: 360, background: colorBgContainer }}>
-            Bill is a cat.
-          </div>
-        </Content>
-        <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>
-      </Layout> */}
-    </Layout>
-  );
+		// 關於
+		getItem('關於', '4', <InfoCircleOutlined />, handleOpenAbout),
+
+	];
+
+	return (
+		<Sider
+			// collapsible
+			collapsed={collapsed}
+			onCollapse={(value) => setCollapsed(value)}
+			theme='light'
+		// style={{
+		//   overflow: 'auto',
+		//   height: '100vh',
+		//   position: 'absolute',
+		//   left: 0,
+		//   top: 0,
+		//   bottom: 0,
+		//   zIndex: '50',
+		// }}
+		>
+			<div style={{ margin: 16 }} >
+				<img src='./logo.svg' alt='NTUniverse' style={{
+					maxHeight: '100%',
+					maxWidth: '100%'
+				}} />
+			</div>
+
+			<Layout>
+				<Menu
+					// theme="dark"
+					onKeyDown={(e) => {
+						if (e.code === "Enter") {
+							//console.log("Entered Sider");
+							e.preventDefault();
+						}
+					}}
+					defaultSelectedKeys={['1']}
+					mode="inline"
+					items={items}
+				/>
+			</Layout>
+		</Sider >
+	);
 };
 
 export default MySider;
