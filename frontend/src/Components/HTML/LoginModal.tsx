@@ -8,14 +8,17 @@ import { GoogleLogin, googleLogout } from '@react-oauth/google';
 import jwt_decode from 'jwt-decode'
 
 import { useMyContext } from '../../Utils/useMyContext';
+import useBikeContext from '../../Containers/hooks/useBikeContext';
 import useQueryChat from '../../Containers/HTML/ChatRoom/hooks/useQueryChat';
 
 
 
 
 const LoginModal = () => {
-    const { loginModalOpen, setLoginModalOpen, setBikeEnabled, isLogin, setIsLogin, login, me, setMe, setProfileUser } = useMyContext();
+    const { loginModalOpen, setLoginModalOpen, isLogin, setIsLogin, login, me, setMe, setProfileUser } = useMyContext();
     const [loading, setLoading] = useState(false);
+
+    const { setBikeEnabled, } = useBikeContext();
 
     const clientId = '400363191853-gjef8qplkajcu781n791f6eonffkcfq3.apps.googleusercontent.com';
 
@@ -52,14 +55,10 @@ const LoginModal = () => {
         setProfileUser(id);
         setLoading(true);
         setTimeout(() => {
-            // things after login
-            console.log("Logined")
             setLoginModalOpen(false);
             setLoading(false);
             setIsLogin(true);
             setBikeEnabled(true);
-            useQueryChat({ chatRoomName: 'World Channel' })
-
             message.success(`歡迎回來 ${nick_name}`);
         }, 1000);
     };

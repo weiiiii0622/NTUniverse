@@ -1,6 +1,6 @@
 import { Debug, usePlane } from "@react-three/cannon";
 import Bike from "../../Components/THREE/Bike";
-import { FC } from "react";
+import { FC, useEffect, useMemo } from "react";
 import { useMyContext } from "../../Utils/useMyContext";
 import InteractiveBlock from "../../Components/THREE/interaction/InteractiveBlock";
 import { useControls } from "leva";
@@ -9,6 +9,7 @@ import useBikeContext from "../hooks/useBikeContext";
 import SFu from "./SFu";
 import useTeleport from "../hooks/useTeleport";
 import { Billboard, Box, Html, ScreenSpace, Text } from "@react-three/drei";
+import useLocation from "../hooks/useLocation";
 
 
 function GroundPhysic() {
@@ -39,14 +40,27 @@ const DebugWorld: FC<any> = ({ debug = false, children }) => {
 
 function World() {
 
-	const { setBulletinModalOpen, bikeTpPosition } = useMyContext()
-	const { setBikeEnabled, setLocation } = useBikeContext();
+	const { setBulletinModalOpen } = useMyContext()
+	const { setBikeEnabled } = useBikeContext();
+	const { location, setLocation, locationInfos } = useLocation();
+
+	useEffect(() => {
+		console.log(location);
+	}, [location]);
+
+	const displayScene = () => {
+		const position = locationInfos[location].position;
+		switch (location) {
+			case 'MainLib':
+				return <MainLib position={position} />
+			case 'SFu':
+				return <SFu position={position} />
+		}
+	}
 
 	const { debug } = useControls('General', {
-		debug: true,
+		debug: false,
 	});
-
-	const { handleTP } = useTeleport();
 
 	const handleOpenBulletin = ({ location }) => {
 		setLocation(location);
@@ -57,12 +71,12 @@ function World() {
 	return (
 		<DebugWorld debug={debug} >
 			<Bike objectProps={{
-				position: bikeTpPosition,
-				rotation: [0, 0, 0],
+				position: locationInfos[location].position,
+				rotation: locationInfos[location].rotation,
 			}} />
 			<GroundPhysic />
-			<MainLib />
-			<SFu />
+
+			{displayScene()}
 
 			{/* <InteractiveBlock
 				handleEvent={() => {
@@ -91,7 +105,7 @@ function World() {
 				}}
 				position={[15, 0, 0]}
 			/> */}
-			<InteractiveBlock
+			{/* <InteractiveBlock
 				handleEvent={() => {
 					handleTP({
 						location: 'MainLib',
@@ -99,7 +113,7 @@ function World() {
 					})
 				}}
 				position={[0, 0, 25]}
-			/>
+			/> */}
 		</DebugWorld >
 	)
 }

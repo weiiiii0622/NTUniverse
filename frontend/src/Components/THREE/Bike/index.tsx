@@ -15,13 +15,11 @@ interface ObjectProps extends Object3DProps {
 
 interface BikeProps {
     objectProps?: ObjectProps,
-    trail?: boolean,
 };
 
-export default function Bike({ objectProps, trail = false }: BikeProps) {
+export default function Bike({ objectProps }: BikeProps) {
 
     const ref = useRef<Mesh>(null!);
-
     useContactMaterial('ground', 'wheel', {
         friction: 1e10,
     });

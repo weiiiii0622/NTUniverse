@@ -1,12 +1,13 @@
 import { Triplet } from "@react-three/cannon";
-import { PositionPoint } from "@react-three/drei";
+import { Html, PositionPoint, Text } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 import { useEffect, useState } from "react";
 import { SetStateType } from "../../../../Utils/type";
 import useBikeContext from "../../../hooks/useBikeContext";
-import { animated, useSpring } from '@react-spring/three';
+import { animated, config, useSpring, useSpringRef } from '@react-spring/three';
 import { useControls } from "leva";
 import { RingGeometry } from "three";
+import { pick } from "lodash";
 
 const useKeyPress = (
     target: string[],
@@ -32,11 +33,12 @@ interface IProps {
     handleEvent: () => any,
 };
 
+
 export default function HintCircle({
     keys = ['Enter', 'e'],
-    hintText = '按下 Enter 或 e 鍵以前往地點🧭',
-    radius = 4,
-    position,
+    hintText = '按下 Enter 或 e 鍵以前往地點',
+    radius = 7,
+    position = [0, 0, 0],
     handleEvent,
 }: IProps) {
     // Based on "interactiveBlock"
@@ -54,7 +56,28 @@ export default function HintCircle({
 
 
     // animation
-    const [spring, api] = useSpring(() => ({}));
+    const api = useSpringRef();
+    const spring = useSpring({
+        from: {
+            scale: 1,
+            opacity: 0.3,
+            // position: [0, 0, 0],
+        },
+        to: {
+            scale: 0.1,
+            opacity: 0.9,
+
+            // position: [0, 0.5, 0],
+        },
+        onRest: {
+
+        },
+        config: {
+            duration: 1000,
+        },
+        loop: true,
+        ref: api,
+    });
 
     // check overlap
     const { bikePosition } = useBikeContext();
@@ -75,27 +98,56 @@ export default function HintCircle({
         }
     }
 
-
     const { r, d } = useControls({
-        r: 3,
-        d: 0.7,
+        r: 2.5,
+        d: 0.6,
     })
+
+    const textSpring = useSpring({
+        rotation: isActive ? [0, 0, 0] : [-Math.PI / 2, 0, 0],
+    });
 
     return (
         <group
             position={position}>
             <animated.mesh
-                rotation={[-Math.PI / 2, 0, 0]}
+                rotation={[Math.PI / 2, 0, 0]}
+                {...spring as any}
             >
                 <ringGeometry
                     args={[r, r - d, 32, 8]}
                 />
-                <meshStandardMaterial
-                    color={'#ffffff'}
+                <animated.meshBasicMaterial
+                    color={'#fffac1'}
                     transparent
-                    opacity={0.7}
+                    opacity={isActive ? spring.opacity : 0}
                 />
             </animated.mesh>
-        </group>
+            {isActive &&
+                <animated.mesh
+                    position={[0, 0, 1]}
+                    // rotation={[-Math.PI / 2, 0, 0]}
+                    {...textSpring as any}
+                >
+                    <Text
+                        // color={'#f0e9c2'}
+                        outlineOffsetX={'10%'}
+                        outlineOffsetY={'10%'}
+                        outlineBlur={'10%'}
+                        outlineOpacity={0.2}
+                        outlineColor={'#313127'}
+                        font={'./fonts/GenRyuMin-B.ttc'}
+                        fontSize={0.5}
+                        // outlineWidth={0.005}
+                        position={[0, 1.5, 0]}
+                    >
+                        {hintText}
+                    </Text>
+                </animated.mesh>
+            }
+        </group >
     )
 }
+
+
+'./fonts/GenRyuMin-B.ttc'

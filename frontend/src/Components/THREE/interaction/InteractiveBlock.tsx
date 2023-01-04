@@ -26,7 +26,6 @@ const InteractiveBlock = ({ position, handleEvent }: IProps) => {
     const args = [4, 0.2, 3, 4, Math.PI * 2];
 
     const ref = useRef(null!);
-    const { bikeTpPosition } = useMyContext();
     const { bikePosition } = useBikeContext();
     const [isActive, setIsActive] = useState(false);
 
