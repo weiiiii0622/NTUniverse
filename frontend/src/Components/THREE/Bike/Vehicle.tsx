@@ -108,7 +108,7 @@ const Vehicle = forwardRef((props: VehicleProps, vehicle: RefObject<Mesh>) => {
 			setSpeed(norm);
 		});
 	}, [chassis]);
-	useSound({ speed });
+	// useSound({ speed });
 
 
 	/**

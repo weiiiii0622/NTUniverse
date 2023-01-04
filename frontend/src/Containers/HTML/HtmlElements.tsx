@@ -32,9 +32,10 @@ const AppHtmlElements = () => {
                 : <LoadingCover />
             }
             <MySider />
-            {/* {!finish ? <TeleportTransition scene={"HI"} /> : null} */}
-            {/* <TeleportTransition scene={"HI"} /> */}
+            {!finish ? <TeleportTransition scene={"HI"} /> : null}
             
+            {/* <TeleportTransition scene={"HI"} /> */}
+
             <ChatRoomModal />
         </>
     )
