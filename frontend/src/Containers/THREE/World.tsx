@@ -64,7 +64,7 @@ function World() {
 			<MainLib />
 			<SFu />
 
-			<InteractiveBlock
+			{/* <InteractiveBlock
 				handleEvent={() => {
 					handleTP({
 						scene: '幹你老師',
@@ -90,12 +90,12 @@ function World() {
 					})
 				}}
 				position={[15, 0, 0]}
-			/>
+			/> */}
 			<InteractiveBlock
 				handleEvent={() => {
 					handleTP({
-						scene: '總圖',
-						pos: MainLibPosition
+						location: 'MainLib',
+						// pos: MainLibPosition
 					})
 				}}
 				position={[0, 0, 25]}

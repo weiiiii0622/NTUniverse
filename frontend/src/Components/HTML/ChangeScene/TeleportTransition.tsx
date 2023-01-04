@@ -12,7 +12,6 @@ import { useFrame } from '@react-three/fiber';
 
 
 
-
 const TeleportTransition = ({ scene }) => {
 
     const { isChangingScene, setIsChangeScene, finish, setFinish } = useMyContext();

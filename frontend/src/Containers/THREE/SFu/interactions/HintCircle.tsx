@@ -5,6 +5,8 @@ import { useEffect, useState } from "react";
 import { SetStateType } from "../../../../Utils/type";
 import useBikeContext from "../../../hooks/useBikeContext";
 import { animated, useSpring } from '@react-spring/three';
+import { useControls } from "leva";
+import { RingGeometry } from "three";
 
 const useKeyPress = (
     target: string[],
@@ -74,10 +76,25 @@ export default function HintCircle({
     }
 
 
+    const { r, d } = useControls({
+        r: 3,
+        d: 0.7,
+    })
+
     return (
         <group
             position={position}>
-            <animated.mesh>
+            <animated.mesh
+                rotation={[-Math.PI / 2, 0, 0]}
+            >
+                <ringGeometry
+                    args={[r, r - d, 32, 8]}
+                />
+                <meshStandardMaterial
+                    color={'#ffffff'}
+                    transparent
+                    opacity={0.7}
+                />
             </animated.mesh>
         </group>
     )

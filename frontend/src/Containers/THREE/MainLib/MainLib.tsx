@@ -4,27 +4,21 @@ import { useFrame, useThree } from "@react-three/fiber";
 import InteractiveBlock from "../../../Components/THREE/interaction/InteractiveBlock";
 import { useMyContext } from "../../../Utils/useMyContext";
 import AppSky from "../../../Components/THREE/static/Sky";
+import useTeleport from "../../hooks/useTeleport";
 
 const MainLibPosition: Triplet = [300, 0, 300];
 
 export default function MainLib() {
 
-    const { setIsChangeScene, setBikeEnabled, setBikeTpPosition, setLocation, setBulletinModalOpen} = useMyContext();
+    const { setIsChangeScene, setBikeEnabled, setBikeTpPosition, setLocation, setBulletinModalOpen } = useMyContext();
 
-    const handleTP = ({ scene, pos }) => {
-		setIsChangeScene({ scene: scene });
-		setBikeEnabled(false);
-		setTimeout(() => {
-			setBikeTpPosition(pos);
-			setBikeEnabled(true);
-		}, 2000);
-	}
+    const { handleTP } = useTeleport();
 
-	const handleOpenBulletin = ({ location }) => {
-		setLocation(location);
-		setBikeEnabled(false);
-		setBulletinModalOpen(true);
-	}
+    const handleOpenBulletin = ({ location }) => {
+        setLocation(location);
+        setBikeEnabled(false);
+        setBulletinModalOpen(true);
+    }
 
     useFrame(({ camera }) => {
         // console.log(camera.position)
@@ -39,7 +33,7 @@ export default function MainLib() {
             <group position={MainLibPosition} name="main lib. scene">
                 <mesh>
                     <cylinderGeometry args={[10, 10, 0.5, 64]} />
-                    <meshStandardMaterial color={'lime'} opacity={1}/>
+                    <meshStandardMaterial color={'lime'} opacity={1} />
                 </mesh>
                 <Text3D
                     // size={10}
@@ -56,8 +50,7 @@ export default function MainLib() {
             <InteractiveBlock
                 handleEvent={() => {
                     handleTP({
-                        scene: '小福廣場',
-                        pos: [0, 0, 0]
+                        location: 'SFu',
                     })
                 }}
                 position={[300, 0, 300]}
