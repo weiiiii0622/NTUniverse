@@ -40,13 +40,15 @@ export default function useHandleControls({
 	 * Motion:
 	 * - control the vehicle based on "controls"
 	 */
-	const { bikeEnabled } = useBikeContext();
+	const { bikeEnabled, setCameraType } = useBikeContext();
 
 	const { setBikeControlling } = useContext(ThreeContext);
 	useFrame(() => {
 		if (!bikeEnabled) {
 			chassis.current.api.velocity.set(0, 0, 0);
 			chassis.current.api.angularVelocity.set(0, 0, 0);
+			setArcadeDirection('front');
+			// setCameraType('default');
 			return;
 		}
 
