@@ -260,7 +260,7 @@ const BulletinModal = () => {
                                                             B{1 + idx + pageInfo['page'] * pageInfo['size']}-
                                                             <a
                                                                 onClick={(e) => {
-                                                                    console.log(msg['author'].nick_name);
+                                                                    //console.log(msg['author'].nick_name);
                                                                     setProfileUser(msg['author'].id);
                                                                     setProfileModalOpen(true);
                                                                 }}

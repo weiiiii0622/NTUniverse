@@ -46,7 +46,7 @@ export default function TestContainer() {
     });
 
     const C = animated(Center);
-    console.log(C);
+    //console.log(C);
 
     const [spring1, api1] = useSpring(() => ({
         from: {

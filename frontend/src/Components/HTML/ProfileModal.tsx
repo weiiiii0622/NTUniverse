@@ -52,8 +52,8 @@ const ProfileModal = () => {
     }, [profileUser])
 
     useEffect(() => {
-        console.log("usrData:")
-        console.log(data)
+        //console.log("usrData:")
+        //console.log(data)
         // console.log("me");
         // console.log(me);
         if (!loading && data !== null) {

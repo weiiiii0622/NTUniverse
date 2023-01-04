@@ -113,7 +113,7 @@ const MySider: React.FC = () => {
           theme="dark"
           onKeyDown={(e) => {
             if (e.code === "Enter") {
-              console.log("Entered Sider");
+              //console.log("Entered Sider");
               e.preventDefault();
             }
           }}
