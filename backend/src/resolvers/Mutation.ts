@@ -116,7 +116,7 @@ const Mutation: IMutation = {
         let chatRoom = await ChatRoomModel.findOne({ chatRoomName: chatRoomName });
         if(!chatRoom)
             chatRoom = await new ChatRoomModel({ chatRoomName, messages: [] }).save();
-        console.log('new room: ' + chatRoomName);
+        // console.log('new room: ' + chatRoomName);
         return chatRoom;
     },
 
