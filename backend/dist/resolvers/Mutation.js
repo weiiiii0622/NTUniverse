@@ -109,7 +109,7 @@ const Mutation = {
             }];
         const newChatRoom = yield ChatRoomModel.updateOne({ chatRoomName: chatRoomName }, { $set: { 'messages': newMsgs } });
         pubsub.publish(`chatRoom ${chatRoomName}`, {
-            newMsgs,
+            newMessage: newMsgs,
         });
         return newMsgs;
     })
