@@ -8,7 +8,7 @@
     "server": "cd backend && yarn && npm run server",
     "install:prod": "cd frontend && yarn install --freeze-lockfile && cd ../backend && yarn install --freeze-lockfile",
     "build": "cd frontend && yarn build",
-    "deploy": "cd backend && yarn server:build && yarn deploy"
+    "deploy": "cd backend && yarn deploy:build && yarn deploy"
   },
   "keywords": [],
   "author": "",
