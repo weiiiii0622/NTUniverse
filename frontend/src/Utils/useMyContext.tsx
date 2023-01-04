@@ -212,7 +212,7 @@ const MyProvider = (props: any) => {
     useEffect(() => {
         let unsub;
         try {
-            console.log(`sub! ${location}`);
+            //console.log(`sub! ${location}`);
             unsub = subscribeToMore({
                 document: BULLETIN_SUBSCRIPTION,
                 variables: { location: location },

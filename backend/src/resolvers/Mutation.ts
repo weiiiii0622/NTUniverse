@@ -72,7 +72,7 @@ const Mutation: IMutation = {
         bulletin.messages.push(newMsg);
         await bulletin.save();
         //let msg = _.cloneDeep(newMsg.populate(['author']));
-        console.log(newMsg);
+        //console.log(newMsg);
         pubsub.publish(`bulletin ${location}`, {
             bulletin: {
                 type: "CREATED",

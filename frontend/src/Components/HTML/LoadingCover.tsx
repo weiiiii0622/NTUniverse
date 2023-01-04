@@ -46,7 +46,7 @@ const LoadingCover = () => {
     };
 
     useEffect(() => {
-        console.log(`isLoading: ${isLoading}`);
+        //console.log(`isLoading: ${isLoading}`);
         if(isLoading===false){
             for(var i=1; i<=10; i++){
                 setTimeout(() => {
