@@ -6,7 +6,8 @@
   "scripts": {
     "server:build": "tsc -w",
     "server:run": "nodemon ./dist/index.js --ext js --exec babel-node",
-    "server": "concurrently npm:server:*"
+    "server": "concurrently npm:server:*",
+    "deploy": "NODE_ENV=production babel-node ./dist/index.js"
   },
   "keywords": [],
   "author": "",

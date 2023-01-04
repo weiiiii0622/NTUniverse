@@ -3,6 +3,7 @@ import { createServer } from 'node:http';
 import { useServer } from 'graphql-ws/lib/use/ws';
 import { WebSocketServer } from 'ws';
 import * as fs from 'fs';
+import path from 'path';
 import Schema from './schema';
 
 import Query from './resolvers/Query';

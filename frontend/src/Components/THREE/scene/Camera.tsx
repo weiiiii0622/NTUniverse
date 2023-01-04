@@ -13,29 +13,29 @@ interface CameraProps {
 
 export default function Camera({ orthographic = false, track = false }: CameraProps) {
 
-    const { bikePosition, bikeControlling } = useContext(ThreeContext);
-    const ref = useRef<Object3D>(null!);
-    const originPosition: Triplet = [15, 8, 3];
-    useFrame(({ camera }) => {
-        if (track) {
-            camera.position.set(...originPosition.map((x, i) => (x + bikePosition[i])) as Triplet);
-            // ref.current.lookAt(, 0, 0);
-        }
-    })
+    // const { bikePosition, bikeControlling } = useContext(ThreeContext);
+    // const ref = useRef<Object3D>(null!);
+    // const originPosition: Triplet = [15, 8, 3];
+    // useFrame(({ camera }) => {
+    //     if (track) {
+    //         camera.position.set(...originPosition.map((x, i) => (x + bikePosition[i])) as Triplet);
+    //         // ref.current.lookAt(, 0, 0);
+    //     }
+    // })
 
-    return <>
-        {orthographic
-            ? <OrthographicCamera
-                position={originPosition}
-                makeDefault
-            />
-            : <PerspectiveCamera
-                ref={ref}
-                makeDefault
-                position={originPosition}
-                zoom={0.7}
-            />
-        }
-    </>
+    // return <>
+    //     {orthographic
+    //         ? <OrthographicCamera
+    //             position={originPosition}
+    //             makeDefault
+    //         />
+    //         : <PerspectiveCamera
+    //             ref={ref}
+    //             makeDefault
+    //             position={originPosition}
+    //             zoom={0.7}
+    //         />
+    //     }
+    // </>
 
 }
