@@ -13,7 +13,6 @@ interface IChatRoomContext {
   setSecondOpen(x): void,
   createOpen: boolean,
   setCreateOpen(x): void,
-  scrollToBottom(): void,
   modalClose(): void,
   showFirst(): void,
   showSecond(): void,
@@ -38,7 +37,6 @@ const ChatRoomContext = createContext<IChatRoomContext>({
   setSecondOpen: (x) => { },
   createOpen: false,
   setCreateOpen: (x) => { },
-  scrollToBottom: () => { },
   modalClose: () => { },
   showFirst: () => { },
   showSecond: () => { },
@@ -82,26 +80,27 @@ const ChatRoomProvider = (props: any) => {
   }, [chatRooms]);
   const [activeRoom, setActiveRoom] = useState(0);
 
-  const scrollToBottom = () => { }
-
   const modalClose = () => {
     setChatRoomModalOpen(false);
     setSecondOpen(false);
     setBikeEnabled(true);
+    console.log('chat close!');
+    
   }
 
   const showFirst = () => {
     setChatRoomModalOpen(true);
     setSecondOpen(false);
     setBikeEnabled(false);
+    console.log('first');
+    
   }
 
-  const showSecond = (x: number) => {
-    console.log(x);
-
+  const showSecond = () => {
     setChatRoomModalOpen(false);
     setSecondOpen(true);
     setBikeEnabled(false);
+    console.log('second');
   }
 
   const defaultChatBox = (chatRoomName: string): IChatRoom => {
@@ -162,7 +161,7 @@ const ChatRoomProvider = (props: any) => {
       value={{
         secondOpen, setSecondOpen,
         createOpen, setCreateOpen,
-        scrollToBottom, modalClose, showFirst, showSecond,
+        modalClose, showFirst, showSecond,
         chatRooms, setChatRooms,
         messages, setMessages,
         activeRoom, setActiveRoom,

@@ -97,6 +97,7 @@ const CREATE_MRSSAGE_MUTATION = gql`
   createMessage(chatRoomName: $chatRoomName, sender: $sender, content: $content){
     sender
     content
+    readBy
   }
 }
 `;
