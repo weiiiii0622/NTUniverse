@@ -37,7 +37,8 @@ const useChatRoom = (props: IProps) => {
     // Open new chat box with friend
     if (chatRooms.some
       (({ name }) => name === newChatroom.chatRoomName)) {
-      message.error({ content: 'Chat room already opened!', duration: 0.75 })
+      message.error({ content: 'Chat room already opened!', duration: 0.75 });
+      return;
     }
 
     // children will be update later

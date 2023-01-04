@@ -68,7 +68,7 @@ const ChatRoomProvider = (props: any) => {
   const [secondOpen, setSecondOpen] = useState(false);
   const [createOpen, setCreateOpen] = useState(false);
   const [chatRooms, setChatRooms] = useState<IChatRoom[]>([{
-    name: 'World Channel',
+    name: '世界頻道',
     // set later by query
     // messages: [],
     lastMsg: 'Chat with all!',
@@ -125,7 +125,8 @@ const ChatRoomProvider = (props: any) => {
     // Open new chat box with friend
     if (chatRooms.some
       (({ name }) => name === newChatroom.name)) {
-      message.error({ content: 'Chat room already opened!', duration: 0.75 })
+      message.error({ content: 'Chat room already opened!', duration: 0.75 });
+      return;
     }
 
     // children will be update later

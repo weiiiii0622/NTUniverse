@@ -40,9 +40,9 @@ const Query = {
         let data;
         let chatRoom = yield ChatRoomModel.findOne({ chatRoomName: chatRoomName });
         if (!chatRoom) {
-            if (chatRoomName === 'World Channel') {
+            if (chatRoomName === '世界頻道') {
                 data = {
-                    chatRoomName: 'World Channel',
+                    chatRoomName: '世界頻道',
                     messages: {
                         sender: 'NTUniverse',
                         content: 'Welcome to NTUniverse',
