@@ -55,12 +55,12 @@ const Schema = (0, apollo_server_express_1.gql) `
     createBulletinMsg(location: String!, author: ID!, body: String!, tags:[String]): BulletinMsg!
     updateBulletinMsg(location: String!, id: ID!, email: String!, isLiked: Boolean!): BulletinMsg!
     createChatRoom(chatRoomName: String!): ChatRoom!
-    createMessage(chatRoomName: String!, sender: String!, senderNick: String, content: String!): [Message]!
+    createMessage(chatRoomName: String!, sender: String!, senderNick: String, content: String!): Message!
   }
 
   type Subscription {
     bulletin(location: String!): BulletinMsgSubscriptionPayload!
-    newMessage(chatRoomName: String!): ChatRoom!
+    newMessage(chatRoomName: String!): Message!
   }
 
   type BulletinMsgSubscriptionPayload {
