@@ -17,7 +17,7 @@ const useChatRoom = (props: IProps) => {
   const [chatRooms, setChatRooms] = useState<IChatRoom[]>([]);
   // TODEL:
   useEffect(() => {
-    console.log(chatRooms);
+    //console.log(chatRooms);
   }, [chatRooms]);
 
   const defaultChatBox = (chatRoomName: string): IChatRoom => {
@@ -33,7 +33,7 @@ const useChatRoom = (props: IProps) => {
   const [createChatBoxMutation] = useMutation(CREATE_CHATROOM_MUTATION);
 
   const handleCreate = (newChatroom: any) => {
-    console.log(newChatroom);
+    //console.log(newChatroom);
     // Open new chat box with friend
     if (chatRooms.some
       (({ name }) => name === newChatroom.chatRoomName)) {
@@ -44,7 +44,7 @@ const useChatRoom = (props: IProps) => {
     // children will be update later
     setChatRooms([...chatRooms, defaultChatBox(newChatroom.chatRoomName)]);
 
-    console.log(me);
+    //console.log(me);
 
     createChatBoxMutation({
       variables: {

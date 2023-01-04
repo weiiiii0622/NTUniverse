@@ -55,7 +55,7 @@ const useQueryChat = (props: useQueryChatProps) => {
           setChatRooms(tempRooms);
 
           // console.log('data');
-          console.log(temp);
+          //console.log(temp);
 
           // console.log('last');
           // console.log(tempRooms);
