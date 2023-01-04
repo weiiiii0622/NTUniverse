@@ -1,12 +1,9 @@
-import { Button, Drawer, Input } from "antd";
+import { Drawer, Input } from "antd";
 import { LeftOutlined } from '@ant-design/icons';
 import Message from './Message';
 import { useChatRoomContext } from "../../../Utils/ChatRoom/useChatRoomContext";
 import styled from "styled-components";
-import { IChatRoom } from "../../../Utils/ChatRoom/IChatRoom";
 import useQueryChat from "../../../Containers/HTML/ChatRoom/hooks/useQueryChat";
-import { useQuery } from "@apollo/client";
-import { CHATROOM_QUERY } from "../../../Utils/graphql";
 import { useEffect, useRef, useState } from "react";
 import { useMyContext } from "../../../Utils/useMyContext";
 import PlsLogin from "../components/PleaseLogIn";
@@ -20,8 +17,8 @@ const MsgWrapper = styled.div`
   display: flex;
   justify-content: flex-start;
   flex-direction: column;
-  margin: 4px 5px;
-  gap: 10px;
+  margin: 0px 5px;
+  gap: 2px;
   overflow: scroll;
   `;
 
@@ -88,8 +85,8 @@ const SecondLevelModal = () => {
             </MsgWrapper>
 
             <Input.Search
-              enterButton="Send"
-              placeholder="Type a message here..."
+              enterButton='傳送'
+              placeholder='輸入訊息...'
               value={body}
               onChange={handleChange(setBody)}
               onSearch={(val) => {

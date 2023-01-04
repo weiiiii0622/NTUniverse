@@ -27,7 +27,7 @@ const CreateChatModal = (props: ICreateChatModal) => {
     form
       .validateFields()
       .then((values) => {
-        console.log(users);
+        // console.log(users);
 
         handleCreate({
           name: values.name,
