@@ -13,7 +13,7 @@ import {
     UPDATE_BULLETINMSG_MUTATION,
 
     BULLETIN_SUBSCRIPTION,
-} from "../graphql";
+} from "./graphql";
 
 
 interface IContext {
@@ -53,9 +53,9 @@ interface IContext {
     setIsChangeScene: SetStateType<any>,
     isLoading: boolean,
     setIsLoading: SetStateType<any>,
-    finish: boolean, 
+    finish: boolean,
     setFinish: SetStateType<any>,
-    loadFinished:boolean,
+    loadFinished: boolean,
     setLoadFinished: SetStateType<boolean>,
 
     setBikeEnabled: SetStateType<boolean>,
@@ -98,7 +98,7 @@ const MyContext = createContext<IContext>({
     isChangingScene: {},
     isLoading: true,
     setIsLoading: () => { },
-    loadFinished:false,
+    loadFinished: false,
     setLoadFinished: () => { },
     finish: true,
     setFinish: () => { },
@@ -171,12 +171,6 @@ const MyProvider = (props: any) => {
     // Add Other component......
 
 
-    /**
-     * Bike
-     */
-
-    const [bikeEnabled, setBikeEnabled] = useState(true);
-
 
     /**
      * 
@@ -184,7 +178,7 @@ const MyProvider = (props: any) => {
      * 
      */
     const [bikeTpPosition, setBikeTpPosition] = useState<Triplet>([0, 0, 0]);
-    const [isChangingScene, setIsChangeScene] = useState({cmd:"", scene:""});
+    const [isChangingScene, setIsChangeScene] = useState({ cmd: "", scene: "" });
     const [finish, setFinish] = useState(true);
 
     /**
@@ -202,7 +196,7 @@ const MyProvider = (props: any) => {
         variables: {
             location: location,
         },
-        fetchPolicy: "cache-and-network",   
+        fetchPolicy: "cache-and-network",
     })
 
     useEffect(() => {
@@ -277,7 +271,6 @@ const MyProvider = (props: any) => {
                 setTutorialModalOpen, setIsLogin, setLoginModalOpen, setLogoutModalOpen, setProfileModalOpen, setBulletinModalOpen, setAboutModalOpen, login, updateUser, leaveComment, likeComment, setMe,
                 setProfileUser,
                 setLocation, setBulletinMessages,
-                bikeEnabled, setBikeEnabled,
                 bikeTpPosition, setBikeTpPosition,
                 isChangingScene, setIsChangeScene,
                 isLoading, setIsLoading,
