@@ -9,6 +9,7 @@ import { useQuery } from "@apollo/client";
 import { CHATROOM_QUERY } from "../../../Utils/graphql";
 import { useEffect, useRef, useState } from "react";
 import { useMyContext } from "../../../Utils/useMyContext";
+import PlsLogin from "../components/PleaseLogIn";
 
 interface ISecondLevelModal {
 
@@ -23,13 +24,13 @@ const MsgWrapper = styled.div`
   gap: 10px;
   overflow: scroll;
   `;
-  
-  const FootRef = styled.div`
+
+const FootRef = styled.div`
     height: 10px;
   `;
 
 const SecondLevelModal = () => {
-  const { me } = useMyContext();
+  const { me, isLogin } = useMyContext();
   const { secondOpen, showFirst, chatRooms, messages, setMessages, activeRoom, handleNewMsg } = useChatRoomContext();
   const chatRoom = chatRooms[activeRoom];
   // const { loading, error, data, subscribeToMore } = useQuery(CHATROOM_QUERY, {
@@ -38,7 +39,7 @@ const SecondLevelModal = () => {
   //   },
   //   fetchPolicy: "cache-and-network",
   // })
-  const { loading, error, data } = useQueryChat({ chatRoomName: (chatRoom? chatRoom.name : 'World Channel') });
+  const { loading, error, data } = useQueryChat({ chatRoomName: (chatRoom ? chatRoom.name : '世界頻道') });
   // console.log(data);
   // let messages = data?.chatRoom.messages;
 
@@ -79,27 +80,35 @@ const SecondLevelModal = () => {
         onClose={showFirst}
         open={secondOpen}
       >
-        <MsgWrapper>
-          {messages?.map(msg => <Message sender={msg.sender} content={msg.content} />)}
-          <FootRef key={chatRoom.name + '-footer'} ref={msgFooterRef} />
+        {isLogin ?
+          <>
+            <MsgWrapper>
+              {messages?.map(msg => <Message sender={msg.sender} content={msg.content} />)}
+              <FootRef key={chatRoom.name + '-footer'} ref={msgFooterRef} />
+            </MsgWrapper>
 
-        </MsgWrapper>
+            <Input.Search
+              enterButton="Send"
+              placeholder="Type a message here..."
+              value={body}
+              onChange={handleChange(setBody)}
+              onSearch={(val) => {
+                handleNewMsg({
+                  chatRoomName: chatRoom.name,
+                  sender: me['email'],
+                  content: val,
+                });
+                setBody('');
+              }}
+            ></Input.Search>
+          </>
 
+          :
 
-        <Input.Search
-          enterButton="Send"
-          placeholder="Type a message here..."
-          value={body}
-          onChange={handleChange(setBody)}
-          onSearch={(val) => {
-            handleNewMsg({
-              chatRoomName: chatRoom.name,
-              sender: me['email'],
-              content: val,
-            });
-            setBody('');
-          }}
-        ></Input.Search>
+          <>
+            <PlsLogin />
+          </>
+        }
       </Drawer>
     </>
   )

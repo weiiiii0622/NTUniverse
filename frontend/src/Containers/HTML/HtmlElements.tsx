@@ -6,6 +6,7 @@ import ProfileModal from "../../Components/HTML/ProfileModal";
 import BulletinModal from "../../Components/HTML/BulletinModal";
 import ChatRoomModal from "../../Containers/HTML/ChatRoom/ChatRoomModal";
 import AboutModal from "../../Components/HTML/AboutModal";
+import SettingModal from "../../Components/HTML/SettingModal";
 import TeleportTransition from "../../Components/HTML/ChangeScene/TeleportTransition";
 import LoadingCover from "../../Components/HTML/LoadingCover";
 import { useMyContext } from "../../Utils/useMyContext";
@@ -24,7 +25,10 @@ const AppHtmlElements = () => {
             <LoginModal />
             <LogoutModal />
             <ProfileModal />
-
+            <TutorialModal />
+            <BulletinModal />
+            <AboutModal />
+            <SettingModal />
             {loadFinished
                 ?
                 null

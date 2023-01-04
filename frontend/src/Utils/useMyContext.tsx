@@ -31,6 +31,8 @@ interface IContext {
     setBulletinModalOpen(x: boolean): void,
     aboutModalOpen: boolean,
     setAboutModalOpen(x: boolean): void,
+    settingModalOpen: boolean, 
+    setSettingModalOpen: SetStateType<boolean>,
     me: object,
     setMe(x: object): void,
     bulletinLocation: string,
@@ -78,6 +80,8 @@ const MyContext = createContext<IContext>({
     setBulletinModalOpen: (x) => { },
     aboutModalOpen: false,
     setAboutModalOpen: (x) => { },
+    settingModalOpen: false, 
+    setSettingModalOpen: () => { },
     me: {},
     setMe: (x) => { },
     bulletinLocation: "", 
@@ -144,6 +148,9 @@ const MyProvider = (props: any) => {
 
     // ChatRoomModal
     const [chatRoomModalOpen, setChatRoomModalOpen] = useState(false);
+
+    // SettingModal
+    const [settingModalOpen, setSettingModalOpen] = useState(false);
 
     /**
      * 
@@ -262,6 +269,7 @@ const MyProvider = (props: any) => {
                 tutorialModalOpen, isLogin, loginModalOpen, logoutModalOpen, profileModalOpen, bulletinModalOpen, aboutModalOpen, me, bulletinMessages, profileUser,
                 setTutorialModalOpen, setIsLogin, setLoginModalOpen, setLogoutModalOpen, setProfileModalOpen, setBulletinModalOpen, setAboutModalOpen, login, updateUser, leaveComment, likeComment, setMe,
                 setProfileUser,setBulletinMessages,
+                settingModalOpen, setSettingModalOpen,
                 bikeTpPosition, setBikeTpPosition,
                 isChangingScene, setIsChangeScene,
                 isLoading, setIsLoading,

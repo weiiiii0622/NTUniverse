@@ -1,4 +1,4 @@
-import { Avatar, Drawer, List, Layout, Button, Space } from "antd";
+import { Avatar, Drawer, List, Layout, Button, Space, Card, Col, Row } from "antd";
 import { MehOutlined } from '@ant-design/icons';
 import { useState } from "react";
 import { IChatRoom } from "../../../Utils/ChatRoom/IChatRoom";
@@ -12,6 +12,7 @@ import { useChatRoomContext } from "../../../Utils/ChatRoom/useChatRoomContext";
 import useQueryChat from "../../../Containers/HTML/ChatRoom/hooks/useQueryChat";
 import { CHATROOM_QUERY } from "../../../Utils/graphql";
 import { useQuery } from "@apollo/client";
+import { describe } from "node:test";
 
 
 
@@ -37,55 +38,79 @@ const data = [
 ];
 
 const FirstLevelModal = (props: IFirstLevelProps) => {
-  const { showSecond, chatRooms, activeRoom, setActiveRoom, setChatRooms } = useChatRoomContext();
+  const { showSecond, chatRooms, activeRoom, setActiveRoom, modalClose } = useChatRoomContext();
   const { isLogin, chatRoomModalOpen, setChatRoomModalOpen } = useMyContext();
 
   return (
     <>
       <Drawer
-        title="Basic Drawer"
+        title={<h3 style={{ margin: '5px' }}>聊天室</h3>}
         placement="right"
         mask={false}
-        onClose={() => setChatRoomModalOpen(false)}
+        onClose={modalClose}
         open={chatRoomModalOpen}
+        bodyStyle={{ paddingTop: '5px' }}
       >
-        <h2 style={{ display: 'inline', paddingRight: '20px' }}>Chats</h2>
 
         {/* check login */}
-        {true ?
+        {isLogin ?
           <>
             <CreateChatModal />
-
-            {/* <UsersModal
-              me={me}
-              addUsersOpen={() => {
-                setAddUsersOpen(true);
-                setCreateOpen(false);
-              }}
-              onOk={handleCreate}
-              onCancel={ }
-              setStatus={ }
-            /> */}
-
-            <List
-              itemLayout="horizontal"
-              dataSource={chatRooms}
-              // header={
-              //   <h3>Chats</h3>
-              // }
-              renderItem={(item, idx) => (
-                <List.Item onClick={() => {
-                  setActiveRoom(idx);
-                  showSecond();
-                }}>
-                  <List.Item.Meta
-                    avatar={<MehOutlined />}
-                    title={<p>{item.name}</p>}
-                    // description={item.lastMsg}
-                  />
-                </List.Item>
-              )}
-            />
+            <div style={{
+              position: 'absolute',
+              paddingTop: '10px',
+              bottom: 0,
+              height: '86%',
+              width: '330px',
+              overflow: 'scroll',
+            }}>
+              <List
+                itemLayout="horizontal"
+                dataSource={chatRooms}
+                // loading={true}
+                renderItem={(item, idx) => (
+                  <Card
+                    style={{
+                      marginTop: '2px',
+                      // borderColor: 'grey',
+                      // borderBlockWidth: '0.5px'
+                    }}
+                    hoverable={true}
+                    bordered={true}
+                  >
+                    <List.Item
+                      style={{
+                        height: '30px',
+                      }}
+                      onClick={() => {
+                        setActiveRoom(idx);
+                        showSecond();
+                      }}
+                    >
+                      <List.Item.Meta
+                        style={{
+                          display: 'flex',
+                          justifyContent: 'center',
+                          alignContent: 'center',
+                          marginBottom: '0',
+                        }}
+                        avatar={
+                          <div style={{ position: 'relative', top: '16px' }}>
+                            <MehOutlined
+                              style={{ fontSize: '200%', }}
+                            />
+                          </div>
+                        }
+                        title={
+                          <h3 style={{}}>{item.name}</h3>
+                        }
+                      // description={item.lastMsg}
+                      />
+                    </List.Item>
+                  </Card>
+                )}
+              />
+            </div>
 
             {/* <Button type="primary" onClick={() => showSecond()}>
               Two-level drawer
