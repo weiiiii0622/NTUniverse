@@ -17,7 +17,7 @@ const useChatRoom = (props: IProps) => {
   const [chatRooms, setChatRooms] = useState<IChatRoom[]>([]);
   // TODEL:
   useEffect(() => {
-    // console.log(chatRooms);
+    //console.log(chatRooms);
   }, [chatRooms]);
 
   const defaultChatBox = (chatRoomName: string): IChatRoom => {

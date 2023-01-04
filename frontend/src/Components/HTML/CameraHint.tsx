@@ -12,7 +12,7 @@ export default function CameraHint() {
     const [text, setText] = useState('');
     useEffect(() => {
 
-        console.log(bikeEnabled);
+        //console.log(bikeEnabled);
 
         if (!bikeEnabled)
             return;
