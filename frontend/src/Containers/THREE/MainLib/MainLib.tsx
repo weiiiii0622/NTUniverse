@@ -35,16 +35,7 @@ export default function MainLib() {
                     <cylinderGeometry args={[10, 10, 0.5, 64]} />
                     <meshStandardMaterial color={'lime'} opacity={1} />
                 </mesh>
-                <Text3D
-                    // size={10}
-                    position={[0, 0.5, 0]}
-                    // rotation={[-Math.PI / 2, 0, 0]}
-                    font={'../node_modules/three/examples/fonts/helvetiker_regular.typeface.json'}
-                >
-                    main lib.
-                    {/* <meshNormalMaterial /> */}
-                    <meshStandardMaterial color={'gray'} />
-                </Text3D>
+                
 
             </group>
             <InteractiveBlock
