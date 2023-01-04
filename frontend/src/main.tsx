@@ -1,6 +1,6 @@
 import { PublicApi } from '@react-three/cannon'
 import React from 'react'
-  import ReactDOM from 'react-dom/client'
+import ReactDOM from 'react-dom/client'
 import dotenv from 'dotenv-defaults';
 import { ApolloClient, InMemoryCache, ApolloProvider, split, HttpLink } from '@apollo/client';
 import { getMainDefinition } from '@apollo/client/utilities';
@@ -14,6 +14,7 @@ import './index.css'
 import { MyProvider } from './Utils/useMyContext'
 
 import { GoogleOAuthProvider } from '@react-oauth/google';
+import { ChatRoomProvider } from './Utils/ChatRoom/useChatRoomContext';
 
 const httpLink = new HttpLink({
   uri: 'http://localhost:4001/graphql'
@@ -41,15 +42,17 @@ const client = new ApolloClient({
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   //<React.StrictMode>
-    <ApolloProvider client={client}>
-      <GoogleOAuthProvider clientId="400363191853-gjef8qplkajcu781n791f6eonffkcfq3.apps.googleusercontent.com">
+  <ApolloProvider client={client}>
+    <GoogleOAuthProvider clientId="400363191853-gjef8qplkajcu781n791f6eonffkcfq3.apps.googleusercontent.com">
 
-        <MyProvider>
+      <MyProvider>
+        <ChatRoomProvider>
           <App />
-        </MyProvider>
+        </ChatRoomProvider>
+      </MyProvider>
 
-      </GoogleOAuthProvider>
-    </ApolloProvider>
+    </GoogleOAuthProvider>
+  </ApolloProvider>
   //</React.StrictMode>,
 )
 

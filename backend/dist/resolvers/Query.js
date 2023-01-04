@@ -35,8 +35,20 @@ const Query = {
         return msg;
     }),
     // ChatRoom
-    // chatRoom: async (parent: any, { chatRoomName }: any, { ChatRoomModel }: any) => {
-    //   const chatRoom = ChatRoomModel.find
-    // }
+    worldChannel: (parent, args, { ChatRoomModel }) => __awaiter(void 0, void 0, void 0, function* () {
+        let worldChannel = yield ChatRoomModel.findOne({ chatRoomName: 'World Channel' });
+        if (!worldChannel) {
+            worldChannel = yield new ChatRoomModel({
+                chatRoomName: 'World Channel',
+                messages: {
+                    sender: 'NTUniverse',
+                    content: 'Welcome to NTUniverse',
+                    readBy: ['NTUniverse'],
+                }
+            }).save();
+        }
+        console.log();
+        return worldChannel;
+    })
 };
 exports.default = Query;

@@ -51,6 +51,7 @@ const LoginModal = () => {
         setProfileUser(id);
         setLoading(true);
         setTimeout(() => {
+            // things after login
           setLoginModalOpen(false);
           setLoading(false);
           setIsLogin(true);

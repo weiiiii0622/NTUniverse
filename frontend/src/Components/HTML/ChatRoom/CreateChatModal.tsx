@@ -1,22 +1,25 @@
 import { useEffect, useRef, useState } from "react";
-import { Button, Form, Input, Modal, Affix } from "antd";
+import { Button, Form, Input, Modal, Affix, Tag, message } from "antd";
 import { PlusOutlined } from '@ant-design/icons';
+import UsersModal from "./UsersModal";
+import useChatRoom from "../../../Containers/HTML/ChatRoom/hooks/useChatRoom";
+import { useChatRoomContext } from "../../../Utils/ChatRoom/useChatRoomContext";
+import { useMyContext } from "../../../Utils/useMyContext";
 
 interface ICreateChatModal {
-  createOpen: boolean,
-  onOpen(): void,
-  onCancel(): void,
-  onCreate(name: string): void,
+
 }
 
 const CreateChatModal = (props: ICreateChatModal) => {
 
-  const { createOpen, onOpen, onCancel, onCreate } = props;
+  const { me } = useMyContext();
+  const myEmail = me['email'];
+  const { handleCreate, createOpen, setCreateOpen } = useChatRoomContext();
 
   const [form] = Form.useForm();
   const [form2] = Form.useForm();
-	const [users, setUsers] = useState([me]);
-	const [username, setUsername] = useState('');
+  const [users, setUsers] = useState([myEmail]);
+  const [username, setUsername] = useState('');
 
   // const [container, setContainer] = useState<HTMLDivElement | null>(null);
 
@@ -24,9 +27,14 @@ const CreateChatModal = (props: ICreateChatModal) => {
     form
       .validateFields()
       .then((values) => {
-        onCreate(values.name);
+        console.log(users);
+
+        handleCreate({
+          chatRoomName: values.name,
+          users: users,
+        });
         form.resetFields();
-        onCancel();
+        setCreateOpen(false);
       })
       .catch((e) => {
         console.error(e);
@@ -35,7 +43,7 @@ const CreateChatModal = (props: ICreateChatModal) => {
 
   return (
     <>
-      <Button icon={<PlusOutlined />} onClick={onOpen}>建立聊天室</Button>
+      <Button icon={<PlusOutlined />} onClick={() => setCreateOpen(true)}>建立聊天室</Button>
       {/* <div style={{ position: 'sticky', top: 0 }}>
       </div>
        */}
@@ -45,7 +53,7 @@ const CreateChatModal = (props: ICreateChatModal) => {
         cancelText="取消"
         open={createOpen}
         onOk={() => submit()}
-        onCancel={onCancel}
+        onCancel={() => {setCreateOpen(false)}}
       >
         <Form form={form} layout="vertical" name="form_in_modal">
           <Form.Item
@@ -65,29 +73,31 @@ const CreateChatModal = (props: ICreateChatModal) => {
         </Form>
 
         <Form form={form2} layout="vertical" name="form_in_modal">
-				<Form.Item
-					name="username"
-					label="User"
-				>
-					<Input.Search
-						enterButton={<Button type="primary">add</Button>}
-						placeholder="User name"
-						value={username}
-						onChange={e => setUsername(e.target.value)}
-						onSearch={value => {
-							if (users.find(user => user === value)) {
-								setStatus({ type: 'error', msg: 'User already in chat room.' })
-							} else {
-								setUsers([...users, value]);
-							}
-							form.resetFields(['username']);
-						}}
-					/>
-				</Form.Item>
-			</Form>
-			{
-				users.map(user => <Tag color="blue" key={user}>{user}</Tag>)
-			}
+          <Form.Item
+            name="username"
+            label="User"
+          >
+            <Input.Search
+              enterButton={<Button type="primary">add</Button>}
+              placeholder="User name"
+              value={username}
+              onChange={e => setUsername(e.target.value)}
+              onSearch={value => {
+                if (users.find(user => user === value)) {
+                  // setStatus({ type: 'error', msg: 'User already in chat room.' })
+                  message.error(`${value} already in chat room`)
+                } else {
+                  setUsers([...users, value]);
+                }
+                form.resetFields(['username']);
+              }}
+            />
+          </Form.Item>
+        </Form>
+        {
+          users.map(user => <Tag color="blue" key={user}>{user}</Tag>)
+        }
+
       </Modal>
     </>
   )

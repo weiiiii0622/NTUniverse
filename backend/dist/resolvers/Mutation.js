@@ -89,11 +89,25 @@ const Mutation = {
             }
         });
         return msg;
-    })
-    createChatRoom: (parent, { chatRoomName, creatorEmail }, { ChatRoomModel }) => __awaiter(void 0, void 0, void 0, function* () {
-        const chatRoom = yield new ChatRoomModel({ chatRoomName, users: [creatorEmail] }).save();
+    }),
+    createChatRoom: (parent, { chatRoomName, users }, { ChatRoomModel }) => __awaiter(void 0, void 0, void 0, function* () {
+        const chatRoom = yield new ChatRoomModel({ chatRoomName, users, messages: [] }).save();
         console.log('new room: ' + chatRoomName);
         return chatRoom;
     }),
+    createMessage: (parent, { chatRoomName, sender, content }, { ChatRoomModel, pubsub }) => __awaiter(void 0, void 0, void 0, function* () {
+        const chatRoom = yield ChatRoomModel.findOne({ chatRoomName: chatRoomName });
+        const oldMsgs = chatRoom.messages;
+        const newMsg = [...oldMsgs, {
+                sender,
+                content,
+                readBy: [sender],
+            }];
+        const newChatRoom = yield ChatRoomModel.updateOne({ chatRoomName: chatRoomName }, { $set: { 'messages': newMsg } });
+        pubsub.publish(`chatRoom ${chatRoomName}`, {
+            chatRoom: newChatRoom,
+        });
+        return newMsg;
+    })
 };
 exports.default = Mutation;

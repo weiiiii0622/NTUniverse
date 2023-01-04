@@ -1,7 +1,14 @@
 import { Button, Tag, Form, Input, Modal } from "antd"
 import { useEffect, useRef, useState } from "react";
 
-const UsersModal = ({ me, open, onOk, onCancel, setStatus }) => {
+interface ICreateChatModal {
+	me: string,
+	addUsersOpen: boolean,
+	onCancel(): void,
+	onCreate(name: string): void,
+  }
+
+const UsersModal = ({ me, addUsersOpen, onOk, onCancel, setStatus }) => {
 
 	const [form] = Form.useForm();
 	const [users, setUsers] = useState([me]);
@@ -25,7 +32,7 @@ const UsersModal = ({ me, open, onOk, onCancel, setStatus }) => {
 			title="Add users to new chat room (1~10, including yourself)"
 			okText="Ok!"
 			cancelText="Cancel"
-			open={open}
+			open={addUsersOpen}
 			onOk={() => submit()}
 			onCancel={() => {
 				onCancel();

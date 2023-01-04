@@ -7,16 +7,14 @@ import { useMyContext } from "../../../Utils/useMyContext";
 import CreateChatModal from './CreateChatModal';
 import SecondLevelModal from './SecondLevelModal';
 import PlsLogin from "../../../Components/HTML/components/PleaseLogIn";
+import UsersModal from "./UsersModal";
+import { useChatRoomContext } from "../../../Utils/ChatRoom/useChatRoomContext";
 
 
 
 
 interface IFirstLevelProps {
-  chatRooms: IChatRoom[],
-  chatRoomModalOpen: boolean,
-  onClose(): void,
-  handleCreate(name: String): void,
-  showSecond(idx: number): void,
+
 }
 
 // test data
@@ -36,9 +34,8 @@ const data = [
 ];
 
 const FirstLevelModal = (props: IFirstLevelProps) => {
-  const { chatRooms, chatRoomModalOpen, onClose, handleCreate, showSecond } = props;
-  const { isLogin } = useMyContext();
-  const [createOpen, setCreateOpen] = useState(false);
+  const { showSecond, chatRooms, activeRoom, setActiveRoom } = useChatRoomContext();
+  const { isLogin, chatRoomModalOpen , setChatRoomModalOpen } = useMyContext();
 
   return (
     <>
@@ -46,20 +43,26 @@ const FirstLevelModal = (props: IFirstLevelProps) => {
         title="Basic Drawer"
         placement="right"
         mask={false}
-        onClose={onClose}
+        onClose={() => setChatRoomModalOpen(false)}
         open={chatRoomModalOpen}
       >
         <h2 style={{ display: 'inline', paddingRight: '20px' }}>Chats</h2>
-        
+
         {/* check login */}
-        {true?
+        {true ?
           <>
-            <CreateChatModal
-              createOpen={createOpen}
-              onOpen={() => setCreateOpen(true)}
-              onCancel={() => setCreateOpen(false)}
-              onCreate={handleCreate}
-            />
+            <CreateChatModal />
+
+            {/* <UsersModal
+              me={me}
+              addUsersOpen={() => {
+                setAddUsersOpen(true);
+                setCreateOpen(false);
+              }}
+              onOk={handleCreate}
+              onCancel={ }
+              setStatus={ }
+            /> */}
 
             <List
               itemLayout="horizontal"
@@ -68,7 +71,10 @@ const FirstLevelModal = (props: IFirstLevelProps) => {
               //   <h3>Chats</h3>
               // }
               renderItem={(item, idx) => (
-                <List.Item onClick={() => { showSecond(idx) }}>
+                <List.Item onClick={() => {
+                  setActiveRoom(idx);
+                  showSecond();
+                }}>
                   <List.Item.Meta
                     avatar={<MehOutlined />}
                     title={<p>{item.name}</p>}
@@ -78,9 +84,9 @@ const FirstLevelModal = (props: IFirstLevelProps) => {
               )}
             />
 
-            <Button type="primary" onClick={() => showSecond(0)}>
+            {/* <Button type="primary" onClick={() => showSecond()}>
               Two-level drawer
-            </Button>
+            </Button> */}
           </>
 
           :
@@ -88,7 +94,7 @@ const FirstLevelModal = (props: IFirstLevelProps) => {
           <>
             <PlsLogin />
           </>
-          }
+        }
       </Drawer>
     </>
   )

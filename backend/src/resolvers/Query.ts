@@ -3,7 +3,7 @@ const Query = {
     const user = await UserModel.findOne({ _id: id });
     return user;
   },
-  userByEmail:async (parent: any, { email }: any, { UserModel }: any) => {
+  userByEmail: async (parent: any, { email }: any, { UserModel }: any) => {
     const user = await UserModel.findOne({ email: email });
     return user;
   },
@@ -14,7 +14,7 @@ const Query = {
 
   //Bulletin
   bulletin: async (parent: any, { location }: any, { BulletinModel }: any) => {
-    const bulletin = await BulletinModel.findOne({ location }).populate(["messages", {path: 'messages', populate: 'likers' }]);
+    const bulletin = await BulletinModel.findOne({ location }).populate(["messages", { path: 'messages', populate: 'likers' }]);
     //console.log(bulletin);
     return bulletin;
   },
@@ -27,10 +27,22 @@ const Query = {
   },
 
   // ChatRoom
-  // chatRoom: async (parent: any, { chatRoomName }: any, { ChatRoomModel }: any) => {
-  //   const chatRoom = ChatRoomModel.find
-  // }
-
+  worldChannel: async (parent: any, args: any, { ChatRoomModel }: any) => {
+    let worldChannel = await ChatRoomModel.findOne({ chatRoomName: 'World Channel' });
+    if (!worldChannel) {
+      worldChannel = await new ChatRoomModel({
+        chatRoomName: 'World Channel',
+        messages: {
+          sender: 'NTUniverse',
+          content: 'Welcome to NTUniverse',
+          readBy: ['NTUniverse'],
+        }
+      }).save();
+    }
+    console.log();
+    
+    return worldChannel;
+  }
 };
 
 export default Query;

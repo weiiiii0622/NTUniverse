@@ -47,6 +47,7 @@ const Schema = gql`
     userByEmail(email: String!): User!
     bulletin(location: String!): Bulletin!
     bulletinMsg(author: ID!): [BulletinMsg!]
+    worldChannel: ChatRoom!
   }
 
   type Mutation {
@@ -54,11 +55,13 @@ const Schema = gql`
     updateUser(email: String!, nick_name: String!, picture: String!, description: String!): User!
     createBulletinMsg(location: String!, author: ID!, body: String!, tags:[String]): BulletinMsg!
     updateBulletinMsg(location: String!, id: ID!, email: String!, isLiked: Boolean!): BulletinMsg!
-    createChatRoom(chatRoomName: String!, creatorEmail: String!): ChatRoom!
+    createChatRoom(chatRoomName: String!, users: [String!]!): ChatRoom!
+    createMessage(chatRoomName: String!, sender: String!, content: String!): [Message]!
   }
 
   type Subscription {
     bulletin(location: String!): BulletinMsgSubscriptionPayload!
+    chatRoom(chatRoomName: String!): ChatRoom!
   }
 
   type BulletinMsgSubscriptionPayload {

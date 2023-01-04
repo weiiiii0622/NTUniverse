@@ -1,47 +1,48 @@
 import { Schema, Types, model } from 'mongoose';
-import _ from 'lodash';
+import _, { update } from 'lodash';
 
 
 interface IMutation {
-    createUser: (x: any, y: any, z: any) => { },
-    updateUser: (x: any, y: any, z: any) => { },
-    createBulletinMsg: (x: any, y: any, z: any) => { },
-    updateBulletinMsg: (x: any, y: any, z: any) => { },
+    createUser: (x: any, y: any, z: any) => {},
+    updateUser: (x: any, y: any, z: any) => {},
+    createBulletinMsg: (x: any, y: any, z: any) => {},
+    updateBulletinMsg: (x: any, y: any, z: any) => {},
     // chatRoomName: String,
     // users: Types.ObjectId[],
     // messages: Types.ObjectId[],
-    createChatRoom: (x: any, y: any, z: any) => { },
+    createChatRoom: (x: any, y: any, z: any) => {},
+    createMessage: (x: any, y: any, z: any) => {},
 }
 
-const validateUser:any = async (UserModel: any, email: String, first_name: String, last_name: String, nick_name: String, picture: String, description: String) => {
+const validateUser: any = async (UserModel: any, email: String, first_name: String, last_name: String, nick_name: String, picture: String, description: String) => {
     let usr = await UserModel.findOne({ email });
     //console.log(usr);
-    if(!usr){
+    if (!usr) {
         usr = await new UserModel({ email, first_name, last_name, picture, nick_name, description }).save();
         //console.log(`user ${email} created`);
     }
-    else{
+    else {
         //console.log(`user ${email} found`);
     }
     //console.log(usr);
     return usr;
 }
 
-const validateBulletin:any = async (BulletinModel: any, location: string) => {
+const validateBulletin: any = async (BulletinModel: any, location: string) => {
     let bulletin = await BulletinModel.findOne({ location });
     //console.log(bulletin);
-    if(!bulletin){
+    if (!bulletin) {
         bulletin = await new BulletinModel({ location }).save();
         //console.log(`bulletin ${location} created`);
     }
-    else{
+    else {
         //console.log(`bulletion ${location} found`);
     }
     //console.log(usr);
-    return bulletin.populate([{path: 'messages', populate: 'author' }]);
+    return bulletin.populate([{ path: 'messages', populate: 'author' }]);
 }
-  
-const Mutation:IMutation = {
+
+const Mutation: IMutation = {
     createUser: async (parent, { email, first_name, last_name, nick_name, picture }, { UserModel }) => {
 
         let usr = await validateUser(UserModel, email, first_name, last_name, nick_name, picture, "", "");
@@ -61,7 +62,7 @@ const Mutation:IMutation = {
         return usr;
     },
 
-    createBulletinMsg: async (parent, { location ,author, body, tags }, { BulletinModel, BulletinMsgModel, pubsub }) => {
+    createBulletinMsg: async (parent, { location, author, body, tags }, { BulletinModel, BulletinMsgModel, pubsub }) => {
 
         let bulletin = await validateBulletin(BulletinModel, location);
         let newMsg = await new BulletinMsgModel({ author, body, tags }).save();
@@ -82,23 +83,23 @@ const Mutation:IMutation = {
         return newMsg;
     },
 
-    updateBulletinMsg: async (parent, { location, id, email, isLiked }, {  UserModel, BulletinMsgModel, pubsub }) => {
+    updateBulletinMsg: async (parent, { location, id, email, isLiked }, { UserModel, BulletinMsgModel, pubsub }) => {
 
         let usr = await UserModel.findOne({ email });
         let msg = await BulletinMsgModel.findOne({ _id: id });
 
         //console.log(bulletin.messages[0].author.nick_name);
         await msg.populate(["author", "likers"]);
-        if(isLiked){
+        if (isLiked) {
             msg.likers.push(usr);
         }
-        else{
+        else {
             //console.log(msg.likers);
             //console.log(usr);
-            msg.likers = msg.likers.filter((liker: any) => {return liker.id!==usr.id});
+            msg.likers = msg.likers.filter((liker: any) => { return liker.id !== usr.id });
         }
         await msg.save();
-        
+
         //let msg = _.cloneDeep(newMsg.populate(['author']));
         //console.log(newMsg);
         pubsub.publish(`bulletin ${location}`, {
@@ -111,11 +112,28 @@ const Mutation:IMutation = {
         return msg;
     },
 
-    createChatRoom: async (parent, { chatRoomName, creatorEmail }, {  ChatRoomModel }) => {
-        const chatRoom = await new ChatRoomModel({ chatRoomName, users: [creatorEmail] }).save();
+    createChatRoom: async (parent, { chatRoomName, users }, { ChatRoomModel }) => {
+        const chatRoom = await new ChatRoomModel({ chatRoomName, users, messages: [] }).save();
         console.log('new room: ' + chatRoomName);
         return chatRoom;
     },
+
+    createMessage: async (parent, { chatRoomName, sender, content }, { ChatRoomModel, pubsub }) => {
+        const chatRoom = await ChatRoomModel.findOne({ chatRoomName: chatRoomName });
+        const oldMsgs = chatRoom.messages;
+        const newMsg = [...oldMsgs, {
+            sender,
+            content,
+            readBy: [sender],
+        }]
+        const newChatRoom = await ChatRoomModel.updateOne({ chatRoomName: chatRoomName }, { $set: { 'messages': newMsg } });
+        
+        pubsub.publish(`chatRoom ${chatRoomName}`, {
+            chatRoom: newChatRoom,
+        });
+
+        return newMsg;
+    }
 };
 
 export { Mutation as default };

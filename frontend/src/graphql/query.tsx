@@ -57,4 +57,17 @@ const BULLETIN_QUERY = gql`
   }
 `;
 
+const WORLDCHANNEL_QUERY = gql`
+  query{
+    worldChannel {
+      id
+      messages {
+        sender
+        readBy
+        content
+      }
+    }
+  } 
+`;
+
 export { USER_QUERY, USERALL_QUERY, BULLETIN_QUERY };
