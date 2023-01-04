@@ -17,6 +17,8 @@ import {
     UploadOutlined
 } from '@ant-design/icons';
 
+
+import useBikeContext from '../../Containers/hooks/useBikeContext';
 import { useMyContext } from '../../Utils/useMyContext';
 import { USER_QUERY } from '../../Utils/graphql';
 
@@ -24,7 +26,8 @@ type ValidateStatus = Parameters<typeof Form.Item>[0]['validateStatus'];
 
 
 const ProfileModal = () => {
-    const { profileModalOpen, setProfileModalOpen, setBikeEnabled, updateUser, me, setMe, profileUser, setProfileUser } = useMyContext();
+    const { profileModalOpen, setProfileModalOpen, updateUser, me, setMe, profileUser, setProfileUser } = useMyContext();
+    const { setBikeEnabled } = useBikeContext();
     const [isLoading, setIsLoading] = useState(false);
     const [isMe, setIsMe] = useState(false);
     const [canSubmit, setCanSubmit] = useState(true);

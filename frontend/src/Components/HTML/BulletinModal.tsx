@@ -30,6 +30,7 @@ import { BULLETIN_QUERY } from '../../Utils/graphql';
 import MyTag from './components/Tag';
 import PlsLogin from './components/PleaseLogIn';
 import { useMyContext } from '../../Utils/useMyContext';
+import useBikeContext from '../../Containers/hooks/useBikeContext';
 
 type ValidateStatus = Parameters<typeof Form.Item>[0]['validateStatus'];
 
@@ -62,7 +63,8 @@ const StyledDivider = styled(Divider)`
 
 
 const BulletinModal = () => {
-    const { bulletinModalOpen, setBulletinModalOpen, setBikeEnabled, me, isLogin, location, setLocation, bulletinMessages, leaveComment, likeComment, setProfileModalOpen, setProfileUser } = useMyContext();
+    const { bulletinModalOpen, setBulletinModalOpen, me, isLogin, location, setLocation, bulletinMessages, leaveComment, likeComment, setProfileModalOpen, setProfileUser } = useMyContext();
+    const { setBikeEnabled } = useBikeContext();
     const [pageInfo, setPageInfo] = useState({ page: 0, size: 4 });
     const [load, setLoad] = useState(false);
     const [canSubmit, setCanSubmit] = useState(false);

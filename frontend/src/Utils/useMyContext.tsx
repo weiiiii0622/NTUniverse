@@ -58,7 +58,7 @@ interface IContext {
     loadFinished: boolean,
     setLoadFinished: SetStateType<boolean>,
 
-    setBikeEnabled: SetStateType<boolean>,
+    // setBikeEnabled: SetStateType<boolean>,
 }
 
 const MyContext = createContext<IContext>({
@@ -101,7 +101,7 @@ const MyContext = createContext<IContext>({
     setFinish: () => { },
     setIsChangeScene: () => { },
     // setBikeTpPosition: () => { },
-    setBikeEnabled: () => { },
+    //setBikeEnabled: () => { },
 });
 
 //const _ = require('lodash');
