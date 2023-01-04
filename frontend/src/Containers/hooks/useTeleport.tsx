@@ -12,16 +12,16 @@ export default function useTeleport() {
     } = useMyContext();
 
     const { setBikeEnabled } = useBikeContext();
-    const { locationInfos } = useLocation();
+    const { locationInfos, setLocation } = useLocation();
     const handleTP = ({ location }: { location: TLocation }) => {
 
         setIsChangeScene({ scene: locationInfos[location].name });
         setBikeEnabled(false);
 
-        const pos = locationInfos[location].position;
+        console.log(location);
 
         setTimeout(() => {
-            setBikeTpPosition(pos);
+            setLocation(() => location);
             setBikeEnabled(true);
         }, 2000);
     }

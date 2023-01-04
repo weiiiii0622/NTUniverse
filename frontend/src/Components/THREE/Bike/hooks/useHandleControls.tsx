@@ -41,17 +41,6 @@ export default function useHandleControls({
 	 * - control the vehicle based on "controls"
 	 */
 	const { bikeEnabled } = useBikeContext();
-	const { bikeTpPosition } = useMyContext();
-
-	useEffect(() => {
-		chassis!.current.api.position.set(...objectProps.position);
-		if (objectProps.rotation)
-			chassis!.current.api.rotation.set(...objectProps.rotation)
-		else
-			chassis!.current.api.rotation.set(0, 0, 0)
-		chassis!.current.api.velocity.set(0, 0, 0)
-		chassis!.current.api.angularVelocity.set(0, 0, 0)
-	}, [bikeTpPosition])
 
 	const { setBikeControlling } = useContext(ThreeContext);
 	useFrame(() => {
@@ -71,10 +60,10 @@ export default function useHandleControls({
 		frontIndex.forEach(i =>
 			api.setSteeringValue(left || right ? steer * (left && !right ? 1 : -1) : 0, i));
 
-		api.setBrake(brake ? maxBrake : 0, 1);
-		api.setBrake(brake ? maxBrake : 0, 3);
-
-		// api.setBrake(brake ? maxBrake : 0, 2);
+		if (brake) {
+			chassis.current.api.velocity.set(0, 0, 0);
+			chassis.current.api.angularVelocity.set(0, 0, 0);
+		}
 
 		if (left && !right)
 			setArcadeDirection('left');

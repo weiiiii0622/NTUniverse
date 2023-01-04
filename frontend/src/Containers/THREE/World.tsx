@@ -1,6 +1,6 @@
 import { Debug, usePlane } from "@react-three/cannon";
 import Bike from "../../Components/THREE/Bike";
-import { FC } from "react";
+import { FC, useEffect, useMemo } from "react";
 import { useMyContext } from "../../Utils/useMyContext";
 import InteractiveBlock from "../../Components/THREE/interaction/InteractiveBlock";
 import { useControls } from "leva";
@@ -42,13 +42,25 @@ function World() {
 
 	const { setBulletinModalOpen, bikeTpPosition } = useMyContext()
 	const { setBikeEnabled } = useBikeContext();
-	const { setLocation } = useLocation();
+	const { location, setLocation, locationInfos } = useLocation();
+
+	useEffect(() => {
+		console.log(location);
+	}, [location]);
+
+	const displayScene = () => {
+		const position = locationInfos[location].position;
+		switch (location) {
+			case 'MainLib':
+				return <MainLib position={position} />
+			case 'SFu':
+				return <SFu position={position} />
+		}
+	}
 
 	const { debug } = useControls('General', {
 		debug: false,
 	});
-
-	const { handleTP } = useTeleport();
 
 	const handleOpenBulletin = ({ location }) => {
 		setLocation(location);
@@ -59,12 +71,12 @@ function World() {
 	return (
 		<DebugWorld debug={debug} >
 			<Bike objectProps={{
-				position: bikeTpPosition,
-				rotation: [0, 0, 0],
+				position: locationInfos[location].position,
+				rotation: locationInfos[location].rotation,
 			}} />
 			<GroundPhysic />
-			<MainLib />
-			<SFu />
+
+			{displayScene()}
 
 			{/* <InteractiveBlock
 				handleEvent={() => {
