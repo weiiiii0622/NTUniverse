@@ -7,6 +7,8 @@ import { useControls } from "leva";
 import useTeleport from "../../hooks/useTeleport";
 import { Triplet } from "@react-three/cannon";
 import InteractiveBlock from "../../../Components/THREE/interaction/InteractiveBlock";
+import ModelFBX from "../../../Components/THREE/models/ModelFBX";
+import Board from "./interactions/Board";
 
 interface IProps {
     position: Triplet,
@@ -16,7 +18,7 @@ export default function SFu({ position }: IProps) {
 
     const { x, y } = useControls("SFu", {
         x: { value: 0.5, step: 0.5 },
-        y: { value: 27, step: 0.5 }
+        y: { value: 27, step: 0.1 }
     });
 
     const { handleTP } = useTeleport();
@@ -37,12 +39,13 @@ export default function SFu({ position }: IProps) {
                 // position={[0, 0, 0]}
                 handleEvent={() => handleTP({ location: 'MainLib' })}
             />
-            <InteractiveBlock 
+            <InteractiveBlock
                 position={[0.4, 0, -26]}
                 // position={[0, 0, 0]}
                 handleEvent={() => handleTP({ location: 'MainLib' })}
             />
 
+            <Board position={[0, -2, -0.5]} />
         </group>
     )
 }
