@@ -1,7 +1,7 @@
 import { Physics, Triplet } from "@react-three/cannon";
-import { AdaptiveDpr, AdaptiveEvents, ContactShadows, OrbitControls, softShadows, Text3D } from "@react-three/drei";
+import { AdaptiveDpr, AdaptiveEvents, ContactShadows, Environment, OrbitControls, softShadows, Text3D } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
-import { useControls } from "leva";
+import { Leva, useControls } from "leva";
 import { Perf } from "r3f-perf";
 import { createContext, useState, useEffect, Suspense } from "react";
 import Lights from "../../Components/THREE/scene/Lights";
@@ -75,10 +75,10 @@ export default function AppCanvas() {
 	 * Bike
 	 */
 	const [bikeControlling, setBikeControlling] = useState<boolean>(true);
-	const [helpers, setHelpers] = useState<boolean>(true);
+	const [helpers, setHelpers] = useState<boolean>(false);
 
 	const { enableControls } = useControls('General', {
-		enableControls: true,
+		enableControls: false,
 	});
 	const { enableBike } = useControls('General', { enableBike: true, });
 	const { setBikeEnabled } = useBikeContext();
@@ -88,6 +88,7 @@ export default function AppCanvas() {
 
 	return (
 		<>
+			<Leva hidden={true} />
 			{/* <Loader /> */}
 			<Canvas
 				style={{ position: 'unset' }}
@@ -95,14 +96,16 @@ export default function AppCanvas() {
 			>
 				<Suspense fallback={<Loader />}>
 					<>
-						<Perf position="bottom-right" />
+						<Environment files="./env.hdr" background>
+						</Environment>
+						{/* <Perf position="bottom-right" /> */}
 						{/* <Shadow /> */}
 						<Lights />
 						{helpers && <>
 							<axesHelper args={[10]} />
 							<gridHelper />
 						</>}
-						<AppSky />
+						{/* <AppSky /> */}
 						<ThreeContext.Provider value={{
 							bikeControlling,
 							setBikeControlling,

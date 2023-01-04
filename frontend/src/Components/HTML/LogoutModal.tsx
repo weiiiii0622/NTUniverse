@@ -8,12 +8,14 @@ import { GoogleLogin, googleLogout } from '@react-oauth/google';
 import jwt_decode from 'jwt-decode'
 
 import { useMyContext } from '../../Utils/useMyContext';
+import useBikeContext from '../../Containers/hooks/useBikeContext';
 
 
 
 
 const LogoutModal = () => {
-    const { logoutModalOpen, setLogoutModalOpen, setBikeEnabled,isLogin, setIsLogin, me, setMe } = useMyContext();
+    const { logoutModalOpen, setLogoutModalOpen, isLogin, setIsLogin, me, setMe } = useMyContext();
+    const { setBikeEnabled } = useBikeContext();
     const [ loading, setLoading ] = useState(false);
 
 

@@ -1,5 +1,5 @@
 import { Triplet } from "@react-three/cannon";
-import { Html, PositionPoint, Text } from "@react-three/drei";
+import { Billboard, Html, PositionPoint, Text } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 import { useEffect, useState } from "react";
 import { SetStateType } from "../../../../Utils/type";
@@ -81,7 +81,7 @@ export default function HintCircle({
 
     // check overlap
     const { bikePosition } = useBikeContext();
-    const delta = 0.8;
+    const delta = 0.48;
     const handleOverLap = () => {
 
         const dis_x = Math.abs(bikePosition[0] - position[0]);
@@ -124,6 +124,7 @@ export default function HintCircle({
                 />
             </animated.mesh>
             {isActive &&
+
                 <animated.mesh
                     position={[0, 0, 1]}
                     // rotation={[-Math.PI / 2, 0, 0]}

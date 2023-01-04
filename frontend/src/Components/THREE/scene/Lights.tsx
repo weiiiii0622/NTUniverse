@@ -5,7 +5,7 @@ import { CameraHelper, DirectionalLight, DirectionalLightHelper } from "three";
 
 export default function Lights() {
     const ref = useRef(null!);
-    useHelper(ref, DirectionalLightHelper, 1);
+    // useHelper(ref, DirectionalLightHelper, 1);
 
     useEffect(() => {
         ref!.current?.lookAt(0, 0, 0);
