@@ -81,7 +81,7 @@ export default function HintCircle({
 
     // check overlap
     const { bikePosition } = useBikeContext();
-    const delta = 0.8;
+    const delta = 0.48;
     const handleOverLap = () => {
 
         const dis_x = Math.abs(bikePosition[0] - position[0]);
