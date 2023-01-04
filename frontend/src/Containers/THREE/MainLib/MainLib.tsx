@@ -1,9 +1,6 @@
 import { Triplet } from "@react-three/cannon";
-import { OrbitControls, PerspectiveCamera, Sky, Text3D } from "@react-three/drei";
-import { useFrame, useThree } from "@react-three/fiber";
+import { useFrame } from "@react-three/fiber";
 import InteractiveBlock from "../../../Components/THREE/interaction/InteractiveBlock";
-import { useMyContext } from "../../../Utils/useMyContext";
-import AppSky from "../../../Components/THREE/static/Sky";
 import useTeleport from "../../../Utils/useEvent";
 
 const MainLibPosition: Triplet = [300, 0, 300];
@@ -13,17 +10,10 @@ interface IProps {
 };
 export default function MainLib({ position }: IProps) {
 
-    const { setIsChangeScene, setBikeEnabled, setLocation, setBulletinModalOpen } = useMyContext();
-
     const { handleTP } = useTeleport();
 
-    const handleOpenBulletin = ({ location }) => {
-        setLocation(location);
-        setBikeEnabled(false);
-        setBulletinModalOpen(true);
-    }
 
-    useFrame(({ camera }) => {
+    useFrame(() => {
         // console.log(camera.position)
     })
 
