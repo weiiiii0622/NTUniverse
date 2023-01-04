@@ -33,8 +33,8 @@ interface IContext {
     setAboutModalOpen(x: boolean): void,
     me: object,
     setMe(x: object): void,
-    location: string,
-    setLocation: SetStateType<string>,
+    bulletinLocation: string,
+    setBulletinLocation: SetStateType<string>,
     bulletinMessages: any,
     setBulletinMessages: any,
     profileUser: any,
@@ -58,7 +58,6 @@ interface IContext {
     loadFinished: boolean,
     setLoadFinished: SetStateType<boolean>,
 
-    setBikeEnabled: SetStateType<boolean>,
 
     chatRoomModalOpen: boolean,
     setChatRoomModalOpen(x: boolean): void,
@@ -81,8 +80,8 @@ const MyContext = createContext<IContext>({
     setAboutModalOpen: (x) => { },
     me: {},
     setMe: (x) => { },
-    location: "",
-    setLocation: () => { },
+    bulletinLocation: "", 
+    setBulletinLocation: () => { },
     bulletinMessages: [],
     setBulletinMessages: () => { },
     profileUser: "",
@@ -92,9 +91,6 @@ const MyContext = createContext<IContext>({
     leaveComment: () => { },
     likeComment: () => { },
 
-    // bikePosition: [0, 0, 0],
-    // bikeEnabled: false,
-    // bikeTpPosition: [0, 0, 0],
     isChangingScene: {},
     isLoading: true,
     setIsLoading: () => { },
@@ -103,8 +99,7 @@ const MyContext = createContext<IContext>({
     finish: true,
     setFinish: () => { },
     setIsChangeScene: () => { },
-    // setBikeTpPosition: () => { },
-    setBikeEnabled: () => { },
+
 
     chatRoomModalOpen: false,
     setChatRoomModalOpen: (x) => { },
@@ -186,7 +181,7 @@ const MyProvider = (props: any) => {
      * Bulletin
      * 
      */
-    const [location, setLocation] = useState("");
+    const [bulletinLocation, setBulletinLocation] = useState("");
     const [bulletinMessages, setBulletinMessages] = useState<Object[]>([]);
     const [leaveComment] = useMutation(CREATE_BULLETINMSG_MUTATION);
     const [likeComment] = useMutation(UPDATE_BULLETINMSG_MUTATION);
@@ -194,7 +189,7 @@ const MyProvider = (props: any) => {
 
     const { data, loading, subscribeToMore } = useQuery(BULLETIN_QUERY, {
         variables: {
-            location: location,
+            location: bulletinLocation,
         },
         fetchPolicy: "cache-and-network",
     })
@@ -205,9 +200,6 @@ const MyProvider = (props: any) => {
         if (data !== undefined) setBulletinMessages([...data.bulletin.messages]);
     }, [data])
 
-    useEffect(() => {
-        //console.log(`Bulletin changed to: ${location}`);
-    }, [location])
 
     useEffect(() => {
         let unsub;
@@ -215,7 +207,7 @@ const MyProvider = (props: any) => {
             //console.log(`sub! ${location}`);
             unsub = subscribeToMore({
                 document: BULLETIN_SUBSCRIPTION,
-                variables: { location: location },
+                variables: { location: bulletinLocation },
                 updateQuery: (prev, { subscriptionData }) => {
 
                     //console.log("subData:")
@@ -238,7 +230,7 @@ const MyProvider = (props: any) => {
                         return {
                             bulletin: {
                                 __typename: "Bulletin",
-                                location: location,
+                                location: bulletinLocation,
                                 messages: [...temp.bulletin.messages, newMessage],
                             }
                         };
@@ -251,7 +243,7 @@ const MyProvider = (props: any) => {
                         return {
                             bulletin: {
                                 __typename: "Bulletin",
-                                location: location,
+                                location: bulletinLocation,
                                 messages: [...newMsgs],
                             }
                         };
@@ -262,21 +254,21 @@ const MyProvider = (props: any) => {
             console.log(e);
         }
         return () => unsub();
-    }, [subscribeToMore, location]);
+    }, [subscribeToMore, bulletinLocation]);
 
     return (
         <MyContext.Provider
             value={{
-                tutorialModalOpen, isLogin, loginModalOpen, logoutModalOpen, profileModalOpen, bulletinModalOpen, aboutModalOpen, me, location, bulletinMessages, profileUser,
+                tutorialModalOpen, isLogin, loginModalOpen, logoutModalOpen, profileModalOpen, bulletinModalOpen, aboutModalOpen, me, bulletinMessages, profileUser,
                 setTutorialModalOpen, setIsLogin, setLoginModalOpen, setLogoutModalOpen, setProfileModalOpen, setBulletinModalOpen, setAboutModalOpen, login, updateUser, leaveComment, likeComment, setMe,
-                setProfileUser,
-                setLocation, setBulletinMessages,
+                setProfileUser,setBulletinMessages,
                 bikeTpPosition, setBikeTpPosition,
                 isChangingScene, setIsChangeScene,
                 isLoading, setIsLoading,
                 finish, setFinish,
                 loadFinished, setLoadFinished,
                 chatRoomModalOpen, setChatRoomModalOpen,
+                bulletinLocation, setBulletinLocation,
             }}
             {...props}
         />

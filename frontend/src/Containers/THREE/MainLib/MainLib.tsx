@@ -4,7 +4,7 @@ import { useFrame, useThree } from "@react-three/fiber";
 import InteractiveBlock from "../../../Components/THREE/interaction/InteractiveBlock";
 import { useMyContext } from "../../../Utils/useMyContext";
 import AppSky from "../../../Components/THREE/static/Sky";
-import useTeleport from "../../hooks/useTeleport";
+import useTeleport from "../../../Utils/useEvent";
 
 const MainLibPosition: Triplet = [300, 0, 300];
 
