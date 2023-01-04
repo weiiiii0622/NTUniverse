@@ -8,13 +8,16 @@ import { GoogleLogin, googleLogout } from '@react-oauth/google';
 import jwt_decode from 'jwt-decode'
 
 import { useMyContext } from '../../Utils/useMyContext';
+import useBikeContext from '../../Containers/hooks/useBikeContext';
 
 
 
 
 const LoginModal = () => {
-    const { loginModalOpen, setLoginModalOpen, setBikeEnabled, isLogin, setIsLogin, login, me, setMe, setProfileUser } = useMyContext();
-    const [ loading, setLoading ] = useState(false);
+    const { loginModalOpen, setLoginModalOpen, isLogin, setIsLogin, login, me, setMe, setProfileUser } = useMyContext();
+    const [loading, setLoading] = useState(false);
+
+    const { setBikeEnabled, } = useBikeContext();
 
     const clientId = '400363191853-gjef8qplkajcu781n791f6eonffkcfq3.apps.googleusercontent.com';
 
@@ -24,7 +27,7 @@ const LoginModal = () => {
         //console.log(info);
         setLoading(true);
         let user = await login({
-            variables:{
+            variables: {
                 email: info['email'],
                 first_name: info['given_name'],
                 last_name: info['family_name'],
@@ -37,25 +40,25 @@ const LoginModal = () => {
     };
 
 
-    const handleLoading =  async ( { id, first_name, last_name, nick_name, email, picture, description } ) => {
+    const handleLoading = async ({ id, first_name, last_name, nick_name, email, picture, description }) => {
         //setModalText('The modal will be closed after two seconds');
         setMe({
             id,
             first_name,
             last_name,
-            nick_name, 
-            email, 
-            picture, 
+            nick_name,
+            email,
+            picture,
             description
         })
         setProfileUser(id);
         setLoading(true);
         setTimeout(() => {
-          setLoginModalOpen(false);
-          setLoading(false);
-          setIsLogin(true);
-          setBikeEnabled(true);
-          message.success(`歡迎回來 ${nick_name}`);
+            setLoginModalOpen(false);
+            setLoading(false);
+            setIsLogin(true);
+            setBikeEnabled(true);
+            message.success(`歡迎回來 ${nick_name}`);
         }, 1000);
     };
 
@@ -65,7 +68,7 @@ const LoginModal = () => {
                 title={<>登入 <LoginOutlined /></>}
                 centered
                 open={loginModalOpen}
-                onCancel={() => { setBikeEnabled(true); setLoginModalOpen(false);}}
+                onCancel={() => { setBikeEnabled(true); setLoginModalOpen(false); }}
                 bodyStyle={{
                     display: 'flex',
                     justifyContent: 'center'
@@ -73,10 +76,10 @@ const LoginModal = () => {
                 footer={[]}
             >
                 {
-                    loading 
-                    ?
+                    loading
+                        ?
                         <LoadingOutlined />
-                    :
+                        :
                         <GoogleLogin
                             useOneTap={false}
                             cancel_on_tap_outside={false}
@@ -86,8 +89,8 @@ const LoginModal = () => {
                                 message.error('登入失敗 請稍後再試');
                             }}
                         />
-                }                
-                                    
+                }
+
             </Modal>
         </>
     )

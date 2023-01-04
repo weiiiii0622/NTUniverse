@@ -14,6 +14,7 @@ import type { MenuProps } from 'antd';
 import { Breadcrumb, Layout, Menu, theme } from 'antd';
 
 import { useMyContext } from '../../Utils/useMyContext';
+import useBikeContext from '../../Containers/hooks/useBikeContext';
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -41,7 +42,8 @@ const MySider: React.FC = () => {
     token: { colorBgContainer },
   } = theme.useToken();
 
-  const { isLogin, setIsLogin, loginModalOpen, setLoginModalOpen, setLogoutModalOpen, setProfileModalOpen, setAboutModalOpen, setBikeEnabled, me, setProfileUser } = useMyContext();
+  const { isLogin, setIsLogin, loginModalOpen, setLoginModalOpen, setLogoutModalOpen, setProfileModalOpen, setAboutModalOpen, me, setProfileUser } = useMyContext();
+  const { setBikeEnabled } = useBikeContext();
 
   const handleLogin = () => {
     //console.log("Login");
@@ -71,13 +73,13 @@ const MySider: React.FC = () => {
   const items: MenuItem[] = [
     // 登入/登出
     isLogin ? getItem('登出', '1', <LoginOutlined />, handleLogout) : getItem('登入', '1', <LogoutOutlined />, handleLogin),
-    
+
     // 關於
     getItem('關於', '2', <InfoCircleOutlined />, handleOpenAbout),
-    
+
     // 個人資料
     isLogin ? getItem('個人資料', '3', <UserOutlined />, handleOpenProfile) : null,
-   
+
     // 設定
     isLogin ? getItem('設定', '4', <SettingOutlined />, null) : null,
     //getItem('Option 2', '2', <DesktopOutlined />),
@@ -92,9 +94,9 @@ const MySider: React.FC = () => {
 
   return (
     <Layout>
-      <Sider 
-        collapsible 
-        collapsed={collapsed} 
+      <Sider
+        collapsible
+        collapsed={collapsed}
         onCollapse={(value) => setCollapsed(value)}
         style={{
           overflow: 'auto',
@@ -107,16 +109,16 @@ const MySider: React.FC = () => {
         }}
       >
         <div style={{ height: 32, margin: 16, background: 'rgba(255, 255, 255, 0.2)' }} />
-        <Menu 
-          theme="dark" 
+        <Menu
+          theme="dark"
           onKeyDown={(e) => {
-            if(e.code === "Enter"){
+            if (e.code === "Enter") {
               console.log("Entered Sider");
               e.preventDefault();
             }
-          }} 
-          defaultSelectedKeys={['1']} 
-          mode="inline" 
+          }}
+          defaultSelectedKeys={['1']}
+          mode="inline"
           items={items}
         />
       </Sider>

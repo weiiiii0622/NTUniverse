@@ -23,7 +23,7 @@ const InteractiveBlock = ({ position, handleEvent }: IProps) => {
 
     const DEBUG = 0;
     const delta = 0.8;
-    const args = [4, 0.2, 3, 4, Math.PI * 2];
+    const args = [3, 0.2, 3, 4, Math.PI * 2];
 
     const ref = useRef(null!);
     const { bikePosition } = useBikeContext();
@@ -114,7 +114,7 @@ const InteractiveBlock = ({ position, handleEvent }: IProps) => {
             //scale = { scale }
             >
                 <torusGeometry args={args as any} />
-                <meshStandardMaterial color={'#FFC300'} roughness={1} />
+                <meshStandardMaterial color={'white'} roughness={10} />
             </animated.mesh>
         </group>
         //</Debug>
