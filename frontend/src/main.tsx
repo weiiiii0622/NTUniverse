@@ -15,11 +15,21 @@ import { MyProvider } from './Utils/useMyContext'
 
 import { GoogleOAuthProvider } from '@react-oauth/google';
 
+const HTTP_ROOT =
+  process.env.NODE_ENV === "production"
+    ? "/graphql"
+    : "http://localhost:4001/graphql";
+
+const WS_ROOT =
+  process.env.NODE_ENV === "production"
+    ? "/subscriptions"
+    : "ws://localhost:4001/subscriptions";
+
 const httpLink = new HttpLink({
-  uri: 'http://localhost:4001/graphql'
+  uri: HTTP_ROOT
 });
 const wsLink = new GraphQLWsLink(createClient({
-  url: 'ws://localhost:4001/subscriptions'
+  url: WS_ROOT
 }));
 
 const splitLink = split(

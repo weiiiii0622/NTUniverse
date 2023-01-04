@@ -143,7 +143,7 @@ const AboutModal = () => {
                             >
                                 <Statistic.Countdown
                                     title="距離開學還有..."
-                                    value={deadline}
+                                    value={deadline.toTimeString()}
                                     format="D 天 H 時 m 分 s 秒"
                                     prefix={<><ClockCircleOutlined /> </>}
                                 />
