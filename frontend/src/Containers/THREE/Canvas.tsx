@@ -78,7 +78,7 @@ export default function AppCanvas() {
 	 * Bike
 	 */
 	const [bikeControlling, setBikeControlling] = useState<boolean>(true);
-	const [helpers, setHelpers] = useState<boolean>(true);
+	const [helpers, setHelpers] = useState<boolean>(false);
 
 	const { enableControls } = useControls('General', {
 		enableControls: false,
@@ -91,7 +91,7 @@ export default function AppCanvas() {
 
 	return (
 		<>
-			<Leva />
+			<Leva hidden/>
 			{/* <Loader /> */}
 			<Canvas
 				style={{ position: 'unset', margin: 0 }}

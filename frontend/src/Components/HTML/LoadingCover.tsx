@@ -67,7 +67,8 @@ const LoadingCover = () => {
 
 	const {
 		setIsChangeScene,
-		setLoadFinished
+		setLoadFinished,
+		setTutorialModalOpen
 	} = useMyContext();
 	const [showButton, setShowButton] = useState<boolean>(false);
 
@@ -107,6 +108,9 @@ const LoadingCover = () => {
 		setTimeout(() => {
 			setLoadFinished(true);
 		}, 2000)
+		setTimeout(() => {
+			setTutorialModalOpen(true);
+		}, 3300)
 	};
 
 	return (
@@ -124,6 +128,8 @@ const LoadingCover = () => {
 
 			<animated.video src='/videos/overlook.mkv' autoPlay loop muted
 				onCanPlay={(e) => {
+					if (videoLoaded)
+						return;
 					setVideoLoaded(true);
 					setDrawerOpen(true);
 					videoRef.current.playbackRate = videoRate;
@@ -133,6 +139,7 @@ const LoadingCover = () => {
 					position: 'absolute',
 					opacity,
 					left: '-10%',
+					top: '5%',
 					height: '100%',
 				}}
 			/>
