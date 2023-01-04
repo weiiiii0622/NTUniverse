@@ -76,7 +76,7 @@ const ChatRoomProvider = (props: any) => {
   }]);
   // TODEL:
   useEffect(() => {
-    console.log(chatRooms);
+    //console.log(chatRooms);
   }, [chatRooms]);
   const [activeRoom, setActiveRoom] = useState(0);
 
@@ -84,14 +84,14 @@ const ChatRoomProvider = (props: any) => {
     setChatRoomModalOpen(false);
     setSecondOpen(false);
     setBikeEnabled(true);
-    console.log('chat close!');
+    //console.log('chat close!');
   }
 
   const showFirst = () => {
     setChatRoomModalOpen(true);
     setSecondOpen(false);
     setBikeEnabled(false);
-    console.log('first');
+    //console.log('first');
     
   }
 
@@ -99,7 +99,7 @@ const ChatRoomProvider = (props: any) => {
     setChatRoomModalOpen(false);
     setSecondOpen(true);
     setBikeEnabled(false);
-    console.log('second');
+    //console.log('second');
   }
 
   const defaultChatBox = (chatRoomName: string): IChatRoom => {
@@ -120,7 +120,7 @@ const ChatRoomProvider = (props: any) => {
   const [createChatBoxMutation] = useMutation(CREATE_CHATROOM_MUTATION);
 
   const handleCreate = (newChatroom: IChatRoom) => {
-    console.log(newChatroom);
+    //console.log(newChatroom);
     // Open new chat box with friend
     if (chatRooms.some
       (({ name }) => name === newChatroom.name)) {

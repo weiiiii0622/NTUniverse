@@ -102,7 +102,7 @@ export default function Palm({ objectProps }: IProps) {
 		const effectiveMagnitude = magnitude / 2 / Math.max(0.2, distance);
 		const force = ray.direction.normalize().multiplyScalar(effectiveMagnitude).toArray();
 		const applyPoint = point.toArray();
-		console.log(effectiveMagnitude);
+		//console.log(effectiveMagnitude);
 		trunkApi.applyForce(force, applyPoint);
 		topperApi.applyForce(force, applyPoint);
 	})
