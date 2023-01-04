@@ -3,7 +3,6 @@ import { Button, Drawer, Tooltip, Space, message, } from 'antd';
 import { CommentOutlined, PlusOutlined, LeftOutlined } from '@ant-design/icons';
 
 import { useMyContext } from '../../../Utils/useMyContext';
-import PlsLogin from '../../../Components/HTML/components/PleaseLogIn';
 import FirstLevelModal from '../../../Components/HTML/ChatRoom/FirstLevelModal';
 import SecondLevelModal from '../../../Components/HTML/ChatRoom/SecondLevelModal';
 import { useChatRoomContext } from '../../../Utils/ChatRoom/useChatRoomContext';

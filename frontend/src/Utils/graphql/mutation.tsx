@@ -83,7 +83,12 @@ const CREATE_CHATROOM_MUTATION = gql`
     $chatRoomName: String!, 
   ){
     createChatRoom(chatRoomName: $chatRoomName) {
-      id
+      chatRoomName
+      messages {
+        sender
+        senderNick
+        content
+      }
     }
   }
 `;
@@ -92,10 +97,12 @@ const CREATE_MRSSAGE_MUTATION = gql`
   mutation createMessage(
     $chatRoomName: String!,
     $sender: String!,
+    $senderNick: String,
     $content: String!,
   ){
-  createMessage(chatRoomName: $chatRoomName, sender: $sender, content: $content){
+  createMessage(chatRoomName: $chatRoomName, sender: $sender, senderNick: $senderNick, content: $content){
     sender
+    senderNick
     content
   }
 }

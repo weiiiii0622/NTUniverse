@@ -1,8 +1,6 @@
 import styled from "styled-components";
-import { Tag } from "antd";
 import { SmileTwoTone } from "@ant-design/icons";
-import React from "react";
-import { IChatRoom, IMessage } from "../../../Utils/ChatRoom/IChatRoom";
+import { IMessage } from "../../../Utils/ChatRoom/IChatRoom";
 import { useMyContext } from "../../../Utils/useMyContext";
 
 const StyledMessage = styled.div<{ isMe: boolean }>`
@@ -10,7 +8,7 @@ const StyledMessage = styled.div<{ isMe: boolean }>`
     align-items: center;
     justify-content: flex-start;
     flex-direction: ${({ isMe }) => (isMe ? 'row-reverse' : 'row')};
-    margin: 0px 2px;
+    margin: 1px 2px;
     gap: 5px;
 
     & div:last-child {
@@ -24,7 +22,7 @@ const StyledMessage = styled.div<{ isMe: boolean }>`
     }
 `;
 
-const StyledName = styled.p<{ isMe: boolean }>`
+const StyledName = styled.div<{ isMe: boolean }>`
   margin: 0;
   padding-left: 30px;
   display: flex;
@@ -40,15 +38,15 @@ const StyledName = styled.p<{ isMe: boolean }>`
 `;
 
 const Message = (props: IMessage) => {
-  const { sender, content } = props;
+  const { sender, senderNick, content } = props;
   const { me } = useMyContext();
   const myEmail = me['email'];
   const isMe = sender === myEmail;
   return (
     <>
-      {/* <StyledName isMe={isMe}>
-        <p>{sender}</p>
-      </StyledName> */}
+      {!isMe && <StyledName isMe={isMe}>
+        <p>{senderNick}</p>
+      </StyledName>}
       <StyledMessage isMe={isMe}>
         {!isMe && <SmileTwoTone style={{ fontSize: '20px' }} />} <div>{content}</div>
       </StyledMessage>

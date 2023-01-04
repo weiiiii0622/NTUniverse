@@ -8,8 +8,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = void 0;
+const lodash_1 = __importDefault(require("lodash"));
 const validateUser = (UserModel, email, first_name, last_name, nick_name, picture, description) => __awaiter(void 0, void 0, void 0, function* () {
     let usr = yield UserModel.findOne({ email });
     //console.log(usr);
@@ -90,27 +94,30 @@ const Mutation = {
         });
         return msg;
     }),
-    createChatRoom: (parent, { chatRoomName, users }, { ChatRoomModel }) => __awaiter(void 0, void 0, void 0, function* () {
+    createChatRoom: (parent, { chatRoomName }, { ChatRoomModel }) => __awaiter(void 0, void 0, void 0, function* () {
         let chatRoom = yield ChatRoomModel.findOne({ chatRoomName: chatRoomName });
         if (!chatRoom)
             chatRoom = yield new ChatRoomModel({ chatRoomName, messages: [] }).save();
         // console.log('new room: ' + chatRoomName);
         return chatRoom;
     }),
-    createMessage: (parent, { chatRoomName, sender, content }, { ChatRoomModel, pubsub }) => __awaiter(void 0, void 0, void 0, function* () {
+    createMessage: (parent, { chatRoomName, sender, senderNick, content }, { ChatRoomModel, pubsub }) => __awaiter(void 0, void 0, void 0, function* () {
         const chatRoom = yield ChatRoomModel.findOne({ chatRoomName: chatRoomName });
         if (!chatRoom)
             throw new Error('Chat Room does not exist!');
         const oldMsgs = chatRoom.messages;
         const newMsgs = [...oldMsgs, {
                 sender,
+                senderNick,
                 content,
             }];
+        ret.messages = newMsgs;
         const newChatRoom = yield ChatRoomModel.updateOne({ chatRoomName: chatRoomName }, { $set: { 'messages': newMsgs } });
+        // console.log(newMsgs);
         pubsub.publish(`chatRoom ${chatRoomName}`, {
-            newMessage: newMsgs,
+            newMessage: newMsg,
         });
-        return newMsgs;
+        return newMsg;
     })
 };
 exports.default = Mutation;

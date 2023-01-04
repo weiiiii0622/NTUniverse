@@ -109,30 +109,32 @@ const Mutation: IMutation = {
         return msg;
     },
 
-    createChatRoom: async (parent, { chatRoomName, users }, { ChatRoomModel }) => {
+    createChatRoom: async (parent, { chatRoomName }, { ChatRoomModel }) => {
         let chatRoom = await ChatRoomModel.findOne({ chatRoomName: chatRoomName });
-        if(!chatRoom)
+        if (!chatRoom)
             chatRoom = await new ChatRoomModel({ chatRoomName, messages: [] }).save();
         // console.log('new room: ' + chatRoomName);
         return chatRoom;
     },
 
-    createMessage: async (parent, { chatRoomName, sender, content }, { ChatRoomModel, pubsub }) => {
+    createMessage: async (parent, { chatRoomName, sender, senderNick, content }, { ChatRoomModel, pubsub }) => {
         const chatRoom = await ChatRoomModel.findOne({ chatRoomName: chatRoomName });
-        if(!chatRoom) throw new Error('Chat Room does not exist!');
+        if (!chatRoom) throw new Error('Chat Room does not exist!');
         
-        const oldMsgs = chatRoom.messages;
-        const newMsgs = [...oldMsgs, {
+        const newMsg = {
             sender,
+            senderNick,
             content,
-        }]
-        const newChatRoom = await ChatRoomModel.updateOne({ chatRoomName: chatRoomName }, { $set: { 'messages': newMsgs } });
-        
+        };
+
+        chatRoom?.messages.push(newMsg);
+        await chatRoom.save();
+
         pubsub.publish(`chatRoom ${chatRoomName}`, {
-            newMessage: newMsgs,
+            newMessage: newMsg,
         });
 
-        return newMsgs;
+        return newMsg;
     }
 };
 

@@ -1,9 +1,8 @@
 import { useMutation } from "@apollo/client";
 import { message } from "antd";
 import { useEffect, useState } from "react";
-import { IChatRoom, IMessage } from "../../../../Utils/ChatRoom/IChatRoom";
+import { IChatRoom } from "../../../../Utils/ChatRoom/IChatRoom";
 import { CREATE_CHATROOM_MUTATION } from '../../../../Utils/graphql';
-import { create } from "lodash";
 import { useMyContext } from "../../../../Utils/useMyContext";
 
 interface IProps {
@@ -15,17 +14,13 @@ const useChatRoom = (props: IProps) => {
   const nick_name = me['nick_name'];
 
   const [chatRooms, setChatRooms] = useState<IChatRoom[]>([]);
-  // TODEL:
-  useEffect(() => {
-    //console.log(chatRooms);
-  }, [chatRooms]);
 
   const defaultChatBox = (chatRoomName: string): IChatRoom => {
     return ({
       name: chatRoomName,
       // set later by query
       // messages: [],
-      lastMsg: 'Chat with your friends!',
+      // lastMsg: 'Chat with your friends!',
       // unread: 0,
     })
   };
