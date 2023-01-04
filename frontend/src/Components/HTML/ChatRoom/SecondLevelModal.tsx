@@ -59,7 +59,7 @@ const SecondLevelModal = () => {
 
   const [body, setBody] = useState<string>('');
   const handleChange = (func: (value: any) => void) =>
-    (e: React.SyntheticEvent) => func(e.target.value);
+    (e: any) => func(e.target.value);
 
 
   const msgFooterRef = useRef<HTMLDivElement>(null!);
