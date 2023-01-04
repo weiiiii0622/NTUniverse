@@ -17,13 +17,13 @@ import { GoogleOAuthProvider } from '@react-oauth/google';
 
 const HTTP_ROOT =
   process.env.NODE_ENV === "production"
-    ? "http://ntuniverse-production.up.railway.app/graphql"
+    ? "https://ntuniverse-production.up.railway.app/graphql"
     : "http://localhost:4001/graphql";
 
 const WS_ROOT =
   process.env.NODE_ENV === "production"
   //? "ws://localhost:4001/subscriptions"
-    ?`ws://ntuniverse-production.up.railway.app/subscriptions`
+    ?`wss://ntuniverse-production.up.railway.app/subscriptions`
     : "ws://localhost:4001/subscriptions";
 
 const httpLink = new HttpLink({
