@@ -20,20 +20,9 @@ const ChatRoomSchema = new Schema<IChatRoom>({
   messages: [{ type: { 
     sender: String,
     content: String,
-    readBy: [String],
   }}],
 });
 
 const ChatRoomModel = model<IChatRoom>('ChatRoom', ChatRoomSchema);
-
-// /*  MessageModel */
-// const MessageSchema = new Schema<IMessage>({
-//   chatRoomName: String,
-//   sender: { type: Schema.Types.ObjectId, ref: 'User' },
-//   content: String,
-//   readBy: [{ type: Schema.Types.ObjectId, ref: 'User' }],
-// });
-
-// const MessageModel = model<IMessage>('Message', MessageSchema);
 
 export default ChatRoomModel;

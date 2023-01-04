@@ -7,9 +7,6 @@ interface IMutation {
     updateUser: (x: any, y: any, z: any) => {},
     createBulletinMsg: (x: any, y: any, z: any) => {},
     updateBulletinMsg: (x: any, y: any, z: any) => {},
-    // chatRoomName: String,
-    // users: Types.ObjectId[],
-    // messages: Types.ObjectId[],
     createChatRoom: (x: any, y: any, z: any) => {},
     createMessage: (x: any, y: any, z: any) => {},
 }
@@ -128,7 +125,6 @@ const Mutation: IMutation = {
         const newMsgs = [...oldMsgs, {
             sender,
             content,
-            readBy: [sender],
         }]
         const newChatRoom = await ChatRoomModel.updateOne({ chatRoomName: chatRoomName }, { $set: { 'messages': newMsgs } });
         
