@@ -43,7 +43,7 @@ const MySider: React.FC = () => {
 		token: { colorBgContainer },
 	} = theme.useToken();
 
-	const { isLogin, setIsLogin, loginModalOpen, setLoginModalOpen, setLogoutModalOpen, setProfileModalOpen, setAboutModalOpen, me, setProfileUser } = useMyContext();
+	const { isLogin, setIsLogin, loginModalOpen, setLoginModalOpen, setLogoutModalOpen, setProfileModalOpen, setAboutModalOpen, setSettingModalOpen, me, setProfileUser } = useMyContext();
 	const { setBikeEnabled } = useBikeContext();
 
 	const handleLogin = () => {
@@ -70,17 +70,21 @@ const MySider: React.FC = () => {
 		setAboutModalOpen(true);
 		setBikeEnabled(false);
 	}
+  
+  const handleOpenSetting = () => {
+    setSettingModalOpen(true);
+    setBikeEnabled(false);
+  }
 
 	const items: MenuItem[] = [
 		// 登入/登出
 		isLogin ? getItem('登出', '1', <LoginOutlined />, handleLogout) : getItem('登入', '1', <LogoutOutlined />, handleLogin),
 
-
 		// 個人資料
 		isLogin ? getItem('個人資料', '2', <UserOutlined />, handleOpenProfile) : null,
 
 		// 設定
-		getItem('設定', '3', <SettingOutlined />, null),
+		getItem('設定', '3', <SettingOutlined />, handleOpenSetting),
 
 		// 關於
 		getItem('關於', '4', <InfoCircleOutlined />, handleOpenAbout),
