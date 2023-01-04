@@ -1,0 +1,125 @@
+:root {
+    --primary: #f7b08d;
+    --primary-shadow: #fee5b8;
+    --primary-text: #DB9D7F;
+}
+
+.startBtn {
+    position: relative;
+
+    cursor: pointer;
+
+    color: var(--primary-text);
+    text-decoration: none;
+    user-select: none;
+    font-size: 20px;
+    text-align: center;
+    padding: 10px 20px;
+    overflow: hidden;
+    line-height: 30px;
+    /* padding-bottom: 23px; */
+    text-transform: capitalize;
+    font-weight: 700;
+    /* border: red solid 1px; */
+    transition: 0.2s;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border-radius: 15px;
+}
+
+.startBtn:hover {
+    color: #ffffff;
+    background-color: var(--primary);
+    /* background: linear-gradient(135deg, #fdd961 0%, #ff9476 100%); */
+    box-shadow: 0 0 10px var(--primary-shadow), 0 0 40px var(--primary-shadow), 0 0 50px var(--primary-shadow);
+    transition-delay: 1s;
+}
+
+.startBtnShadow {
+    top: 120%;
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    /* background: linear-gradient(135deg, (0, 0, 0, 0) 0%, #fda085 100%); */
+    background-color: transparent;
+    opacity: 0.75;
+    transition: 0.2s;
+    transform: perspective(2em) rotateX(25deg) scale(1.2, 0.4);
+    filter: blur(2.5em);
+    font-weight: 600;
+}
+
+.startBtn:hover~.startBtnShadow {
+    opacity: 0.7;
+    transition-delay: 1s;
+    background-color: var(--primary-shadow);
+}
+
+.startBtn span:nth-child(1) {
+    /* display: block; */
+    height: 2px;
+    width: 100%;
+    background: linear-gradient(90deg, transparent, var(--primary));
+    position: absolute;
+    top: 0;
+    left: -100%;
+
+}
+
+.startBtn:hover span:nth-child(1) {
+    left: 100%;
+    transition: 1.2s;
+}
+
+.startBtn span:nth-child(2) {
+    /* display: block; */
+    height: 100%;
+    width: 2px;
+    background: linear-gradient(180deg, transparent, var(--primary));
+    position: absolute;
+    top: -100%;
+    right: 0;
+
+}
+
+.startBtn:hover span:nth-child(2) {
+    top: 100%;
+    transition: 0.7s;
+    transition-delay: 0.35s;
+}
+
+.startBtn span:nth-child(3) {
+    /* display: block; */
+    height: 2px;
+    width: 100%;
+    background: linear-gradient(-90deg, transparent, var(--primary));
+    position: absolute;
+    bottom: 0;
+    right: -100%;
+}
+
+.startBtn:hover span:nth-child(3) {
+    right: 100%;
+    transition: 1.2s;
+    transition-delay: 0.5s;
+}
+
+.startBtn span:nth-child(4) {
+    /* display: block; */
+    height: 100%;
+    width: 2px;
+    background: linear-gradient(0deg, transparent, var(--primary));
+    position: absolute;
+    bottom: -100%;
+    left: 0;
+}
+
+.startBtn:hover span:nth-child(4) {
+    bottom: 100%;
+    transition: 1.2s;
+    transition-delay: 0.7s;
+}

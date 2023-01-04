@@ -1,5 +1,5 @@
 import { Physics, Triplet } from "@react-three/cannon";
-import { AdaptiveDpr, AdaptiveEvents, ContactShadows, Environment, OrbitControls, softShadows, Text3D } from "@react-three/drei";
+import { AdaptiveDpr, AdaptiveEvents, ContactShadows, Environment, Html, OrbitControls, softShadows, Text3D } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import { Leva, useControls } from "leva";
 import { Perf } from "r3f-perf";
@@ -14,6 +14,9 @@ import World from "./World";
 import Loader from "./Loader";
 import SFu from "./SFu";
 import useBikeContext from "../hooks/useBikeContext";
+import TutorialModal from "../../Components/HTML/TutorialModal";
+import BulletinModal from "../../Components/HTML/BulletinModal";
+import AboutModal from "../../Components/HTML/AboutModal";
 // import { } from 'three/examples/fonts/helvetiker_regular.typeface.json';
 //import { Loader } from "@react-three/drei";
 
@@ -75,7 +78,7 @@ export default function AppCanvas() {
 	 * Bike
 	 */
 	const [bikeControlling, setBikeControlling] = useState<boolean>(true);
-	const [helpers, setHelpers] = useState<boolean>(false);
+	const [helpers, setHelpers] = useState<boolean>(true);
 
 	const { enableControls } = useControls('General', {
 		enableControls: false,
@@ -91,11 +94,13 @@ export default function AppCanvas() {
 			<Leva />
 			{/* <Loader /> */}
 			<Canvas
-				style={{ position: 'unset' }}
+				style={{ position: 'unset', margin: 0 }}
 				shadows
 			>
 				<Suspense fallback={<Loader />}>
 					<>
+						<Html>
+						</Html>
 						<Environment files="./env.hdr" background>
 						</Environment>
 						{/* <Perf position="bottom-right" /> */}

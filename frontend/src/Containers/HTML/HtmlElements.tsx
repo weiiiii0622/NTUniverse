@@ -19,24 +19,21 @@ const AppHtmlElements = () => {
 
     return (
         <>
-
+            <BulletinModal />
+            <AboutModal />
             <LoginModal />
             <LogoutModal />
             <ProfileModal />
-            <TutorialModal />
-            <BulletinModal />
-            <AboutModal />
+
             {loadFinished
                 ?
                 null
                 : <LoadingCover />
             }
             <MySider />
-            {/* <TeleportTransition scene={"Hi"}/> */}
-            {!finish ? <TeleportTransition scene={"HI"}/>: null}
-            
-            {loadFinished? <ChatRoomModal /> : null}
-            
+
+            {!finish ? <TeleportTransition scene={"HI"} /> : null}
+            {loadFinished ? <ChatRoomModal /> : null}
         </>
     )
 }

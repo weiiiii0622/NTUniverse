@@ -9,43 +9,43 @@
 
 @font-face {
   font-family: 'GenRyuMin';
-  src: url(./fonts/GenRyuMin-EL.ttc) format('truetype');
+  src: url(fonts/GenRyuMin-EL.ttc) format('truetype');
   font-weight: 200;
 }
 
 @font-face {
   font-family: 'GenRyuMin';
-  src: url(./fonts/GenRyuMin-L.ttc) format('truetype');
+  src: url(fonts/GenRyuMin-L.ttc) format('truetype');
   font-weight: 300;
 }
 
 @font-face {
   font-family: 'GenRyuMin';
-  src: url(./fonts/GenRyuMin-R.ttc) format('truetype');
+  src: url(fonts/GenRyuMin-R.ttc) format('truetype');
   font-weight: 400;
 }
 
 @font-face {
   font-family: 'GenRyuMin';
-  src: url(./fonts/GenRyuMin-M.ttc) format('truetype');
+  src: url(fonts/GenRyuMin-M.ttc) format('truetype');
   font-weight: 500;
 }
 
 @font-face {
   font-family: 'GenRyuMin';
-  src: url(./fonts/GenRyuMin-SB.ttc) format('truetype');
+  src: url(fonts/GenRyuMin-SB.ttc) format('truetype');
   font-weight: 600;
 }
 
 @font-face {
   font-family: 'GenRyuMin';
-  src: url(./fonts/GenRyuMin-B.ttc) format('truetype');
+  src: url(fonts/GenRyuMin-B.ttc) format('truetype');
   font-weight: 700;
 }
 
 @font-face {
   font-family: 'GenRyuMin';
-  src: url(./fonts/GenRyuMin-H.ttc) format('truetype');
+  src: url(fonts/GenRyuMin-H.ttc) format('truetype');
   font-weight: 900;
 }
 
@@ -56,51 +56,59 @@
 
 @font-face {
   font-family: 'Playfair Display';
-  src: url(./fonts/Playfair_Display/static/PlayfairDisplay-Black.ttf) format(truetype);
+  src: url(fonts/Playfair_Display/static/PlayfairDisplay-Black.ttf) format(truetype);
   font-weight: 900;
 }
 
 @font-face {
   font-family: 'Playfair Display';
-  src: url(./fonts/Playfair_Display/static/PlayfairDisplay-ExtraBold.ttf) format(truetype);
+  src: url(fonts/Playfair_Display/static/PlayfairDisplay-ExtraBold.ttf) format(truetype);
   font-weight: 800;
 }
 
 @font-face {
   font-family: 'Playfair Display';
-  src: url(./fonts/Playfair_Display/static/PlayfairDisplay-Bold.ttf) format(truetype);
+  src: url(fonts/Playfair_Display/static/PlayfairDisplay-Bold.ttf) format(truetype);
   font-weight: 700;
 }
 
 @font-face {
   font-family: 'Playfair Display';
-  src: url(./fonts/Playfair_Display/static/PlayfairDisplay-SemiBold.ttf) format(truetype);
+  src: url(fonts/Playfair_Display/static/PlayfairDisplay-SemiBold.ttf) format(truetype);
   font-weight: 600;
 }
 
 @font-face {
   font-family: 'Playfair Display';
-  src: url(./fonts/Playfair_Display/static/PlayfairDisplay-Medium.ttf) format(truetype);
+  src: url(fonts/Playfair_Display/static/PlayfairDisplay-Medium.ttf) format(truetype);
   font-weight: 500;
 }
 
 @font-face {
   font-family: 'Playfair Display';
-  src: url(./fonts/Playfair_Display/static/PlayfairDisplay-Regular.ttf) format(truetype);
+  src: url(fonts/Playfair_Display/static/PlayfairDisplay-Regular.ttf) format(truetype);
   font-weight: 400;
 }
 
 @font-face {
   font-family: 'burnfont';
-  src: url(./fonts/burnfont-1.2.otf) format(opentype);
+  src: url(fonts/burnfont-1.2.otf) format(opentype);
   font-weight: 900;
 }
 
 @font-face {
   font-family: 'burnfont-italic';
-  src: url(./fonts/burnfont-1.2-italic.otf) format(opentype);
+  src: url(fonts/burnfont-1.2-italic.otf) format(opentype);
   font-weight: 900;
 }
+
+
+@font-face {
+  font-family: 'bauhaus';
+  src: url(fonts/bauhaus.ttf) format(truetype);
+  font-weight: 500;
+}
+
 
 
 html,
@@ -108,6 +116,7 @@ body {
   margin: 0;
   padding: 0;
   /* font-family: 'Playfair Display', 'GenRyuMin'; */
+  box-sizing: border-box;
 }
 
 #root {

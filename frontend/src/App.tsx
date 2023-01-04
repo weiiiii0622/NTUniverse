@@ -19,10 +19,10 @@ function App() {
 
 	return (
 		<>
-			<Layout style={{ height: '100vh' }}>
+			<Layout >
 				<AppHtmlElements />
-				<AppCanvas />
 			</Layout>
+			<AppCanvas />
 		</>
 	)
 }
