@@ -85,7 +85,7 @@ mongo db connection created
 
 5. 請使用 `電腦版Google Chrome` 輸入 `localhost:{port}` (port為4.所提到的port，理論上為5173)，進入前端即可進入 NTUniverse!
 
-    * <font color=#FF0000>注意請不要使用 `http://127.0.0.1:5173/`，由於使用到 `Google API` 網址請輸入 `localhost:5173`</font>
+    * <font color=#FF0000>注意請不要使用 `http://127.0.0.1:5173/`，由於使用到 `Google API` 網址請輸入 `localhost:5173`，另外`port`若非 `5173`則請儘速聯絡 陳德維 `weiiiii.0622@gmail.com`，Google API只針對特定`port`給予登入權限</font>
 
 ## 每位組員之負責項目
 
