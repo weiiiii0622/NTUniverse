@@ -17,10 +17,10 @@ interface IContext {
     bikeEnabled: boolean,
     setBikeEnabled: SetStateType<boolean>,
 
-    bikeMaxSpeed: number,
-    setBikeMaxSpeed: SetStateType<boolean>,
-    bikeMaxVolume: number,
-    setBikeMaxVolume: SetStateType<number>,
+    bikeSpeedValue: number,
+    setBikeSpeedValue: SetStateType<number>,
+    volumeValue: number,
+    setVolumeValue: SetStateType<number>,
 
     prevCameraType: BikeCameraType,
     cameraType: BikeCameraType,
@@ -33,10 +33,10 @@ const BikeContext = createContext<IContext>({
     setBikePosition: () => { },
     bikeEnabled: false,
     setBikeEnabled: () => { },
-    bikeMaxSpeed: 0,
-    setBikeMaxSpeed: () => { },
-    bikeMaxVolume: 0,
-    setBikeMaxVolume: () => { },
+    bikeSpeedValue: -1,
+    setBikeSpeedValue: () => { },
+    volumeValue: -1,
+    setVolumeValue: () => { },
     prevCameraType: 'default',
     cameraType: 'default',
     setCameraType: (type) => { },
@@ -46,8 +46,8 @@ export function BikeProvider(props: any) {
 
     const [bikePosition, setBikePosition] = useState<Triplet>([0, 0, 0]);
     const [bikeEnabled, setBikeEnabled] = useState(false);
-    const [bikeMaxSpeed, setBikeMaxSpeed] = useState(0);
-    const [bikeMaxVolume, setBikeMaxVolume] = useState(0);
+    const [bikeSpeedValue, setBikeSpeedValue] = useState(50);
+    const [volumeValue, setVolumeValue] = useState(50);
     const [cameraType, setCameraType] = useState<BikeCameraType>('default');
     const [prevCameraType, setPrevCameraType] = useState<BikeCameraType>('default');
 
@@ -62,8 +62,8 @@ export function BikeProvider(props: any) {
         value={{
             bikePosition, setBikePosition,
             bikeEnabled, setBikeEnabled,
-            bikeMaxSpeed, setBikeMaxSpeed,
-            bikeMaxVolume, setBikeMaxVolume,
+            bikeSpeedValue, setBikeSpeedValue,
+            volumeValue, setVolumeValue,
             cameraType, setCameraType: handleCameraTypeChange,
             prevCameraType,
         }}

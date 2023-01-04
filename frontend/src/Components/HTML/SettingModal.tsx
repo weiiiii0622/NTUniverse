@@ -63,11 +63,12 @@ const MySlider = ({ max, min, title, emojiLeft, emojiRight, val, setVal }: MySli
 
 const SettingModal = () => {
     const { settingModalOpen, setSettingModalOpen } = useMyContext();
-    const { setBikeEnabled } = useBikeContext();
+    const {
+        setBikeEnabled,
+        volumeValue, setVolumeValue,
+        bikeSpeedValue, setBikeSpeedValue,
+    } = useBikeContext();
     const [isLoading, setIsLoading] = useState(false);
-
-    const [bikeSpeedValue, setBikeSpeedValue] = useState(50);
-    const [volumeValue, setVolumeValue] = useState(50);
 
     return (
         <>
