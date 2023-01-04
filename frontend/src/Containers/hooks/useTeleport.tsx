@@ -1,6 +1,7 @@
 import { useControls } from "leva";
 import { useMyContext } from "../../Utils/useMyContext";
 import useBikeContext from "./useBikeContext";
+import { TLocation } from './useBikeContext';
 
 export default function useTeleport() {
     const {
@@ -10,11 +11,18 @@ export default function useTeleport() {
         setBulletinModalOpen,
     } = useMyContext();
 
-    const { setBikeEnabled, setLocation } = useBikeContext();
+    const {
+        setBikeEnabled,
+        positionFromLocations,
+        nameFromLocations,
+    } = useBikeContext();
+    const handleTP = ({ location }: { location: TLocation }) => {
 
-    const handleTP = ({ scene, pos }) => {
-        setIsChangeScene({ scene: scene });
+        setIsChangeScene({ scene: nameFromLocations[location] });
         setBikeEnabled(false);
+
+        const pos = positionFromLocations[location];
+
         setTimeout(() => {
             setBikeTpPosition(pos);
             setBikeEnabled(true);
