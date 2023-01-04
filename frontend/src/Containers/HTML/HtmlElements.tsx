@@ -12,11 +12,11 @@ import { useMyContext } from "../../Utils/useMyContext";
 import { useEffect } from "react";
 
 const AppHtmlElements = () => {
-    const { isLoading, isChangingScene, setIsChangeScene, finish, setFinish } = useMyContext();
+    const { isLoading, isChangingScene, setIsChangeScene, finish, setFinish, loadFinished, setLoadFinished } = useMyContext();
     useEffect(() => {
         if(isChangingScene['scene']!=="") setFinish(false);
-        console.log("OUT isChanging:")
-        console.log(isChangingScene);
+        //console.log("OUT isChanging:")
+        //console.log(isChangingScene);
     }, [isChangingScene])
 
     return(
@@ -30,11 +30,11 @@ const AppHtmlElements = () => {
             <AboutModal />
             {/* <LoadingCover /> */}
             {
-                isLoading
+                loadFinished
                 ?
-                <LoadingCover />
-                :
                 null
+                :
+                <LoadingCover />
             }
             <MySider />
             {/* <TeleportTransition scene={"Hi"}/> */}
