@@ -76,10 +76,28 @@ function Wall({ position, rotation }: { position: Triplet, rotation: Triplet }) 
     </>
 }
 
+function Barriers(
+    { position, rotation, args }: { args: Triplet, position: Triplet, rotation: Triplet }
+) {
+    const [ref, api] = useBox(() => ({
+        type: "Static",
+        position,
+        rotation,
+        args,
+    }))
+
+    return <>
+        <mesh ref={ref as any} />
+        {/* <mesh {...{ position, rotation }}>
+            <boxGeometry args={args} />
+            <meshStandardMaterial />
+        </mesh> */}
+    </>
+}
 
 export default function SFuCollisionBox() {
 
-    const { wall, rot } = useControls({
+    const { wall, rot, args } = useControls({
         wall: {
             value: {
                 x: 0,
@@ -90,6 +108,14 @@ export default function SFuCollisionBox() {
         rot: {
             value: 0,
             step: 0.1,
+        },
+        args: {
+            value: {
+                x: 1,
+                y: 1,
+                z: 1,
+            },
+            step: 0.5,
         }
     })
 
@@ -125,5 +151,11 @@ export default function SFuCollisionBox() {
         <Stairs position={[-11.9, 0, 3.5]} rotation={[0, Math.PI / 2, -Math.PI / 5]} />
 
         {wallInfos.map(([rot, pos], i) => <Wall position={pos} rotation={rot} key={'wall' + i} />)}
+
+        <Barriers position={[-1.9, 0, -21.1]} rotation={[0, 1.1, 0]} args={[2, 1, 2.7]} />
+        <Barriers position={[2.4, 0, -19.8]} rotation={[0, 0, 0]} args={[3, 1, 1]} />
+        <Barriers position={[21.4, 0, -2.1]} rotation={[0, 1.9, 0]} args={[5, 1.5, 1]} />
+        <Barriers position={[21.8, 0, 3.1]} rotation={[0, 1.2, 0]} args={[5, 1.5, 1]} />
+
     </>
 }

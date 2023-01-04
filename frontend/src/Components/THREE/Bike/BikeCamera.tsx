@@ -92,7 +92,7 @@ export default function BikeCamera({ bikeRotation }: BikeCameraProps) {
                     position={bikeCamPositions[cameraType]}
                     name="My camera"
                     makeDefault
-                    zoom={1}
+                    // zoom={1.65}
                 />}
         </>
     )

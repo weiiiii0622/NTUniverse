@@ -28,10 +28,11 @@ export default function AppOrbitControls({ cameraPosition, enable }: IProps) {
         if (ref.current) {
             ref.current.target.set(...bikePosition);
         }
-        // console.log('free', camera);
 
-        camera.position.copy(cameraPosition);
-        camera.zoom = 1.65;
+        if (camera.name !== 'My camera') {
+            camera.position.copy(cameraPosition);
+            camera.zoom = 1.65;
+        }
     }, [camera]);
 
     return (
