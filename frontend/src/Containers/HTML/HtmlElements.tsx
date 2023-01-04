@@ -40,8 +40,7 @@ const AppHtmlElements = () => {
             {/* <TeleportTransition scene={"Hi"}/> */}
             {!finish ? <TeleportTransition scene={"HI"}/>: null}
             
-            <ChatRoomModal />
-            
+            {loadFinished? <ChatRoomModal /> : null}
             
         </>
     )

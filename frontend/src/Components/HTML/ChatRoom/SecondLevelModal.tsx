@@ -38,7 +38,7 @@ const SecondLevelModal = () => {
   //   },
   //   fetchPolicy: "cache-and-network",
   // })
-  const { loading, error, data } = useQueryChat({ chatRoomName: chatRoom.name });
+  const { loading, error, data } = useQueryChat({ chatRoomName: (chatRoom? chatRoom.name : 'World Channel') });
   // console.log(data);
   // let messages = data?.chatRoom.messages;
 
@@ -80,7 +80,7 @@ const SecondLevelModal = () => {
         open={secondOpen}
       >
         <MsgWrapper>
-          {messages?.map(msg => <Message key={msg.sender+msg.content} sender={msg.sender} content={msg.content} />)}
+          {messages?.map(msg => <Message sender={msg.sender} content={msg.content} />)}
           <FootRef key={chatRoom.name + '-footer'} ref={msgFooterRef} />
 
         </MsgWrapper>

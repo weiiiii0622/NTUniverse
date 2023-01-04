@@ -22,8 +22,15 @@ const ChatRoomModal = () => {
  
 
   return (
-    <div style={{ position: 'absolute', zIndex: 100, right: '40px', bottom: '200px' }}>
-      <Button type="primary" shape="circle" onClick={showFirst} icon={<CommentOutlined />} style={{ float: 'right' }} />
+    <div style={{ position: 'absolute', zIndex: 100, right: '20px', bottom: '40px' }}>
+      <Button 
+        type='primary' 
+        shape='circle' 
+        size='large'
+        onClick={showFirst} 
+        icon={<CommentOutlined />} 
+        style={{ float: 'right' }} 
+      />
       <FirstLevelModal />
       <SecondLevelModal />
     </div>

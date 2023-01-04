@@ -38,7 +38,7 @@ const Query = {
           messages: {
             sender: 'NTUniverse',
             content: 'Welcome to NTUniverse',
-            readBy: ['NTUniverse'],
+            // readBy: ['NTUniverse'],
           }
         };
         chatRoom = await new ChatRoomModel(data).save();
