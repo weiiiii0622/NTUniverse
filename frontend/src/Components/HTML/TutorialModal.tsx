@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 // import { Button, Modal } from 'antd';
-import { Tour } from 'antd';
+import { Tour, Image } from 'antd';
 import type { TourProps } from 'antd';
 import { LoginOutlined } from '@ant-design/icons';
 import { useMyContext } from '../../Utils/useMyContext';
@@ -31,8 +31,8 @@ const TutorialModal: React.FC = () => {
       title: null,
       cover: (
         <>
-          <img src='/pics/tutorial_bike.gif'></img>
-          <h2 style={{}}>腳踏車🚲～</h2>
+          <Image style={{ borderRadius: '6px' }} preview={false} height={300} width={480} src='/pics/tutorial_bike.gif' />
+          <h2>腳踏車🚲～</h2>
           <p>利用 WSAD 來控制腳踏車</p>
         </>
       )
@@ -42,7 +42,7 @@ const TutorialModal: React.FC = () => {
       title: null,
       cover: (
         <>
-          <img src='/pics/tutorial_chat.png'></img>
+          <Image style={{ borderRadius: '6px' }} preview={false} height={300} width={480} src='/pics/tutorial_chat.png' />
           <h2>聊天室</h2>
           <p>與朋友加入同一個聊天室盡情暢談</p>
         </>
@@ -53,7 +53,7 @@ const TutorialModal: React.FC = () => {
       title: null,
       cover: (
         <>
-          <img src='/pics/tutorial_bulletin.gif'></img>
+          <Image style={{ borderRadius: '6px' }} preview={false} height={300} width={480} src='/pics/tutorial_bulletin.gif' />
           <h2>留言板</h2>
           <p>在各個景點留言來跟大家交流！</p>
         </>
@@ -64,7 +64,7 @@ const TutorialModal: React.FC = () => {
       title: null,
       cover: (
         <>
-          <img src='/pics/tutorial_game.gif'></img>
+          <Image style={{ borderRadius: '6px' }} preview={false} height={300} width={480} src='/pics/tutorial_game.gif' />
           <h2>小遊戲</h2>
           <p>在校園到處逛逛，發掘各種有趣的小遊戲吧！</p>
         </>
@@ -75,7 +75,7 @@ const TutorialModal: React.FC = () => {
       title: null,
       cover: (
         <>
-          <img src='/pics/tutorial_start.png'></img>
+          <Image style={{ borderRadius: '6px' }} preview={false} height={300} width={480} src='/pics/tutorial_start.png' />
           <h2>Let's GO!</h2>
           <p>騎上腳踏車，開始你的冒險！</p>
         </>
