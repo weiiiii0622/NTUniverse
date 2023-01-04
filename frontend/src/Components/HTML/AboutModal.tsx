@@ -65,10 +65,6 @@ const AboutModal = () => {
 
     })
 
-    // countapi.visits('locatlhost').then((result) => {
-    //     console.log(result);
-    // });
-
     //useEffect(() => {
     //console.log("USERALL data")
     //console.log(data);
