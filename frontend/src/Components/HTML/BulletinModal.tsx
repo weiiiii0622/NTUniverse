@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useQuery } from '@apollo/client';
-import { 
+import {
     Form,
     Input,
     Button,
-    Modal, 
+    Modal,
     Row,
     Col,
     Image,
@@ -14,7 +14,7 @@ import {
     Divider,
     Space,
     Tag,
-    message 
+    message
 } from 'antd';
 import {
     LoadingOutlined,
@@ -25,7 +25,7 @@ import {
 } from '@ant-design/icons';
 import styled from 'styled-components';
 
-import { BULLETIN_QUERY } from '../../graphql';
+import { BULLETIN_QUERY } from '../../Utils/graphql';
 
 import MyTag from './components/Tag';
 import PlsLogin from './components/PleaseLogIn';
@@ -63,16 +63,16 @@ const StyledDivider = styled(Divider)`
 
 const BulletinModal = () => {
     const { bulletinModalOpen, setBulletinModalOpen, setBikeEnabled, me, isLogin, location, setLocation, bulletinMessages, leaveComment, likeComment, setProfileModalOpen, setProfileUser } = useMyContext();
-    const [ pageInfo, setPageInfo ] = useState({page:0, size:4});
-    const [ load, setLoad ] = useState(false);
-    const [ canSubmit, setCanSubmit ] = useState(false);
+    const [pageInfo, setPageInfo] = useState({ page: 0, size: 4 });
+    const [load, setLoad] = useState(false);
+    const [canSubmit, setCanSubmit] = useState(false);
 
-    const [ tags, setTags] = useState<string[]>([]);
-    const [ NewMsg, setNewMsg ] = useState<{value: string; validateStatus?: ValidateStatus; errorMsg?: string | null;}>({value: "", validateStatus: "", errorMsg: null});
+    const [tags, setTags] = useState<string[]>([]);
+    const [NewMsg, setNewMsg] = useState<{ value: string; validateStatus?: ValidateStatus; errorMsg?: string | null; }>({ value: "", validateStatus: "", errorMsg: null });
 
     const [form] = Form.useForm();
 
-    
+
     // useEffect(() => {
     //     form.setFieldsValue({
     //         // nick_name: me['nick_name'],
@@ -83,7 +83,7 @@ const BulletinModal = () => {
     const onFinish = async () => {
         setLoad(true);
         let newMsg = await leaveComment({
-            variables:{
+            variables: {
                 location: location,
                 author: me['id'],
                 body: form.getFieldValue('body'),
@@ -106,7 +106,7 @@ const BulletinModal = () => {
     };
 
 
-    const handleSave =  async () => {
+    const handleSave = async () => {
         //console.log(tags);
         form.submit()
     };
@@ -115,14 +115,14 @@ const BulletinModal = () => {
         validateStatus: ValidateStatus;
         errorMsg: string | null;
     } => {
-        if (value.length > 0 && value[0]!=' ') {
+        if (value.length > 0 && value[0] != ' ') {
             setCanSubmit(true);
             return {
-            validateStatus: 'success',
-            errorMsg: null,
+                validateStatus: 'success',
+                errorMsg: null,
             };
         }
-        else{
+        else {
             setCanSubmit(false);
             return {
                 validateStatus: 'error',
@@ -141,17 +141,17 @@ const BulletinModal = () => {
     const checkIsLiked = (idx) => {
         // console.log(`idx: ${idx}`);
         // console.log(bulletinMessages[idx].likers.findIndex((liker:any) => {return liker.id===me['id']}));
-        if(bulletinMessages[idx].likers.findIndex((liker:any) => {return liker.id===me['id']}) === -1){
+        if (bulletinMessages[idx].likers.findIndex((liker: any) => { return liker.id === me['id'] }) === -1) {
             return false;
         }
-        else{
+        else {
             return true;
         }
     }
 
     const handleIsLiked = async (idx, isLiked) => {
         let newMsg = await likeComment({
-            variables:{
+            variables: {
                 location: location,
                 id: bulletinMessages[idx].id,
                 email: me['email'],
@@ -161,7 +161,7 @@ const BulletinModal = () => {
         //console.log(newMsg);
 
         setTimeout(() => {
-            if(isLiked) message.success('按讚成功！');
+            if (isLiked) message.success('按讚成功！');
         }, 10);
     }
 
@@ -187,192 +187,192 @@ const BulletinModal = () => {
                     backgroundColor: 'black',
                 }}
                 bodyStyle={{
-                    
+
                     overflow: 'auto',
                     height: '75vh',
                     padding: 'inherit',
                     paddingTop: '0',
-                    
+
                 }}
                 footer={[
-                    <Button disabled={canSubmit===false} key="submit" type="primary" loading={load} onClick={handleSave}>
-                      發佈
+                    <Button disabled={canSubmit === false} key="submit" type="primary" loading={load} onClick={handleSave}>
+                        發佈
                     </Button>
                 ]}
             >
-            {
-                isLogin
-                ?
-                <>    
-                <Card
-                    bodyStyle={{
-                        height: '55vh',
-                        overflow: 'auto',
-                        paddingTop: '0',
-                        marginBottom: '1vh',
-                        //backgroundColor: "#EDEDE9",
-                    }}
-                    bordered={false}
-                >
-                    <List
-                        itemLayout = 'vertical'
-                        size = 'small'
-                        bordered={false}
-                        style = {{
-
-                        }}
-                        pagination={{
-                            onChange: (page, pageSize) => {
-                                setPageInfo({
-                                    page: page-1,
-                                    size: pageSize,
-                                })
-                                //console.log(`BulletinPage: ${pageSize}`);
-                            },
-                            pageSize: 3,
-                            position: 'top'
-                        }}
-                        dataSource={bulletinMessages}
-
-                        renderItem = { (msg: any, idx) => (
-                            <List.Item
-                                key={idx}
-                                actions={[]}
-                            >   
-                                
-                                <StyledCard
-                                    hoverable = {true}
-                                    bordered = {false}
-                                    title={<>
-                                        <Row gutter={0} align='top' style={{alignItems: 'center',}}>
-                                            <Col flex={1}>
-                                                <Avatar 
-                                                    src={`${msg['author'].picture}`}
-                                                    style={{
-                                                        height: '2.7vh',
-                                                        width: '2.7vh',
-                                                    }}
-                                                /> 
-                                            </Col>
-                                            <Col flex={39}>
-                                                B{1+idx+pageInfo['page']*pageInfo['size']}- 
-                                                <a 
-                                                    onClick={(e)=>{
-                                                        console.log(msg['author'].nick_name);
-                                                        setProfileUser(msg['author'].id);
-                                                        setProfileModalOpen(true);
-                                                    }}
-                                                >
-                                                    {msg['author'].nick_name}
-                                                </a>
-                                            </Col>
-                                            <Col flex={0}>
-                                                {msg['likers'].length}
-                                            </Col>
-                                            <Col flex={1}>
-                                                {
-                                                    checkIsLiked(idx+pageInfo['page']*pageInfo['size'])
-                                                    ?
-                                                    <Button 
-                                                        style={{borderColor: 'transparent', backgroundColor: 'transparent'}} 
-                                                        icon={<HeartFilled style={{color: "red",}}/>} 
-                                                        onClick={() => handleIsLiked(idx+pageInfo['page']*pageInfo['size'], false)}
-                                                    />
-                                                    :
-                                                    <Button 
-                                                        style={{borderColor: 'transparent', backgroundColor: 'transparent'}} 
-                                                        icon={<HeartOutlined />} 
-                                                        onClick={() => handleIsLiked(idx+pageInfo['page']*pageInfo['size'], true)}
-                                                    />
-
-                                                }
-                                            </Col>
-                                        </Row>
-
-                                    </>}
-
+                {
+                    isLogin
+                        ?
+                        <>
+                            <Card
+                                bodyStyle={{
+                                    height: '55vh',
+                                    overflow: 'auto',
+                                    paddingTop: '0',
+                                    marginBottom: '1vh',
+                                    //backgroundColor: "#EDEDE9",
+                                }}
+                                bordered={false}
+                            >
+                                <List
+                                    itemLayout='vertical'
+                                    size='small'
+                                    bordered={false}
                                     style={{
-                                        //margin: 16
-                                    }}
-                                    headStyle={{
-                                        fontSize: 'small',
-                                        backgroundColor: '#e9ecef',
-                                    }}
-                                    bodyStyle={{
-                                        backgroundColor: '#d4d8dc'
-                                    }}
-                                    
-                                    actions={[
 
-                                    ]}
-                                >
-                                    {msg.body}
-                                    <Divider style={{marginTop: "24px", marginBottom: "6px"}}/>
-                                    {
-                                        msg.tags.length>0 
-                                        ? 
-                                            msg.tags.map((tag, idx) => {
-                                                return (
-                                                    <Tag color="#6c757d">#{tag}</Tag>
-                                                )
+                                    }}
+                                    pagination={{
+                                        onChange: (page, pageSize) => {
+                                            setPageInfo({
+                                                page: page - 1,
+                                                size: pageSize,
                                             })
-                                        :
-                                        null
-                                    }
-                                </StyledCard>
+                                            //console.log(`BulletinPage: ${pageSize}`);
+                                        },
+                                        pageSize: 3,
+                                        position: 'top'
+                                    }}
+                                    dataSource={bulletinMessages}
 
-                            </List.Item>
-                        )}
-                    />
-                </Card>
+                                    renderItem={(msg: any, idx) => (
+                                        <List.Item
+                                            key={idx}
+                                            actions={[]}
+                                        >
 
-                <Form
-                    form={form}
-                    wrapperCol={{ span: 20, offset:0}}
-                    style={{
-                        padding: 'inherit',
-                        height: '10vh',
-                    }}
-                    layout="vertical"
-                    onFinish={onFinish}
-                    onFinishFailed={onFinishFailed}
-                >
+                                            <StyledCard
+                                                hoverable={true}
+                                                bordered={false}
+                                                title={<>
+                                                    <Row gutter={0} align='top' style={{ alignItems: 'center', }}>
+                                                        <Col flex={1}>
+                                                            <Avatar
+                                                                src={`${msg['author'].picture}`}
+                                                                style={{
+                                                                    height: '2.7vh',
+                                                                    width: '2.7vh',
+                                                                }}
+                                                            />
+                                                        </Col>
+                                                        <Col flex={39}>
+                                                            B{1 + idx + pageInfo['page'] * pageInfo['size']}-
+                                                            <a
+                                                                onClick={(e) => {
+                                                                    console.log(msg['author'].nick_name);
+                                                                    setProfileUser(msg['author'].id);
+                                                                    setProfileModalOpen(true);
+                                                                }}
+                                                            >
+                                                                {msg['author'].nick_name}
+                                                            </a>
+                                                        </Col>
+                                                        <Col flex={0}>
+                                                            {msg['likers'].length}
+                                                        </Col>
+                                                        <Col flex={1}>
+                                                            {
+                                                                checkIsLiked(idx + pageInfo['page'] * pageInfo['size'])
+                                                                    ?
+                                                                    <Button
+                                                                        style={{ borderColor: 'transparent', backgroundColor: 'transparent' }}
+                                                                        icon={<HeartFilled style={{ color: "red", }} />}
+                                                                        onClick={() => handleIsLiked(idx + pageInfo['page'] * pageInfo['size'], false)}
+                                                                    />
+                                                                    :
+                                                                    <Button
+                                                                        style={{ borderColor: 'transparent', backgroundColor: 'transparent' }}
+                                                                        icon={<HeartOutlined />}
+                                                                        onClick={() => handleIsLiked(idx + pageInfo['page'] * pageInfo['size'], true)}
+                                                                    />
 
-                    <Form.Item 
-                        name="HashTag" 
-                        label="HashTag"  
-                        wrapperCol={{span:10}} 
-                        style={{marginBottom: '1vh',}}
-                    >
-                        <MyTag tags={tags} setTags={setTags} />
-                        {/* <Input placeholder={"輸入你想要的標籤"}/> */}
-                    </Form.Item>
+                                                            }
+                                                        </Col>
+                                                    </Row>
 
-                    <Form.Item
-                        name="body"
-                        label="想留的話"
-                        style={{marginBottom: '1vh',}}
-                        rules={[{ type: 'string', min: 1 }]}
-                        validateStatus={NewMsg.validateStatus} 
-                        help={NewMsg.errorMsg || ""}
-                    >
-                        <Input.TextArea 
-                            rows={1} 
-                            autoSize={{ maxRows: 1 }} 
-                            showCount maxLength={50}  
-                            placeholder="你還沒留下任何訊息"
-                            onChange={onNewMsgChange}
-                        />
-                    </Form.Item>
-                </Form>
-                </>
+                                                </>}
 
-                :
+                                                style={{
+                                                    //margin: 16
+                                                }}
+                                                headStyle={{
+                                                    fontSize: 'small',
+                                                    backgroundColor: '#e9ecef',
+                                                }}
+                                                bodyStyle={{
+                                                    backgroundColor: '#d4d8dc'
+                                                }}
 
-                <> 
-                <PlsLogin />
-                </>
-            }
+                                                actions={[
+
+                                                ]}
+                                            >
+                                                {msg.body}
+                                                <Divider style={{ marginTop: "24px", marginBottom: "6px" }} />
+                                                {
+                                                    msg.tags.length > 0
+                                                        ?
+                                                        msg.tags.map((tag, idx) => {
+                                                            return (
+                                                                <Tag color="#6c757d">#{tag}</Tag>
+                                                            )
+                                                        })
+                                                        :
+                                                        null
+                                                }
+                                            </StyledCard>
+
+                                        </List.Item>
+                                    )}
+                                />
+                            </Card>
+
+                            <Form
+                                form={form}
+                                wrapperCol={{ span: 20, offset: 0 }}
+                                style={{
+                                    padding: 'inherit',
+                                    height: '10vh',
+                                }}
+                                layout="vertical"
+                                onFinish={onFinish}
+                                onFinishFailed={onFinishFailed}
+                            >
+
+                                <Form.Item
+                                    name="HashTag"
+                                    label="HashTag"
+                                    wrapperCol={{ span: 10 }}
+                                    style={{ marginBottom: '1vh', }}
+                                >
+                                    <MyTag tags={tags} setTags={setTags} />
+                                    {/* <Input placeholder={"輸入你想要的標籤"}/> */}
+                                </Form.Item>
+
+                                <Form.Item
+                                    name="body"
+                                    label="想留的話"
+                                    style={{ marginBottom: '1vh', }}
+                                    rules={[{ type: 'string', min: 1 }]}
+                                    validateStatus={NewMsg.validateStatus}
+                                    help={NewMsg.errorMsg || ""}
+                                >
+                                    <Input.TextArea
+                                        rows={1}
+                                        autoSize={{ maxRows: 1 }}
+                                        showCount maxLength={50}
+                                        placeholder="你還沒留下任何訊息"
+                                        onChange={onNewMsgChange}
+                                    />
+                                </Form.Item>
+                            </Form>
+                        </>
+
+                        :
+
+                        <>
+                            <PlsLogin />
+                        </>
+                }
             </StyledModal>
         </>
     )
