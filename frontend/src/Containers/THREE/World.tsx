@@ -45,7 +45,7 @@ function World() {
 	const { location, setLocation, locationInfos } = useLocation();
 
 	useEffect(() => {
-		console.log(location);
+		//console.log(location);
 	}, [location]);
 
 	const displayScene = () => {
