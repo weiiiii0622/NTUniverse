@@ -24,7 +24,7 @@ const LocationContext = createContext<IContext>({
     locationInfos: {
         "SFu": {
             position: [0, 0, 0] as Triplet,
-            rotation: [0, 0, 0] as Triplet,
+            rotation: [0, Math.PI / 2, 0] as Triplet,
             name: '小福廣場',
         },
         "MainLib": {
@@ -41,7 +41,7 @@ export function LocationProvider(props: any) {
     const locationInfos = {
         "SFu": {
             position: [0, 0, 0] as Triplet,
-            rotation: [0, 0, 0] as Triplet,
+            rotation: [0, Math.PI / 4 + Math.PI / 2, 0] as Triplet,
             name: '小福廣場',
         },
         "MainLib": {

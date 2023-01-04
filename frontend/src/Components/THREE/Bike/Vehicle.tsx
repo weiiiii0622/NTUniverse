@@ -46,7 +46,7 @@ const backIndex = [3, 5];
 /**
  * Justify
  */
-const justifyValue = 0.5;
+const justifyValue = 1;
 const justifyPosition = (p: Triplet): Triplet => ([p[0], p[1] + justifyValue, p[2]]);
 
 
@@ -65,6 +65,9 @@ const Vehicle = forwardRef((props: VehicleProps, vehicle: RefObject<Mesh>) => {
 
 	const { location } = useLocation();
 	useEffect(() => {
+
+		console.log(objectProps);
+
 		chassis!.current.api.position.set(...justifyPosition(objectProps.position));
 		chassis!.current.api.rotation.set(...objectProps.rotation)
 		chassis!.current.api.velocity.set(0, 0, 0)
