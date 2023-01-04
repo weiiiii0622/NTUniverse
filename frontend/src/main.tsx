@@ -23,7 +23,7 @@ const HTTP_ROOT =
 const WS_ROOT =
   process.env.NODE_ENV === "production"
   //? "ws://localhost:4001/subscriptions"
-    ?`ws://${window.location.href.slice(6)}subscriptions`
+    ?`ws://ntuniverse-production.up.railway.app/subscriptions`
     : "ws://localhost:4001/subscriptions";
 
 const httpLink = new HttpLink({
