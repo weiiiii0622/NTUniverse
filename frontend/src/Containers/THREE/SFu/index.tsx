@@ -6,6 +6,7 @@ import HintCircle from "./interactions/HintCircle";
 import { useControls } from "leva";
 import useTeleport from "../../hooks/useTeleport";
 import { Triplet } from "@react-three/cannon";
+import InteractiveBlock from "../../../Components/THREE/interaction/InteractiveBlock";
 
 interface IProps {
     position: Triplet,
@@ -36,6 +37,12 @@ export default function SFu({ position }: IProps) {
                 // position={[0, 0, 0]}
                 handleEvent={() => handleTP({ location: 'MainLib' })}
             />
+            <InteractiveBlock 
+                position={[0.4, 0, -26]}
+                // position={[0, 0, 0]}
+                handleEvent={() => handleTP({ location: 'MainLib' })}
+            />
+
         </group>
     )
 }
