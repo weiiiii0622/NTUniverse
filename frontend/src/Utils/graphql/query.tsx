@@ -61,12 +61,12 @@ const CHATROOM_QUERY = gql`
   query chatRoom ($chatRoomName: String!){
     chatRoom(chatRoomName: $chatRoomName) {
       id
+      chatRoomName
+      users
       messages {
         sender
-        readBy
         content
       }
-      readBy
     }
   } 
 `;

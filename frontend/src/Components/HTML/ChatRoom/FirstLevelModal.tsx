@@ -9,6 +9,9 @@ import SecondLevelModal from './SecondLevelModal';
 import PlsLogin from "../../../Components/HTML/components/PleaseLogIn";
 import UsersModal from "./UsersModal";
 import { useChatRoomContext } from "../../../Utils/ChatRoom/useChatRoomContext";
+import useQueryChat from "../../../Containers/HTML/ChatRoom/hooks/useQueryChat";
+import { CHATROOM_QUERY } from "../../../Utils/graphql";
+import { useQuery } from "@apollo/client";
 
 
 
@@ -34,8 +37,8 @@ const data = [
 ];
 
 const FirstLevelModal = (props: IFirstLevelProps) => {
-  const { showSecond, chatRooms, activeRoom, setActiveRoom } = useChatRoomContext();
-  const { isLogin, chatRoomModalOpen , setChatRoomModalOpen } = useMyContext();
+  const { showSecond, chatRooms, activeRoom, setActiveRoom, setChatRooms } = useChatRoomContext();
+  const { isLogin, chatRoomModalOpen, setChatRoomModalOpen } = useMyContext();
 
   return (
     <>
@@ -78,7 +81,7 @@ const FirstLevelModal = (props: IFirstLevelProps) => {
                   <List.Item.Meta
                     avatar={<MehOutlined />}
                     title={<p>{item.name}</p>}
-                    description={item.lastMsg}
+                    // description={item.lastMsg}
                   />
                 </List.Item>
               )}

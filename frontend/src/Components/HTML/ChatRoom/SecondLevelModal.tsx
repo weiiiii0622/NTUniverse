@@ -4,6 +4,11 @@ import Message from './Message';
 import { useChatRoomContext } from "../../../Utils/ChatRoom/useChatRoomContext";
 import styled from "styled-components";
 import { IChatRoom } from "../../../Utils/ChatRoom/IChatRoom";
+import useQueryChat from "../../../Containers/HTML/ChatRoom/hooks/useQueryChat";
+import { useQuery } from "@apollo/client";
+import { CHATROOM_QUERY } from "../../../Utils/graphql";
+import { useEffect, useRef, useState } from "react";
+import { useMyContext } from "../../../Utils/useMyContext";
 
 interface ISecondLevelModal {
 
@@ -13,17 +18,58 @@ const MsgWrapper = styled.div`
   height: 90%;
   display: flex;
   justify-content: flex-start;
-  flex-direction: column-reverse;
+  flex-direction: column;
   margin: 4px 5px;
   gap: 10px;
   overflow: scroll;
-`;
+  `;
+  
+  const FootRef = styled.div`
+    height: 10px;
+  `;
 
 const SecondLevelModal = () => {
-  const { secondOpen, showFirst, chatRooms, activeRoom } = useChatRoomContext();
+  const { me } = useMyContext();
+  const { secondOpen, showFirst, chatRooms, messages, setMessages, activeRoom, handleNewMsg } = useChatRoomContext();
   const chatRoom = chatRooms[activeRoom];
-  console.log('chatRoom: ');
-  console.log(chatRoom);
+  // const { loading, error, data, subscribeToMore } = useQuery(CHATROOM_QUERY, {
+  //   variables: {
+  //     chatRoomName: chatRoom.name,
+  //   },
+  //   fetchPolicy: "cache-and-network",
+  // })
+  const { loading, error, data } = useQueryChat({ chatRoomName: chatRoom.name });
+  // console.log(data);
+  // let messages = data?.chatRoom.messages;
+
+  // update messages
+  useEffect(() => {
+    setMessages(data?.chatRoom.messages);
+  }, [messages, data]);
+
+  // console.log('messages');
+
+  // console.log(messages);
+
+
+  // console.log('t');
+
+  // console.log(t);
+
+  const [body, setBody] = useState<string>('');
+  const handleChange = (func: (value: any) => void) =>
+    (e: React.SyntheticEvent) => func(e.target.value);
+
+
+  const msgFooterRef = useRef<HTMLDivElement>(null!);
+  const scrollToBottom = () => {
+    msgFooterRef!.current?.scrollIntoView({ behavior: 'smooth', block: "start" });
+  }
+
+  useEffect(() => scrollToBottom());
+  useEffect(() => scrollToBottom(), [data]);
+
+
   return (
     <>
       <Drawer
@@ -34,51 +80,25 @@ const SecondLevelModal = () => {
         open={secondOpen}
       >
         <MsgWrapper>
-          <Message sender={'1'} content={'hi'} />
-          <Message sender={'1'} content={'hi'} />
-          <Message sender={'1'} content={'hi'} />
-          <Message sender={'1'} content={'hi'} />
-          <Message sender={'1'} content={'hi'} />
-          <Message sender={'1'} content={'hi'} />
-          <Message sender={'1'} content={'hi'} />
-          <Message sender={'1'} content={'hi'} />
-          <Message sender={'1'} content={'hi'} />
-          <Message sender={'1'} content={'hi'} />
-          <Message sender={'1'} content={'hi'} />
-          <Message sender={'1'} content={'hi'} />
-          <Message sender={'1'} content={'hi'} />
-          <Message sender={'1'} content={'hi'} />
-          <Message sender={'1'} content={'hi'} />
-          <Message sender={'1'} content={'hi'} />
-          <Message sender={'1'} content={'hi'} />
-          <Message sender={'1'} content={'hi'} />
-          <Message sender={'1'} content={'hi'} />
-          <Message sender={'1'} content={'hi'} />
-          <Message sender={'1'} content={'hi'} />
-          <Message sender={'1'} content={'hi'} />
-          <Message sender={'1'} content={'hi'} />
-          <Message sender={'1'} content={'hi'} />
-          <Message sender={'1'} content={'hi'} />
-          <Message sender={'1'} content={'hi'} />
-          <Message sender={'1'} content={'hi'} />
-          <Message sender={'1'} content={'hi'} />
+          {messages?.map(msg => <Message key={msg.sender+msg.content} sender={msg.sender} content={msg.content} />)}
+          <FootRef key={chatRoom.name + '-footer'} ref={msgFooterRef} />
+
         </MsgWrapper>
 
 
         <Input.Search
           enterButton="Send"
           placeholder="Type a message here..."
-        // value={body}
-        // onChange={handleChange(setBody)}
-        // disabled={friend === ''}
-        // onSearch={(msg) => {
-        //     if (msg) {
-        //         sendMessage({ body: msg });
-        //         setBody('');
-        //     } else {
-        //         message.warning({ content: 'Message is empty.', duration: 0.5 });
-        //     }
-        // }}
+          value={body}
+          onChange={handleChange(setBody)}
+          onSearch={(val) => {
+            handleNewMsg({
+              chatRoomName: chatRoom.name,
+              sender: me['email'],
+              content: val,
+            });
+            setBody('');
+          }}
         ></Input.Search>
       </Drawer>
     </>

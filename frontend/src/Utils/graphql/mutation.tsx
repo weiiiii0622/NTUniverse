@@ -81,9 +81,8 @@ const UPDATE_BULLETINMSG_MUTATION = gql`
 const CREATE_CHATROOM_MUTATION = gql`
   mutation createChatBox(
     $chatRoomName: String!, 
-    $users: [String!]!
   ){
-    createChatRoom(chatRoomName: $chatRoomName, users: $users) {
+    createChatRoom(chatRoomName: $chatRoomName) {
       id
     }
   }
@@ -98,7 +97,6 @@ const CREATE_MRSSAGE_MUTATION = gql`
   createMessage(chatRoomName: $chatRoomName, sender: $sender, content: $content){
     sender
     content
-    readBy
   }
 }
 `;

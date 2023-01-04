@@ -5,8 +5,14 @@ export interface IMessage {
 
 export interface IChatRoom {
   name: string,
-  messages: IMessage[],
+  // messages: IMessage[],
   lastMsg: string,
   // children: React.ReactNode,
-  unread: number,
+  // unread: number,
 };
+
+export interface INewMsg {
+  chatRoomName: string,
+  sender: string,
+  content: string, 
+}

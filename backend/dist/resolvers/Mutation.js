@@ -91,7 +91,9 @@ const Mutation = {
         return msg;
     }),
     createChatRoom: (parent, { chatRoomName, users }, { ChatRoomModel }) => __awaiter(void 0, void 0, void 0, function* () {
-        const chatRoom = yield new ChatRoomModel({ chatRoomName, users, messages: [] }).save();
+        let chatRoom = yield ChatRoomModel.findOne({ chatRoomName: chatRoomName });
+        if (!chatRoom)
+            chatRoom = yield new ChatRoomModel({ chatRoomName, messages: [] }).save();
         console.log('new room: ' + chatRoomName);
         return chatRoom;
     }),

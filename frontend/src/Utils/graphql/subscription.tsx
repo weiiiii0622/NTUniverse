@@ -29,7 +29,7 @@ const BULLETIN_SUBSCRIPTION = gql`
 
 const NEWMESSAGE_SUBSCRIPTION = gql`
   subscription newMessage($chatRoomName: String!){
-    chatRoom(chatRoomName: $chatRoomName) {
+    newMessage(chatRoomName: $chatRoomName) {
         sender
         content
         readBy

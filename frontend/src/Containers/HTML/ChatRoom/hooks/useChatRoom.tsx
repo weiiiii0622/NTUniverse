@@ -2,12 +2,12 @@ import { useMutation } from "@apollo/client";
 import { message } from "antd";
 import { useEffect, useState } from "react";
 import { IChatRoom, IMessage } from "../../../../Utils/ChatRoom/IChatRoom";
-import { CREATE_CHATROOM_MUTATION } from '../../../../graphql/mutation';
+import { CREATE_CHATROOM_MUTATION } from '../../../../Utils/graphql';
 import { create } from "lodash";
 import { useMyContext } from "../../../../Utils/useMyContext";
 
 interface IProps {
-  
+
 }
 
 const useChatRoom = (props: IProps) => {
@@ -24,9 +24,9 @@ const useChatRoom = (props: IProps) => {
     return ({
       name: chatRoomName,
       // set later by query
-      messages: [],
+      // messages: [],
       lastMsg: 'Chat with your friends!',
-      unread: 0,
+      // unread: 0,
     })
   };
 

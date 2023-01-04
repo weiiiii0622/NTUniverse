@@ -30,8 +30,8 @@ const CreateChatModal = (props: ICreateChatModal) => {
         console.log(users);
 
         handleCreate({
-          chatRoomName: values.name,
-          users: users,
+          name: values.name,
+          lastMsg: 'Chat with your friends!',
         });
         form.resetFields();
         setCreateOpen(false);
@@ -53,7 +53,7 @@ const CreateChatModal = (props: ICreateChatModal) => {
         cancelText="取消"
         open={createOpen}
         onOk={() => submit()}
-        onCancel={() => {setCreateOpen(false)}}
+        onCancel={() => { setCreateOpen(false) }}
       >
         <Form form={form} layout="vertical" name="form_in_modal">
           <Form.Item
@@ -65,14 +65,14 @@ const CreateChatModal = (props: ICreateChatModal) => {
             },]}
           >
             <Input
-            // onKeyDown={e => {
-            //     if (e.key === 'Enter') submit();
-            // }}
+              onKeyDown={e => {
+                if (e.key === 'Enter') submit();
+              }}
             />
           </Form.Item>
         </Form>
 
-        <Form form={form2} layout="vertical" name="form_in_modal">
+        {/* <Form form={form2} layout="vertical" name="form_in_modal">
           <Form.Item
             name="username"
             label="User"
@@ -96,7 +96,7 @@ const CreateChatModal = (props: ICreateChatModal) => {
         </Form>
         {
           users.map(user => <Tag color="blue" key={user}>{user}</Tag>)
-        }
+        } */}
 
       </Modal>
     </>

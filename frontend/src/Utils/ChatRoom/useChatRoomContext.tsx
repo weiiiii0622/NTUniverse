@@ -1,10 +1,11 @@
 import { useState, useEffect, createContext, useContext } from "react";
-import { IChatRoom, IMessage } from "./IChatRoom";
+import { IChatRoom, IMessage, INewMsg } from "./IChatRoom";
 import _ from "lodash";
 import { useMutation, useQuery } from "@apollo/client";
-import { CHATROOM_QUERY, CREATE_CHATROOM_MUTATION } from "../graphql/index";
+import { CHATROOM_QUERY, CREATE_CHATROOM_MUTATION, CREATE_MRSSAGE_MUTATION } from "../graphql/index";
 import { message } from "antd";
 import { useMyContext } from "../useMyContext";
+import useBikeContext from "../../Containers/hooks/useBikeContext";
 
 
 interface IChatRoomContext {
@@ -19,16 +20,20 @@ interface IChatRoomContext {
 
   chatRooms: IChatRoom[],
   setChatRooms(x): void,
+  messages: IMessage[],
+  setMessages(x): void,
   // addChatRoom(x: IChatRoom): void,
   activeRoom: number,
   setActiveRoom(x): void,
-  createChatBoxMutation: any,
+  createChatBoxMutation(x: IChatRoom): any,
 
-  handleCreate(x): void,
-
+  handleCreate(x: IChatRoom): void,
+  handleNewMsg(x: INewMsg): void,
 }
 
 const ChatRoomContext = createContext<IChatRoomContext>({
+  // messages: [];
+
   secondOpen: false,
   setSecondOpen: (x) => { },
   createOpen: false,
@@ -40,27 +45,37 @@ const ChatRoomContext = createContext<IChatRoomContext>({
 
   chatRooms: [],
   setChatRooms: (x) => { },
-  // addChatRoom: (x: IChatRoom) => { },
+  messages: [],
+  setMessages: (x) => { },
   activeRoom: 0,
   setActiveRoom: (x) => { },
 
   createChatBoxMutation: () => { },
 
-  handleCreate: () => { },
+  handleCreate: (x) => { },
+  handleNewMsg: (x: INewMsg) => { },
 });
 
 const ChatRoomProvider = (props: any) => {
 
   // chat information
+  const { me, chatRoomModalOpen, setChatRoomModalOpen } = useMyContext();
+  const { setBikeEnabled } = useBikeContext();
 
-  // const [friend, setFriend] = useState<string>('');
-  // const [box, setBox] = useState<string>("");
-  const { me, chatRoomModalOpen, setChatRoomModalOpen, setBikeEnabled } = useMyContext();
+  // Messages
+  const [messages, setMessages] = useState();
+
 
   // Modal
   const [secondOpen, setSecondOpen] = useState(false);
   const [createOpen, setCreateOpen] = useState(false);
-  const [chatRooms, setChatRooms] = useState<IChatRoom[]>([]);
+  const [chatRooms, setChatRooms] = useState<IChatRoom[]>([{
+    name: 'World Channel',
+    // set later by query
+    // messages: [],
+    lastMsg: 'Chat with all!',
+    // unread: 0,
+  }]);
   // TODEL:
   useEffect(() => {
     console.log(chatRooms);
@@ -93,9 +108,9 @@ const ChatRoomProvider = (props: any) => {
     return ({
       name: chatRoomName,
       // set later by query
-      messages: [],
+      // messages: [],
       lastMsg: 'Chat with your friends!',
-      unread: 0,
+      // unread: 0,
     })
   };
 
@@ -106,29 +121,41 @@ const ChatRoomProvider = (props: any) => {
    */
   const [createChatBoxMutation] = useMutation(CREATE_CHATROOM_MUTATION);
 
-  const handleCreate = (newChatroom: any) => {
+  const handleCreate = (newChatroom: IChatRoom) => {
     console.log(newChatroom);
     // Open new chat box with friend
     if (chatRooms.some
-      (({ name }) => name === newChatroom.chatRoomName)) {
+      (({ name }) => name === newChatroom.name)) {
       message.error({ content: 'Chat room already opened!', duration: 0.75 })
     }
 
     // children will be update later
-    setChatRooms([...chatRooms, defaultChatBox(newChatroom.chatRoomName)]);
+    setChatRooms([...chatRooms, defaultChatBox(newChatroom.name)]);
 
-    console.log(me);
+    // console.log(me);
 
     createChatBoxMutation({
       variables: {
-        chatRoomName: newChatroom.chatRoomName,
-        users: newChatroom.users,
+        chatRoomName: newChatroom.name,
       }
-    })
+    });
     message.success({ content: 'Chat room created.', duration: 0.75 });
   }
 
-  
+  const [createMessageMutation] = useMutation(CREATE_MRSSAGE_MUTATION);
+
+  const handleNewMsg = (props: INewMsg) => {
+    const { chatRoomName, sender, content } = props;
+    createMessageMutation({
+      variables: {
+        chatRoomName,
+        sender,
+        content,
+      }
+    });
+    message.success({ content: 'Sent!', duration: 0.75 })
+  }
+
 
   return (
     <ChatRoomContext.Provider
@@ -137,9 +164,11 @@ const ChatRoomProvider = (props: any) => {
         createOpen, setCreateOpen,
         scrollToBottom, modalClose, showFirst, showSecond,
         chatRooms, setChatRooms,
+        messages, setMessages,
         activeRoom, setActiveRoom,
         createChatBoxMutation,
         handleCreate,
+        handleNewMsg,
       }}
       {...props}
     />

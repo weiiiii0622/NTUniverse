@@ -46,6 +46,7 @@ const Query = {
         throw new Error('Chat Room does not exist');  
       }
     }
+    
     return chatRoom;
   }
 };

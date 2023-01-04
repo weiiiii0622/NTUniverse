@@ -55,7 +55,7 @@ const Schema = gql`
     updateUser(email: String!, nick_name: String!, picture: String!, description: String!): User!
     createBulletinMsg(location: String!, author: ID!, body: String!, tags:[String]): BulletinMsg!
     updateBulletinMsg(location: String!, id: ID!, email: String!, isLiked: Boolean!): BulletinMsg!
-    createChatRoom(chatRoomName: String!, users: [String!]!): ChatRoom!
+    createChatRoom(chatRoomName: String!): ChatRoom!
     createMessage(chatRoomName: String!, sender: String!, content: String!): [Message]!
   }
 

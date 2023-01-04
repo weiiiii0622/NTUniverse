@@ -29,13 +29,13 @@ const AppHtmlElements = () => {
             <BulletinModal />
             <AboutModal />
             {/* <LoadingCover /> */}
-            {/* {
+            {
                 isLoading
                 ?
                 <LoadingCover />
                 :
                 null
-            } */}
+            }
             <MySider />
             {/* <TeleportTransition scene={"Hi"}/> */}
             {!finish ? <TeleportTransition scene={"HI"}/>: null}

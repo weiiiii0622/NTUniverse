@@ -3,6 +3,7 @@ import React from 'react';
 import { CHATROOM_QUERY, NEWMESSAGE_SUBSCRIPTION } from '../../../../Utils/graphql';
 import { useEffect, useState } from "react"
 import _ from 'lodash';
+import { useChatRoomContext } from '../../../../Utils/ChatRoom/useChatRoomContext';
 
 
 interface useQueryChatProps {
@@ -12,66 +13,56 @@ interface useQueryChatProps {
 
 const useQueryChat = (props: useQueryChatProps) => {
   const { chatRoomName } = props;
+  const { chatRooms, setChatRooms } = useChatRoomContext();
 
-  console.log('useQueryChat');
-  
 
-  const { data, loading, subscribeToMore } = useQuery(CHATROOM_QUERY, {
+  // console.log('useQueryChat');
+
+
+  const { loading, error, data, subscribeToMore } = useQuery(CHATROOM_QUERY, {
     variables: {
       chatRoomName: chatRoomName,
     },
     fetchPolicy: "cache-and-network",
   })
 
+  // console.log('data');
+
   useEffect(() => {
     let unsub;
     try {
-      console.log(`chatroom sub! ${chatRoomName}`);
+      // console.log(`chatroom sub! ${chatRoomName}`);
       unsub = subscribeToMore({
         document: NEWMESSAGE_SUBSCRIPTION,
         variables: { chatRoomName: chatRoomName },
         updateQuery: (prev, { subscriptionData }) => {
 
-          console.log("subData:")
-          console.log(subscriptionData);
-          return prev;
+          // console.log("subData:")
+          // console.log(subscriptionData);
+          // console.log('prev:');
+
+          // console.log(prev);
+
+          if (!subscriptionData) return prev;
+          var newMessage = subscriptionData.data.newMessage;
+
+          let temp = _.cloneDeep(prev);
+          temp.chatRoom.messages = newMessage;
+
+
+          let tempRooms = _.cloneDeep(chatRooms);
+          tempRooms.find(e => e.name === chatRoomName).lastMsg = newMessage[newMessage.length - 1];
+          setChatRooms(tempRooms);
+
+          // console.log('data');
+          // console.log(temp);
+
+          // console.log('last');
+          // console.log(tempRooms);
           
-          // if (!subscriptionData) return prev;
-          // var newMessage = subscriptionData.data.bulletin.data;
-          // const type = subscriptionData.data.bulletin.type;
-          // //console.log("prev:");
-          // //console.log(prev);
-          // let temp = _.cloneDeep(prev);
-          // //console.log(temp);
-          // if (temp.bulletin === undefined) {
-          //   temp = {
-          //     bulletin: {
-          //       messages: []
-          //     }
-          //   }
-          // }
-          // if (type === "CREATED") {
-          //   return {
-          //     bulletin: {
-          //       __typename: "Bulletin",
-          //       location: location,
-          //       messages: [...temp.bulletin.messages, newMessage],
-          //     }
-          //   };
-          // }
-          // else if (type === "UPDATED") {
-          //   let newMsgs = temp.bulletin.messages;
-          //   let idx = newMsgs.findIndex((msg) => { return msg.id === newMessage.id });
-          //   //console.log(idx);
-          //   newMsgs[idx] = newMessage;
-          //   return {
-          //     bulletin: {
-          //       __typename: "Bulletin",
-          //       location: location,
-          //       messages: [...newMsgs],
-          //     }
-          //   };
-          // }
+          
+
+          return temp;
         },
       });
     } catch (e) {
@@ -80,78 +71,8 @@ const useQueryChat = (props: useQueryChatProps) => {
     return () => unsub();
   }, [subscribeToMore, chatRoomName]);
 
-  // const { nick_name, friend, box } = props;
 
-  // const { loading, error, data, subscribeToMore } = useQuery(
-  //   CHATBOX_QUERY, {
-  //   variables: {
-  //     name: box,
-  //   },
-  //   fetchPolicy: "cache-and-network",
-  // });
-
-  // useEffect(() => {
-  //   const { data, loading, subscribeToMore } = useQuery(CHATROOM_QUERY, {
-  //     variables: {
-  //       chatRoomName: location,
-  //     },
-  //     fetchPolicy: "cache-and-network",
-  //   })
-
-  //   useEffect(() => {
-  //     let unsub;
-  //     try {
-  //       console.log(`sub! ${location}`);
-  //       unsub = subscribeToMore({
-  //         document: BULLETIN_SUBSCRIPTION,
-  //         variables: { location: location },
-  //         updateQuery: (prev, { subscriptionData }) => {
-
-  //           //console.log("subData:")
-  //           //console.log(subscriptionData);
-  //           if (!subscriptionData) return prev;
-  //           var newMessage = subscriptionData.data.bulletin.data;
-  //           const type = subscriptionData.data.bulletin.type;
-  //           //console.log("prev:");
-  //           //console.log(prev);
-  //           let temp = _.cloneDeep(prev);
-  //           //console.log(temp);
-  //           if (temp.bulletin === undefined) {
-  //             temp = {
-  //               bulletin: {
-  //                 messages: []
-  //               }
-  //             }
-  //           }
-  //           if (type === "CREATED") {
-  //             return {
-  //               bulletin: {
-  //                 __typename: "Bulletin",
-  //                 location: location,
-  //                 messages: [...temp.bulletin.messages, newMessage],
-  //               }
-  //             };
-  //           }
-  //           else if (type === "UPDATED") {
-  //             let newMsgs = temp.bulletin.messages;
-  //             let idx = newMsgs.findIndex((msg) => { return msg.id === newMessage.id });
-  //             //console.log(idx);
-  //             newMsgs[idx] = newMessage;
-  //             return {
-  //               bulletin: {
-  //                 __typename: "Bulletin",
-  //                 location: location,
-  //                 messages: [...newMsgs],
-  //               }
-  //             };
-  //           }
-  //         },
-  //       });
-  //     } catch (e) {
-  //       console.log(e);
-  //     }
-  //     return () => unsub();
-  //   }, [subscribeToMore, location]);
+  return { loading, error, data };
 }
 
 export default useQueryChat;
