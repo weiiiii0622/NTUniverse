@@ -35,12 +35,12 @@ export default function SFu({ position }: IProps) {
                 autoRotate
             />
             <HintCircle
-                position={[0.5, 0, -27]}
+                position={[-27, 0, 0]}
                 // position={[0, 0, 0]}
                 handleEvent={() => handleTP({ location: 'MainLib' })}
             />
             <InteractiveBlock
-                position={[0.4, 0, -26]}
+                position={[-27, 0, 0]}
                 // position={[0, 0, 0]}
                 handleEvent={() => handleTP({ location: 'MainLib' })}
             />

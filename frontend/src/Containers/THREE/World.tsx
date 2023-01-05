@@ -10,6 +10,7 @@ import SFu from "./SFu";
 import useTeleport from "../../Utils/useEvent";
 import { Billboard, Box, Html, ScreenSpace, Text } from "@react-three/drei";
 import useLocation from "../hooks/useLocation";
+import { MainLibModel } from "./MainLib/MainLibModel";
 
 
 function GroundPhysic() {
@@ -71,7 +72,6 @@ function World() {
 			<GroundPhysic />
 
 			{displayScene()}
-
 		</DebugWorld >
 	)
 }

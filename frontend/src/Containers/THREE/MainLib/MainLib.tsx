@@ -2,6 +2,7 @@ import { Triplet } from "@react-three/cannon";
 import { useFrame } from "@react-three/fiber";
 import InteractiveBlock from "../../../Components/THREE/interaction/InteractiveBlock";
 import useTeleport from "../../../Utils/useEvent";
+import { MainLibModel } from "./MainLibModel";
 
 const MainLibPosition: Triplet = [300, 0, 300];
 
@@ -24,10 +25,7 @@ export default function MainLib({ position }: IProps) {
             {/* <AppSky /> */}
 
             <group position={position} name="main lib. scene">
-                <mesh>
-                    <cylinderGeometry args={[10, 10, 0.5, 64]} />
-                    <meshStandardMaterial color={'lime'} opacity={1} />
-                </mesh>
+                <MainLibModel position={[100, -1.7, 0]} />
             </group>
             <InteractiveBlock
                 handleEvent={() => {

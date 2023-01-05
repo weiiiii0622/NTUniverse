@@ -4,7 +4,7 @@ import { useContext } from "react";
 import { createContext, useState, useEffect } from "react";
 import { SetStateType } from "../../Utils/type";
 
-type BikeCameraType = 'default' | 'tutorial' | 'free' | 'first';
+type BikeCameraType = 'defaultSFu' | 'defaultMainLib' | 'tutorial' | 'free' | 'first';
 export type { BikeCameraType };
 
 interface IContext {
@@ -37,8 +37,8 @@ const BikeContext = createContext<IContext>({
     setBikeSpeedValue: () => { },
     volumeValue: -1,
     setVolumeValue: () => { },
-    prevCameraType: 'default',
-    cameraType: 'default',
+    prevCameraType: 'defaultSFu',
+    cameraType: 'defaultSFu',
     setCameraType: (type) => { },
 });
 
@@ -48,14 +48,12 @@ export function BikeProvider(props: any) {
     const [bikeEnabled, setBikeEnabled] = useState(false);
     const [bikeSpeedValue, setBikeSpeedValue] = useState(50);
     const [volumeValue, setVolumeValue] = useState(50);
-    const [cameraType, setCameraType] = useState<BikeCameraType>('default');
-    const [prevCameraType, setPrevCameraType] = useState<BikeCameraType>('default');
+    const [cameraType, setCameraType] = useState<BikeCameraType>('defaultSFu');
+    const [prevCameraType, setPrevCameraType] = useState<BikeCameraType>('defaultSFu');
 
     const handleCameraTypeChange = (newType: BikeCameraType) => {
-        setCameraType(prevType => {
-            setPrevCameraType(prevType);
-            return newType;
-        });
+        setPrevCameraType(cameraType);
+        setCameraType(newType);
     }
 
     return <BikeContext.Provider
