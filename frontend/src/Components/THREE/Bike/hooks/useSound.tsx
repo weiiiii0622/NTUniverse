@@ -49,7 +49,7 @@ export default function useSound({ speed }: IProps) {
 
     useEffect(() => {
         if (bikeEnabled)
-            console.log('hi')
+            //console.log('hi')
     }, [bikeEnabled]);
 
     useEffect(() => {
