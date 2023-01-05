@@ -228,9 +228,41 @@ const SettingModal = () => {
                                             }}
                                         >
                                             <Statistic
-                                                title="切換視角"
+                                                title="鎖定視角"
                                                 value={"Y"}
                                             //prefix={<TeamOutlined />}
+                                            />
+                                        </Card>
+                                    </Col>
+                                </Row>
+                                <Row gutter={5} style={{ marginBottom: '5px' }}>
+                                    <Col span={12}>
+                                        <Card
+                                            hoverable={true}
+                                            bordered={false}
+                                            style={{
+                                                height: '100%',
+                                            }}
+                                        >
+                                            <Statistic
+                                                title="煞車"
+                                                value={"Space"}
+                                                suffix={"⎵"}
+                                            />
+                                        </Card>
+                                    </Col>
+                                    <Col span={12}>
+                                        <Card
+                                            hoverable={true}
+                                            bordered={false}
+                                            style={{
+                                                height: '100%',
+                                            }}
+                                        >
+                                            <Statistic
+                                                title="切換第一/第三人稱視角"
+                                                value={"Ｆ"}
+                                                //suffix={<EnterOutlined />}
                                             />
                                         </Card>
                                     </Col>

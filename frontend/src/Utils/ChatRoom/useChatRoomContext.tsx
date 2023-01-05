@@ -122,7 +122,7 @@ const ChatRoomProvider = (props: any) => {
     // Open new chat box with friend
     if (chatRooms.some
       (({ name }) => name === newChatroom.name)) {
-      message.error({ content: 'Chat room already opened!', duration: 0.75 });
+      message.error({ content: '重複的聊天室！', duration: 0.75 });
       return;
     }
 
@@ -136,7 +136,7 @@ const ChatRoomProvider = (props: any) => {
         chatRoomName: newChatroom.name,
       }
     });
-    message.success({ content: 'Chat room created.', duration: 0.75 });
+    message.success({ content: `已建立聊天室：${newChatroom.name}！`, duration: 0.75 });
   }
 
   const [createMessageMutation] = useMutation(CREATE_MRSSAGE_MUTATION);
@@ -151,7 +151,7 @@ const ChatRoomProvider = (props: any) => {
         content,
       }
     });
-    message.success({ content: 'Sent!', duration: 0.75 })
+    message.success({ content: '已傳送!', duration: 0.75 })
   }
 
 
