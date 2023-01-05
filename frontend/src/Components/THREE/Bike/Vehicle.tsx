@@ -20,7 +20,7 @@ import BikeCamera from './BikeCamera'
  */
 const defaultChassisProps = {
 	mass: 500,
-	args: [1.3, 1.6, 4] as Triplet,
+	args: [1.3, 1.6, 3] as Triplet,
 	// position: [0, -1.5, 0] as Triplet,
 };
 
@@ -31,7 +31,7 @@ const radius = 0.66;
 const wheelPosition = {
 	radius,
 	width: 1.2,
-	height: -0.008,
+	height: -0.3,
 	front: 1.23,
 	back: -1.03,
 };

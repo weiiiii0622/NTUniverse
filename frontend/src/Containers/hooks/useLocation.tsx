@@ -46,7 +46,7 @@ export function LocationProvider(props: any) {
         },
         "MainLib": {
             position: [300, 0, 300] as Triplet,
-            rotation: [0, 0, 0] as Triplet,
+            rotation: [0, Math.PI / 2, 0] as Triplet,
             name: '總圖書館',
         }
     };

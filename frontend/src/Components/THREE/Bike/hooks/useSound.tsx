@@ -2,6 +2,7 @@ import { useFrame } from "@react-three/fiber";
 import { Howl } from "howler";
 import { useEffect } from 'react';
 import useBikeContext from "../../../../Containers/hooks/useBikeContext";
+import { useMyContext } from "../../../../Utils/useMyContext";
 
 interface IProps {
     speed: number,
@@ -46,15 +47,19 @@ export default function useSound({ speed }: IProps) {
 
     const { bikeEnabled } = useBikeContext();
     const { volumeValue } = useBikeContext();
+    const { finish } = useMyContext();
 
     useEffect(() => {
+
+        if (!finish)
+            return;
 
         bgMusic.play();
 
         if (!bikeEnabled) {
             sound1.stop();
             sound2.stop();
-            return;
+            return () => { bgMusic.stop() };
         }
 
         sound1.play();
