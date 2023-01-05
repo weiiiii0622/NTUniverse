@@ -71,7 +71,6 @@ const useQueryChat = (props: useQueryChatProps) => {
             message.info(`${newMsg.senderNick}(${chatRoomName}): ${newMsg.content}`, 2);
           }
           
-          
           return temp;
 
         },
