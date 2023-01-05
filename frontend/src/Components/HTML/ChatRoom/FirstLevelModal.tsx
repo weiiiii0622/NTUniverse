@@ -1,30 +1,15 @@
 import { Drawer, List, Card } from "antd";
 import { MehOutlined } from '@ant-design/icons';
 import { useMyContext } from "../../../Utils/useMyContext";
-
 import CreateChatModal from './CreateChatModal';
 import PlsLogin from "../../../Components/HTML/components/PleaseLogIn";
 import { useChatRoomContext } from "../../../Utils/ChatRoom/useChatRoomContext";
+import Icon from '../../../Utils/ChatRoom/Icon';
 
 interface IFirstLevelProps {
 
 }
 
-// test data
-const data = [
-  {
-    title: 'Ant Design Title 1',
-  },
-  {
-    title: 'Ant Design Title 2',
-  },
-  {
-    title: 'Ant Design Title 3',
-  },
-  {
-    title: 'Ant Design Title 4',
-  },
-];
 
 const FirstLevelModal = (props: IFirstLevelProps) => {
   const { showSecond, chatRooms, activeRoom, setActiveRoom, modalClose } = useChatRoomContext();
@@ -85,9 +70,7 @@ const FirstLevelModal = (props: IFirstLevelProps) => {
                         }}
                         avatar={
                           <div style={{ position: 'relative', top: '16px' }}>
-                            <MehOutlined
-                              style={{ fontSize: '200%', }}
-                            />
+                            <Icon x={item.icon} />
                           </div>
                         }
                         title={

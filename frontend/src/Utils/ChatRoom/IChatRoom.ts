@@ -6,6 +6,7 @@ export interface IMessage {
 
 export interface IChatRoom {
   name: string,
+  icon: number,
   // messages: IMessage[],
   // lastMsg: string,
   // children: React.ReactNode,

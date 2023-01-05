@@ -67,10 +67,7 @@ const ChatRoomProvider = (props: any) => {
   const [createOpen, setCreateOpen] = useState(false);
   const [chatRooms, setChatRooms] = useState<IChatRoom[]>([{
     name: '世界頻道',
-    // set later by query
-    // messages: [],
-    // lastMsg: 'Chat with all!',
-    // unread: 0,
+    icon: 0,
   }]);
   // TODEL:
   useEffect(() => {
@@ -103,6 +100,7 @@ const ChatRoomProvider = (props: any) => {
   const defaultChatBox = (chatRoomName: string): IChatRoom => {
     return ({
       name: chatRoomName,
+      icon: Math.floor(Math.random()*10),
       // set later by query
       // messages: [],
       // lastMsg: 'Chat with your friends!',
@@ -127,7 +125,10 @@ const ChatRoomProvider = (props: any) => {
     }
 
     // children will be update later
-    setChatRooms([...chatRooms, defaultChatBox(newChatroom.name)]);
+    setChatRooms([
+      ...chatRooms, 
+      { name: newChatroom.name, icon: Math.floor(Math.random()*10), }
+    ]);
 
     // console.log(me);
 
