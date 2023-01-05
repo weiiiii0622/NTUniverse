@@ -1,8 +1,12 @@
+// @ts-nocheck
+
 import { useBox } from "@react-three/cannon";
+import { message } from "antd";
 import useLocation from "../../hooks/useLocation";
 
 
-function Block({ position, rotation, args }) {
+
+function Block({ position, rotation, args, onCollide }) {
 
     const { location, locationInfos } = useLocation();
 
@@ -11,12 +15,14 @@ function Block({ position, rotation, args }) {
         type: "Static",
         position: position.map((x, i) => x + locationInfos[location].position[i]),
         rotation,
+        onCollide,
         args,
     }));
 
     return <mesh ref={ref as any} />
 }
 
+let flag = true;
 export default function MainLibCollisionBox() {
     return (
         <>
@@ -33,7 +39,14 @@ export default function MainLibCollisionBox() {
             <Block position={[46, 0, 5.5]} rotation={[0, Math.PI / 2, 0]} args={[4, 3.5, 4]} />
             <Block position={[46, 0, -6]} rotation={[0, Math.PI / 2, 0]} args={[4, 3.5, 4]} />
 
-            <Block position={[59, 0, 0]} rotation={[0, Math.PI / 2, 0]} args={[15, 3.5, 29]} />
+            <Block position={[59, 0, 0]} rotation={[0, Math.PI / 2, 0]} args={[15, 3.5, 29]}
+                onCollide={() => {
+                    if (!flag) return;
+                    flag = false;
+                    setTimeout(() => { flag = true }, 1000);
+                    message.warning('請勿踐踏草皮🌿')
+                }}
+            />
             <Block position={[97, 0, 0]} rotation={[0, Math.PI / 2, 0]} args={[24, 6.5, 18]} />
             <Block position={[85, 0, 10]} rotation={[0, Math.PI / 2, 0]} args={[1, 6.5, 5]} />
             <Block position={[85, 0, -10.5]} rotation={[0, Math.PI / 2, 0]} args={[1, 6.5, 5]} />
@@ -45,12 +58,7 @@ export default function MainLibCollisionBox() {
 
             <Block position={[84.85, 0.75, -0.5]} rotation={[0, 0, -Math.PI / 2.8]} args={[2, 8, 18.8]} />
 
-
-            <mesh position={[85, 0, -0.5]} rotation={[-Math.PI / 2, 0, 0]}>
-                <planeGeometry args={[100, 100]} />
-                <meshBasicMaterial />
-            </mesh>
-
+            <Block position={[79.5, 1, -10.5]} rotation={[0, Math.PI / 8, 0]} args={[0.5, 4.8, 4]} />
         </>
     )
 }
