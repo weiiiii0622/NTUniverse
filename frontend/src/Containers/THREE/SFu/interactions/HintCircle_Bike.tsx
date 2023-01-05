@@ -36,7 +36,7 @@ interface IProps {
 
 export default function HintCircle({
     keys = ['Enter', 'e'],
-    hintText = '按下 Enter 或 e 鍵以前往地點',
+    hintText = '按下 Enter 或 e 鍵以前往總圖',
     radius = 7,
     position = [0, 0, 0],
     handleEvent,
@@ -104,7 +104,7 @@ export default function HintCircle({
     })
 
     const textSpring = useSpring({
-        rotation: isActive ? [0, 0, 0] : [-Math.PI / 2, 0, 0],
+        rotation: isActive ? [0, Math.PI / 2, 0] : [Math.PI / 2, Math.PI / 2, 0],
     });
 
     return (
@@ -140,7 +140,7 @@ export default function HintCircle({
                         font={'./fonts/GenRyuMin-B.ttc'}
                         fontSize={0.5}
                         // outlineWidth={0.005}
-                        position={[0, 1.5, 0]}
+                        position={[0, 1.5, -2]}
                     >
                         {hintText}
                     </Text>

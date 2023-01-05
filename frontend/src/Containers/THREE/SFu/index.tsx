@@ -40,7 +40,7 @@ export default function SFu({ position }: IProps) {
                 handleEvent={() => handleTP({ location: 'MainLib' })}
             />
             <InteractiveBlock
-                position={[-27, 0, 0]}
+                position={[-26, 0, 0]}
                 // position={[0, 0, 0]}
                 handleEvent={() => handleTP({ location: 'MainLib' })}
             />
