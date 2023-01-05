@@ -48,7 +48,7 @@ export default function useSound({ speed }: IProps) {
     const { volumeValue } = useBikeContext();
 
     useEffect(() => {
-        if (bikeEnabled)
+        //if (bikeEnabled)
             //console.log('hi')
     }, [bikeEnabled]);
 
