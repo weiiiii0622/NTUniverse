@@ -50,7 +50,7 @@ export default function MainLib({ position }: IProps) {
             <HintCircle_Bike_MainLib
                 position={[300, 0, 300]}
                 // position={[0, 0, 0]}
-                handleEvent={() => handleTP({ location: 'MainLib' })}
+                handleEvent={() => handleTP({ location: 'SFu' })}
             />
 
 

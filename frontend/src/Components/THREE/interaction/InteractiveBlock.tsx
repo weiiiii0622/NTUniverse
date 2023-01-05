@@ -42,9 +42,9 @@ const InteractiveBlock = ({ position, handleEvent }: IProps) => {
         },
         loop: true,
 
-        onRest: () => {
-            ref.current.position.z = position[1];
-        },
+        // onRest: () => {
+        //     ref.current.position.z = position[1];
+        // },
         from: {
             y: position[1],
         },

@@ -24,7 +24,7 @@ const sound2 = new Howl({
 const bgMusic = new Howl({
     src: './sounds/music.mp3',
     volume: 0.5,
-    autoplay: true,
+    // autoplay: true,
     loop: true,
 })
 
@@ -50,16 +50,15 @@ export default function useSound({ speed }: IProps) {
     const { finish } = useMyContext();
 
     useEffect(() => {
+        if (finish && !bgMusic.playing())
+            bgMusic.play();
+    }, [finish]);
 
-        if (!finish)
-            return;
-
-        bgMusic.play();
+    useEffect(() => {
 
         if (!bikeEnabled) {
             sound1.stop();
             sound2.stop();
-            return () => { bgMusic.stop() };
         }
 
         sound1.play();
@@ -68,9 +67,8 @@ export default function useSound({ speed }: IProps) {
         window.addEventListener('keypress', lingLing);
 
         return () => {
-            sound1.stop();
-            sound2.stop();
-            bgMusic.stop();
+            sound1.pause();
+            sound2.pause();
             window.removeEventListener('keypress', lingLing);
         }
     }, [bikeEnabled]);

@@ -110,6 +110,7 @@
 }
 
 
+/* @import url('https://fonts.googleapis.com/css?family=Noto+Sans+TC&display=swap'); */
 
 html,
 body {
@@ -117,6 +118,7 @@ body {
   padding: 0;
   /* font-family: 'Playfair Display', 'GenRyuMin'; */
   box-sizing: border-box;
+  font-family: 'Noto Sans TC';
 }
 
 #root {
