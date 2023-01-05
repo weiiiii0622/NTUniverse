@@ -1,7 +1,10 @@
 import { Triplet } from "@react-three/cannon";
 import { useFrame } from "@react-three/fiber";
+import { useControls } from "leva";
+import { BoxGeometry } from "three";
 import InteractiveBlock from "../../../Components/THREE/interaction/InteractiveBlock";
 import useTeleport from "../../../Utils/useEvent";
+import MainLibCollisionBox from "./MainLibCollisionBox";
 import { MainLibModel } from "./MainLibModel";
 
 const MainLibPosition: Triplet = [300, 0, 300];
@@ -18,6 +21,17 @@ export default function MainLib({ position }: IProps) {
         // console.log(camera.position)
     })
 
+    const { x, y } = useControls('main', {
+        x: {
+            value: 0,
+            step: 0.5,
+        },
+        y: {
+            value: 0,
+            step: 0.5,
+        }
+    })
+
     return (
         <>
             {/* <OrbitControls target={MainLibPosition} /> */}
@@ -25,8 +39,12 @@ export default function MainLib({ position }: IProps) {
             {/* <AppSky /> */}
 
             <group position={position} name="main lib. scene">
+
                 <MainLibModel position={[100, -1.7, 0]} />
+                <MainLibCollisionBox />
             </group>
+
+
             <InteractiveBlock
                 handleEvent={() => {
                     handleTP({

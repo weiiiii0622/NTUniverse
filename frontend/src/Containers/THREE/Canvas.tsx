@@ -91,7 +91,7 @@ export default function AppCanvas() {
 
 	return (
 		<>
-			<Leva hidden/>
+			<Leva/>
 			{/* <Loader /> */}
 			<Canvas
 				style={{ position: 'unset', margin: 0 }}
