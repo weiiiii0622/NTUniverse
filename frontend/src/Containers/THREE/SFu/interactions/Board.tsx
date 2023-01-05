@@ -67,9 +67,10 @@ export default function Board(props) {
         <mesh geometry={nodes.Mesh018_3.geometry} material={materials['lambert1.001']} />
       </animated.group>
       <HintCircle_Pointer
-            position={[-5.53, 3, -5.44]}
+            position={[-5.53, 3.3, -5.44]}
             rotation={[0, 0.8, 0]}
             textHeight={3}
+            color={'#795C5F'}
             hintText={"點擊打開留言板"}
             isActive={isActive}
       />

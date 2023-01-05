@@ -1,8 +1,12 @@
 import { Triplet } from "@react-three/cannon";
-import { Text } from "@react-three/drei";
+import { Billboard, Html, PositionPoint, Text } from "@react-three/drei";
+import { useFrame } from "@react-three/fiber";
 import { useEffect, useState } from "react";
+import useBikeContext from "../../../Containers/hooks/useBikeContext";
 import { animated, config, useSpring, useSpringRef } from '@react-spring/three';
 import { useControls } from "leva";
+import { RingGeometry } from "three";
+import { pick } from "lodash";
 
 const useKeyPress = (
     target: string[],
@@ -21,76 +25,90 @@ const useKeyPress = (
 }
 
 interface IProps {
-    position: Triplet,
-    rotation: Triplet,
-    color?: string,
-    textHeight?: number,
     keys?: string[],
     hintText?: string,
     radius?: number,
-    isActive?: boolean,
-    handleEvent?: () => any,
+    position: Triplet,
+    handleEvent: () => any,
 };
 
 
-export default function HintCircle_Pointer({
+export default function HintCircle_Bike_MainLib({
     keys = ['Enter', 'e'],
-    hintText = '按下 Enter 或 e 鍵以前往地點',
+    hintText = '按下 Enter 或 e 鍵以返回小福廣場',
     radius = 7,
-    color = '#fffac1',
     position = [0, 0, 0],
-    rotation = [0, 0, 0],
-    textHeight = 2,
-    isActive = false,
     handleEvent,
 }: IProps) {
     // Based on "interactiveBlock"
 
-    //const [isActive, setIsActive] = useState(true);
+    const [isActive, setIsActive] = useState(false);
     const [isEvent, setIsEvent] = useState(false);
+
+    useFrame(() => { handleOverLap(); })
+
+    // Handle Event on keyboard 'Enter'
+    useKeyPress(keys, (pressed) => (setIsEvent(pressed)));
     useEffect(() => {
-        if(isActive){
-            api.stop();
-        }
-        else{
-            api.start();
-        }
-    }, [isActive])
+        if (isActive && isEvent) { handleEvent(); }
+    }, [isEvent])
+
 
     // animation
     const api = useSpringRef();
     const spring = useSpring({
         from: {
-            scale: 0.8,
+            scale: 1,
             opacity: 0.3,
             // position: [0, 0, 0],
         },
         to: {
-            scale: 1.2,
-            opacity: 0.6,
+            scale: 0.1,
+            opacity: 0.9,
 
             // position: [0, 0.5, 0],
         },
+        onRest: {
+
+        },
         config: {
-            duration: 800,
+            duration: 1000,
         },
         loop: true,
         ref: api,
     });
-    //api.start()
- 
+
+    // check overlap
+    const { bikePosition } = useBikeContext();
+    const delta = 0.35;
+    const handleOverLap = () => {
+
+        const dis_x = Math.abs(bikePosition[0] - position[0]);
+        const dis_z = Math.abs(bikePosition[2] - position[2]);
+
+        const dist = Math.sqrt(dis_x * dis_x + dis_z * dis_z);
+        if (dist <= delta * radius) {
+            api.start();
+            setIsActive(true);
+        }
+        else {
+            setIsActive(false);
+            api.stop();
+        }
+    }
+
     const { r, d } = useControls({
         r: 2.5,
         d: 0.6,
     })
 
     const textSpring = useSpring({
-        rotation: isActive ? [0, 0, 0] : [-Math.PI / 2, 0, 0],
+        rotation: isActive ? [0, Math.PI / 2, 0] : [Math.PI / 2, Math.PI / 2, 0],
     });
 
     return (
         <group
-            position={position} rotation={rotation}>
+            position={position}>
             <animated.mesh
                 rotation={[Math.PI / 2, 0, 0]}
                 {...spring as any}
@@ -99,16 +117,16 @@ export default function HintCircle_Pointer({
                     args={[r, r - d, 32, 8]}
                 />
                 <animated.meshBasicMaterial
-                    color={color}
+                    color={'#fffac1'}
                     transparent
-                    opacity={isActive ? spring.opacity : spring.opacity}
+                    opacity={isActive ? spring.opacity : 0}
                 />
             </animated.mesh>
             {isActive &&
 
                 <animated.mesh
-                    position={[0, 0, 1]}
-                    //rotation={[Math.PI / 2, 0, 2.29]}
+                    position={[0, 1, 0]}
+                    // rotation={[-Math.PI / 2, 0, 0]}
                     {...textSpring as any}
                 >
                     <Text
@@ -121,8 +139,7 @@ export default function HintCircle_Pointer({
                         font={'./fonts/GenRyuMin-B.ttc'}
                         fontSize={0.5}
                         // outlineWidth={0.005}
-                        position={[0, textHeight, 0]}
-                        
+                        position={[0, 1.5, -2]}
                     >
                         {hintText}
                     </Text>
