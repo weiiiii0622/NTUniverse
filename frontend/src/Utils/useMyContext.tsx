@@ -258,7 +258,7 @@ const MyProvider = (props: any) => {
                 },
             });
         } catch (e) {
-            console.log(e);
+            // console.log(e);
         }
         return () => unsub();
     }, [subscribeToMore, bulletinLocation]);

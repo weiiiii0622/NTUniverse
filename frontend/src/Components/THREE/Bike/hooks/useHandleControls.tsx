@@ -14,7 +14,8 @@ import { IControls } from "./useControls";
  * Dynamics
  */
 const steer = 0.5;
-const force = 1500;
+const minForce = 500;
+const maxForce = 2000;
 const maxBrake = 0;   // non-fixable
 
 
@@ -40,13 +41,16 @@ export default function useHandleControls({
 	 * Motion:
 	 * - control the vehicle based on "controls"
 	 */
-	const { bikeEnabled } = useBikeContext();
+	const { bikeEnabled, setCameraType, bikeSpeedValue } = useBikeContext();
 
 	const { setBikeControlling } = useContext(ThreeContext);
 	useFrame(() => {
+		const force = minForce + (maxForce - minForce) * bikeSpeedValue / 100;
 		if (!bikeEnabled) {
 			chassis.current.api.velocity.set(0, 0, 0);
 			chassis.current.api.angularVelocity.set(0, 0, 0);
+			setArcadeDirection('front');
+			// setCameraType('default');
 			return;
 		}
 

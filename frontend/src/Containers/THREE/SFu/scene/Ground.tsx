@@ -6,7 +6,7 @@ import { modelBase, textureBase } from "./Demo"
 export default function Ground() {
 
     const { nodes: ground } = useGLTF(modelBase + '/ground.glb');
-    const groundMaterial = useTexture(textureBase + '/ground.jpg',
+    const groundMaterial = useTexture(textureBase + '/ground_new.jpg',
         (txtr: Texture) => { txtr.flipY = false });
 
     return <>

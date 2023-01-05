@@ -12,6 +12,7 @@ import { Trail } from '@react-three/drei'
 import useBikeContext from '../../../Containers/hooks/useBikeContext'
 import useLocation from '../../../Containers/hooks/useLocation'
 import useSound from './hooks/useSound'
+import BikeCamera from './BikeCamera'
 
 
 /**
@@ -111,7 +112,7 @@ const Vehicle = forwardRef((props: VehicleProps, vehicle: RefObject<Mesh>) => {
 			setSpeed(norm);
 		});
 	}, [chassis]);
-	// useSound({ speed });
+	useSound({ speed });
 
 
 	/**

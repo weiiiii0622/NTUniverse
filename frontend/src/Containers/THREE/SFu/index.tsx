@@ -45,7 +45,7 @@ export default function SFu({ position }: IProps) {
                 handleEvent={() => handleTP({ location: 'MainLib' })}
             />
 
-            <Board position={[0, -2, -0.5]} />
+            <Board position={[0.05, -2.5, 0.05]} />
         </group>
     )
 }

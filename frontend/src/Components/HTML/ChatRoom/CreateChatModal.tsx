@@ -17,9 +17,6 @@ const CreateChatModal = (props: ICreateChatModal) => {
   const { handleCreate, createOpen, setCreateOpen } = useChatRoomContext();
 
   const [form] = Form.useForm();
-  const [form2] = Form.useForm();
-  const [users, setUsers] = useState([myEmail]);
-  const [username, setUsername] = useState('');
 
   // const [container, setContainer] = useState<HTMLDivElement | null>(null);
 
@@ -27,11 +24,11 @@ const CreateChatModal = (props: ICreateChatModal) => {
     form
       .validateFields()
       .then((values) => {
-        console.log(users);
+        // console.log(users);
 
         handleCreate({
           name: values.name,
-          lastMsg: 'Chat with your friends!',
+          // lastMsg: 'Chat with your friends!',
         });
         form.resetFields();
         setCreateOpen(false);
@@ -60,10 +57,10 @@ const CreateChatModal = (props: ICreateChatModal) => {
         <Form form={form} layout="vertical" name="form_in_modal">
           <Form.Item
             name="name"
-            label="Name"
+            label="聊天室名稱"
             rules={[{
               required: true,
-              message: 'Error: Please enter the name of the person to chat!',
+              message: '錯誤：請輸入聊天室名稱',
             },]}
           >
             <Input

@@ -83,7 +83,7 @@ export default function AppCanvas() {
 	const { enableControls } = useControls('General', {
 		enableControls: false,
 	});
-	const { enableBike } = useControls('General', { enableBike: true, });
+	const { enableBike } = useControls('General', { enableBike: false, });
 	const { setBikeEnabled } = useBikeContext();
 	useEffect(() => {
 		setBikeEnabled(enableBike);
@@ -119,7 +119,6 @@ export default function AppCanvas() {
 							enableControls,
 							setEnableControls: () => { },
 						}}>
-							<AppOrbitControls enabled={enableControls} />
 
 							<Physics>
 								<World />

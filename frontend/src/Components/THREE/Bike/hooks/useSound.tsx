@@ -20,29 +20,47 @@ const sound2 = new Howl({
     loop: true,
 });
 
+const bgMusic = new Howl({
+    src: './sounds/music.mp3',
+    volume: 0.5,
+    autoplay: true,
+    loop: true,
+})
+
 const bell = new Howl({
     src: './sounds/bike-bell.mp3',
-    volume: 0.25,
+    volume: 0.5,
+
 });
 
 const lingLing = (e: KeyboardEvent) => {
-    if (e.key === '1')
+    if (e.key === 'l' || e.key === 'L')
         bell.play();
 };
 
 const minSpeed = 15;
 const maxSpeed = 30;
 
-const totalVolume = 1;  // should be a context state in the future
 
 export default function useSound({ speed }: IProps) {
 
     const { bikeEnabled } = useBikeContext();
+    const { volumeValue } = useBikeContext();
+
+    useEffect(() => {
+        //if (bikeEnabled)
+            //console.log('hi')
+    }, [bikeEnabled]);
 
     useEffect(() => {
 
-        if (!bikeEnabled)
+        bgMusic.play();
+
+        if (!bikeEnabled) {
+            sound1.stop();
+            sound2.stop();
             return;
+        }
 
         sound1.play();
         sound2.play();
@@ -52,6 +70,7 @@ export default function useSound({ speed }: IProps) {
         return () => {
             sound1.stop();
             sound2.stop();
+            bgMusic.stop();
             window.removeEventListener('keypress', lingLing);
         }
     }, [bikeEnabled]);
@@ -59,9 +78,11 @@ export default function useSound({ speed }: IProps) {
     useFrame(() => {
         if (isFinite(Math.sqrt(Math.sqrt(speed / minSpeed))))
             sound1.rate(Math.sqrt(Math.sqrt(speed / minSpeed)));
-        sound1.volume(Math.pow(speed / maxSpeed, 2) * totalVolume);
+        sound1.volume(Math.pow(speed / maxSpeed, 2) * volumeValue / 100);
 
-        sound2.volume(Math.sqrt(speed / maxSpeed * 0.2) * totalVolume);
+        sound2.volume(Math.sqrt(speed / maxSpeed * 0.2) * volumeValue / 100);
+        bgMusic.volume(0.5 * volumeValue / 100);
+        bell.volume(volumeValue / 100);
     })
 
 }

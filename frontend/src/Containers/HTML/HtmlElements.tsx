@@ -11,6 +11,7 @@ import TeleportTransition from "../../Components/HTML/ChangeScene/TeleportTransi
 import LoadingCover from "../../Components/HTML/LoadingCover";
 import { useMyContext } from "../../Utils/useMyContext";
 import { useEffect } from "react";
+import CameraHint from "../../Components/HTML/CameraHint";
 
 const AppHtmlElements = () => {
     const { isChangingScene, finish, setFinish, loadFinished } = useMyContext();
@@ -35,6 +36,7 @@ const AppHtmlElements = () => {
                 : <LoadingCover />
             }
             <MySider />
+            <CameraHint />
 
             {!finish ? <TeleportTransition scene={"HI"} /> : null}
             {loadFinished ? <ChatRoomModal /> : null}

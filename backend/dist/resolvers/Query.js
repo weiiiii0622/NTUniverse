@@ -43,11 +43,12 @@ const Query = {
             if (chatRoomName === '世界頻道') {
                 data = {
                     chatRoomName: '世界頻道',
-                    messages: {
-                        sender: 'NTUniverse',
-                        content: 'Welcome to NTUniverse',
-                        // readBy: ['NTUniverse'],
-                    }
+                    messages: [{
+                            sender: 'NTUniverse',
+                            senderNick: 'NTUniverse',
+                            content: '歡迎來到 NTUniverse',
+                            // readBy: ['NTUniverse'],
+                        }]
                 };
                 chatRoom = yield new ChatRoomModel(data).save();
             }

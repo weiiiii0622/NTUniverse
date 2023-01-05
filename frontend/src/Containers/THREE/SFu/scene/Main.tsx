@@ -8,6 +8,7 @@ import SignS from "./signs/SignS";
 import SignW from "./signs/SignW";
 import { modelBase, textureBase } from "./Demo";
 import { Debug, useTrimesh } from "@react-three/cannon";
+import Barriers from "./Barriers";
 
 
 /**
@@ -30,7 +31,7 @@ export default function Main() {
         (txtr: Texture) => { txtr.flipY = false });
 
     const { nodes: platforms } = useGLTF(modelBase + '/main-platforms.glb');
-    const platformsMaterial = useTexture(textureBase + '/main-platforms.jpg',
+    const platformsMaterial = useTexture(textureBase + '/main-platforms_new.jpg',
         (txtr: Texture) => { txtr.flipY = false });
 
     const { nodes: stairsEW } = useGLTF(modelBase + '/stairs-EW.glb');
@@ -91,6 +92,7 @@ export default function Main() {
             >
                 <meshBasicMaterial map={othersMaterial} />
             </mesh>
+            <Barriers />
         </>
     )
 }

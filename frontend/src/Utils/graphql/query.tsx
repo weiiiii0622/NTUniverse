@@ -62,9 +62,9 @@ const CHATROOM_QUERY = gql`
     chatRoom(chatRoomName: $chatRoomName) {
       id
       chatRoomName
-      users
       messages {
         sender
+        senderNick
         content
       }
     }

@@ -1,7 +1,7 @@
 import { useState, useEffect, createContext, useContext } from "react";
 import { IChatRoom, IMessage, INewMsg } from "./IChatRoom";
 import _ from "lodash";
-import { useMutation, useQuery } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 import { CHATROOM_QUERY, CREATE_CHATROOM_MUTATION, CREATE_MRSSAGE_MUTATION } from "../graphql/index";
 import { message } from "antd";
 import { useMyContext } from "../useMyContext";
@@ -21,7 +21,6 @@ interface IChatRoomContext {
   setChatRooms(x): void,
   messages: IMessage[],
   setMessages(x): void,
-  // addChatRoom(x: IChatRoom): void,
   activeRoom: number,
   setActiveRoom(x): void,
   createChatBoxMutation(x: IChatRoom): any,
@@ -31,7 +30,6 @@ interface IChatRoomContext {
 }
 
 const ChatRoomContext = createContext<IChatRoomContext>({
-  // messages: [];
 
   secondOpen: false,
   setSecondOpen: (x) => { },
@@ -71,7 +69,7 @@ const ChatRoomProvider = (props: any) => {
     name: '世界頻道',
     // set later by query
     // messages: [],
-    lastMsg: 'Chat with all!',
+    // lastMsg: 'Chat with all!',
     // unread: 0,
   }]);
   // TODEL:
@@ -107,7 +105,7 @@ const ChatRoomProvider = (props: any) => {
       name: chatRoomName,
       // set later by query
       // messages: [],
-      lastMsg: 'Chat with your friends!',
+      // lastMsg: 'Chat with your friends!',
       // unread: 0,
     })
   };
@@ -120,11 +118,11 @@ const ChatRoomProvider = (props: any) => {
   const [createChatBoxMutation] = useMutation(CREATE_CHATROOM_MUTATION);
 
   const handleCreate = (newChatroom: IChatRoom) => {
-    //console.log(newChatroom);
+    // console.log(newChatroom);
     // Open new chat box with friend
     if (chatRooms.some
       (({ name }) => name === newChatroom.name)) {
-      message.error({ content: 'Chat room already opened!', duration: 0.75 });
+      message.error({ content: '重複的聊天室！', duration: 0.75 });
       return;
     }
 
@@ -138,21 +136,22 @@ const ChatRoomProvider = (props: any) => {
         chatRoomName: newChatroom.name,
       }
     });
-    message.success({ content: 'Chat room created.', duration: 0.75 });
+    message.success({ content: `已建立聊天室：${newChatroom.name}！`, duration: 0.75 });
   }
 
   const [createMessageMutation] = useMutation(CREATE_MRSSAGE_MUTATION);
 
   const handleNewMsg = (props: INewMsg) => {
-    const { chatRoomName, sender, content } = props;
+    const { chatRoomName, sender, senderNick, content } = props;
     createMessageMutation({
       variables: {
         chatRoomName,
         sender,
+        senderNick,
         content,
       }
     });
-    message.success({ content: 'Sent!', duration: 0.75 })
+    message.success({ content: '已傳送!', duration: 0.75 })
   }
 
 

@@ -1,46 +1,59 @@
+import { Triplet } from "@react-three/cannon";
 import { OrbitControls } from "@react-three/drei";
-import { useFrame } from "@react-three/fiber";
+import { useFrame, useThree, } from "@react-three/fiber";
 import { V } from "@use-gesture/core/dist/declarations/src/utils/maths";
 import { useContext, useEffect, useRef } from "react";
 
 import * as THREE from 'three';
+import { Vector3 } from "three";
 import useBikeContext from "../../../Containers/hooks/useBikeContext";
 import { ThreeContext } from "../../../Containers/THREE/Canvas";
 import { useMyContext } from "../../../Utils/useMyContext";
 
-const debug = true;
+const debug = false;
 
-export default function AppOrbitControls({ enabled }) {
+interface IProps {
+    cameraPosition: Vector3,
+    enable: boolean,
+};
+
+export default function AppOrbitControls({ cameraPosition, enable }: IProps) {
 
     const ref = useRef<any>();
 
     const { bikePosition } = useBikeContext();
 
+    const { camera } = useThree();
     useEffect(() => {
-        if (enabled && ref.current) {
+        if (ref.current) {
             ref.current.target.set(...bikePosition);
         }
-    }, [enabled]);
+
+        if (camera.name !== 'My camera') {
+            camera.position.copy(cameraPosition);
+            camera.zoom = 1.65;
+        }
+    }, [camera]);
 
     return (
         <>
-            {enabled &&
-                <OrbitControls
-                    ref={ref}
-                    enabled={enabled}
-                    enableDamping
-                    dampingFactor={0.05}
-                    screenSpacePanning={false}
-                    maxPolarAngle={debug ? Math.PI * 2 : Math.PI * 0.4}
-                    minPolarAngle={0}
-                    mouseButtons={{
-                        LEFT: THREE.MOUSE.PAN,
-                        MIDDLE: THREE.MOUSE.DOLLY,
-                        RIGHT: THREE.MOUSE.ROTATE,
-                    }}
-                // target={bikePosition}
-                />
-            }
+            <OrbitControls
+                ref={ref}
+                enableDamping
+                dampingFactor={0.05}
+                screenSpacePanning={false}
+                maxPolarAngle={debug ? Math.PI * 2 : Math.PI * 0.4}
+                minPolarAngle={0}
+                zoomSpeed={0.5}
+                maxDistance={100}
+                mouseButtons={{
+                    LEFT: THREE.MOUSE.PAN,
+                    MIDDLE: THREE.MOUSE.DOLLY,
+                    RIGHT: THREE.MOUSE.ROTATE,
+                }}
+            // target={bikePosition}
+            />
+
         </>
 
     )

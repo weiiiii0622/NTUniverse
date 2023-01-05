@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { useMyContext } from '../../../../Utils/useMyContext'
 
-export function useKeyPress(target, event) {
+export function useKeyPress(target: string[], event: (x: any) => void) {
     useEffect(() => {
         const downHandler = ({ key }) => target.indexOf(key) !== -1 && event(true)
         const upHandler = ({ key }) => target.indexOf(key) !== -1 && event(false)

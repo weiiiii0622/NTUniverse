@@ -90,28 +90,28 @@ const Mutation = {
         });
         return msg;
     }),
-    createChatRoom: (parent, { chatRoomName, users }, { ChatRoomModel }) => __awaiter(void 0, void 0, void 0, function* () {
+    createChatRoom: (parent, { chatRoomName }, { ChatRoomModel }) => __awaiter(void 0, void 0, void 0, function* () {
         let chatRoom = yield ChatRoomModel.findOne({ chatRoomName: chatRoomName });
         if (!chatRoom)
             chatRoom = yield new ChatRoomModel({ chatRoomName, messages: [] }).save();
-        console.log('new room: ' + chatRoomName);
+        // console.log('new room: ' + chatRoomName);
         return chatRoom;
     }),
-    createMessage: (parent, { chatRoomName, sender, content }, { ChatRoomModel, pubsub }) => __awaiter(void 0, void 0, void 0, function* () {
+    createMessage: (parent, { chatRoomName, sender, senderNick, content }, { ChatRoomModel, pubsub }) => __awaiter(void 0, void 0, void 0, function* () {
         const chatRoom = yield ChatRoomModel.findOne({ chatRoomName: chatRoomName });
         if (!chatRoom)
             throw new Error('Chat Room does not exist!');
-        const oldMsgs = chatRoom.messages;
-        const newMsgs = [...oldMsgs, {
-                sender,
-                content,
-                readBy: [sender],
-            }];
-        const newChatRoom = yield ChatRoomModel.updateOne({ chatRoomName: chatRoomName }, { $set: { 'messages': newMsgs } });
+        const newMsg = {
+            sender,
+            senderNick,
+            content,
+        };
+        chatRoom === null || chatRoom === void 0 ? void 0 : chatRoom.messages.push(newMsg);
+        yield chatRoom.save();
         pubsub.publish(`chatRoom ${chatRoomName}`, {
-            newMessage: newMsgs,
+            newMessage: newMsg,
         });
-        return newMsgs;
+        return newMsg;
     })
 };
 exports.default = Mutation;
