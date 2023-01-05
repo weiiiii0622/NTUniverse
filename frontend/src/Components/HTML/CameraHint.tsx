@@ -20,7 +20,8 @@ export default function CameraHint() {
         setIsActive(true);
         api.start();
         switch (cameraType) {
-            case 'default':
+            case 'defaultMainLib':
+            case 'defaultSFu':
                 setText('鎖定視角模式');
                 break;
             case 'first':

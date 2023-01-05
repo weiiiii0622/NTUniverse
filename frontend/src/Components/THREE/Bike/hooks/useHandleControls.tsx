@@ -50,7 +50,12 @@ export default function useHandleControls({
 			chassis.current.api.velocity.set(0, 0, 0);
 			chassis.current.api.angularVelocity.set(0, 0, 0);
 			setArcadeDirection('front');
-			// setCameraType('default');
+			// setCameraType('first');
+			backIndex.forEach(i =>
+				api.applyEngineForce(0, i))
+
+			frontIndex.forEach(i =>
+				api.setSteeringValue(0, i));
 			return;
 		}
 
@@ -84,6 +89,13 @@ export default function useHandleControls({
 				chassis!.current.api.rotation.set(0, 0, 0)
 			chassis!.current.api.velocity.set(0, 0, 0)
 			chassis!.current.api.angularVelocity.set(0, 0, 0)
+			setCameraType('first');
+			backIndex.forEach(i =>
+				api.applyEngineForce(0, i))
+
+			frontIndex.forEach(i =>
+				api.setSteeringValue(0, i));
+
 		}
 	})
 }
