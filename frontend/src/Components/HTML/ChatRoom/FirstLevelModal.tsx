@@ -31,7 +31,7 @@ const FirstLevelModal = (props: IFirstLevelProps) => {
           <>
             <CreateChatModal />
             <div style={{
-              position: 'absolute',
+              // position: 'absolute',
               paddingTop: '10px',
               bottom: 0,
               height: '86%',
@@ -46,8 +46,6 @@ const FirstLevelModal = (props: IFirstLevelProps) => {
                   <Card
                     style={{
                       marginTop: '2px',
-                      // borderColor: 'grey',
-                      // borderBlockWidth: '0.5px'
                     }}
                     hoverable={true}
                     bordered={true}
@@ -76,17 +74,12 @@ const FirstLevelModal = (props: IFirstLevelProps) => {
                         title={
                           <h3 style={{}}>{item.name}</h3>
                         }
-                      // description={item.lastMsg}
                       />
                     </List.Item>
                   </Card>
                 )}
               />
             </div>
-
-            {/* <Button type="primary" onClick={() => showSecond()}>
-              Two-level drawer
-            </Button> */}
           </>
 
           :
