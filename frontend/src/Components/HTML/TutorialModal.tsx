@@ -16,6 +16,7 @@ const TutorialModal: React.FC = () => {
       cover: (
         <h1> Welcome to NTUniverse </h1>
       ),
+      nextButtonProps: { children: '下一步' },
     },
     {
       title: null,
@@ -24,7 +25,9 @@ const TutorialModal: React.FC = () => {
           <LoginOutlined style={{ fontSize: '20px' }}/><h2 style={{ display: 'inline', marginLeft: '5px' }}>登入 Google</h2>
           <p>登入帳戶來獲得完整體驗</p>
         </>
-      )
+      ),
+      nextButtonProps: { children: '下一步' },
+      prevButtonProps: { children: '上一步' },
     },
     {
       title: null,
@@ -34,7 +37,9 @@ const TutorialModal: React.FC = () => {
           <h2>腳踏車🚲～</h2>
           <p>利用 WSAD 來控制腳踏車</p>
         </>
-      )
+      ),
+      nextButtonProps: { children: '下一步' },
+      prevButtonProps: { children: '上一步' },
     },
     {
       title: null,
@@ -45,6 +50,8 @@ const TutorialModal: React.FC = () => {
           <p>與朋友加入同一個聊天室盡情暢談</p>
         </>
       ),
+      nextButtonProps: { children: '下一步' },
+      prevButtonProps: { children: '上一步' },
     },
     {
       title: null,
@@ -54,7 +61,9 @@ const TutorialModal: React.FC = () => {
           <h2>留言板</h2>
           <p>在各個景點留言來跟大家交流！</p>
         </>
-      )
+      ),
+      nextButtonProps: { children: '下一步' },
+      prevButtonProps: { children: '上一步' },
       //   target: () => ref3.current,
     },
     {
@@ -65,7 +74,9 @@ const TutorialModal: React.FC = () => {
           <h2>小遊戲</h2>
           <p>在校園到處逛逛，發掘各種有趣的小遊戲吧！</p>
         </>
-      )
+      ),
+      nextButtonProps: { children: '下一步' },
+      prevButtonProps: { children: '上一步' },
       //   target: () => ref3.current,
     },
     {
@@ -76,14 +87,20 @@ const TutorialModal: React.FC = () => {
           <h2>Let's GO!</h2>
           <p>騎上腳踏車，開始你的冒險！</p>
         </>
-      )
+      ),
+      nextButtonProps: { children: '完成' },
+      prevButtonProps: { children: '上一步' },
       //   target: () => ref3.current,
     },
   ];
 
   return (
     <>
-      <Tour open={tutorialModalOpen} onClose={() => { setBikeEnabled(true); setTutorialModalOpen(false) }} steps={steps}></Tour>
+      <Tour
+        open={tutorialModalOpen} 
+        onClose={() => { setBikeEnabled(true); setTutorialModalOpen(false) }} 
+        steps={steps}
+      />
     </>
   )
 }

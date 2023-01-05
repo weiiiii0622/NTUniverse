@@ -57,10 +57,10 @@ const CreateChatModal = (props: ICreateChatModal) => {
         <Form form={form} layout="vertical" name="form_in_modal">
           <Form.Item
             name="name"
-            label="Name"
+            label="聊天室名稱"
             rules={[{
               required: true,
-              message: 'Error: Please enter the name of the person to chat!',
+              message: '錯誤：請輸入聊天室名稱',
             },]}
           >
             <Input
