@@ -5,10 +5,22 @@ import UsersModal from "./UsersModal";
 import useChatRoom from "../../../Containers/HTML/ChatRoom/hooks/useChatRoom";
 import { useChatRoomContext } from "../../../Utils/ChatRoom/useChatRoomContext";
 import { useMyContext } from "../../../Utils/useMyContext";
+import styled from "styled-components";
+import Icon from "../../../Utils/ChatRoom/Icon";
 
 interface ICreateChatModal {
 
 }
+
+// const IconWrapper = styled.div`
+//   height: 40px;
+//   width: 100;
+//   display: flex;
+//   justify-content: space-between;
+//   align-content: center;
+//   overflow: scroll;
+//   padding: 0 2px 0 2px;
+// `;
 
 const CreateChatModal = (props: ICreateChatModal) => {
 
@@ -28,6 +40,7 @@ const CreateChatModal = (props: ICreateChatModal) => {
 
         handleCreate({
           name: values.name,
+          icon: 0,  // set ro degalul
           // lastMsg: 'Chat with your friends!',
         });
         form.resetFields();
@@ -41,7 +54,7 @@ const CreateChatModal = (props: ICreateChatModal) => {
   return (
     <>
       <div>
-        <Button style={{marginBottom: '5px'}} icon={<PlusOutlined />} onClick={() => setCreateOpen(true)}>建立聊天室</Button>
+        <Button style={{ marginBottom: '5px' }} icon={<PlusOutlined />} onClick={() => setCreateOpen(true)}>建立聊天室</Button>
       </div>
       {/* <div style={{ position: 'sticky', top: 0 }}>
       </div>
@@ -71,31 +84,9 @@ const CreateChatModal = (props: ICreateChatModal) => {
           </Form.Item>
         </Form>
 
-        {/* <Form form={form2} layout="vertical" name="form_in_modal">
-          <Form.Item
-            name="username"
-            label="User"
-          >
-            <Input.Search
-              enterButton={<Button type="primary">add</Button>}
-              placeholder="User name"
-              value={username}
-              onChange={e => setUsername(e.target.value)}
-              onSearch={value => {
-                if (users.find(user => user === value)) {
-                  // setStatus({ type: 'error', msg: 'User already in chat room.' })
-                  message.error(`${value} already in chat room`)
-                } else {
-                  setUsers([...users, value]);
-                }
-                form.resetFields(['username']);
-              }}
-            />
-          </Form.Item>
-        </Form>
-        {
-          users.map(user => <Tag color="blue" key={user}>{user}</Tag>)
-        } */}
+      {/* <IconWrapper>
+        {[0,1,2,3,4,5,6,7,8,9].map((x) => <Icon x={x} />)}
+      </IconWrapper> */}
 
       </Modal>
     </>

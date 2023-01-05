@@ -1,30 +1,15 @@
 import { Drawer, List, Card } from "antd";
 import { MehOutlined } from '@ant-design/icons';
 import { useMyContext } from "../../../Utils/useMyContext";
-
 import CreateChatModal from './CreateChatModal';
 import PlsLogin from "../../../Components/HTML/components/PleaseLogIn";
 import { useChatRoomContext } from "../../../Utils/ChatRoom/useChatRoomContext";
+import Icon from '../../../Utils/ChatRoom/Icon';
 
 interface IFirstLevelProps {
 
 }
 
-// test data
-const data = [
-  {
-    title: 'Ant Design Title 1',
-  },
-  {
-    title: 'Ant Design Title 2',
-  },
-  {
-    title: 'Ant Design Title 3',
-  },
-  {
-    title: 'Ant Design Title 4',
-  },
-];
 
 const FirstLevelModal = (props: IFirstLevelProps) => {
   const { showSecond, chatRooms, activeRoom, setActiveRoom, modalClose } = useChatRoomContext();
@@ -46,7 +31,7 @@ const FirstLevelModal = (props: IFirstLevelProps) => {
           <>
             <CreateChatModal />
             <div style={{
-              position: 'absolute',
+              // position: 'absolute',
               paddingTop: '10px',
               bottom: 0,
               height: '86%',
@@ -61,8 +46,6 @@ const FirstLevelModal = (props: IFirstLevelProps) => {
                   <Card
                     style={{
                       marginTop: '2px',
-                      // borderColor: 'grey',
-                      // borderBlockWidth: '0.5px'
                     }}
                     hoverable={true}
                     bordered={true}
@@ -85,25 +68,18 @@ const FirstLevelModal = (props: IFirstLevelProps) => {
                         }}
                         avatar={
                           <div style={{ position: 'relative', top: '16px' }}>
-                            <MehOutlined
-                              style={{ fontSize: '200%', }}
-                            />
+                            <Icon x={item.icon} />
                           </div>
                         }
                         title={
                           <h3 style={{}}>{item.name}</h3>
                         }
-                      // description={item.lastMsg}
                       />
                     </List.Item>
                   </Card>
                 )}
               />
             </div>
-
-            {/* <Button type="primary" onClick={() => showSecond()}>
-              Two-level drawer
-            </Button> */}
           </>
 
           :
