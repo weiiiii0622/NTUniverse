@@ -8,12 +8,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = void 0;
-const lodash_1 = __importDefault(require("lodash"));
 const validateUser = (UserModel, email, first_name, last_name, nick_name, picture, description) => __awaiter(void 0, void 0, void 0, function* () {
     let usr = yield UserModel.findOne({ email });
     //console.log(usr);
@@ -105,21 +101,17 @@ const Mutation = {
         const chatRoom = yield ChatRoomModel.findOne({ chatRoomName: chatRoomName });
         if (!chatRoom)
             throw new Error('Chat Room does not exist!');
-        let ret = lodash_1.default.cloneDeep(chatRoom);
-        const oldMsgs = chatRoom.messages;
-        const newMsgs = [...oldMsgs, {
-                sender,
-                senderNick,
-                content,
-            }];
-        ret.messages = newMsgs;
-        const newChatRoom = yield ChatRoomModel.updateOne({ chatRoomName: chatRoomName }, { $set: { 'messages': newMsgs } });
-        // console.log(newMsgs);
+        const newMsg = {
+            sender,
+            senderNick,
+            content,
+        };
+        chatRoom === null || chatRoom === void 0 ? void 0 : chatRoom.messages.push(newMsg);
+        yield chatRoom.save();
         pubsub.publish(`chatRoom ${chatRoomName}`, {
-            newMessage: ret,
+            newMessage: newMsg,
         });
-        // console.log(ret);
-        return newMsgs;
+        return newMsg;
     })
 };
 exports.default = Mutation;

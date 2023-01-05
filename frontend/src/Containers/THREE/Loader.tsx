@@ -5,17 +5,17 @@ import { useMyContext } from '../../Utils/useMyContext';
 
 const Loader = () => {
     const { setIsLoading } = useMyContext();
-	const { active, progress, errors, item, loaded, total} = useProgress();
+    const { active, progress, errors, item, loaded, total } = useProgress();
     useEffect(() => {
-        if(active === false){
+        if (active === false) {
             setTimeout(() => {
                 setIsLoading(false);
             }, 1000);
         }
-    }, [progress])
-	return (
-		<Html 
-            center 
+    }, [loaded])
+    return (
+        <Html
+            center
             style={{
                 display: 'none',
                 //height: '100vh',
@@ -24,9 +24,9 @@ const Loader = () => {
                 //backgroundColor: 'black',
             }}
         >
-			{/* {progress} % loaded */}
-		</Html>
-	)
+            {/* {progress} % loaded */}
+        </Html>
+    )
 }
 
 

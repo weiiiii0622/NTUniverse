@@ -11,7 +11,8 @@ import useLocation from "../../../Containers/hooks/useLocation";
 
 
 const bikeCamPositions: Record<BikeCameraType, Triplet> = {
-    default: [-10, 13, -13],
+    defaultSFu: [-10, 13, -13],
+    defaultMainLib: [-10, 13, -13],
     tutorial: [-6, 5, -7],
     free: [-10, 13, -13],
     first: [0, 3, -9],
@@ -36,12 +37,28 @@ export default function BikeCamera({ bikeRotation }: BikeCameraProps) {
         // .add(new Vector3(...locationInfos[location].position))
     }
 
-    useKeyPress(['t', 'T'], (event) => { if (event) setCameraType('default') });
-    useKeyPress(['f', 'F'], (event) => { if (event) setCameraType('first') });
+    const switchFirst = ({ key }) => {
+        if (key === 'f' || key === 'F') {
+            if (cameraType === 'first') {
+                if (location === 'SFu')
+                    setCameraType('defaultSFu');
+                else if (location === 'MainLib')
+                    setCameraType('defaultMainLib');
+            }
+            else
+                setCameraType('first');
+        }
+    };
+    useEffect(() => {
+        window.addEventListener('keydown', switchFirst)
+        return window.removeEventListener('keyup', switchFirst);
+    }, [cameraType]);
+
     const switchFree = ({ key }) => {
         if (key === 'y' || key === 'Y') {
-            if (cameraType === 'free')
-                setCameraType('default');
+            if (cameraType === 'free') {
+                setCameraType(prevCameraType);
+            }
             else
                 setCameraType('free');
         }
@@ -55,7 +72,8 @@ export default function BikeCamera({ bikeRotation }: BikeCameraProps) {
     useEffect(() => {
         setControlsEnabled(cameraType === 'free');
         switch (cameraType) {
-            case 'default':
+            case 'defaultSFu':
+            case 'defaultMainLib':
             case 'first':
                 camera.lookAt(...bikePosition);
                 break;
@@ -92,7 +110,7 @@ export default function BikeCamera({ bikeRotation }: BikeCameraProps) {
                     position={bikeCamPositions[cameraType]}
                     name="My camera"
                     makeDefault
-                    // zoom={1.65}
+                // zoom={1.65}
                 />}
         </>
     )
