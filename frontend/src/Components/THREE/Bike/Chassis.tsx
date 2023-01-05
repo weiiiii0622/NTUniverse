@@ -13,6 +13,7 @@ import { SetStateType } from "../../../Utils/type";
 import AppOrbitControls from "../scene/OrbitControls";
 import useBikeContext, { BikeCameraType } from "../../../Containers/hooks/useBikeContext";
 import BikeCamera from "./BikeCamera";
+import { Howl } from "howler";
 
 
 interface BikeMeshProps {
@@ -25,6 +26,10 @@ interface BikeMeshProps {
 	arcadeDirection: ArcadeDirection,
 }
 
+const crackSound = new Howl({
+	src: './sounds/crack.mp3',
+});
+
 const BikeMesh = React.forwardRef<any, BikeMeshProps>(
 	({ args, mass, position, rotation, arcadeDirection, controls }, chassis: RefObject<Mesh>) => {
 		const [, api] = useBox(() => ({
@@ -34,6 +39,7 @@ const BikeMesh = React.forwardRef<any, BikeMeshProps>(
 			rotation,
 			allowSleep: false,
 			collisionResponse: true,
+			onCollide: () => { crackSound.play() }
 		}), chassis);
 
 		const { enableControls } = useContext(ThreeContext);
