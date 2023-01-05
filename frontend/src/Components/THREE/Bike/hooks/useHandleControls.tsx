@@ -15,7 +15,7 @@ import { IControls } from "./useControls";
  */
 const steer = 0.5;
 const minForce = 500;
-const maxForce = 2000;
+const maxForce = 1500;
 const maxBrake = 0;   // non-fixable
 
 

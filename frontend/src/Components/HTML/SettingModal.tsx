@@ -262,7 +262,7 @@ const SettingModal = () => {
                                             <Statistic
                                                 title="切換第一/第三人稱視角"
                                                 value={"Ｆ"}
-                                                //suffix={<EnterOutlined />}
+                                            //suffix={<EnterOutlined />}
                                             />
                                         </Card>
                                     </Col>

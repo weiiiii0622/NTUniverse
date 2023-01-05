@@ -10,7 +10,7 @@ import useBikeContext from "../../../Containers/hooks/useBikeContext";
 import { ThreeContext } from "../../../Containers/THREE/Canvas";
 import { useMyContext } from "../../../Utils/useMyContext";
 
-const debug = false;
+const debug = true;
 
 interface IProps {
     cameraPosition: Vector3,

@@ -12,7 +12,7 @@ import useLocation from "../../../Containers/hooks/useLocation";
 
 const bikeCamPositions: Record<BikeCameraType, Triplet> = {
     defaultSFu: [-10, 13, -13],
-    defaultMainLib: [-10, 13, -13],
+    defaultMainLib: [-10, 7, -13],
     tutorial: [-6, 5, -7],
     free: [-10, 13, -13],
     first: [0, 3, -9],
