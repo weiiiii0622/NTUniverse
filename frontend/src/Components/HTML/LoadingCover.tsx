@@ -15,6 +15,7 @@ import Column from 'antd/es/table/Column';
 import Sider from 'antd/es/layout/Sider';
 import './LoadingCover.css';
 import FancyBtn from './components/FancyBtn';
+import { LoadingOutlined } from '@ant-design/icons';
 
 const usePercent = () => {
 
@@ -125,7 +126,16 @@ const LoadingCover = () => {
 				overflow: 'hidden',
 			}}
 		>
-
+			{!videoLoaded && <LoadingOutlined
+				style={{
+					fontSize: '100px',
+					position: 'absolute',
+					top: '40%',
+					left: '50%',
+					color: '#ffffff'
+					// transform: 'translate(50%, 50%)'
+				}}
+			/>}
 			<animated.video src='/videos/overlook.mkv' autoPlay loop muted
 				onCanPlay={(e) => {
 					if (videoLoaded)
@@ -185,7 +195,7 @@ const LoadingCover = () => {
 								}}
 								size={'small'}
 								strokeWidth={4.5}
-								strokeColor={{ '0%': '#DBCE85', '100%': '#DBCE85' }}
+								strokeColor={{ '0%': '#DBCE85', '100%': '#DB9D7F' }}
 							/>
 							: <FancyBtn onClick={handleStart} />
 						}
