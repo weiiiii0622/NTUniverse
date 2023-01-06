@@ -33,6 +33,7 @@ export default function SFu({ position }: IProps) {
                 position={[5.5, 7.5, 5.1]}
                 rotation={[0, Math.PI / 4, 0]}
                 autoRotate
+                tooltip="嘿嘿~被你發現了！"
             />
             <HintCircle
                 position={[-27, 0, 0]}

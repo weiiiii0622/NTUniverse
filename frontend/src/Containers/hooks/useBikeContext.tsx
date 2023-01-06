@@ -48,8 +48,8 @@ export function BikeProvider(props: any) {
     const [bikeEnabled, setBikeEnabled] = useState(false);
     const [bikeSpeedValue, setBikeSpeedValue] = useState(50);
     const [volumeValue, setVolumeValue] = useState(50);
-    const [cameraType, setCameraType] = useState<BikeCameraType>('first');
-    const [prevCameraType, setPrevCameraType] = useState<BikeCameraType>('first');
+    const [cameraType, setCameraType] = useState<BikeCameraType>('defaultSFu');
+    const [prevCameraType, setPrevCameraType] = useState<BikeCameraType>('defaultSFu');
 
     const handleCameraTypeChange = (newType: BikeCameraType) => {
         setPrevCameraType(cameraType);
