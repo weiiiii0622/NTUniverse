@@ -97,7 +97,7 @@ const InteractiveBlock = ({ position, handleEvent }: IProps) => {
     }
 
     const [isEvent, setIsEvent] = useState(false);
-    useKeyPress(['Enter', 'e'], (pressed) => (setIsEvent(pressed)))
+    useKeyPress(['Enter', 'e', 'E'], (pressed) => (setIsEvent(pressed)))
 
     useEffect(() => {
         if (isActive && isEvent) { handleEvent(); }

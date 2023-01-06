@@ -59,6 +59,7 @@ export default function useSound({ speed }: IProps) {
         if (!bikeEnabled) {
             sound1.stop();
             sound2.stop();
+            return;
         }
 
         sound1.play();
