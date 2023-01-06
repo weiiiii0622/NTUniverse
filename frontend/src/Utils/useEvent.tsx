@@ -10,7 +10,7 @@ export default function useEvent() {
         setBulletinLocation
     } = useMyContext();
 
-    const { setBikeEnabled } = useBikeContext();
+    const { setBikeEnabled, setCameraType } = useBikeContext();
     const { locationInfos, setLocation } = useLocation();
     const handleTP = ({ location }: { location: TLocation }) => {
 
@@ -18,15 +18,19 @@ export default function useEvent() {
         setBikeEnabled(false);
 
         setTimeout(() => {
+            if (location === 'MainLib')
+                setCameraType('defaultMainLib');
+            else if (location === 'SFu')
+                setCameraType('defaultSFu');
             setLocation(() => location);
             setBikeEnabled(true);
-        }, 2000);
+        }, 1500);
     }
     const handleOpenBulletin = ({ location }) => {
-		setBulletinLocation(location);
-		setBikeEnabled(false);
-		setBulletinModalOpen(true);
-	}
+        setBulletinLocation(location);
+        setBikeEnabled(false);
+        setBulletinModalOpen(true);
+    }
 
     return { handleTP, handleOpenBulletin };
 }

@@ -45,6 +45,32 @@ const TutorialModal: React.FC = () => {
       title: null,
       cover: (
         <>
+          <Image style={{ borderRadius: '6px' }} preview={false} height={300} width={480} src='/pics/reset.gif' />
+          <h2>重置位置</h2>
+          <p>翻車或卡住時，按下 R 來回到出生點</p>
+          <p>（若重置後鏡頭出現異常，可用 Y/F 調整）</p>
+        </>
+      ),
+      nextButtonProps: { children: '下一步' },
+      prevButtonProps: { children: '上一步' },
+    },
+    {
+      title: null,
+      cover: (
+        <>
+          <Image style={{ borderRadius: '6px' }} preview={false} height={300} width={480} src='/pics/orbitControls.gif' />
+          <h2>調整視角</h2>
+          <p>按下 F 可以切換為第三視角</p>
+          <p>按下 Y 則可以開啟自由視角模式，利用滑鼠來控制視角！</p>
+        </>
+      ),
+      nextButtonProps: { children: '下一步' },
+      prevButtonProps: { children: '上一步' },
+    },
+    {
+      title: null,
+      cover: (
+        <>
           <div>
             <Row gutter={5} style={{ marginBottom: '5px' }}>
               <Col span={17}>
@@ -90,7 +116,7 @@ const TutorialModal: React.FC = () => {
                   }}
                 >
                   <Statistic
-                    title="喇叭"
+                    title="響鈴"
                     value={"L"}
                   //prefix={<TeamOutlined />}
                   />
@@ -183,7 +209,7 @@ const TutorialModal: React.FC = () => {
         <>
           <Image style={{ borderRadius: '6px' }} preview={false} height={300} width={480} src='/pics/tutorial_bulletin.gif' />
           <h2>留言板</h2>
-          <p>在各個景點留言來跟大家交流！</p>
+          <p>在各個景點留言來跟大家交流！（滑鼠點擊開啟）</p>
         </>
       ),
       nextButtonProps: { children: '下一步' },
