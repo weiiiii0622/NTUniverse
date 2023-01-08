@@ -104,7 +104,7 @@ www.ntuniverse.com
 
 * Prerequisite：
     * 進入 `./backend` 新增 `.env`，並加入
-    `MONGO_URL=mongodb+srv://NTUniverseADMIN:NTUniverseADMIN2022@ntuniverse.ph2g1nj.mongodb.net/test` 來連接 MongoDB.
+    `MONGO_URL=mongodb+srv://NTUniverseADMIN:<password>@ntuniverse.ph2g1nj.mongodb.net/test` 來連接 MongoDB.
 
 1. Clone下來後先到 `根目錄`，開啟兩個 `Terminal`，一個負責前端，一個負責後端.
 
